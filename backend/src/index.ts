@@ -5,7 +5,7 @@ import { UserResolver } from "./resolvers/UserResolver";
 import { buildSchema } from "type-graphql";
 import "reflect-metadata";
 
-const port = 4000;
+const port = 4005;
 
 async function start() {
   await dataSource.initialize();
