@@ -2,13 +2,12 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "compile": "tsc",
-    "start": "npm run compile && node ./dist/index.js"
+    "start": "ts-node-dev ./src/index.ts",
+    "dev": "nodemon src/index.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "eco-challenge team",
   "license": "ISC",
   "description": "",
   "dependencies": {
@@ -16,6 +15,7 @@
     "class-validator": "^0.14.1",
     "graphql": "^16.10.0",
     "graphql-scalars": "^1.24.1",
+    "pg": "^8.13.3",
     "reflect-metadata": "^0.2.2",
     "type-graphql": "^2.0.0-rc.2",
     "typeorm": "^0.3.20"
