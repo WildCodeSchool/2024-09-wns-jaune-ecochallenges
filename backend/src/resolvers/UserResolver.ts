@@ -1,5 +1,5 @@
-import { Field, InputType, Query, Resolver } from "type-graphql";
-import { User } from "../entities/User";
+import { Field, InputType, Query, Resolver } from 'type-graphql';
+import { User } from '../entities/User';
 
 @InputType()
 export class UserInput {
@@ -15,9 +15,9 @@ export class UserInput {
 
 @Resolver(User)
 export class UserResolver {
-    @Query(() => [User])
-    async getUsersAsUser() {
-      const users = await User.find();
-      return users
-    }
+  @Query(() => [User])
+  async getUsersAsUser() {
+    const users = await User.find();
+    return users;
+  }
 }
