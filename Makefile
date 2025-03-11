@@ -1,7 +1,15 @@
 # Makefile for Eco Challenges Project
 
+
+# Load environment variables from .env.dev
+ifneq (,$(wildcard ./.env.dev))
+    include .env.dev
+    export
+endif
+
 # Variables
 DOCKER_COMPOSE = docker compose -f compose.dev.yaml --env-file .env.dev
+GATEWAY = $(GATEWAY_PORT)
 
 # Colors for terminal output
 GREEN = \033[0;32m
@@ -32,8 +40,9 @@ start: ## Start all containers
 	@echo "$(GREEN)Starting containers...$(NC)"
 	@$(DOCKER_COMPOSE) up -d
 	@echo "$(GREEN)Services are running:$(NC)"
-	@echo "- Frontend: http://localhost:3000"
-	@echo "- Adminer: http://localhost:8080"
+	@echo "- Frontend: http://localhost:$(GATEWAY)"
+	@echo "- Adminer: http://localhost:$(GATEWAY)/vizualizer"
+	@echo "- Backend: http://localhost:$(GATEWAY)/api"
 
 stop: ## Stop all containers
 	@echo "$(YELLOW)Stopping containers...$(NC)"
