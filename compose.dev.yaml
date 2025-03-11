@@ -1,6 +1,6 @@
 services:
     backend:
-        container_name: backend
+        container_name: backend-eco
         build: ./backend
         volumes: 
             - ./backend/src/:/app/src/
@@ -10,14 +10,14 @@ services:
             DB_USER: ${DB_USER}
             DB_HOST: ${DB_HOST}
     frontend: 
-        container_name: frontend
+        container_name: frontend-eco
         build: ./frontend
         volumes: 
             - ./frontend/src/:/app/src/
         environment: 
             VITE_GATEWAY_PORT: ${GATEWAY_PORT}
     database:
-        container_name: database
+        container_name: database-eco
         image: postgres
         volumes: 
             - ./persist/data/:/var/lib/postgresql/data/
@@ -27,10 +27,10 @@ services:
             POSTGRES_USER: ${DB_USER}
             POSTGRES_HOST: ${DB_HOST}
     vizualizer:
-        container_name: vizualizer
+        container_name: vizualizer-eco
         image: adminer
     gateway:
-        container_name: gateway
+        container_name: gateway-eco
         image: nginx
         ports:
             - ${GATEWAY_PORT}:80
