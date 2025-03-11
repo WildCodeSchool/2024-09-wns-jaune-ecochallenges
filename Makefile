@@ -38,7 +38,7 @@ install: ## First time installation: create .env.dev if not exists and build con
 
 start: ## Start all containers
 	@echo "$(GREEN)Starting containers...$(NC)"
-	@$(DOCKER_COMPOSE) up -d
+	@$(DOCKER_COMPOSE) up --build -d
 	@echo "$(GREEN)Services are running:$(NC)"
 	@echo "- Frontend: http://localhost:$(GATEWAY)"
 	@echo "- Adminer: http://localhost:$(GATEWAY)/vizualizer"
