@@ -10,7 +10,7 @@ services:
       DB_USER: ${DB_USER}
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
-      BACK_PORT: ${BACK_PORT}
+      BACKEND_PORT: ${BACKEND_PORT}
   frontend:
     container_name: frontend-eco
     build: ./frontend
@@ -37,4 +37,7 @@ services:
     ports:
       - ${GATEWAY_PORT}:80
     volumes:
-      - ./nginx.dev.conf:/etc/nginx/nginx.conf
+      - ./nginx.dev.conf:/etc/nginx/conf.d/dev.conf.template
+    environment: 
+      BACKEND_PORT: ${BACKEND_PORT}
+    command: /bin/bash -c "envsubst '$$BACKEND_PORT' < /etc/nginx/conf.d/dev.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
