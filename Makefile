@@ -23,15 +23,6 @@ help: ## Display this help message
 	@echo "$(GREEN)Available commands:$(NC)"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "$(YELLOW)%-30s$(NC) %s\n", $$1, $$2}'
 
-# install: ## First time installation: check .env.dev and build containers
-# 	@if [ ! -f .env.dev ]; then \
-# 		echo "$(RED)Error: .env.dev file is missing$(NC)"; \
-# 		echo "$(YELLOW)Please create your .env.dev file before proceeding$(NC)"; \
-# 		exit 1; \
-# 	fi
-# 	@echo "$(GREEN)Building containers...$(NC)"
-# 	@$(DOCKER_COMPOSE) build
-
 start: ## Start all containers
 	@echo "$(GREEN)Starting containers...$(NC)"
 	@$(DOCKER_COMPOSE) up -d --build
