@@ -23,22 +23,9 @@ help: ## Display this help message
 	@echo "$(GREEN)Available commands:$(NC)"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "$(YELLOW)%-30s$(NC) %s\n", $$1, $$2}'
 
-install: ## First time installation: create .env.dev if not exists and build containers
-	@if [ ! -f .env.dev ]; then \
-		echo "$(YELLOW)Creating .env.dev file...$(NC)"; \
-		echo "DB_HOST=database" > .env.dev; \
-		echo "DB_PASSWORD=password" >> .env.dev; \
-		echo "DB_USER=user" >> .env.dev; \
-		echo "DB_SCHEMA=ecodb" >> .env.dev; \
-		echo "GATEWAY_PORT=3000" >> .env.dev; \
-		echo "$(GREEN).env.dev file created with default values. Please edit if needed.$(NC)"; \
-	fi
-	@echo "$(GREEN)Building containers...$(NC)"
-	@$(DOCKER_COMPOSE) build
-
 start: ## Start all containers
 	@echo "$(GREEN)Starting containers...$(NC)"
-	@$(DOCKER_COMPOSE) up -d
+	@$(DOCKER_COMPOSE) up -d --build
 	@echo "$(GREEN)Services are running:$(NC)"
 	@echo "- Frontend: http://localhost:$(GATEWAY)"
 	@echo "- Adminer: http://localhost:$(GATEWAY)/vizualizer"

@@ -9,6 +9,7 @@ services:
       DB_SCHEMA: ${DB_SCHEMA}
       DB_USER: ${DB_USER}
       DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
   frontend:
     container_name: frontend-eco
     build: ./frontend
