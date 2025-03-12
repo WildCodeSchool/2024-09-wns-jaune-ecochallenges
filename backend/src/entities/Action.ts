@@ -10,6 +10,7 @@ import {
 import { Field, ID, ObjectType } from 'type-graphql';
 import { Tag } from './Tag';
 import { ActionLevel } from './ActionLevel';
+import { ActionChallenge } from './ActionChallenge';
 
 @Entity()
 @ObjectType()
@@ -34,4 +35,8 @@ export class Action extends BaseEntity {
   @Field((_type) => ActionLevel)
   @OneToMany(() => ActionLevel, (actionLevel) => actionLevel.action)
   actionLevels!: ActionLevel[];
+
+  @Field((_type) => ActionChallenge)
+  @OneToMany(() => ActionChallenge, (actionChallenge) => actionChallenge.action)
+  actionsChallenges!: ActionChallenge[];
 }

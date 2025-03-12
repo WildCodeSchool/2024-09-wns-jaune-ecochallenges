@@ -1,9 +1,16 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
+import { ActionChallenge } from './ActionChallenge';
 
 @Entity()
 @ObjectType()
-export class Action extends BaseEntity {
+export class Challenge extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Field((_type) => ID)
   id!: number;
@@ -23,4 +30,11 @@ export class Action extends BaseEntity {
   @Field()
   @Column({ nullable: false })
   date_end!: Date;
+
+  @Field((_type) => ActionChallenge)
+  @OneToMany(
+    () => ActionChallenge,
+    (actionChallenge) => actionChallenge.challenge
+  )
+  actionsChallenges!: ActionChallenge[];
 }
