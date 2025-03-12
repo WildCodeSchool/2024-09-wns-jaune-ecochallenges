@@ -4,12 +4,14 @@ import {
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { ActionLevel } from './ActionLevel';
 import { User } from './User';
 import { Challenge } from './Challenge';
+import { Review } from './Review';
 
 @Entity()
 @ObjectType()
@@ -52,4 +54,8 @@ export class UserActionChallenge extends BaseEntity {
     (actionLevel) => actionLevel.userActionChallenges
   )
   actionLevel!: ActionLevel;
+
+  @Field((_type) => Review)
+  @OneToMany(() => Review, (review) => review.userActionChallenge)
+  reviews!: Review[];
 }

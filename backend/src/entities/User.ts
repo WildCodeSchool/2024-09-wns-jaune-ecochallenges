@@ -12,6 +12,7 @@ import { Field, ID, ObjectType } from 'type-graphql';
 import { Role } from './Role';
 import { ChallengeUser } from './ChallengeUser';
 import { UserActionChallenge } from './UserActionChallenge';
+import { Review } from './Review';
 
 @Entity()
 @ObjectType()
@@ -71,4 +72,8 @@ export class User extends BaseEntity {
     (userActionChallenge) => userActionChallenge.user
   )
   userActionChallenges!: UserActionChallenge[];
+
+  @Field((_type) => Review)
+  @OneToMany(() => Review, (review) => review.user)
+  reviews!: Review[];
 }
