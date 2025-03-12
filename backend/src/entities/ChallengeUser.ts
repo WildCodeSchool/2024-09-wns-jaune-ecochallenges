@@ -1,20 +1,20 @@
 import { BaseEntity, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { Challenge } from './Challenge';
-import { Action } from './Action';
+import { User } from './User';
 
 @Entity()
 @ObjectType()
-export class ActionChallenge extends BaseEntity {
+export class ChallengeUser extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Field((_type) => ID)
   id!: number;
 
   @Field((_type) => Challenge)
-  @ManyToOne(() => Challenge, (challenge) => challenge.actionsChallenges)
+  @ManyToOne(() => Challenge, (challenge) => challenge.challengesUsers)
   challenge!: Challenge;
 
-  @Field((_type) => Action)
-  @ManyToOne(() => Action, (action) => action.actionsChallenges)
-  action!: Action;
+  @Field((_type) => User)
+  @ManyToOne(() => User, (user) => user.challengesUsers)
+  user!: User;
 }

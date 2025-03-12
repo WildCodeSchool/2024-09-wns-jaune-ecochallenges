@@ -5,10 +5,12 @@ import {
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { Role } from './Role';
+import { ChallengeUser } from './ChallengeUser';
 
 @Entity()
 @ObjectType()
@@ -57,4 +59,8 @@ export class User extends BaseEntity {
   @Field((_type) => Role)
   @ManyToOne(() => Role, (role) => role.users)
   role!: Role;
+
+  @Field((_type) => ChallengeUser)
+  @OneToMany(() => ChallengeUser, (challengeUser) => challengeUser.user)
+  challengesUsers!: ChallengeUser[];
 }

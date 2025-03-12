@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { ActionChallenge } from './ActionChallenge';
+import { ChallengeUser } from './ChallengeUser';
 
 @Entity()
 @ObjectType()
@@ -37,4 +38,8 @@ export class Challenge extends BaseEntity {
     (actionChallenge) => actionChallenge.challenge
   )
   actionsChallenges!: ActionChallenge[];
+
+  @Field((_type) => ChallengeUser)
+  @OneToMany(() => ChallengeUser, (challengeUser) => challengeUser.challenge)
+  challengesUsers!: ChallengeUser[];
 }
