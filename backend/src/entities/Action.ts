@@ -24,7 +24,7 @@ export class Action extends BaseEntity {
   label!: string;
 
   @Field()
-  @Column({ length: 500 })
+  @Column({ type: 'text' })
   description?: string;
 
   @Field((_type) => [Tag], { nullable: false })

@@ -20,7 +20,7 @@ export class Challenge extends BaseEntity {
   label!: string;
 
   @Field()
-  @Column({ length: 500, nullable: true })
+  @Column({ type: 'text', nullable: true })
   description?: string;
 
   @Field()

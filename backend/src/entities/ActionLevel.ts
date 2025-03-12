@@ -14,7 +14,7 @@ export class ActionLevel extends BaseEntity {
   points!: number;
 
   @Field()
-  @Column({ length: 500 })
+  @Column({ type: 'text' })
   description?: string;
 
   @Field((_type) => Action)
