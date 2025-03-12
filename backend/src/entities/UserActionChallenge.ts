@@ -21,7 +21,7 @@ export class UserActionChallenge extends BaseEntity {
   id!: number;
 
   @Field()
-  @Column({ length: 50 })
+  @Column({ length: 50, nullable: true })
   status?: string;
 
   @Field()
@@ -56,6 +56,8 @@ export class UserActionChallenge extends BaseEntity {
   actionLevel!: ActionLevel;
 
   @Field((_type) => Review)
-  @OneToMany(() => Review, (review) => review.userActionChallenge)
+  @OneToMany(() => Review, (review) => review.userActionChallenge, {
+    cascade: true,
+  })
   reviews!: Review[];
 }
