@@ -2,16 +2,15 @@ import {
   BaseEntity,
   Column,
   Entity,
-  JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
-import { Tag } from './Tag';
+import { Action } from './Action';
 
 @Entity()
 @ObjectType()
-export class Action extends BaseEntity {
+export class Tag extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Field((_type) => ID)
   id!: number;
@@ -20,12 +19,7 @@ export class Action extends BaseEntity {
   @Column({ length: 100 })
   label!: string;
 
-  @Field()
-  @Column({ length: 500 })
-  description?: string;
-
-  @Field((_type) => [Tag], { nullable: false })
-  @ManyToMany((_type) => Tag, (tag) => tag.actions)
-  @JoinTable()
-  tags!: Tag[];
+  @Field((_type) => [Action], { nullable: false })
+  @ManyToMany((_type) => Action, (action) => action.tags)
+  actions!: Action[];
 }
