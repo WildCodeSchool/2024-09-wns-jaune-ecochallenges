@@ -4,6 +4,8 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -22,15 +24,15 @@ export class User extends BaseEntity {
   id!: number;
 
   @Field()
-  @Column({ length: 100 })
+  @Column({ length: 100, nullable: false })
   first_name!: string;
 
   @Field()
-  @Column({ length: 100 })
+  @Column({ length: 100, nullable: false })
   last_name!: string;
 
   @Field()
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: false })
   email!: string;
 
   @Field()
@@ -38,7 +40,7 @@ export class User extends BaseEntity {
   hashedPassword!: string;
 
   @Field()
-  @Column({ default: 0 })
+  @Column({ default: 0, nullable: false })
   xp!: number;
 
   @Field()
@@ -76,4 +78,9 @@ export class User extends BaseEntity {
   @Field((_type) => Review)
   @OneToMany(() => Review, (review) => review.user)
   reviews!: Review[];
+
+  @Field((_type) => [User], { nullable: true })
+  @ManyToMany((_type) => User, (user) => user.friends)
+  @JoinTable()
+  friends?: User[];
 }
