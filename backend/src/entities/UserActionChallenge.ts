@@ -55,7 +55,7 @@ export class UserActionChallenge extends BaseEntity {
   )
   actionLevel!: ActionLevel;
 
-  @Field((_type) => Review)
+  @Field((_type) => [Review])
   @OneToMany(() => Review, (review) => review.userActionChallenge, {
     cascade: true,
   })
