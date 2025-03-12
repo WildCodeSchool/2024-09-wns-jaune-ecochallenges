@@ -3,8 +3,8 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import App from './App.tsx';
-import { ApolloProvider } from '@apollo/client';
 import { client } from './lib/api.ts';
+import { ApolloProvider } from '@apollo/client';
 
 const router = createBrowserRouter([
   {
