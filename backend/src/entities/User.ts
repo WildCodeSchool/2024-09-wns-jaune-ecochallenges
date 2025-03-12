@@ -64,23 +64,26 @@ export class User extends BaseEntity {
   @ManyToOne(() => Role, (role) => role.users)
   role!: Role;
 
-  @Field((_type) => ChallengeUser)
+  @Field((_type) => [ChallengeUser])
   @OneToMany(() => ChallengeUser, (challengeUser) => challengeUser.user)
   challengesUsers!: ChallengeUser[];
 
-  @Field((_type) => UserActionChallenge)
+  @Field((_type) => [UserActionChallenge])
   @OneToMany(
     () => UserActionChallenge,
     (userActionChallenge) => userActionChallenge.user
   )
   userActionChallenges!: UserActionChallenge[];
 
-  @Field((_type) => Review)
+  @Field((_type) => [Review])
   @OneToMany(() => Review, (review) => review.user)
   reviews!: Review[];
 
   @Field((_type) => [User], { nullable: true })
-  @ManyToMany((_type) => User, (user) => user.friends)
+  @ManyToMany((_type) => User, (user) => user.friendsWithMe)
   @JoinTable()
   friends?: User[];
+
+  @ManyToMany(() => User, (user) => user.friends)
+  friendsWithMe?: User[];
 }
