@@ -9,7 +9,7 @@ import { Field, ObjectType } from 'type-graphql';
 
 @Entity()
 @ObjectType()
-export class User extends BaseEntity {
+export class Action extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Field()
   id!: string;
@@ -19,8 +19,12 @@ export class User extends BaseEntity {
   name!: string;
 
   @Field()
-  @Column({ unique: true })
-  email!: string;
+  @Column({ nullable: false, length: 250 })
+  description!: string;
+
+  @Field()
+  @Column({ nullable: false, default: false })
+  requires_view!: boolean;
 
   @Field()
   @Column({ nullable: false })
