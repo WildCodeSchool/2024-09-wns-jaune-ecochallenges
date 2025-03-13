@@ -10,3 +10,15 @@ export const GET_USER = gql`
     }
   }
 `;
+
+export const GET_ACTIONS = gql`
+  query GetActions {
+    getActions {
+      id
+      name
+      description
+      requires_view
+      createdAt
+    }
+  }
+`;

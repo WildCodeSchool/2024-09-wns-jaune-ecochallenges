@@ -28,15 +28,47 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean };
   Int: { input: number; output: number };
   Float: { input: number; output: number };
+  DateTimeISO: { input: any; output: any };
+};
+
+export type Action = {
+  __typename?: 'Action';
+  createdAt: Scalars['DateTimeISO']['output'];
+  description: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  requires_view: Scalars['Boolean']['output'];
+};
+
+export type ActionInput = {
+  description: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  requires_view: Scalars['Boolean']['input'];
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  createdAction: Action;
+};
+
+export type MutationCreatedActionArgs = {
+  data: ActionInput;
 };
 
 export type Query = {
   __typename?: 'Query';
+  getActionById: Action;
+  getActions: Array<Action>;
   getUsersAsUser: Array<User>;
+};
+
+export type QueryGetActionByIdArgs = {
+  id: Scalars['String']['input'];
 };
 
 export type User = {
   __typename?: 'User';
+  createdAt: Scalars['DateTimeISO']['output'];
   email: Scalars['String']['output'];
   hashedPassword: Scalars['String']['output'];
   id: Scalars['String']['output'];
