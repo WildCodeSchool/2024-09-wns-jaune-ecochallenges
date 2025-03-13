@@ -11,6 +11,15 @@ export class ActionInput {
 
   @Field()
   requires_view!: boolean;
+
+  @Field()
+  level!: number;
+
+  @Field()
+  icon!: string;
+
+  @Field()
+  time!: number;
 }
 
 @Resolver(Action)

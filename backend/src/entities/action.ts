@@ -7,6 +7,14 @@ import {
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 
+const levelType = {
+  levelOne: 1,
+  levelTwo: 2,
+  levelThree: 3,
+};
+
+const iconType = ['leaf', 'recycling', 'drop'];
+
 @Entity()
 @ObjectType()
 export class Action extends BaseEntity {
@@ -25,6 +33,18 @@ export class Action extends BaseEntity {
   @Field()
   @Column({ nullable: false, default: false })
   requires_view!: boolean;
+
+  @Field()
+  @Column({ nullable: false, default: levelType.levelOne })
+  level!: number;
+
+  @Field()
+  @Column({ nullable: false, default: iconType[1] })
+  icon!: string;
+
+  @Field()
+  @Column({ nullable: true })
+  time!: number;
 
   @Field()
   @Column({ nullable: false })

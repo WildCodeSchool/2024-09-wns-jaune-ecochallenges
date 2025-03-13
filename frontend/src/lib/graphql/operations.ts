@@ -19,6 +19,9 @@ export const GET_ACTIONS = gql`
       description
       requires_view
       createdAt
+      icon
+      level
+      time
     }
   }
 `;
