@@ -7,9 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
-import { ActionLevel } from './ActionLevel';
 import { User } from './User';
-import { Challenge } from './Challenge';
 import { UserActionChallenge } from './UserActionChallenge';
 
 @Entity()
@@ -19,21 +17,26 @@ export class Review extends BaseEntity {
   @Field((_type) => ID)
   id!: number;
 
-  @Field()
+  @Field({ nullable: true })
   @Column({ length: 50, nullable: true })
   status?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column({ type: 'text', nullable: true })
   comment?: string;
 
-  @Field()
-  @Column({ nullable: false })
+  @Field({ nullable: false })
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    nullable: false,
+  })
+  reviewedAt!: Date;
+
   @BeforeInsert()
   updateDates() {
     this.reviewedAt = new Date();
   }
-  reviewedAt!: Date;
 
   @Field((_type) => User)
   @ManyToOne(() => User, (user) => user.reviews)
@@ -42,7 +45,8 @@ export class Review extends BaseEntity {
   @Field((_type) => UserActionChallenge)
   @ManyToOne(
     () => UserActionChallenge,
-    (userActionChallenge) => userActionChallenge.reviews
+    (userActionChallenge) => userActionChallenge.reviews,
+    { onDelete: 'CASCADE' }
   )
   userActionChallenge!: UserActionChallenge;
 }
