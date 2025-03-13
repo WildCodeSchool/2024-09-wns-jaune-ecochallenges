@@ -4,6 +4,7 @@ import { dataSource } from './config/db';
 import { UserResolver } from './resolvers/UserResolver';
 import { buildSchema } from 'type-graphql';
 import 'reflect-metadata';
+import { ChallengeResolver } from './resolvers/ChallengeResolver';
 
 const port = 4005;
 
@@ -11,7 +12,7 @@ async function start() {
   await dataSource.initialize();
 
   const schema = await buildSchema({
-    resolvers: [UserResolver],
+    resolvers: [UserResolver, ChallengeResolver],
   });
 
   const server = new ApolloServer({ schema });

@@ -6,7 +6,7 @@
     "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
-    "seed": "ts-node src/seed/run-seeds.ts"
+    "seed": "ts-node src/seed/seeder.ts"
   },
   "keywords": [],
   "author": "eco-challenge team",

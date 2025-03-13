@@ -2,7 +2,7 @@ import { Query, Resolver } from 'type-graphql';
 import { Challenge } from '../entities/Challenge';
 
 @Resolver(Challenge)
-class ChallengeResolver {
+export class ChallengeResolver {
   @Query(() => [Challenge])
   async getChallenges(): Promise<Challenge[]> {
     const challenges = await Challenge.find();
