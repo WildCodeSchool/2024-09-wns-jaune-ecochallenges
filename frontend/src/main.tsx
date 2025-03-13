@@ -5,11 +5,17 @@ import './index.css';
 import App from './App.tsx';
 import { client } from './lib/api.ts';
 import { ApolloProvider } from '@apollo/client';
+import { ChallengeList } from './pages/ChallengeList.tsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    children: [],
+  },
+  {
+    path: '/challenges',
+    element: <ChallengeList />,
     children: [],
   },
 ]);
