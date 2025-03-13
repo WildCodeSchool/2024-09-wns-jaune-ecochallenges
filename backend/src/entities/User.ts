@@ -23,32 +23,36 @@ export class User extends BaseEntity {
   @Field((_type) => ID)
   id!: number;
 
-  @Field()
+  @Field({ nullable: false })
   @Column({ length: 100, nullable: false })
   first_name!: string;
 
-  @Field()
+  @Field({ nullable: false })
   @Column({ length: 100, nullable: false })
   last_name!: string;
 
-  @Field()
+  @Field({ nullable: false })
   @Column({ unique: true, nullable: false })
   email!: string;
 
-  @Field()
+  @Field({ nullable: false })
   @Column({ nullable: false })
   hashedPassword!: string;
 
-  @Field()
+  @Field({ nullable: false })
   @Column({ default: 0, nullable: false })
   xp!: number;
 
-  @Field()
-  @Column({ nullable: false })
+  @Field({ nullable: false })
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    nullable: false,
+  })
   createdAt!: Date;
 
-  @Field()
-  @Column({ nullable: true })
+  @Field({ nullable: true })
+  @Column({ type: 'timestamp', nullable: true })
   updatedAt?: Date;
 
   @BeforeInsert()
