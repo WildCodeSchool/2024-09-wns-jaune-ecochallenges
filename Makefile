@@ -70,3 +70,6 @@ shell-backend: ## Open a shell in the backend container
 
 shell-frontend: ## Open a shell in the frontend container
 	@$(DOCKER_COMPOSE) exec frontend sh
+
+seed: ## Run the seed script
+	@$(DOCKER_COMPOSE) exec backend npm run seed
