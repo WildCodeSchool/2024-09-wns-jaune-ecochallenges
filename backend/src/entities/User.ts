@@ -1,5 +1,4 @@
 import {
-  OneToMany,
   BaseEntity,
   Column,
   Entity,
@@ -8,7 +7,6 @@ import {
   BeforeInsert,
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
-import { Challenge } from './Challenge';
 import argon2 from 'argon2';
 
 @Entity()
@@ -30,15 +28,9 @@ export class User extends BaseEntity {
   @Column({ nullable: false })
   hashedPassword!: string;
 
-  @Field(() => [Challenge])
-  @OneToMany(() => Challenge, (challenge) => challenge.user)
-  challenges!: Challenge[];
-
   @BeforeInsert()
   @BeforeUpdate()
   async hashPassword() {
-    console.log('hashing password....');
     this.hashedPassword = await argon2.hash(this.hashedPassword);
-    console.log('hashedPassword', this.hashedPassword);
   }
 }
