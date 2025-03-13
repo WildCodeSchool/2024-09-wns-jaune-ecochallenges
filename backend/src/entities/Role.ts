@@ -18,7 +18,7 @@ export class Role extends BaseEntity {
   @Field((_type) => ID)
   id!: number;
 
-  @Field()
+  @Field({ nullable: false })
   @Column({ length: 100, nullable: false })
   @Index()
   label!: string;
