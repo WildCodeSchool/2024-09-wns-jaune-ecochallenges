@@ -1,11 +1,13 @@
-import ActionCard from '@/components/ActionCard';
-import { Action } from '@/lib/graphql/generated/graphql-types';
-import { GET_ACTIONS } from '@/lib/graphql/operations';
-import { useQuery } from '@apollo/client';
+import {
+  Action,
+  useGetActionsQuery,
+} from '@/lib/graphql/generated/graphql-types';
+import { ActionCard } from '@/components';
 
 export const ActionList = () => {
-  const { data, loading, error } = useQuery(GET_ACTIONS);
+  const { data, loading, error } = useGetActionsQuery();
 
+  if (!data?.getActions) return <p>No eco-actions found</p>;
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 

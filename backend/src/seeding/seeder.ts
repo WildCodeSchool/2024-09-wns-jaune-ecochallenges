@@ -1,4 +1,4 @@
-import { dataSource } from '../config/db';
+import { dataSource } from '@/config/db';
 import { User, Challenge, Action } from '@/entities';
 import { usersData, challengesData, actionsData } from '@/seeding/seeds';
 import chalk from 'chalk';

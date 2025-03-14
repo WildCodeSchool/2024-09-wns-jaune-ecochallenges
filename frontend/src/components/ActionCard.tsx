@@ -6,14 +6,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui';
 import { Hourglass, ImagePlus, Plus } from 'lucide-react';
 
 type ActionCardProps = {
   readonly action: Action;
 };
 
-const ActionCard = ({ action }: ActionCardProps) => {
+export const ActionCard = ({ action }: ActionCardProps) => {
   return (
     <Card
       key={action.id}
@@ -58,5 +58,3 @@ const ActionCard = ({ action }: ActionCardProps) => {
     </Card>
   );
 };
-
-export default ActionCard;

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui';
 
-function Navbar() {
+export const Navbar = () => {
   return (
     <nav className="h-navbar fixed bottom-0 z-50 flex w-full items-center justify-around bg-gray-800 p-4 text-white">
       <Button variant="ghost">
@@ -21,6 +21,4 @@ function Navbar() {
       </Button>
     </nav>
   );
-}
-
-export default Navbar;
+};

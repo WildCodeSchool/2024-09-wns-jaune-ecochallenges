@@ -1,6 +1,5 @@
-import { Challenge } from '@/lib/graphql/generated/graphql-types';
-import { Pill } from './Pill';
 import { Link } from 'react-router-dom';
+import { Challenge } from '@/lib/graphql/generated/graphql-types';
 import {
   Card,
   CardContent,
@@ -8,7 +7,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from '@/components/ui';
+import { Pill } from '@/components';
 
 export const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
   const dates = {

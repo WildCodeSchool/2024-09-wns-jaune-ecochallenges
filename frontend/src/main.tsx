@@ -8,9 +8,7 @@ import {
 } from 'react-router-dom';
 import { client } from './lib/api.ts';
 import { App } from './App.tsx';
-import { Home } from './pages/Home.tsx';
-import { ActionList } from './pages/ActionList.tsx';
-import { ChallengeList } from './pages/ChallengeList.tsx';
+import { Home, ActionList, ChallengeList } from '@/pages';
 
 import './index.css';
 

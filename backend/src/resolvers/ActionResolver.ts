@@ -1,5 +1,5 @@
 import { Arg, Field, InputType, Mutation, Query, Resolver } from 'type-graphql';
-import { Action } from '../entities/Action';
+import { Action } from '@/entities';
 
 @InputType()
 export class ActionInput {
