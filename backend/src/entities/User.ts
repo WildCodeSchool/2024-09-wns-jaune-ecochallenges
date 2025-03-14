@@ -1,10 +1,11 @@
 import {
   BaseEntity,
+  BeforeInsert,
+  BeforeUpdate,
   Column,
+  CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  BeforeUpdate,
-  BeforeInsert,
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import argon2 from 'argon2';
@@ -23,6 +24,10 @@ export class User extends BaseEntity {
   @Field()
   @Column({ unique: true })
   email!: string;
+
+  @Field()
+  @CreateDateColumn()
+  createdAt!: Date;
 
   @Field()
   @Column({ nullable: false })

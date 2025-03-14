@@ -31,6 +31,27 @@ export type Scalars = {
   DateTimeISO: { input: any; output: any };
 };
 
+export type Action = {
+  __typename?: 'Action';
+  createdAt: Scalars['DateTimeISO']['output'];
+  description: Scalars['String']['output'];
+  icon: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  level: Scalars['Float']['output'];
+  name: Scalars['String']['output'];
+  requires_view: Scalars['Boolean']['output'];
+  time: Scalars['Float']['output'];
+};
+
+export type ActionInput = {
+  description: Scalars['String']['input'];
+  icon: Scalars['String']['input'];
+  level: Scalars['Float']['input'];
+  name: Scalars['String']['input'];
+  requires_view: Scalars['Boolean']['input'];
+  time: Scalars['Float']['input'];
+};
+
 export type Challenge = {
   __typename?: 'Challenge';
   bannerUrl?: Maybe<Scalars['String']['output']>;
@@ -42,14 +63,30 @@ export type Challenge = {
   startDate: Scalars['DateTimeISO']['output'];
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  createdAction: Action;
+};
+
+export type MutationCreatedActionArgs = {
+  data: ActionInput;
+};
+
 export type Query = {
   __typename?: 'Query';
+  getActionById: Action;
+  getActions: Array<Action>;
   getChallenges: Array<Challenge>;
   getUsersAsUser: Array<User>;
 };
 
+export type QueryGetActionByIdArgs = {
+  id: Scalars['String']['input'];
+};
+
 export type User = {
   __typename?: 'User';
+  createdAt: Scalars['DateTimeISO']['output'];
   email: Scalars['String']['output'];
   hashedPassword: Scalars['String']['output'];
   id: Scalars['String']['output'];
@@ -84,6 +121,23 @@ export type GetChallengesAsChallengeQuery = {
     startDate: any;
     endDate: any;
     createdAt: any;
+  }>;
+};
+
+export type GetActionsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetActionsQuery = {
+  __typename?: 'Query';
+  getActions: Array<{
+    __typename?: 'Action';
+    id: string;
+    name: string;
+    description: string;
+    requires_view: boolean;
+    createdAt: any;
+    icon: string;
+    level: number;
+    time: number;
   }>;
 };
 
@@ -249,4 +303,83 @@ export type GetChallengesAsChallengeSuspenseQueryHookResult = ReturnType<
 export type GetChallengesAsChallengeQueryResult = Apollo.QueryResult<
   GetChallengesAsChallengeQuery,
   GetChallengesAsChallengeQueryVariables
+>;
+export const GetActionsDocument = gql`
+  query GetActions {
+    getActions {
+      id
+      name
+      description
+      requires_view
+      createdAt
+      icon
+      level
+      time
+    }
+  }
+`;
+
+/**
+ * __useGetActionsQuery__
+ *
+ * To run a query within a React component, call `useGetActionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetActionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetActionsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetActionsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetActionsQuery,
+    GetActionsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetActionsQuery, GetActionsQueryVariables>(
+    GetActionsDocument,
+    options
+  );
+}
+export function useGetActionsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetActionsQuery,
+    GetActionsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetActionsQuery, GetActionsQueryVariables>(
+    GetActionsDocument,
+    options
+  );
+}
+export function useGetActionsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<GetActionsQuery, GetActionsQueryVariables>
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetActionsQuery, GetActionsQueryVariables>(
+    GetActionsDocument,
+    options
+  );
+}
+export type GetActionsQueryHookResult = ReturnType<typeof useGetActionsQuery>;
+export type GetActionsLazyQueryHookResult = ReturnType<
+  typeof useGetActionsLazyQuery
+>;
+export type GetActionsSuspenseQueryHookResult = ReturnType<
+  typeof useGetActionsSuspenseQuery
+>;
+export type GetActionsQueryResult = Apollo.QueryResult<
+  GetActionsQuery,
+  GetActionsQueryVariables
 >;

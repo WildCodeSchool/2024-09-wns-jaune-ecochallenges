@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const GET_USER = gql`
+export const GET_USERS = gql`
   query GetUsersAsUser {
     getUsersAsUser {
       id
@@ -21,6 +21,21 @@ export const GET_CHALLENGES = gql`
       startDate
       endDate
       createdAt
+    }
+  }
+`;
+
+export const GET_ACTIONS = gql`
+  query GetActions {
+    getActions {
+      id
+      name
+      description
+      requires_view
+      createdAt
+      icon
+      level
+      time
     }
   }
 `;
