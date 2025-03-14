@@ -3,6 +3,7 @@ import {
   BeforeInsert,
   BeforeUpdate,
   Column,
+  CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -25,7 +26,7 @@ export class User extends BaseEntity {
   email!: string;
 
   @Field()
-  @Column({ nullable: false })
+  @CreateDateColumn()
   createdAt!: Date;
 
   @Field()
@@ -36,10 +37,5 @@ export class User extends BaseEntity {
   @BeforeUpdate()
   async hashPassword() {
     this.hashedPassword = await argon2.hash(this.hashedPassword);
-  }
-
-  @BeforeInsert()
-  updateDates() {
-    this.createdAt = new Date();
   }
 }

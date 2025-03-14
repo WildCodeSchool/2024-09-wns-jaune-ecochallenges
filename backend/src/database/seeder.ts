@@ -1,51 +1,49 @@
-import * as fs from 'fs';
-import { User } from '../entities/User';
-
 import { dataSource } from '../config/db';
+import { User, Challenge, Action } from '@/entities';
+import { usersData, challengesData, actionsData } from '@/database/seeds';
+import chalk from 'chalk';
 
-/**
- * Reads a JSON file from the specified file path and parses its content.
- *
- * @param {string} filePath - The path to the JSON file.
- * @returns {any} The parsed JSON content.
- */
-const loadJSON = (filePath: string) => {
-  return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+chalk.level = 2;
+
+const seedEntity = async (
+  entity: any,
+  data: any,
+  dateFields: string[] = []
+) => {
+  const repository = dataSource.getRepository(entity);
+  const entities = data.map((item: any) => {
+    const processedItem = { ...item };
+    dateFields.forEach((field) => {
+      if (processedItem[field])
+        processedItem[field] = new Date(processedItem[field]);
+    });
+    return Object.assign(new entity(), processedItem);
+  });
+  await repository.save(entities);
+  console.log(`✔︎ ${entities.length} ${entity.name} added!`);
 };
 
-/**
- * Seeds the database with initial data.
- *
- * This function initializes the database connection, loads data from  JSON files,
- * inserts the data into the database, and then closes the connection.
- *
- * @async
- * @function
- * @returns {Promise<void>} A promise that resolves when the seeding is complete.
- */
-async function seedDatabase() {
-  console.log('Init database database...');
+const seedDatabase = async () => {
+  console.log('🔄 Initializing database...');
   await dataSource.initialize();
+  console.log('🧼 Cleaning database...');
+  await dataSource.dropDatabase();
+  console.log('🏗️  Creating database...');
+  await dataSource.synchronize();
 
-  console.log('Cleaning database...');
-  await dataSource.manager.delete(User, {});
-  console.log('🔄 Seeding database...');
+  console.log('🌱 Seeding database...');
 
-  /**
-   * Users seed
-   */
-  const users = loadJSON(__dirname + '/seeds/users.seed.json');
-
-  const userRepository = dataSource.getRepository(User);
-  for (const userData of users) {
-    const newUser = userRepository.create(userData);
-    await userRepository.save(newUser);
-  }
-  console.log(`✅ ${users.length} users added.`);
-
-  //Add your seeding here
+  // Add your seeds here
+  await seedEntity(User, usersData.users);
+  await seedEntity(Action, actionsData.actions);
+  await seedEntity(Challenge, challengesData.challenges, [
+    'startDate',
+    'endDate',
+  ]);
 
   await dataSource.destroy();
-}
-// Exécuter le script
+
+  console.log(chalk.green('✅ Database seeding complete'));
+};
+
 seedDatabase().catch((error) => console.error('❌ Seeding failed', error));

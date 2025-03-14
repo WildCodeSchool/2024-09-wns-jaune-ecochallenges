@@ -1,5 +1,4 @@
-# Makefile for Eco Challenges Project
-
+### Makefile for Eco Challenges Project
 
 # Load environment variables from .env.dev
 ifneq (,$(wildcard ./.env.dev))
@@ -17,11 +16,11 @@ NC = \033[0m # No Color
 YELLOW = \033[0;33m
 RED = \033[0;31m
 
-.PHONY: help install start stop restart logs clean ps clean-all
+.PHONY: help install start stop restart logs clean ps clean-all seed codegen
 
 help: ## Display this help message
 	@echo "$(GREEN)Available commands:$(NC)"
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "$(YELLOW)%-30s$(NC) %s\n", $$1, $$2}'
+	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | awk 'BEGIN {FS = ":.*?## "}; {printf "$(YELLOW)%-30s$(NC) %s\n", $$1, $$2}'
 
 start: ## Start all containers
 	@echo "$(GREEN)Starting containers...$(NC)"
@@ -71,7 +70,10 @@ shell-backend: ## Open a shell in the backend container
 shell-frontend: ## Open a shell in the frontend container
 	@$(DOCKER_COMPOSE) exec frontend sh
 
+codegen: ## Generate GraphQL types and hooks
+	@echo "$(GREEN)Generating GraphQL types...$(NC)"
+	@cd frontend && npm run codegen
+	@echo "$(GREEN)GraphQL types generated successfully$(NC)"
+
 seed: ## Seed the database
-	@echo "$(GREEN)Seeding the database...$(NC)"
-	@docker exec -it backend-eco sh -c "npm run seed"
-	@echo "$(GREEN)Database seeding complete$(NC)"
+	@docker exec backend-eco sh -c "npm run seed"

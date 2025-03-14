@@ -1,7 +1,8 @@
 import { DataSource } from 'typeorm';
 import { config } from 'dotenv';
 import { User } from '../entities/User';
-import { Action } from '../entities/action';
+import { Challenge } from '../entities/Challenge';
+import { Action } from '../entities/Action';
 
 config();
 const { DB_HOST, DB_PASSWORD, DB_USER, DB_SCHEMA, DB_PORT } = process.env;
@@ -13,7 +14,7 @@ export const dataSource = new DataSource({
   password: DB_PASSWORD,
   database: DB_SCHEMA,
   port: Number(DB_PORT),
-  entities: [User, Action],
+  entities: [User, Challenge, Action],
   synchronize: true,
   // migrations: ["./bdd/migrations/*.ts"],
   // migrationsTableName: "migrations",

@@ -1,3 +1,4 @@
+import { ApolloProvider } from '@apollo/client';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
@@ -5,12 +6,13 @@ import {
   Navigate,
   RouterProvider,
 } from 'react-router-dom';
-import './index.css';
 import App from './App.tsx';
 import { client } from './lib/api.ts';
-import Home from './pages/Home.tsx';
-import { ApolloProvider } from '@apollo/client';
-import Actions from './pages/Actions.tsx';
+import { Actions } from './pages/Actions.tsx';
+import { ChallengeList } from './pages/ChallengeList.tsx';
+import { Home } from './pages/Home.tsx';
+
+import './index.css';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />,
+      },
+      {
+        path: '/challenges',
+        element: <ChallengeList />,
       },
       {
         path: '/actions',

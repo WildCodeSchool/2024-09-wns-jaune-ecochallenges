@@ -1,38 +1,40 @@
-[
-  {
-    "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f0",
-    "name": "thomas",
-    "email": "thomas@example.com",
-    "hashedPassword": "Thomas123!"
-  },
-  {
-    "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f1",
-    "name": "marjorie",
-    "email": "marjorie@example.com",
-    "hashedPassword": "Marjorie123!"
-  },
-  {
-    "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f2",
-    "name": "nicolas",
-    "email": "nicolas@example.com",
-    "hashedPassword": "Nicolas123!"
-  },
-  {
-    "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f3",
-    "name": "ornella",
-    "email": "ornella@example.com",
-    "hashedPassword": "Ornella123!"
-  },
-  {
-    "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f4",
-    "name": "pierreAdrien",
-    "email": "pierreAdrien@example.com",
-    "hashedPassword": "PierreAdrien123!"
-  },
-  {
-    "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f5",
-    "name": "elie",
-    "email": "elie@example.com",
-    "hashedPassword": "Elie123!"
-  }
-]
+{
+  "users": [
+    {
+      "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f0",
+      "name": "thomas",
+      "email": "thomas@example.com",
+      "hashedPassword": "Thomas123!"
+    },
+    {
+      "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f1",
+      "name": "marjorie",
+      "email": "marjorie@example.com",
+      "hashedPassword": "Marjorie123!"
+    },
+    {
+      "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f2",
+      "name": "nicolas",
+      "email": "nicolas@example.com",
+      "hashedPassword": "Nicolas123!"
+    },
+    {
+      "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f3",
+      "name": "ornella",
+      "email": "ornella@example.com",
+      "hashedPassword": "Ornella123!"
+    },
+    {
+      "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f4",
+      "name": "pierreAdrien",
+      "email": "pierreAdrien@example.com",
+      "hashedPassword": "PierreAdrien123!"
+    },
+    {
+      "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f5",
+      "name": "elie",
+      "email": "elie@example.com",
+      "hashedPassword": "Elie123!"
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "actions": [
+    {
+      "name": "Gestion Eau",
+      "description": "Optimisation de la consommation d'eau.",
+      "requires_view": false,
+      "level": 1,
+      "icon": "leaf",
+      "time": "1"
+    },
+    {
+      "name": "Recyclage",
+      "description": "Mise en place du tri sélectif.",
+      "requires_view": false,
+      "level": 2,
+      "icon": "leaf",
+      "time": "1"
+    },
+    {
+      "name": "Énergie Verte",
+      "description": "Utilisation d'énergies renouvelables.",
+      "requires_view": false,
+      "level": 3,
+      "icon": "recycling",
+      "time": "2"
+    },
+    {
+      "name": "Réduction Papier",
+      "description": "Diminution de l'usage du papier.",
+      "requires_view": false,
+      "level": 3,
+      "icon": "recycling",
+      "time": "2"
+    },
+    {
+      "name": "Transports Écologiques",
+      "description": "Encouragement du covoiturage et vélo.",
+      "requires_view": false,
+      "level": 2,
+      "icon": "drop",
+      "time": "2"
+    },
+    {
+      "name": "Consommation Responsable",
+      "description": "Achat de produits éco-responsables.",
+      "requires_view": false,
+      "level": 2,
+      "icon": "drop",
+      "time": "12"
+    },
+    {
+      "name": "Économie Circulaire",
+      "description": "Réutilisation et réparation des objets.",
+      "requires_view": false,
+      "level": 1,
+      "icon": "drop",
+      "time": "1"
+    },
+    {
+      "name": "Éclairage LED",
+      "description": "Remplacement des ampoules par des LED.",
+      "requires_view": false,
+      "level": 1,
+      "icon": "leaf",
+      "time": "13"
+    },
+    {
+      "name": "Isolation Bâtiments",
+      "description": "Amélioration de l'isolation thermique.",
+      "requires_view": false,
+      "level": 2,
+      "icon": "leaf",
+      "time": "3"
+    },
+    {
+      "name": "Sensibilisation Écologique",
+      "description": "Formation et information sur l'écologie.",
+      "requires_view": false,
+      "level": 3,
+      "icon": "recycling",
+      "time": "1"
+    }
+  ]
+}

@@ -3,7 +3,7 @@ import { Action } from '@/lib/graphql/generated/graphql-types';
 import { GET_ACTIONS } from '@/lib/graphql/operations';
 import { useQuery } from '@apollo/client';
 
-function Actions() {
+export const Actions = () => {
   const { data, loading, error } = useQuery(GET_ACTIONS);
 
   if (loading) return <div>Loading...</div>;
@@ -16,6 +16,4 @@ function Actions() {
       ))}
     </div>
   );
-}
-
-export default Actions;
+};
