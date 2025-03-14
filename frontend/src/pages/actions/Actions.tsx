@@ -10,7 +10,7 @@ function Actions() {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="flex flex-wrap justify-center text-center align-middle">
+    <div className="flex flex-col flex-nowrap justify-center lg:flex-row lg:flex-wrap">
       {data.getActions.map((action: Action) => (
         <ActionCard key={action.id} action={action} />
       ))}
