@@ -3,9 +3,9 @@ import { startStandaloneServer } from '@apollo/server/standalone';
 import { dataSource } from './config/db';
 import { UserResolver } from './resolvers/UserResolver';
 import { buildSchema } from 'type-graphql';
-import 'reflect-metadata';
 import { ChallengeResolver } from './resolvers/ChallengeResolver';
 import { config } from 'dotenv';
+import 'reflect-metadata';
 
 config();
 const port = Number(process.env.BACKEND_PORT);
