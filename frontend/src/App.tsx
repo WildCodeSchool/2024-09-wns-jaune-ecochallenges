@@ -1,5 +1,5 @@
-import { Link, Outlet } from 'react-router-dom';
-import { Button } from './components/ui/button';
+import { Outlet } from 'react-router-dom';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
@@ -8,14 +8,9 @@ function App() {
         <h1 className="mb-8 rounded-full text-center text-3xl font-bold text-sky-400">
           Welcome on our Eco-challenge
         </h1>
-        <Button className="mb-4 min-w-40">
-          <Link to="/actions">to actions</Link>
-        </Button>
-        <Button className="mb-4 min-w-40">
-          <Link to="/">to home</Link>
-        </Button>
         <Outlet />
       </div>
+      <Navbar />
     </>
   );
 }

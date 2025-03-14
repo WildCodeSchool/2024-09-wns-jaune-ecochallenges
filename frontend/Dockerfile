@@ -1,6 +1,7 @@
 FROM node:lts-alpine
 
 WORKDIR /app
+ENV CHOKIDAR_USEPOLLING=true
 
 COPY package*.json ./
 RUN npm install
