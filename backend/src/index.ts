@@ -4,11 +4,11 @@ import { dataSource } from './config/db';
 import { UserResolver } from './resolvers/UserResolver';
 import { buildSchema } from 'type-graphql';
 import 'reflect-metadata';
-import { config } from "dotenv";
+import { config } from 'dotenv';
 
 config();
 const port = Number(process.env.BACKEND_PORT);
-if (!port) throw new Error("Missing env variable: BACKEND_PORT");
+if (!port) throw new Error('Missing env variable: BACKEND_PORT');
 
 async function start() {
   await dataSource.initialize();

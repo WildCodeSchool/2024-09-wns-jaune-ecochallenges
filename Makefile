@@ -70,3 +70,8 @@ shell-backend: ## Open a shell in the backend container
 
 shell-frontend: ## Open a shell in the frontend container
 	@$(DOCKER_COMPOSE) exec frontend sh
+
+seed: ## Seed the database
+	@echo "$(GREEN)Seeding the database...$(NC)"
+	@docker exec -it backend-eco sh -c "npm run seed"
+	@echo "$(GREEN)Database seeding complete$(NC)"
