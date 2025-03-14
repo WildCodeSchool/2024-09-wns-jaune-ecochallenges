@@ -1,18 +1,15 @@
 import { Outlet } from 'react-router-dom';
-import { Button } from './components/ui/button';
+import Navbar from './components/Navbar';
 
-function App() {
+export const App = () => {
   return (
     <>
-      <h1 className="rounded-full text-3xl font-bold text-red-500 underline">
-        Hello world with tailwind css!
-      </h1>
-      <img src="icons/leaf.png" alt="test" />
-      <img src="/files/icons/water.png" alt="test" />
-      <Button>Click me with shadcn/ui</Button>
-      <Outlet />
+      <main className="mx-auto p-2 md:p-4 lg:p-8">
+        <Outlet />
+      </main>
+      <Navbar />
     </>
   );
-}
+};
 
 export default App;
