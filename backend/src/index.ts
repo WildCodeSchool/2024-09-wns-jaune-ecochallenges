@@ -5,6 +5,7 @@ import { UserResolver } from './resolvers/UserResolver';
 import { buildSchema } from 'type-graphql';
 import 'reflect-metadata';
 import { config } from 'dotenv';
+import { ActionResolver } from './resolvers/ActionResolver';
 
 config();
 const port = Number(process.env.BACKEND_PORT);
@@ -14,7 +15,7 @@ async function start() {
   await dataSource.initialize();
 
   const schema = await buildSchema({
-    resolvers: [UserResolver],
+    resolvers: [UserResolver, ActionResolver],
   });
 
   const server = new ApolloServer({ schema });
