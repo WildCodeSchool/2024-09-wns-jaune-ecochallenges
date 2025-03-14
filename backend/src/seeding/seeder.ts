@@ -1,6 +1,6 @@
 import { dataSource } from '../config/db';
 import { User, Challenge, Action } from '@/entities';
-import { usersData, challengesData, actionsData } from '@/database/seeds';
+import { usersData, challengesData, actionsData } from '@/seeding/seeds';
 import chalk from 'chalk';
 
 chalk.level = 2;
