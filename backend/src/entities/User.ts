@@ -1,10 +1,10 @@
 import {
   BaseEntity,
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   Entity,
   PrimaryGeneratedColumn,
-  BeforeUpdate,
-  BeforeInsert,
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import argon2 from 'argon2';
@@ -26,11 +26,20 @@ export class User extends BaseEntity {
 
   @Field()
   @Column({ nullable: false })
+  createdAt!: Date;
+
+  @Field()
+  @Column({ nullable: false })
   hashedPassword!: string;
 
   @BeforeInsert()
   @BeforeUpdate()
   async hashPassword() {
     this.hashedPassword = await argon2.hash(this.hashedPassword);
+  }
+
+  @BeforeInsert()
+  updateDates() {
+    this.createdAt = new Date();
   }
 }
