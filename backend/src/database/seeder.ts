@@ -1,6 +1,9 @@
 import { dataSource } from '../config/db';
 import { User, Challenge, Action } from '@/entities';
 import { usersData, challengesData, actionsData } from '@/database/seeds';
+import chalk from 'chalk';
+
+chalk.level = 2;
 
 const seedEntity = async (
   entity: any,
@@ -39,6 +42,8 @@ const seedDatabase = async () => {
   ]);
 
   await dataSource.destroy();
+
+  console.log(chalk.green('✅ Database seeding complete'));
 };
 
 seedDatabase().catch((error) => console.error('❌ Seeding failed', error));

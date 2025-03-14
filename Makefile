@@ -1,5 +1,4 @@
-# Makefile for Eco Challenges Project
-
+### Makefile for Eco Challenges Project
 
 # Load environment variables from .env.dev
 ifneq (,$(wildcard ./.env.dev))
@@ -76,10 +75,5 @@ codegen: ## Generate GraphQL types and hooks
 	@cd frontend && npm run codegen
 	@echo "$(GREEN)GraphQL types generated successfully$(NC)"
 
-# seed-old: ## Run the seed script
-# 	@$(DOCKER_COMPOSE) exec backend npm run seed
-
 seed: ## Seed the database
-	@echo "$(GREEN)🌱 Seeding the database...$(NC)"
 	@docker exec backend-eco sh -c "npm run seed"
-	@echo "$(GREEN)✅ Database seeding complete$(NC)"
