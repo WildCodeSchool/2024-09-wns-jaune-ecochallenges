@@ -28,10 +28,23 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean };
   Int: { input: number; output: number };
   Float: { input: number; output: number };
+  DateTimeISO: { input: any; output: any };
+};
+
+export type Challenge = {
+  __typename?: 'Challenge';
+  bannerUrl?: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['DateTimeISO']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  endDate: Scalars['DateTimeISO']['output'];
+  id: Scalars['ID']['output'];
+  label: Scalars['String']['output'];
+  startDate: Scalars['DateTimeISO']['output'];
 };
 
 export type Query = {
   __typename?: 'Query';
+  getChallenges: Array<Challenge>;
   getUsersAsUser: Array<User>;
 };
 
@@ -53,6 +66,24 @@ export type GetUsersAsUserQuery = {
     name: string;
     email: string;
     hashedPassword: string;
+  }>;
+};
+
+export type GetChallengesAsChallengeQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GetChallengesAsChallengeQuery = {
+  __typename?: 'Query';
+  getChallenges: Array<{
+    __typename?: 'Challenge';
+    id: string;
+    label: string;
+    description?: string | null;
+    bannerUrl?: string | null;
+    startDate: any;
+    endDate: any;
+    createdAt: any;
   }>;
 };
 
@@ -135,4 +166,87 @@ export type GetUsersAsUserSuspenseQueryHookResult = ReturnType<
 export type GetUsersAsUserQueryResult = Apollo.QueryResult<
   GetUsersAsUserQuery,
   GetUsersAsUserQueryVariables
+>;
+export const GetChallengesAsChallengeDocument = gql`
+  query GetChallengesAsChallenge {
+    getChallenges {
+      id
+      label
+      description
+      bannerUrl
+      startDate
+      endDate
+      createdAt
+    }
+  }
+`;
+
+/**
+ * __useGetChallengesAsChallengeQuery__
+ *
+ * To run a query within a React component, call `useGetChallengesAsChallengeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetChallengesAsChallengeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetChallengesAsChallengeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetChallengesAsChallengeQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetChallengesAsChallengeQuery,
+    GetChallengesAsChallengeQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetChallengesAsChallengeQuery,
+    GetChallengesAsChallengeQueryVariables
+  >(GetChallengesAsChallengeDocument, options);
+}
+export function useGetChallengesAsChallengeLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetChallengesAsChallengeQuery,
+    GetChallengesAsChallengeQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetChallengesAsChallengeQuery,
+    GetChallengesAsChallengeQueryVariables
+  >(GetChallengesAsChallengeDocument, options);
+}
+export function useGetChallengesAsChallengeSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetChallengesAsChallengeQuery,
+        GetChallengesAsChallengeQueryVariables
+      >
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetChallengesAsChallengeQuery,
+    GetChallengesAsChallengeQueryVariables
+  >(GetChallengesAsChallengeDocument, options);
+}
+export type GetChallengesAsChallengeQueryHookResult = ReturnType<
+  typeof useGetChallengesAsChallengeQuery
+>;
+export type GetChallengesAsChallengeLazyQueryHookResult = ReturnType<
+  typeof useGetChallengesAsChallengeLazyQuery
+>;
+export type GetChallengesAsChallengeSuspenseQueryHookResult = ReturnType<
+  typeof useGetChallengesAsChallengeSuspenseQuery
+>;
+export type GetChallengesAsChallengeQueryResult = Apollo.QueryResult<
+  GetChallengesAsChallengeQuery,
+  GetChallengesAsChallengeQueryVariables
 >;

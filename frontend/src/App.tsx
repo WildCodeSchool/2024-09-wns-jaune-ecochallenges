@@ -1,15 +1,10 @@
 import { Outlet } from 'react-router-dom';
-import { Button } from './components/ui/button';
 
 function App() {
   return (
-    <>
-      <h1 className="rounded-full text-3xl font-bold text-red-500 underline">
-        Hello world with tailwind css!
-      </h1>
-      <Button>Click me with shadcn/ui</Button>
+    <main className="mx-auto p-2 md:p-4 lg:p-8">
       <Outlet />
-    </>
+    </main>
   );
 }
 

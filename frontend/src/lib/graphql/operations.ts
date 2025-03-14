@@ -10,3 +10,17 @@ export const GET_USER = gql`
     }
   }
 `;
+
+export const GET_CHALLENGES = gql`
+  query GetChallengesAsChallenge {
+    getChallenges {
+      id
+      label
+      description
+      bannerUrl
+      startDate
+      endDate
+      createdAt
+    }
+  }
+`;
