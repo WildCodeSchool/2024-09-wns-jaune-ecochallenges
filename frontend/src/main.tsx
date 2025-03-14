@@ -10,6 +10,8 @@ import App from './App.tsx';
 import { client } from './lib/api.ts';
 import Home from './pages/Home.tsx';
 import { ApolloProvider } from '@apollo/client';
+import Challenges from './pages/Challenges.tsx';
+import Actions from './pages/Actions.tsx';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +25,14 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />,
+      },
+      {
+        path: '/challenges',
+        element: <Challenges />,
+      },
+      {
+        path: '/actions',
+        element: <Actions />,
       },
     ],
   },
