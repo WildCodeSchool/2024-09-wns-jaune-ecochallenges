@@ -3,7 +3,7 @@ import { Button } from './ui/button';
 
 function Navbar() {
   return (
-    <nav className="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around bg-gray-800 p-4 text-white">
+    <nav className="h-navbar fixed bottom-0 z-50 flex w-full items-center justify-around bg-gray-800 p-4 text-white">
       <Button variant="ghost">
         <Link to="/home" className="text-white hover:text-gray-400">
           Home

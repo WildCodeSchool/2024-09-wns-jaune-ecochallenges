@@ -17,7 +17,7 @@ const ActionCard = ({ action }: ActionCardProps) => {
   return (
     <Card
       key={action.id}
-      className="m-2 flex h-40 w-1/5 justify-center bg-teal-50 p-2"
+      className="m-2 flex h-40 justify-center bg-teal-50 p-2 xl:w-1/5"
     >
       <div className="flex">
         <img

@@ -6,11 +6,11 @@ import {
   Navigate,
   RouterProvider,
 } from 'react-router-dom';
-import App from './App.tsx';
 import { client } from './lib/api.ts';
-import { Actions } from './pages/Actions.tsx';
-import { ChallengeList } from './pages/ChallengeList.tsx';
+import { App } from './App.tsx';
 import { Home } from './pages/Home.tsx';
+import { ActionList } from './pages/ActionList.tsx';
+import { ChallengeList } from './pages/ChallengeList.tsx';
 
 import './index.css';
 
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/actions',
-        element: <Actions />,
+        element: <ActionList />,
       },
     ],
   },
