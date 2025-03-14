@@ -30,12 +30,6 @@ export class User extends BaseEntity {
   @Column({ nullable: false })
   hashedPassword!: string;
 
-  /*   @BeforeInsert()
-  @BeforeUpdate()
-  async hashPassword() {
-    this.hashedPassword = await argon2.hash(this.hashedPassword);
-  } */
-
   @BeforeInsert()
   updateDates() {
     this.createdAt = new Date();

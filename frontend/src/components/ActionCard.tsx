@@ -7,42 +7,56 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Hourglass, ImagePlus, Plus } from 'lucide-react';
 
-function ActionCard(action: Action) {
-  console.log('🚀 ~ ActionCard ~ action:', action);
+type ActionCardProps = {
+  readonly action: Action;
+};
+
+const ActionCard = ({ action }: ActionCardProps) => {
   return (
-    <Card key={action.id} className="m-2 w-1/6 bg-teal-50">
-      <div className="flex justify-center gap-6">
+    <Card
+      key={action.id}
+      className="m-2 flex h-40 w-1/5 justify-center bg-teal-50 p-2"
+    >
+      <div className="flex">
         <img
           src={`./icons/${action.icon}.png`}
           alt="name"
-          className="w-1/6 object-contain"
+          className="w-1/7 object-contain"
         />
         <div className="flex w-full flex-col">
-          <CardHeader className="flex flex-1/2 flex-col align-middle">
+          <CardHeader className="mb-3 flex flex-col text-left">
             <CardTitle className="w-full">{action.name}</CardTitle>
-            <CardDescription className="w-ful">
+            <CardDescription className="w-full">
               {action.description}
             </CardDescription>
           </CardHeader>
-          <CardFooter>
-            <Button className="m-1" variant="outline">
-              <img src="./icons/picture.png" />
+          <CardFooter className="flex w-full justify-around">
+            <Button type="button" variant="ghost" className="cursor-pointer">
+              <ImagePlus
+                className=""
+                style={{ minWidth: '30px', minHeight: '30px' }}
+              />
             </Button>
-            <img className="w-10" src={`./icons/level-${action.level}.png`} />
+            <img
+              className="w-10"
+              src={`./icons/level-${action.level}.png`}
+              alt="icon of dificulty level"
+            />
 
-            <div className="ml-3 flex justify-center">
-              <p className="text-2xl">{action.time}h </p>
-              <img className="w-10" src={`./icons/hourglass.png`} />
+            <div className="flex items-center justify-center">
+              <p className="text-2xl">{action.time}h</p>
+              <Hourglass className="" size={25} />
             </div>
           </CardFooter>
         </div>
-        <Button className="m-auto mr-2" variant="outline">
-          +
+        <Button type="button" variant="ghost" className="m-auto cursor-pointer">
+          <Plus style={{ minWidth: '36px', minHeight: '36px' }} />
         </Button>
       </div>
     </Card>
   );
-}
+};
 
 export default ActionCard;

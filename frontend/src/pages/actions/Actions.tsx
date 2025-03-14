@@ -12,7 +12,7 @@ function Actions() {
   return (
     <div className="flex flex-wrap justify-center text-center align-middle">
       {data.getActions.map((action: Action) => (
-        <ActionCard {...action} />
+        <ActionCard key={action.id} action={action} />
       ))}
     </div>
   );
