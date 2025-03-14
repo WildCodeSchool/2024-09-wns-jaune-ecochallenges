@@ -4,9 +4,9 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/index.js",
-    "dev": "nodemon src/index.ts",
-    "seed": "ts-node src/database/seeder.ts"
+    "start": "ts-node -r tsconfig-paths/register src/index.ts",
+    "dev": "nodemon --exec 'ts-node -r tsconfig-paths/register' src/index.ts",
+    "seed": "ts-node -r tsconfig-paths/register src/database/seeder.ts"
   },
   "keywords": [],
   "author": "eco-challenge team",
@@ -27,6 +27,7 @@
     "@types/node": "^22.13.4",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3"
   }
 }

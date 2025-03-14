@@ -1,8 +1,6 @@
-import { User } from '../entities/User';
 import { dataSource } from '../config/db';
-import * as usersData from './seeds/users.seed.json';
-import * as challengesData from './seeds/challenges.seed.json';
-import { Challenge } from '../entities/Challenge';
+import { User, Challenge, Action } from '@/entities';
+import { usersData, challengesData, actionsData } from '@/database/seeds';
 
 const seedEntity = async (
   entity: any,
@@ -34,6 +32,7 @@ const seedDatabase = async () => {
 
   // Add your seeds here
   await seedEntity(User, usersData.users);
+  await seedEntity(Action, actionsData.actions);
   await seedEntity(Challenge, challengesData.challenges, [
     'startDate',
     'endDate',

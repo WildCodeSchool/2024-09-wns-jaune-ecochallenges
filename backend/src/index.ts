@@ -1,12 +1,10 @@
+import 'reflect-metadata';
+import { config } from 'dotenv';
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
-import { dataSource } from './config/db';
-import { UserResolver } from './resolvers/UserResolver';
 import { buildSchema } from 'type-graphql';
-import { ChallengeResolver } from './resolvers/ChallengeResolver';
-import { config } from 'dotenv';
-import { ActionResolver } from './resolvers/ActionResolver';
-import 'reflect-metadata';
+import { dataSource } from './config/db';
+import { ActionResolver, ChallengeResolver, UserResolver } from '@/resolvers';
 
 config();
 const port = Number(process.env.BACKEND_PORT);
