@@ -1,52 +1,50 @@
 import {
   BaseEntity,
-  BeforeInsert,
   Column,
+  CreateDateColumn,
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Field, ID, ObjectType, registerEnumType } from 'type-graphql';
 import { User } from './User';
-import { UserActionChallenge } from './UserActionChallenge';
+import { UserAction } from './UserAction';
+import { ReviewStatus } from '../enums/ReviewStatus.enum';
+import { IsEnum, ValidateIf } from 'class-validator';
 
 @Entity()
 @ObjectType()
 export class Review extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Field((_type) => ID)
+  @Field(() => ID)
   id!: number;
 
-  @Field({ nullable: true })
-  @Column({ length: 50, nullable: true })
-  status?: string;
+  @Field(() => ReviewStatus)
+  @Column({
+    type: 'enum',
+    enum: ReviewStatus,
+  })
+  @IsEnum(ReviewStatus)
+  @ValidateIf((review) => review.status !== ReviewStatus.Pending, {
+    message: 'Review status cannot be pending',
+  })
+  status!: ReviewStatus;
 
   @Field({ nullable: true })
   @Column({ type: 'text', nullable: true })
   comment?: string;
 
-  @Field({ nullable: false })
-  @Column({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    nullable: false,
-  })
+  @Field()
+  @CreateDateColumn()
   reviewedAt!: Date;
 
-  @BeforeInsert()
-  updateDates() {
-    this.reviewedAt = new Date();
-  }
-
-  @Field((_type) => User)
+  @Field(() => User)
   @ManyToOne(() => User, (user) => user.reviews)
   user!: User;
 
-  @Field((_type) => UserActionChallenge)
-  @ManyToOne(
-    () => UserActionChallenge,
-    (userActionChallenge) => userActionChallenge.reviews,
-    { onDelete: 'CASCADE' }
-  )
-  userActionChallenge!: UserActionChallenge;
+  @Field(() => UserAction)
+  @ManyToOne(() => UserAction, (UserAction) => UserAction.reviews, {
+    onDelete: 'CASCADE',
+  })
+  userAction!: UserAction;
 }

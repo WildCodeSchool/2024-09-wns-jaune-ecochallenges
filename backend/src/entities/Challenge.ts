@@ -2,23 +2,25 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
-import { ActionChallenge } from './ActionChallenge';
-import { ChallengeUser } from './ChallengeUser';
-import { UserActionChallenge } from './UserActionChallenge';
+import { UserAction } from './UserAction';
+import { Action } from './Action';
+import { User } from './User';
 
 @Entity()
 @ObjectType()
 export class Challenge extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Field((_type) => ID)
+  @Field(() => ID)
   id!: number;
 
   @Field()
-  @Column({ length: 100, nullable: false })
+  @Column({ length: 100 })
   label!: string;
 
   @Field()
@@ -26,28 +28,24 @@ export class Challenge extends BaseEntity {
   description?: string;
 
   @Field()
-  @Column({ nullable: false })
-  date_start!: Date;
+  @Column()
+  dateStart!: Date;
 
   @Field()
-  @Column({ nullable: false })
-  date_end!: Date;
+  @Column()
+  dateEnd!: Date;
 
-  @Field((_type) => ActionChallenge)
-  @OneToMany(
-    () => ActionChallenge,
-    (actionChallenge) => actionChallenge.challenge
-  )
-  actionsChallenges!: ActionChallenge[];
+  @Field(() => [Action])
+  @ManyToMany(() => Action, (action) => action.challenges)
+  @JoinTable()
+  actions?: Action[];
 
-  @Field((_type) => ChallengeUser)
-  @OneToMany(() => ChallengeUser, (challengeUser) => challengeUser.challenge)
-  challengesUsers!: ChallengeUser[];
+  @Field(() => [User])
+  @ManyToMany(() => User, (user) => user.challenges)
+  @JoinTable()
+  users?: User[];
 
-  @Field((_type) => UserActionChallenge)
-  @OneToMany(
-    () => UserActionChallenge,
-    (userActionChallenge) => userActionChallenge.challenge
-  )
-  userActionChallenges!: UserActionChallenge[];
+  @Field(() => [UserAction])
+  @OneToMany(() => UserAction, (userAction) => userAction.challenge)
+  userActions?: UserAction[];
 }

@@ -15,15 +15,15 @@ import { Action } from './Action';
 @Unique(['label'])
 export class Tag extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Field((_type) => ID)
+  @Field(() => ID)
   id!: number;
 
-  @Field({ nullable: false })
-  @Column({ length: 100, nullable: false })
+  @Field()
+  @Column({ length: 100 })
   @Index()
   label!: string;
 
-  @Field((_type) => [Action], { nullable: true })
-  @ManyToMany((_type) => Action, (action) => action.tags)
+  @Field(() => [Action], { nullable: true })
+  @ManyToMany(() => Action, (action) => action.tags)
   actions?: Action[];
 }

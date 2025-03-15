@@ -3,91 +3,92 @@ import {
   BeforeInsert,
   BeforeUpdate,
   Column,
+  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { Field, ID, ObjectType } from 'type-graphql';
-import { Role } from './Role';
-import { ChallengeUser } from './ChallengeUser';
-import { UserActionChallenge } from './UserActionChallenge';
+import { Field, ID, ObjectType, registerEnumType } from 'type-graphql';
 import { Review } from './Review';
+import { Challenge } from './Challenge';
+import { UserAction } from './UserAction';
+
+export enum UserRole {
+  User = 'USER',
+  Admin = 'ADMIN',
+}
+
+registerEnumType(UserRole, {
+  name: 'UserRole',
+  description: 'Defines the roles and permissions level of a user',
+});
 
 @Entity()
 @ObjectType()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Field((_type) => ID)
+  @Field(() => ID)
   id!: number;
 
-  @Field({ nullable: false })
-  @Column({ length: 100, nullable: false })
-  first_name!: string;
+  @Field()
+  @Column({ length: 100 })
+  firstName!: string;
 
-  @Field({ nullable: false })
-  @Column({ length: 100, nullable: false })
-  last_name!: string;
+  @Field()
+  @Column({ length: 100 })
+  lastName!: string;
 
-  @Field({ nullable: false })
-  @Column({ unique: true, nullable: false })
+  @Field()
+  @Column({ unique: true })
   email!: string;
 
-  @Field({ nullable: false })
-  @Column({ nullable: false })
+  @Field()
+  @Column()
   hashedPassword!: string;
 
-  @Field({ nullable: false })
-  @Column({ default: 0, nullable: false })
+  @Field()
+  @Column({ default: 0 })
   xp!: number;
 
-  @Field({ nullable: false })
-  @Column({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    nullable: false,
-  })
+  @Field()
+  @CreateDateColumn()
   createdAt!: Date;
 
-  @Field({ nullable: true })
-  @Column({ type: 'timestamp', nullable: true })
-  updatedAt?: Date;
+  @Field()
+  @UpdateDateColumn()
+  updatedAt!: Date;
 
-  @BeforeInsert()
-  @BeforeUpdate()
-  updateDates() {
-    if (!this.createdAt) {
-      this.createdAt = new Date();
-    }
-    this.updatedAt = new Date();
-  }
+  @Field(() => [UserRole])
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    array: true,
+    default: [UserRole.User],
+  })
+  roles!: UserRole[];
 
-  @Field((_type) => Role)
-  @ManyToOne(() => Role, (role) => role.users)
-  role!: Role;
-
-  @Field((_type) => [ChallengeUser])
-  @OneToMany(() => ChallengeUser, (challengeUser) => challengeUser.user)
-  challengesUsers!: ChallengeUser[];
-
-  @Field((_type) => [UserActionChallenge])
-  @OneToMany(
-    () => UserActionChallenge,
-    (userActionChallenge) => userActionChallenge.user
-  )
-  userActionChallenges!: UserActionChallenge[];
-
-  @Field((_type) => [Review])
-  @OneToMany(() => Review, (review) => review.user)
-  reviews!: Review[];
-
-  @Field((_type) => [User], { nullable: true })
-  @ManyToMany((_type) => User, (user) => user.friendsWithMe)
+  @Field(() => [Challenge])
+  @ManyToMany(() => Challenge, (challenge) => challenge.users)
   @JoinTable()
-  friends?: User[];
+  challenges?: Challenge[];
 
-  @ManyToMany(() => User, (user) => user.friends)
-  friendsWithMe?: User[];
+  @Field(() => [UserAction])
+  @OneToMany(() => UserAction, (userAction) => userAction.user)
+  userActions?: UserAction[];
+
+  @Field(() => [Review])
+  @OneToMany(() => Review, (review) => review.user)
+  reviews?: Review[];
+
+  @Field(() => [User], { nullable: true })
+  @ManyToMany(() => User, (user) => user.following)
+  @JoinTable()
+  followers?: User[];
+
+  @Field(() => [User], { nullable: true })
+  @ManyToMany(() => User, (user) => user.followers)
+  following?: User[];
 }

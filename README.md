@@ -5,6 +5,7 @@
 
 ### ENTITIES
 
-- Revoir les relations entre challenge et user / challenge et action (supprimer les tables d'association créées manuellement au profit d'une manytomany en direct)
-- Renommer UserActionChallenge en UserAction pour simplifier ?
-- Revoir l'utilité d'une entité role au profit d'un enum dans User ?
+- [x] Revoir les relations `challenge` ↔ `user` et `challenge` ↔ `action`
+      (supprimer les entités crées au profit d'une ManyToMany)
+- [x] Renommer `UserActionChallenge` en `UserAction` pour simplifier
+- [x] Revoir l'utilité d'une entité `Role` au profit d'un enum commun à `UserAction` et `Review`

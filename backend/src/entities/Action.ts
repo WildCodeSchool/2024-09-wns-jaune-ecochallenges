@@ -10,13 +10,13 @@ import {
 import { Field, ID, ObjectType } from 'type-graphql';
 import { Tag } from './Tag';
 import { ActionLevel } from './ActionLevel';
-import { ActionChallenge } from './ActionChallenge';
+import { Challenge } from './Challenge';
 
 @Entity()
 @ObjectType()
 export class Action extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Field((_type) => ID)
+  @Field(() => ID)
   id!: number;
 
   @Field()
@@ -27,16 +27,16 @@ export class Action extends BaseEntity {
   @Column({ type: 'text' })
   description?: string;
 
-  @Field((_type) => [Tag], { nullable: false })
-  @ManyToMany((_type) => Tag, (tag) => tag.actions)
+  @Field(() => [Tag])
+  @ManyToMany(() => Tag, (tag) => tag.actions)
   @JoinTable()
-  tags!: Tag[];
+  tags?: Tag[];
 
-  @Field((_type) => ActionLevel)
+  @Field(() => ActionLevel)
   @OneToMany(() => ActionLevel, (actionLevel) => actionLevel.action)
   actionLevels!: ActionLevel[];
 
-  @Field((_type) => ActionChallenge)
-  @OneToMany(() => ActionChallenge, (actionChallenge) => actionChallenge.action)
-  actionsChallenges!: ActionChallenge[];
+  @Field(() => [Challenge])
+  @ManyToMany(() => Challenge, (challenge) => challenge.actions)
+  challenges!: Challenge[];
 }
