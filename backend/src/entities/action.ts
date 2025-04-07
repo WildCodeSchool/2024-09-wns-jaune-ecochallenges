@@ -59,5 +59,5 @@ export class Action extends BaseEntity {
 
   @Field(() => [Challenge])
   @ManyToMany(() => Challenge, (challenge) => challenge.actions)
-  challenges!: Challenge[];
+  challenges?: Challenge[];
 }
