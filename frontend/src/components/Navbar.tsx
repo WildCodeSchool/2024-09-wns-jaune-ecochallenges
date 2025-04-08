@@ -1,11 +1,11 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui';
-import { Goal, HandCoins, House, UserRound, BarChart3 } from 'lucide-react';
+import { TrophyIcon, Leaf, HomeIcon, UserRound, BarChart3 } from 'lucide-react';
 
 const navItems = [
-  { to: '/challenges', icon: Goal, label: 'Challenges' },
-  { to: '/actions', icon: HandCoins, label: 'Actions' },
-  { to: '/home', icon: House, label: 'Home' },
+  { to: '/challenges', icon: TrophyIcon, label: 'Challenges' },
+  { to: '/actions', icon: Leaf, label: 'Actions' },
+  { to: '/home', icon: HomeIcon, label: 'Home' },
   { to: '/stats', icon: BarChart3, label: 'Stats' },
   { to: '/user', icon: UserRound, label: 'User' },
 ];
