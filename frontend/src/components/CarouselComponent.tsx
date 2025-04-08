@@ -59,11 +59,11 @@ export const CarouselComponent = <T,>({
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="cursor-pointer" />
-        <CarouselNext className="cursor-pointer" />
+        <CarouselPrevious className="hidden cursor-pointer sm:flex" />
+        <CarouselNext className="hidden cursor-pointer sm:flex" />
       </Carousel>
       <div className="text-muted-foreground mt-2 flex flex-row justify-between pb-2 text-center align-baseline text-sm">
-        Slide {current} of {count}
+        Slide {current} of {count - 1}
         <div className="flex justify-center gap-2">
           {scrollSnaps.slice(0, count - 1).map((_, index) => (
             <div key={index} className="flex justify-center gap-2">

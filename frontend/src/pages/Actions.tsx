@@ -10,7 +10,7 @@ export const Actions = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="flex flex-wrap justify-center text-center align-middle">
+    <div className="flex flex-col flex-nowrap justify-center gap-1 xl:flex-row xl:flex-wrap xl:items-stretch xl:gap-3">
       {data.getActions.map((action: Action) => (
         <ActionCard key={action.id} action={action} />
       ))}

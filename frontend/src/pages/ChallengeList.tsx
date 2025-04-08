@@ -1,4 +1,4 @@
-import { ChallengeCard } from '@/components/ChallengeCard';
+import { ChallengeCard } from '@/components';
 import { useGetChallengesAsChallengeQuery } from '@/lib/graphql/generated/graphql-types';
 
 export const ChallengeList = () => {
@@ -7,7 +7,7 @@ export const ChallengeList = () => {
 
   if (!data?.getChallenges) return <p>No challenges found</p>;
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   const challenges = [...data.getChallenges].sort((a, b) => {
     return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();

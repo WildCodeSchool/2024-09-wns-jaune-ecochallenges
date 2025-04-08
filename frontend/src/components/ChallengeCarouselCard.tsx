@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Pill } from './Pill';
 import { Button } from './ui/button';
 import {
@@ -22,25 +23,43 @@ type ChallengeCarouselCardProps = {
 };
 
 export const ChallengeCarouselCard = ({ item }: ChallengeCarouselCardProps) => {
+  const [maxVisibleTags, setMaxVisibleTags] = useState(2);
+
+  useEffect(() => {
+    const updateMaxTags = () => {
+      if (window.innerWidth < 450) {
+        setMaxVisibleTags(1);
+      } else {
+        setMaxVisibleTags(2);
+      }
+    };
+    updateMaxTags();
+
+    window.addEventListener('resize', updateMaxTags);
+    return () => window.removeEventListener('resize', updateMaxTags);
+  }, []);
+
   return (
-    <Card key={item.id} className="border-red m-0 flex flex-row gap-0 p-0">
+    <Card key={item.id} className="m-0 flex flex-row gap-0 p-0">
       <img
         key={item.id}
-        className="aspect-square max-w-1/3 bg-[#8FA99E]"
+        className="aspect-square max-w-1/3"
         src="./images/sample.jpg"
         alt={item.name}
       />
 
-      <CardContent className="flex aspect-video flex-col justify-around bg-[#8FA99E] p-0 pt-1 pl-3 text-white">
+      <CardContent className="flex flex-col justify-around bg-[#8FA99E] p-0 pt-1 pl-3 text-white">
         <CardTitle className="my-3 text-left">{item.name}</CardTitle>
         <CardHeader className="mb-3 flex flex-row gap-2 p-0 text-xs">
-          {item.tags.slice(0, 2).map((tag) => (
+          {item.tags.slice(0, maxVisibleTags).map((tag) => (
             <Pill className="px-1 py-3 text-[#222725]" key={tag}>
               {tag}
             </Pill>
           ))}
-          {item.tags.length > 2 && (
-            <Pill className="p-3 text-[#222725]">+{item.tags.length - 2} </Pill>
+          {item.tags.length > maxVisibleTags && (
+            <Pill className="p-3 text-[#222725]">
+              +{item.tags.length - maxVisibleTags}
+            </Pill>
           )}
         </CardHeader>
 
@@ -48,7 +67,9 @@ export const ChallengeCarouselCard = ({ item }: ChallengeCarouselCardProps) => {
           {item.description}
         </CardDescription>
         <CardFooter>
-          <Button className="mx-auto bg-amber-600">Join this challenge</Button>
+          <Button size={'sm'} className="mx-auto bg-amber-600">
+            Join this challenge
+          </Button>
         </CardFooter>
       </CardContent>
     </Card>
