@@ -8,65 +8,71 @@ import {
 } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { useEffect, useRef, useState } from 'react';
-import { CardContent } from './ui/card';
-import { Card } from './ui/card';
 
-export const CarouselComponent = () => {
+interface CarouselProps<T> {
+  data: T[];
+  CardComponent: React.ComponentType<{ item: T; index: number }>;
+}
+
+export const CarouselComponent = <T,>({
+  data,
+  CardComponent,
+}: CarouselProps<T>) => {
   const [api, setApi] = useState<CarouselApi>();
   const [count, setCount] = useState(0);
   const [current, setCurrent] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
-  const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
+  const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: false }));
 
   useEffect(() => {
-    if (!api) {
-      return;
-    }
+    if (!api) return;
+
     setScrollSnaps(api.scrollSnapList());
     setCount(api.scrollSnapList().length);
     setCurrent(api.selectedScrollSnap() + 1);
 
     api.on('select', () => {
-      setCurrent(api.selectedScrollSnap() + 1);
+      const newCurrent = api.selectedScrollSnap() + 1;
+      setCurrent(newCurrent);
+
+      if (newCurrent === count) {
+        api.scrollTo(0);
+        setCurrent(1);
+        plugin.current.reset();
+      }
     });
-  }, [api]);
+  }, [api, count]);
 
   return (
-    <div className="mx-auto max-w-xs">
+    <div className="mx-auto max-w-xl">
       <Carousel
         setApi={setApi}
         plugins={[plugin.current]}
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
-        className="w-full max-w-xs"
+        className="w-full"
       >
         <CarouselContent>
-          {Array.from({ length: 5 }).map((_, index) => (
+          {data.map((item, index) => (
             <CarouselItem key={index}>
-              <Card>
-                <CardContent className="flex aspect-video items-center justify-center p-6">
-                  <span className="text-4xl font-semibold text-yellow-500">
-                    {index + 1}
-                  </span>
-                </CardContent>
-              </Card>
+              <CardComponent key={index} item={item} index={index} />
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className="cursor-pointer" />
+        <CarouselNext className="cursor-pointer" />
       </Carousel>
       <div className="text-muted-foreground mt-2 flex flex-row justify-between pb-2 text-center align-baseline text-sm">
         Slide {current} of {count}
         <div className="flex justify-center gap-2">
-          {scrollSnaps.map((_, index) => (
-            <div className="flex justify-center gap-2">
+          {scrollSnaps.slice(0, count - 1).map((_, index) => (
+            <div key={index} className="flex justify-center gap-2">
               <button
                 aria-label={`Go to slide ${index + 1}`}
                 key={index}
                 onClick={() => api?.scrollTo(index)}
-                className={`h-3 w-3 rounded-full transition-colors ${
-                  index === current - 1 ? 'bg-red-500' : 'bg-blue-500'
+                className={`h-3 w-3 cursor-pointer rounded-full transition-colors ${
+                  index === current - 1 ? 'bg-amber-600' : 'bg-emerald-700'
                 }`}
               />
             </div>
