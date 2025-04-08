@@ -73,3 +73,15 @@
   ```
   > the third paramater is optional : array of entity fields of type Date
 - 🎉 you can now run the seed command to add your new seeding data!
+
+### 🧪 Testing
+
+This project uses **Jest** as the frontend test environment.
+
+- All test files should be placed in the `tests` folder inside the `frontend/` directory.
+- You can run the tests from the project root using either of the following commands:
+
+```bash
+npm run test       # runs Jest from within the frontend folder
+make jest          # runs Jest using the Makefile from the project root
+```

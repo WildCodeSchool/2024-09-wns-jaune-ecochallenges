@@ -82,3 +82,8 @@ codegen: ## Generate GraphQL types and hooks
 	@echo "$(GREEN)Generating GraphQL types...$(NC)"
 	@cd frontend && npm run codegen
 	@echo "$(GREEN)GraphQL types generated successfully$(NC)"
+
+jest:
+	@echo "$(GREEN)Running Jest tests...$(NC)"
+	@cd frontend && npm run test
+	@echo "$(GREEN)Jest tests completed$(NC)"
