@@ -11,24 +11,21 @@ import {
 import { Card } from './ui/card';
 
 interface IChallenge {
+  id: string;
   name: string;
   description: string;
   tags: string[];
 }
 
-interface ChallengeCarouselCardProps {
-  item: IChallenge;
-  index: number;
-}
+type ChallengeCarouselCardProps = {
+  readonly item: IChallenge;
+};
 
-export const ChallengeCarouselCard = ({
-  item,
-  index,
-}: ChallengeCarouselCardProps) => {
+export const ChallengeCarouselCard = ({ item }: ChallengeCarouselCardProps) => {
   return (
-    <Card key={index} className="border-red m-0 flex flex-row gap-0 p-0">
+    <Card key={item.id} className="border-red m-0 flex flex-row gap-0 p-0">
       <img
-        key={index}
+        key={item.id}
         className="aspect-square max-w-1/3 bg-[#8FA99E]"
         src="./images/sample.jpg"
         alt={item.name}

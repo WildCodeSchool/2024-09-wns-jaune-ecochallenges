@@ -4,6 +4,7 @@ import { ChallengeCarouselCard } from '@/components/ChallengeCarouselCard';
 export const Home = () => {
   const ecoChallenges = [
     {
+      id: '1',
       name: 'No Plastic Week',
       imageUrl:
         'https://images.pexels.com/photos/256221/pexels-photo-256221.jpeg?auto=compress&cs=tinysrgb&h=600',
@@ -13,6 +14,7 @@ export const Home = () => {
       tags: ['plastic-free', 'zero waste', 'sustainable living'],
     },
     {
+      id: '2',
       name: 'Bike to Work',
       imageUrl:
         'https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&h=600',
@@ -22,6 +24,7 @@ export const Home = () => {
       tags: ['eco transport', 'reduce emissions', 'cycling'],
     },
     {
+      id: '3',
       name: 'Veggie Day',
       imageUrl:
         'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&h=600',
@@ -30,6 +33,7 @@ export const Home = () => {
       tags: ['plant-based', 'low carbon', 'healthy eating'],
     },
     {
+      id: '4',
       name: 'Neighborhood Cleanup',
       imageUrl:
         'https://images.pexels.com/photos/3187291/pexels-photo-3187291.jpeg?auto=compress&cs=tinysrgb&h=600',
@@ -39,6 +43,7 @@ export const Home = () => {
       tags: ['community', 'litter removal', 'outdoor'],
     },
     {
+      id: '5',
       name: 'Cold Shower Challenge',
       imageUrl:
         'https://images.pexels.com/photos/1656666/pexels-photo-1656666.jpeg?auto=compress&cs=tinysrgb&h=600',
