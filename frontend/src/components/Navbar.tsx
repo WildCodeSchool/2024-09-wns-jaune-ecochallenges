@@ -14,21 +14,20 @@ export const Navbar = () => {
   const location = useLocation();
 
   return (
-    <nav className="h-navbar fixed bottom-0 z-50 flex w-full items-center justify-around bg-green-800 p-4 text-white">
+    <nav className="h-navbar bg-primary fixed bottom-0 z-50 flex w-full items-center justify-between p-4 text-white md:justify-around">
       {navItems.map(({ to, icon: Icon, label }) => {
         const isActive = location.pathname === to;
 
         return (
           <Button
             asChild
-            variant="ghost"
+            variant="link"
+            size="icon"
             key={to}
             aria-label={label}
-            className={`rounded-full p-3 transition-colors ${
-              isActive ? 'bg-white/10 text-blue-400' : 'text-white'
-            }`}
+            className={`rounded-md p-3 transition-colors ${isActive ? 'bg-secondary text-black' : 'text-white'}`}
           >
-            <Link to={to}>
+            <Link to={to} className="flex flex-col items-center justify-center">
               <Icon />
             </Link>
           </Button>
