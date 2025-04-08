@@ -33,6 +33,10 @@ const router = createBrowserRouter([
         path: '/actions',
         element: <ActionList />,
       },
+      /*   {
+        path: '/user',
+        element: <ActionList />,
+      }, */
     ],
   },
 ]);
