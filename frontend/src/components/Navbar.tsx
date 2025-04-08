@@ -5,7 +5,7 @@ import { TrophyIcon, Leaf, HomeIcon, UserRound, BarChart3 } from 'lucide-react';
 const navItems = [
   { to: '/challenges', icon: TrophyIcon, label: 'Challenges' },
   { to: '/actions', icon: Leaf, label: 'Actions' },
-  { to: '/home', icon: HomeIcon, label: 'Home' },
+  { to: '/', icon: HomeIcon, label: 'Home' },
   { to: '/stats', icon: BarChart3, label: 'Stats' },
   { to: '/user', icon: UserRound, label: 'User' },
 ];
@@ -19,13 +19,16 @@ export const Navbar = () => {
         const isActive = location.pathname === to;
 
         return (
-          <Button variant="ghost" key={to} aria-label={label}>
-            <Link
-              to={to}
-              className={`flex flex-col items-center transition-colors ${
-                isActive ? 'text-blue-500' : 'text-white'
-              } hover:text-gray-400`}
-            >
+          <Button
+            asChild
+            variant="ghost"
+            key={to}
+            aria-label={label}
+            className={`rounded-full p-3 transition-colors ${
+              isActive ? 'bg-white/10 text-blue-400' : 'text-white'
+            }`}
+          >
+            <Link to={to}>
               <Icon />
             </Link>
           </Button>
