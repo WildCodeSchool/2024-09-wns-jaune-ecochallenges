@@ -28,7 +28,7 @@ export const Navbar = () => {
             className={`rounded-md p-3 transition-colors ${isActive ? 'bg-secondary text-black' : 'text-white'}`}
           >
             <Link to={to} className="flex flex-col items-center justify-center">
-              <Icon />
+              <Icon size="5" />
             </Link>
           </Button>
         );
