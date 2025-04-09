@@ -51,6 +51,7 @@ export const CarouselComponent = <T,>({
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
         className="w-full"
+        data-testid="carousel"
       >
         <CarouselContent>
           {data.map((item, index) => (

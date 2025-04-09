@@ -1,9 +1,7 @@
 import '@testing-library/jest-dom';
 
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { Pill } from '@/components/Pill';
-import { ActionCard } from '@/components';
+import { ActionCard, Pill } from '@/components';
 import { describe, expect, it } from 'vitest';
 
 describe('Example tests', () => {

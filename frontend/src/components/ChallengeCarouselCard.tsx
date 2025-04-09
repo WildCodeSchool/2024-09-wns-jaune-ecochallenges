@@ -40,8 +40,13 @@ export const ChallengeCarouselCard = ({ item }: ChallengeCarouselCardProps) => {
   }, []);
 
   return (
-    <Card key={item.id} className="m-0 flex flex-row gap-0 p-0">
+    <Card
+      data-testid={`card-${item.id}`}
+      key={item.id}
+      className="m-0 flex flex-row gap-0 p-0"
+    >
       <img
+        data-testid="card-image"
         key={item.id}
         className="aspect-square max-w-1/3"
         src="./images/sample.jpg"
@@ -49,25 +54,35 @@ export const ChallengeCarouselCard = ({ item }: ChallengeCarouselCardProps) => {
       />
 
       <CardContent className="flex flex-col justify-around bg-[#8FA99E] p-0 pt-1 pl-3 text-white">
-        <CardTitle className="my-3 text-left">{item.name}</CardTitle>
+        <CardTitle data-testid="card-title" className="my-3 text-left">
+          {item.name}
+        </CardTitle>
         <CardHeader className="mb-3 flex flex-row gap-2 p-0 text-xs">
           {item.tags.slice(0, maxVisibleTags).map((tag) => (
-            <Pill className="px-1 py-3 text-[#222725]" key={tag}>
+            <Pill
+              data-testid="pills"
+              className="px-1 py-3 text-[#222725]"
+              key={tag}
+            >
               {tag}
             </Pill>
           ))}
           {item.tags.length > maxVisibleTags && (
-            <Pill className="p-3 text-[#222725]">
+            <Pill data-testid="tag-more" className="p-3 text-[#222725]">
               +{item.tags.length - maxVisibleTags}
             </Pill>
           )}
         </CardHeader>
 
-        <CardDescription className="text-white">
+        <CardDescription data-testid="card-description" className="text-white">
           {item.description}
         </CardDescription>
         <CardFooter>
-          <Button size={'sm'} className="mx-auto bg-amber-600">
+          <Button
+            data-testid="card-button"
+            size={'sm'}
+            className="mx-auto bg-amber-600"
+          >
             Join this challenge
           </Button>
         </CardFooter>
