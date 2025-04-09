@@ -48,3 +48,13 @@ export default tseslint.config({
   },
 });
 ```
+
+## TO display images from the files service:
+
+    - Add the image to persist/files-dev/your folder
+
+call the image in html using /files/your folder/your image
+
+```html
+<img src="/files/icons/water.png" alt="test" />
+```
