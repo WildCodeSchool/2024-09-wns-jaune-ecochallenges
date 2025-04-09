@@ -17,6 +17,7 @@ type ActionCardProps = {
 export const ActionCard = ({ action }: ActionCardProps) => {
   return (
     <Card
+      data-testid="action-card"
       key={action.id}
       className="m-0 flex h-auto w-[90vw] flex-col bg-teal-50 p-1 sm:h-[20vh] sm:w-[70vw] md:w-[60vw] md:flex-row lg:w-[45vw] xl:w-[35vw] 2xl:w-[30vw]"
     >
@@ -81,6 +82,7 @@ export const ActionCard = ({ action }: ActionCardProps) => {
           className="cursor-pointer hover:bg-transparent hover:opacity-100"
         >
           <CirclePlus
+            data-testid="circle-plus"
             style={{ minWidth: '50px', minHeight: '50px' }}
             strokeWidth={3}
           />
