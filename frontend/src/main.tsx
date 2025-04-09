@@ -8,8 +8,7 @@ import {
 } from 'react-router-dom';
 import { client } from './lib/api.ts';
 import { App } from './App.tsx';
-import { Home, ActionList, ChallengeList } from '@/pages';
-
+import { Home, ActionList, ChallengeList, User } from '@/pages';
 import './index.css';
 
 const router = createBrowserRouter([
@@ -32,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: '/actions',
         element: <ActionList />,
+      },
+      {
+        path: '/user',
+        element: <User />,
       },
     ],
   },
