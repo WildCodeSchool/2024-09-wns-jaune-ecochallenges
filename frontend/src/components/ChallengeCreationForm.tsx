@@ -8,10 +8,21 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
+  FormDescription,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useCreateChallengeMutation } from '@/lib/graphql/generated/graphql-types';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
+import { CalendarIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export const ChallengeCreationForm = () => {
   const formSchema = z
@@ -28,10 +39,10 @@ export const ChallengeCreationForm = () => {
         }),
       description: z.string().optional(),
       bannerURL: z.string().optional(),
-      startDate: z.string({
+      startDate: z.date({
         required_error: 'Votre challenge doit avoir une date de début',
       }),
-      endDate: z.string({
+      endDate: z.date({
         required_error: 'Votre challenge doit avoir une date de fin',
       }),
     })
@@ -54,8 +65,8 @@ export const ChallengeCreationForm = () => {
             label: data.label,
             ...(data.description && { description: data.description }),
             ...(data.bannerURL && { bannerUrl: data.bannerURL }),
-            startDate: new Date(data.startDate).toISOString(),
-            endDate: new Date(data.endDate).toISOString(),
+            startDate: data.startDate.toISOString(),
+            endDate: data.endDate.toISOString(),
             actions: [],
           },
         },
@@ -115,11 +126,38 @@ export const ChallengeCreationForm = () => {
           control={form.control}
           name="startDate"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex flex-col">
               <FormLabel>Date de début</FormLabel>
-              <FormControl>
-                <Input type="date" {...field} />
-              </FormControl>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={'outline'}
+                      className={cn(
+                        'w-[240px] pl-3 text-left font-normal',
+                        !field.value && 'text-muted-foreground'
+                      )}
+                    >
+                      {field.value ? (
+                        format(new Date(field.value), 'PPP', { locale: fr })
+                      ) : (
+                        <span>Choisissez une date</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    locale={fr}
+                    selected={field.value ? new Date(field.value) : undefined}
+                    onSelect={field.onChange}
+                    disabled={(date) => date < new Date()}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
               <FormMessage />
             </FormItem>
           )}
@@ -129,11 +167,40 @@ export const ChallengeCreationForm = () => {
           control={form.control}
           name="endDate"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex flex-col">
               <FormLabel>Date de fin</FormLabel>
-              <FormControl>
-                <Input type="date" {...field} />
-              </FormControl>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={'outline'}
+                      className={cn(
+                        'w-[240px] pl-3 text-left font-normal',
+                        !field.value && 'text-muted-foreground'
+                      )}
+                    >
+                      {field.value ? (
+                        format(new Date(field.value), 'PPP', { locale: fr })
+                      ) : (
+                        <span>Choisissez une date</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    locale={fr}
+                    selected={field.value ? new Date(field.value) : undefined}
+                    onSelect={field.onChange}
+                    disabled={(date) =>
+                      date < form.getValues('startDate') || date < new Date()
+                    }
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
               <FormMessage />
             </FormItem>
           )}

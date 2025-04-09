@@ -4,7 +4,7 @@ WORKDIR /app
 ENV CHOKIDAR_USEPOLLING=true
 
 COPY package*.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 COPY vite.config.ts ./
 COPY tsconfig* ./
