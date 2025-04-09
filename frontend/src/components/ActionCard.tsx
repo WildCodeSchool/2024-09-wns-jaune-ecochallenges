@@ -18,49 +18,51 @@ export const ActionCard = ({ action }: ActionCardProps) => {
   return (
     <Card
       key={action.id}
-      className="3xl:w-[20vw] flex h-[15vh] w-[96vw] flex-col justify-center bg-teal-50 p-2 lg:flex-row xl:h-[12vh] xl:w-[30vw] 2xl:w-[25vw]"
+      className="m-0 flex h-auto w-[90vw] flex-col bg-teal-50 p-1 sm:h-[20vh] sm:w-[70vw] md:w-[60vw] md:flex-row lg:w-[45vw] xl:w-[35vw] 2xl:w-[30vw]"
     >
       {/* // 1er block */}
-      <div className="basis-1/6 xl:h-full">
+      <div className="flex w-10 basis-1/6 md:h-25 md:w-25 2xl:p-3">
         <img
           src={`./icons/${action.icon}.png`}
           alt="name"
-          className="hidden object-contain p-2 lg:inline lg:h-full lg:w-full"
+          className="object-contain"
         />
       </div>
       {/* // 2ème block */}
-      <div className="flex basis-4/6 flex-col content-evenly gap-4 self-center">
-        <CardHeader className="flex flex-col text-left">
-          <CardTitle className="text-lg font-bold">{action.name}</CardTitle>
-          <CardDescription className="text-base font-bold">
+      <div className="flex basis-3/6 flex-col gap-4 md:justify-around">
+        <CardHeader className="flex flex-col items-center">
+          <CardTitle className="center text-lg font-bold">
+            {action.name}
+          </CardTitle>
+          <CardDescription className="center text-base">
             {action.description}
           </CardDescription>
         </CardHeader>
-        <CardFooter className="flex justify-around">
-          <Pill className="p-3">
+        <CardFooter className="flex justify-around gap-2">
+          <Pill className="p-4">
             <Button
               type="button"
               variant="ghost"
               className="cursor-pointer hover:bg-transparent hover:opacity-100"
             >
               <ImagePlus
-                strokeWidth={3}
+                strokeWidth={2}
                 style={{ minWidth: '25px', minHeight: '25px' }}
               />
             </Button>
           </Pill>
-          <Pill className="p-3">
+          <Pill className="p-4">
             <img
               className="w-7"
               src={`./icons/level-${action.level}.png`}
               alt="icon of dificulty level"
             />
           </Pill>
-          <Pill className="p-3">
+          <Pill className="p-4">
             <Hourglass strokeWidth={3} />
             <span className="text-base font-bold">{action.time}h</span>
           </Pill>
-          <Pill className="p-3">
+          <Pill className="p-4">
             <Button
               type="button"
               variant="ghost"
@@ -72,14 +74,14 @@ export const ActionCard = ({ action }: ActionCardProps) => {
         </CardFooter>
       </div>
       {/* // 3ème block */}
-      <div className="flex basis-1/6 self-center">
+      <div className="basis-1/6 md:flex md:items-center md:justify-center">
         <Button
           type="button"
           variant="ghost"
           className="cursor-pointer hover:bg-transparent hover:opacity-100"
         >
           <CirclePlus
-            style={{ minWidth: '45px', minHeight: '45px' }}
+            style={{ minWidth: '50px', minHeight: '50px' }}
             strokeWidth={3}
           />
         </Button>

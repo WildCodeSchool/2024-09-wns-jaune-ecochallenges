@@ -12,7 +12,7 @@ export const ActionList = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="flex flex-col flex-wrap justify-center text-center align-middle xl:flex-row">
+    <div className="flex flex-col items-center gap-3 text-center lg:flex-row lg:flex-wrap lg:justify-center">
       {data.getActions.map((action: Action) => (
         <ActionCard key={action.id} action={action} />
       ))}
