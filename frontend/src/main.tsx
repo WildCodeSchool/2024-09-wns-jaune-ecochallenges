@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import { client } from './lib/api.ts';
 import { App } from './App.tsx';
-import { Home, ActionList, ChallengeList } from '@/pages';
+import { Home, ActionList, ChallengeList, ChallengeCreation } from '@/pages';
 
 import './index.css';
 
@@ -28,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: '/challenges',
         element: <ChallengeList />,
+      },
+      {
+        path: '/challenge/new',
+        element: <ChallengeCreation />,
       },
       {
         path: '/actions',

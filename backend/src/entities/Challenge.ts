@@ -15,7 +15,7 @@ import { Action } from './Action';
 export class Challenge extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Field((_type) => ID)
-  id!: number;
+  id!: string;
 
   @Field()
   @Column({ length: 100 })

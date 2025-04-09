@@ -6,7 +6,7 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Field, ObjectType } from 'type-graphql';
+import { Field, ID, ObjectType } from 'type-graphql';
 import { Challenge } from './Challenge';
 
 const levelType = {
@@ -21,7 +21,7 @@ const iconType = ['leaf', 'recycling', 'drop'];
 @ObjectType()
 export class Action extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Field()
+  @Field((_type) => ID)
   id!: string;
 
   @Field()

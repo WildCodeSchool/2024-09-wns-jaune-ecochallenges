@@ -33,10 +33,11 @@ export type Scalars = {
 
 export type Action = {
   __typename?: 'Action';
+  challenges: Array<Challenge>;
   createdAt: Scalars['DateTimeISO']['output'];
   description: Scalars['String']['output'];
   icon: Scalars['String']['output'];
-  id: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
   level: Scalars['Float']['output'];
   name: Scalars['String']['output'];
   requires_view: Scalars['Boolean']['output'];
@@ -54,6 +55,7 @@ export type ActionInput = {
 
 export type Challenge = {
   __typename?: 'Challenge';
+  actions: Array<Action>;
   bannerUrl?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTimeISO']['output'];
   description?: Maybe<Scalars['String']['output']>;
@@ -63,9 +65,23 @@ export type Challenge = {
   startDate: Scalars['DateTimeISO']['output'];
 };
 
+export type ChallengeInput = {
+  actions: Array<Scalars['ID']['input']>;
+  bannerUrl?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  endDate: Scalars['DateTimeISO']['input'];
+  label: Scalars['String']['input'];
+  startDate: Scalars['DateTimeISO']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  createChallenge: Challenge;
   createdAction: Action;
+};
+
+export type MutationCreateChallengeArgs = {
+  data: ChallengeInput;
 };
 
 export type MutationCreatedActionArgs = {
@@ -122,6 +138,15 @@ export type GetChallengesAsChallengeQuery = {
     endDate: any;
     createdAt: any;
   }>;
+};
+
+export type CreateChallengeMutationVariables = Exact<{
+  data: ChallengeInput;
+}>;
+
+export type CreateChallengeMutation = {
+  __typename?: 'Mutation';
+  createChallenge: { __typename?: 'Challenge'; id: string };
 };
 
 export type GetActionsQueryVariables = Exact<{ [key: string]: never }>;
@@ -303,6 +328,56 @@ export type GetChallengesAsChallengeSuspenseQueryHookResult = ReturnType<
 export type GetChallengesAsChallengeQueryResult = Apollo.QueryResult<
   GetChallengesAsChallengeQuery,
   GetChallengesAsChallengeQueryVariables
+>;
+export const CreateChallengeDocument = gql`
+  mutation CreateChallenge($data: ChallengeInput!) {
+    createChallenge(data: $data) {
+      id
+    }
+  }
+`;
+export type CreateChallengeMutationFn = Apollo.MutationFunction<
+  CreateChallengeMutation,
+  CreateChallengeMutationVariables
+>;
+
+/**
+ * __useCreateChallengeMutation__
+ *
+ * To run a mutation, you first call `useCreateChallengeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateChallengeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createChallengeMutation, { data, loading, error }] = useCreateChallengeMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateChallengeMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateChallengeMutation,
+    CreateChallengeMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateChallengeMutation,
+    CreateChallengeMutationVariables
+  >(CreateChallengeDocument, options);
+}
+export type CreateChallengeMutationHookResult = ReturnType<
+  typeof useCreateChallengeMutation
+>;
+export type CreateChallengeMutationResult =
+  Apollo.MutationResult<CreateChallengeMutation>;
+export type CreateChallengeMutationOptions = Apollo.BaseMutationOptions<
+  CreateChallengeMutation,
+  CreateChallengeMutationVariables
 >;
 export const GetActionsDocument = gql`
   query GetActions {

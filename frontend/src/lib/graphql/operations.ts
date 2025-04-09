@@ -25,6 +25,14 @@ export const GET_CHALLENGES = gql`
   }
 `;
 
+export const CREATE_CHALLENGE = gql`
+  mutation CreateChallenge($data: ChallengeInput!) {
+    createChallenge(data: $data) {
+      id
+    }
+  }
+`;
+
 export const GET_ACTIONS = gql`
   query GetActions {
     getActions {

@@ -15,10 +15,10 @@ class ChallengeInput {
   @Field()
   label!: string;
 
-  @Field()
+  @Field({ nullable: true })
   description?: string;
 
-  @Field()
+  @Field({ nullable: true })
   bannerUrl?: string;
 
   @Field()
@@ -27,7 +27,7 @@ class ChallengeInput {
   @Field()
   endDate!: Date;
 
-  @Field(() => ID)
+  @Field(() => [ID])
   actions?: Action[];
 }
 
