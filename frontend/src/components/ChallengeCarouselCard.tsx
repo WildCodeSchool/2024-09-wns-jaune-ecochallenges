@@ -83,7 +83,7 @@ export const ChallengeCarouselCard = ({ item }: ChallengeCarouselCardProps) => {
             size={'sm'}
             className="mx-auto bg-amber-600"
           >
-            Join this challenge
+            Rejoindre ce challenge
           </Button>
         </CardFooter>
       </CardContent>

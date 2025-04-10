@@ -64,12 +64,12 @@ export const CarouselComponent = <T,>({
         <CarouselNext className="hidden cursor-pointer sm:flex" />
       </Carousel>
       <div className="text-muted-foreground mt-2 flex flex-row justify-between pb-2 text-center align-baseline text-sm">
-        Slide {current} of {count - 1}
+        Challenge {current} sur {count - 1}
         <div className="flex justify-center gap-2">
           {scrollSnaps.slice(0, count - 1).map((_, index) => (
             <div key={index} className="flex justify-center gap-2">
               <button
-                aria-label={`Go to slide ${index + 1}`}
+                aria-label={`Aller au challenge ${index + 1}`}
                 key={index}
                 onClick={() => api?.scrollTo(index)}
                 className={`h-3 w-3 cursor-pointer rounded-full transition-colors ${
