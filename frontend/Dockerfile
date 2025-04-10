@@ -14,4 +14,4 @@ COPY index.html ./
 COPY src ./src
 COPY public ./public
 
-CMD npm run dev
+CMD ["npm", "run", "dev"]
