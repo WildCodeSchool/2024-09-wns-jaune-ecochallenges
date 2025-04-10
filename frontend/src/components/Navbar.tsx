@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui';
 import { TrophyIcon, Leaf, HomeIcon, UserRound, BarChart3 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const navItems = [
   { to: '/challenges', icon: TrophyIcon, label: 'Challenges' },
@@ -25,7 +26,10 @@ export const Navbar = () => {
             size="icon"
             key={to}
             aria-label={label}
-            className={`rounded-md p-3 transition-colors ${isActive ? 'bg-secondary text-black' : 'text-white'}`}
+            className={cn(
+              'rounded-md p-3 transition-colors',
+              isActive ? 'bg-secondary text-black' : 'text-white'
+            )}
           >
             <Link to={to} className="flex flex-col items-center justify-center">
               <Icon className="size-5" />
