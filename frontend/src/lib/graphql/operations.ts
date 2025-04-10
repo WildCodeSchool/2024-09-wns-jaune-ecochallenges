@@ -43,8 +43,8 @@ export const GET_ACTIONS = gql`
 `;
 
 export const MUTATION_SIGN_UP = gql`
-  mutation SingUp($data: SingUpUserInput!) {
-    singUp(data: $data)
+  mutation SignUp($data: SignUpUserInput!) {
+    signUp(data: $data)
   }
 `;
 

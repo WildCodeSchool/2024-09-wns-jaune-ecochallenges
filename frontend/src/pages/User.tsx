@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FormCard } from '@/components/forms';
@@ -8,7 +7,8 @@ import { Button } from '@/components/ui/button';
 
 // 🧪 Store zustand à décommenter quand il sera prêt
 // import { useAuthStore } from '@/stores/auth';
-import { userStore } from '@/lib/zustand/userStore';
+import { useUserStore } from '@/lib/zustand/userStore';
+import { useSignUpMutation } from '@/lib/graphql/generated/graphql-types';
 
 export const User = () => {
   const { pathname } = useLocation();
@@ -19,7 +19,7 @@ export const User = () => {
 
   // ✅ À activer quand le store est dispo
   // const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const isAuthenticated = userStore((state) => state.isAuthenticated);
+  const isAuthenticated = useUserStore((state) => state.isAuthenticated);
 
   console.log('loged? : ', isAuthenticated);
 
@@ -32,7 +32,7 @@ export const User = () => {
   const isLogin = pathname === '/login';
 
   const handleFakeLogin = () => {
-    setIsAuthenticated(true); // 🧪 simule une connexion
+    setIsAuthenticated(); // 🧪 simule une connexion
     // useAuthStore.getState().login(); // 🔓 ou utiliser une méthode du store
   };
 
