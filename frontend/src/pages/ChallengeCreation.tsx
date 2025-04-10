@@ -1,5 +1,5 @@
-import { ChallengeCreationForm } from '@/components/ChallengeForm/ChallengeCreationForm';
+import { ChallengeForm } from '@/components/ChallengeForm/ChallengeForm';
 
 export const ChallengeCreation = () => {
-  return <ChallengeCreationForm />;
+  return <ChallengeForm />;
 };
