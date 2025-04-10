@@ -10,6 +10,11 @@ import {
 import { Field, ObjectType } from 'type-graphql';
 import argon2 from 'argon2';
 
+export enum UserRole {
+  ADMIN = 'admin',
+  USER = 'user',
+}
+
 @Entity()
 @ObjectType()
 export class User extends BaseEntity {
@@ -19,7 +24,11 @@ export class User extends BaseEntity {
 
   @Field()
   @Column({ length: 100 })
-  name!: string;
+  firstname!: string;
+
+  @Field()
+  @Column({ length: 100 })
+  lastname!: string;
 
   @Field()
   @Column({ unique: true })
@@ -32,6 +41,14 @@ export class User extends BaseEntity {
   @Field()
   @Column({ nullable: false })
   hashedPassword!: string;
+
+  @Field()
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.USER,
+  })
+  roles!: UserRole;
 
   @BeforeInsert()
   @BeforeUpdate()
