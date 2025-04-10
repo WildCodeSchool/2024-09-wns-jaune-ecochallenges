@@ -12,7 +12,7 @@ import { Home, ActionList, ChallengeList } from '@/pages';
 
 import './index.css';
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: '*',
     element: <Navigate to="/" replace />,
