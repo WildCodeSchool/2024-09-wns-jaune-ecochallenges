@@ -1,2 +1,2 @@
-export * from './FormCard';
-export * from './RegisterForm';
+export * from './auth/FormCard';
+export * from './auth/RegisterForm';
