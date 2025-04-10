@@ -53,7 +53,28 @@ export class ChallengeResolver {
       await challenge.save();
       return challenge;
     } catch (err) {
-      throw new Error(`Failed to create challenge: ${err}`);
+      throw new Error(`Echec lors de la création de ce challenge: ${err}`);
+    }
+  }
+
+  @Mutation(() => Challenge)
+  async addActionsToChallenge(
+    @Arg('challengeId', () => ID) challengeId: string,
+    @Arg('actions', () => [ID]) actions: string[]
+  ): Promise<Challenge> {
+    try {
+      const challenge = await Challenge.findOneOrFail({
+        where: { id: challengeId },
+        relations: ['actions'],
+      });
+      const actionEntities = await Action.findBy({ id: In(actions) });
+      challenge.actions = [...(challenge.actions || []), ...actionEntities];
+      await challenge.save();
+      return challenge;
+    } catch (err) {
+      throw new Error(
+        `Echec lors de l'ajout des actions à ce challenge: ${err}`
+      );
     }
   }
 }

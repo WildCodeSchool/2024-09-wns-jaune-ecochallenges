@@ -5,6 +5,8 @@ import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { useCreateChallengeMutation } from '@/lib/graphql/generated/graphql-types';
 import { Step1Init } from './Step1-Init';
+import { useState } from 'react';
+import { Step2Actions } from './Step2-Actions';
 
 const formSchema = z
   .object({
@@ -37,6 +39,9 @@ const formSchema = z
 type FormType = z.infer<typeof formSchema>;
 
 export const ChallengeCreationForm = () => {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [challengeId, setChallengeId] = useState<string | null>(null);
+
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
     // defaultValues: {
@@ -52,7 +57,7 @@ export const ChallengeCreationForm = () => {
 
   const [createChallenge] = useCreateChallengeMutation();
 
-  const onSubmit = async (data: FormType) => {
+  const onSubmitStep1 = async (data: FormType) => {
     try {
       const response = await createChallenge({
         variables: {
@@ -67,6 +72,8 @@ export const ChallengeCreationForm = () => {
         },
       });
       console.log('Challenge créé avec succès :', response.data);
+      setChallengeId(response.data?.createChallenge?.id || null);
+      setCurrentStep(2);
     } catch (error) {
       console.error('Erreur lors de la création du challenge :', error);
     }
@@ -74,10 +81,29 @@ export const ChallengeCreationForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <Step1Init />
+      <form
+        onSubmit={
+          currentStep === 1 ? form.handleSubmit(onSubmitStep1) : undefined
+        }
+        className="space-y-4"
+      >
+        {currentStep === 1 && <Step1Init />}
+        {currentStep === 2 && challengeId && (
+          <Step2Actions challengeId={challengeId} />
+        )}
 
-        <Button type="submit">Créer le challenge</Button>
+        {currentStep === 1 ? (
+          <div className="flex justify-between">
+            <Button type="submit">Créer le challenge</Button>
+            <Button type="button" onClick={form.handleSubmit(onSubmitStep1)}>
+              Ajouter des éco-gestes
+            </Button>
+          </div>
+        ) : (
+          <Button type="button" onClick={() => setCurrentStep(1)}>
+            Retour
+          </Button>
+        )}
       </form>
     </Form>
   );
