@@ -1,4 +1,4 @@
-import { RegisterFormValues } from '@/schemas/register.schema';
+import { RegisterFormValues } from '@/schemas/auth/register.schema';
 import {
   Button,
   Input,
@@ -10,7 +10,7 @@ import {
   FormControl,
   FormMessage,
 } from '@/components/ui';
-import { useRegisterForm } from '@/hooks/useRegisterForm';
+import { useRegisterForm } from '@/hooks/auth/useRegisterForm';
 
 export const RegisterForm = () => {
   const form = useRegisterForm();
@@ -25,9 +25,51 @@ export const RegisterForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <div className="grid gap-4">
-          {/* Email Field */}
+          {/* Firstname */}
+          <FormField
+            control={form.control}
+            name="firstname"
+            render={({ field }) => (
+              <FormItem className="grid gap-2">
+                <FormLabel htmlFor="firstname">Prénom</FormLabel>
+                <FormControl>
+                  <Input
+                    id="firstname"
+                    placeholder="John"
+                    autoComplete="given-name"
+                    className="bg-background text-foreground border-input"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Lastname */}
+          <FormField
+            control={form.control}
+            name="lastname"
+            render={({ field }) => (
+              <FormItem className="grid gap-2">
+                <FormLabel htmlFor="lastname">Nom</FormLabel>
+                <FormControl>
+                  <Input
+                    id="lastname"
+                    placeholder="Doe"
+                    autoComplete="family-name"
+                    className="bg-background text-foreground border-input"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Email */}
           <FormField
             control={form.control}
             name="email"
@@ -40,6 +82,7 @@ export const RegisterForm = () => {
                     placeholder="johndoe@mail.com"
                     type="email"
                     autoComplete="email"
+                    className="bg-background text-foreground border-input"
                     {...field}
                   />
                 </FormControl>
@@ -48,18 +91,19 @@ export const RegisterForm = () => {
             )}
           />
 
-          {/* Password Field */}
+          {/* Password */}
           <FormField
             control={form.control}
             name="password"
             render={({ field }) => (
               <FormItem className="grid gap-2">
-                <FormLabel htmlFor="password">Password</FormLabel>
+                <FormLabel htmlFor="password">Mot de passe</FormLabel>
                 <FormControl>
                   <PasswordInput
                     id="password"
                     placeholder="******"
                     autoComplete="new-password"
+                    className="bg-background text-foreground border-input"
                     {...field}
                   />
                 </FormControl>
@@ -68,20 +112,21 @@ export const RegisterForm = () => {
             )}
           />
 
-          {/* Confirm Password Field */}
+          {/* Confirm Password */}
           <FormField
             control={form.control}
             name="confirmPassword"
             render={({ field }) => (
               <FormItem className="grid gap-2">
                 <FormLabel htmlFor="confirmPassword">
-                  Confirm Password
+                  Confirmez le mot de passe
                 </FormLabel>
                 <FormControl>
                   <PasswordInput
                     id="confirmPassword"
                     placeholder="******"
                     autoComplete="new-password"
+                    className="bg-background text-foreground border-input"
                     {...field}
                   />
                 </FormControl>
@@ -91,7 +136,7 @@ export const RegisterForm = () => {
           />
 
           <Button type="submit" className="w-full">
-            Register
+            S'inscrire
           </Button>
         </div>
       </form>
