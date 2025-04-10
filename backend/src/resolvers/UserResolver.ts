@@ -36,6 +36,17 @@ export class LoginUserInput {
   hashedPassword!: string;
 }
 
+function setCookie(ctx: any, key: string, value: string) {
+  //if (!process.env.COOKIE_TTL) throw new Error('Missing ttl conf key!');
+  const myDate = new Date();
+  const expiryTStamp = myDate.getTime() + 400000000000;
+  myDate.setTime(expiryTStamp);
+  ctx.res.setHeader(
+    'Set-Cookie',
+    `${key}=${value};secure;httpOnly;SameSite=Strict;expires=${myDate.toUTCString()}`
+  );
+}
+
 const tokenVerif = (user: User, res: Response, jwtSecret: string) => {
   const tokenContent = {
     email: user.email,
@@ -45,12 +56,21 @@ const tokenVerif = (user: User, res: Response, jwtSecret: string) => {
   };
 
   // Authentification
-  const token = jwt.sign(tokenContent, jwtSecret);
-  res.cookie('token', token, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'strict',
-  });
+  const access_token = jwt.sign(tokenContent, jwtSecret);
+
+  const myDate = new Date();
+  const expiryTStamp = myDate.getTime() + 400000000000;
+  myDate.setTime(expiryTStamp);
+  res.setHeader(
+    'Set-Cookie',
+    `access_token=${access_token};secure;httpOnly;SameSite=Strict;expires=${myDate.toUTCString()}`
+  );
+
+  // res.cookie('access_token', access_token, {
+  //   httpOnly: true,
+  //   secure: true,
+  //   sameSite: 'strict',
+  // });
 
   const profile = {
     email: user.email,
