@@ -1,4 +1,4 @@
-import { FormCard, RegisterForm } from '@/components/forms';
+import { FormCard, Signup } from '@/components/forms';
 
 export const User = () => {
   return (
@@ -8,7 +8,7 @@ export const User = () => {
       </h1>
 
       <FormCard>
-        <RegisterForm />
+        <Signup />
       </FormCard>
     </>
   );

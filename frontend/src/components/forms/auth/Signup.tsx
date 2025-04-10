@@ -12,7 +12,7 @@ import {
 } from '@/components/ui';
 import { useRegisterForm } from '@/hooks/auth/useRegisterForm';
 
-export const RegisterForm = () => {
+export const Signup = () => {
   const form = useRegisterForm();
 
   const onSubmit = (values: RegisterFormValues) => {
