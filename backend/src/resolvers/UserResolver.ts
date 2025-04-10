@@ -13,7 +13,7 @@ import * as jwt from 'jsonwebtoken';
 import { Response } from 'express';
 
 @InputType()
-export class SingUpUserInput {
+export class SignUpUserInput {
   @Field()
   firstname!: string;
 
@@ -78,8 +78,8 @@ export class UserResolver {
   }
 
   @Mutation(() => String)
-  async singUp(
-    @Arg('data') userSingUpData: SingUpUserInput,
+  async signUp(
+    @Arg('data') userSingUpData: SignUpUserInput,
     @Ctx() { res }: { res: Response }
   ) {
     try {

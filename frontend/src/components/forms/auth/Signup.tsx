@@ -11,13 +11,28 @@ import {
   FormMessage,
 } from '@/components/ui';
 import { useRegisterForm } from '@/hooks/auth/useRegisterForm';
+import {
+  SignUpUserInput,
+  useSignUpMutation,
+} from '@/lib/graphql/generated/graphql-types';
 
 export const Signup = () => {
   const form = useRegisterForm();
+  const [signUpMutation] = useSignUpMutation();
 
-  const onSubmit = (values: RegisterFormValues) => {
+  const onSubmit = async (values: RegisterFormValues) => {
     try {
-      console.log('Form submitted:', values);
+      const formatedData: SignUpUserInput = {
+        email: values.email,
+        firstname: values.firstname,
+        lastname: values.lastname,
+        hashedPassword: values.password,
+      };
+
+      //TODO a voir ce qu'on fait avec le store ici ???
+      const data = await signUpMutation({
+        variables: { data: formatedData },
+      });
     } catch (error) {
       console.error('Form submission error:', error);
     }

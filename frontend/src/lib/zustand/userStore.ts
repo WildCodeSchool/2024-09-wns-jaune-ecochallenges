@@ -1,15 +1,17 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 
-type User = {
-  mail: string;
-  name: string;
+type UserLogin = {
+  email: string;
+  password: string;
 };
 
 type UserState = {
-  user: User | null;
-  login: (user: User) => void;
+  user: UserLogin | null;
+  login: (user: UserLogin) => void;
   logout: () => void;
+  isAuthenticated: boolean;
+  setIsAuthenticated: () => void;
 };
 
 export const useUserStore = create<UserState>()(
@@ -17,10 +19,13 @@ export const useUserStore = create<UserState>()(
     persist(
       (set) => ({
         user: null,
-        login: (user: User) => set(() => ({ user: user })),
+        login: (user: UserLogin) => set(() => ({ user: user })),
         logout: () => {
           set({ user: null });
         },
+        isAuthenticated: false,
+        setIsAuthenticated: () =>
+          set((state) => ({ isAuthenticated: !state.isAuthenticated })),
       }),
       {
         name: 'user-store',
