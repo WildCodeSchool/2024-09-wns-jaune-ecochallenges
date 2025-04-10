@@ -11,9 +11,6 @@ module.exports = {
         muted: 'hsl(var(--muted))',
         background: 'hsl(var(--background))',
       },
-      fontFamily: {
-        sans: ['Inter', ...fontFamily.sans],
-      },
     },
   },
   plugins: [require('tailwindcss-animate')],
