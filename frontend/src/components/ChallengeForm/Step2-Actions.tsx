@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { useAddActionsToChallengeMutation } from '@/lib/graphql/generated/graphql-types';
+import {
+  useAddActionsToChallengeMutation,
+  useGetActionsQuery,
+} from '@/lib/graphql/generated/graphql-types';
 
 export const Step2Actions = ({ challengeId }: { challengeId: string }) => {
   const [selectedActions, setSelectedActions] = useState<string[]>([]);
+  const { data, loading, error } = useGetActionsQuery();
   const [addActionsToChallenge] = useAddActionsToChallengeMutation();
 
   const handleAddActions = async () => {
@@ -20,39 +24,30 @@ export const Step2Actions = ({ challengeId }: { challengeId: string }) => {
     }
   };
 
+  if (loading) return <p>Chargement des actions...</p>;
+  if (error)
+    return <p>Erreur lors du chargement des actions : {error.message}</p>;
+
   return (
     <div className="space-y-4">
       <h2>Ajouter des éco-gestes</h2>
-      {/* Replace with your action selection UI */}
       <div>
-        <label>
-          <input
-            type="checkbox"
-            value="action1"
-            onChange={(e) =>
-              setSelectedActions((prev) =>
-                e.target.checked
-                  ? [...prev, e.target.value]
-                  : prev.filter((action) => action !== e.target.value)
-              )
-            }
-          />
-          Action 1
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            value="action2"
-            onChange={(e) =>
-              setSelectedActions((prev) =>
-                e.target.checked
-                  ? [...prev, e.target.value]
-                  : prev.filter((action) => action !== e.target.value)
-              )
-            }
-          />
-          Action 2
-        </label>
+        {data?.getActions.map((action) => (
+          <label key={action.id} className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              value={action.id}
+              onChange={(e) =>
+                setSelectedActions((prev) =>
+                  e.target.checked
+                    ? [...prev, e.target.value]
+                    : prev.filter((id) => id !== e.target.value)
+                )
+              }
+            />
+            <span>{action.name}</span>
+          </label>
+        ))}
       </div>
       <Button onClick={handleAddActions}>Ajouter les actions</Button>
     </div>
