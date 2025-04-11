@@ -11,14 +11,20 @@ import {
   FormMessage,
 } from '@/components/ui';
 import { useRegisterForm } from '@/hooks/auth/useRegisterForm';
+import { useNavigate } from 'react-router-dom';
 import {
   SignUpUserInput,
   useSignUpMutation,
 } from '@/lib/graphql/generated/graphql-types';
 
-export const Signup = () => {
+type SignupProps = {
+  onToggleForm?: () => void;
+};
+
+export const Signup = ({ onToggleForm }: SignupProps) => {
   const form = useRegisterForm();
   const [signUpMutation] = useSignUpMutation();
+  const navigate = useNavigate();
 
   const onSubmit = async (values: RegisterFormValues) => {
     try {
@@ -29,12 +35,35 @@ export const Signup = () => {
         hashedPassword: values.password,
       };
 
-      //TODO a voir ce qu'on fait avec le store ici ???
       const data = await signUpMutation({
         variables: { data: formatedData },
       });
+
+      navigate('/');
     } catch (error) {
       console.error('Form submission error:', error);
+    }
+  };
+
+  // Fausse inscription
+  const handleFakeSignup = () => {
+    const fakeData: RegisterFormValues = {
+      firstname: 'John',
+      lastname: 'Doe',
+      email: 'johndoe@mail.com',
+      password: 'Hello123+',
+      confirmPassword: 'Hello123+',
+    };
+
+    form.setValue('firstname', fakeData.firstname);
+    form.setValue('lastname', fakeData.lastname);
+    form.setValue('email', fakeData.email);
+    form.setValue('password', fakeData.password);
+    form.setValue('confirmPassword', fakeData.confirmPassword);
+
+    // 👉 Bascule vers le formulaire de login sans redirection ni mutation
+    if (onToggleForm) {
+      onToggleForm();
     }
   };
 
@@ -150,6 +179,15 @@ export const Signup = () => {
 
           <Button type="submit" className="w-full">
             S'inscrire
+          </Button>
+
+          <Button
+            type="button"
+            onClick={handleFakeSignup}
+            variant="secondary"
+            className="w-full"
+          >
+            Fake Inscription
           </Button>
         </div>
       </form>

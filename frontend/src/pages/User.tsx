@@ -31,7 +31,8 @@ export const User = () => {
           variant={isLoginMode ? 'login' : 'signup'}
           onToggleForm={toggleForm}
         >
-          {isLoginMode ? <Login /> : <Signup />}
+          {isLoginMode ? <Login /> : <Signup onToggleForm={toggleForm} />}
+          {/* {isLoginMode ? <Login /> : <Signup />} */}
         </FormCard>
       )}
 
