@@ -12,6 +12,7 @@ services:
       DB_PORT: ${DB_PORT}
       BACKEND_PORT: ${BACKEND_PORT}
       JWT_SECRET: ${JWT_SECRET}
+      COOKIE_TTL: ${COOKIE_TTL}
 
   files:
     container_name: files-eco

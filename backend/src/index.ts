@@ -23,22 +23,24 @@ async function start() {
   const server = new ApolloServer({ schema });
 
   const { url } = await startStandaloneServer(server, {
-    listen: { port: port, host: '0.0.0.0' },
+    listen: { port: port },
     context: async ({ req, res }) => {
-      const token = req.headers.cookie?.split('token=')[1];
+      const token = req.headers.cookie?.split('access_token=')[1];
+
       if (token && process.env.JWT_SECRET) {
         const tokenContent = jwt.verify(token, process.env.JWT_SECRET);
         return {
           res,
+          req,
           user: tokenContent,
         };
       }
       return {
         res,
+        req,
       };
     },
   });
-
   console.log(`🚀  Server ready at: ${url}`);
 }
 start();
