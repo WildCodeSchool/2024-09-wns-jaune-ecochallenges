@@ -40,6 +40,7 @@ export type Action = {
   level: Scalars['Float']['output'];
   name: Scalars['String']['output'];
   requires_view: Scalars['Boolean']['output'];
+  tags?: Maybe<Array<Tag>>;
   time: Scalars['Float']['output'];
 };
 
@@ -76,12 +77,20 @@ export type Query = {
   __typename?: 'Query';
   getActionById: Action;
   getActions: Array<Action>;
+  getAllTags: Array<Tag>;
   getChallenges: Array<Challenge>;
   getUsersAsUser: Array<User>;
 };
 
 export type QueryGetActionByIdArgs = {
   id: Scalars['String']['input'];
+};
+
+export type Tag = {
+  __typename?: 'Tag';
+  actions?: Maybe<Array<Action>>;
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
 };
 
 export type User = {
@@ -138,7 +147,15 @@ export type GetActionsQuery = {
     icon: string;
     level: number;
     time: number;
+    tags?: Array<{ __typename?: 'Tag'; id: string; name: string }> | null;
   }>;
+};
+
+export type GetAllTagsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAllTagsQuery = {
+  __typename?: 'Query';
+  getAllTags: Array<{ __typename?: 'Tag'; id: string; name: string }>;
 };
 
 export const GetUsersAsUserDocument = gql`
@@ -315,6 +332,10 @@ export const GetActionsDocument = gql`
       icon
       level
       time
+      tags {
+        id
+        name
+      }
     }
   }
 `;
@@ -382,4 +403,77 @@ export type GetActionsSuspenseQueryHookResult = ReturnType<
 export type GetActionsQueryResult = Apollo.QueryResult<
   GetActionsQuery,
   GetActionsQueryVariables
+>;
+export const GetAllTagsDocument = gql`
+  query GetAllTags {
+    getAllTags {
+      id
+      name
+    }
+  }
+`;
+
+/**
+ * __useGetAllTagsQuery__
+ *
+ * To run a query within a React component, call `useGetAllTagsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllTagsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllTagsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllTagsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetAllTagsQuery,
+    GetAllTagsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetAllTagsQuery, GetAllTagsQueryVariables>(
+    GetAllTagsDocument,
+    options
+  );
+}
+export function useGetAllTagsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetAllTagsQuery,
+    GetAllTagsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetAllTagsQuery, GetAllTagsQueryVariables>(
+    GetAllTagsDocument,
+    options
+  );
+}
+export function useGetAllTagsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<GetAllTagsQuery, GetAllTagsQueryVariables>
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetAllTagsQuery, GetAllTagsQueryVariables>(
+    GetAllTagsDocument,
+    options
+  );
+}
+export type GetAllTagsQueryHookResult = ReturnType<typeof useGetAllTagsQuery>;
+export type GetAllTagsLazyQueryHookResult = ReturnType<
+  typeof useGetAllTagsLazyQuery
+>;
+export type GetAllTagsSuspenseQueryHookResult = ReturnType<
+  typeof useGetAllTagsSuspenseQuery
+>;
+export type GetAllTagsQueryResult = Apollo.QueryResult<
+  GetAllTagsQuery,
+  GetAllTagsQueryVariables
 >;

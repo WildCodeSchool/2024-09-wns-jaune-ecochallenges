@@ -26,7 +26,7 @@ export class ActionInput {
 export class ActionResolver {
   @Query(() => [Action])
   async getActions() {
-    const actions = await Action.find();
+    const actions = await Action.find({ relations: ['tags'] });
     return actions;
   }
 
@@ -34,6 +34,7 @@ export class ActionResolver {
   async getActionById(@Arg('id') id: string) {
     const action = await Action.findOneOrFail({
       where: { id },
+      relations: ['tags'],
     });
     return action;
   }

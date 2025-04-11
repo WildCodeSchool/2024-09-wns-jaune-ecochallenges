@@ -1,0 +1,24 @@
+{
+  "tags": [
+    { "name": "Énergie", "icon": "zap" },
+    { "name": "Mobilité douce", "icon": "bike" },
+    { "name": "Zéro déchet", "icon": "trash-2" },
+    { "name": "Consommation responsable", "icon": "shopping-bag" },
+    { "name": "Biodiversité", "icon": "leaf" },
+    { "name": "Réduction des émissions", "icon": "cloud-off" },
+    { "name": "Recyclage", "icon": "recycle" },
+    { "name": "Réutilisation", "icon": "refresh-ccw" },
+    { "name": "Compostage", "icon": "sprout" },
+    { "name": "Sobriété énergétique", "icon": "battery" },
+    { "name": "Eau", "icon": "droplet" },
+    { "name": "Produits locaux", "icon": "store" },
+    { "name": "Économie circulaire", "icon": "repeat" },
+    { "name": "Transport écologique", "icon": "car" },
+    { "name": "Éclairage durable", "icon": "lightbulb" },
+    { "name": "Éducation environnementale", "icon": "book-open" },
+    { "name": "Réduction plastique", "icon": "package-minus" },
+    { "name": "Alimentation durable", "icon": "utensils" },
+    { "name": "Réduction numérique", "icon": "cpu" },
+    { "name": "Sensibilisation", "icon": "megaphone" }
+  ]
+}

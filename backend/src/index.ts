@@ -4,7 +4,12 @@ import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { buildSchema } from 'type-graphql';
 import { dataSource } from '@/config/db';
-import { ActionResolver, ChallengeResolver, UserResolver } from '@/resolvers';
+import {
+  ActionResolver,
+  ChallengeResolver,
+  TagResolver,
+  UserResolver,
+} from '@/resolvers';
 
 config();
 const port = Number(process.env.BACKEND_PORT);
@@ -14,7 +19,7 @@ async function start() {
   await dataSource.initialize();
 
   const schema = await buildSchema({
-    resolvers: [UserResolver, ChallengeResolver, ActionResolver],
+    resolvers: [UserResolver, ChallengeResolver, ActionResolver, TagResolver],
   });
 
   const server = new ApolloServer({ schema });
