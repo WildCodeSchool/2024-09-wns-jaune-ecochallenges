@@ -58,3 +58,15 @@ call the image in html using /files/your folder/your image
 ```html
 <img src="/files/icons/water.png" alt="test" />
 ```
+
+### 🧪 Testing
+
+This project uses **Vitest** as the frontend test environment.
+
+- All test files should be placed in the `__tests__` folder inside the `frontend/` directory.
+- You can run the tests from the project root using either of the following commands:
+
+```bash
+npm run test       # runs Vitest from within the frontend folder
+make vitest          # runs Vitest using the Makefile from the project root
+```
