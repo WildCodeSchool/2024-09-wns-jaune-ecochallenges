@@ -1,4 +1,5 @@
-import { RegisterFormValues } from '@/schemas/auth/register.schema';
+// components/forms/auth/Login.tsx
+import { LoginFormValues } from '@/schemas/auth/login.schema';
 import {
   Button,
   Input,
@@ -10,14 +11,29 @@ import {
   FormControl,
   FormMessage,
 } from '@/components/ui';
-import { useRegisterForm } from '@/hooks/auth/useRegisterForm';
+import { useLoginForm } from '@/hooks/auth/useLoginForm';
+import {
+  LoginUserInput,
+  useLogInMutation,
+} from '@/lib/graphql/generated/graphql-types';
 
 export const Login = () => {
-  const form = useRegisterForm();
+  const form = useLoginForm();
+  const [logInMutation] = useLogInMutation();
 
-  const onSubmit = (values: RegisterFormValues) => {
+  const onSubmit = async (values: LoginFormValues) => {
     try {
       console.log('Form submitted:', values);
+
+      const formatedData: LoginUserInput = {
+        email: values.email,
+        hashedPassword: values.password,
+      };
+
+      //TODO a voir ce qu'on fait avec le store ici ???
+      const data = await logInMutation({
+        variables: { data: formatedData },
+      });
     } catch (error) {
       console.error('Form submission error:', error);
     }
@@ -51,15 +67,7 @@ export const Login = () => {
             name="password"
             render={({ field }) => (
               <FormItem className="grid gap-2">
-                <div className="flex items-center justify-between">
-                  <FormLabel htmlFor="password">Password</FormLabel>
-                  {/* <Link
-                    href="#"
-                    className="ml-auto inline-block text-sm underline"
-                  >
-                    Forgot your password?
-                  </Link> */}
-                </div>
+                <FormLabel htmlFor="password">Mot de passe</FormLabel>
                 <FormControl>
                   <PasswordInput
                     id="password"
@@ -73,7 +81,7 @@ export const Login = () => {
             )}
           />
           <Button type="submit" className="w-full">
-            Login
+            Se connecter
           </Button>
         </div>
       </form>
