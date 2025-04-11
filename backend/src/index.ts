@@ -25,27 +25,20 @@ async function start() {
   const { url } = await startStandaloneServer(server, {
     listen: { port: port },
     context: async ({ req, res }) => {
-      try {
-        const token = req.headers.cookie?.split('access_token=')[1];
+      const token = req.headers.cookie?.split('access_token=')[1];
 
-        if (token && process.env.JWT_SECRET) {
-          const tokenContent = jwt.verify(token, process.env.JWT_SECRET);
-          return {
-            res,
-            req,
-            user: tokenContent,
-          };
-        }
+      if (token && process.env.JWT_SECRET) {
+        const tokenContent = jwt.verify(token, process.env.JWT_SECRET);
         return {
           res,
           req,
-        };
-      } catch (e) {
-        return {
-          res,
-          req,
+          user: tokenContent,
         };
       }
+      return {
+        res,
+        req,
+      };
     },
   });
   console.log(`🚀  Server ready at: ${url}`);
