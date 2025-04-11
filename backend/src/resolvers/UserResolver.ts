@@ -95,7 +95,6 @@ export class UserResolver {
       });
 
       const access_token = verifyToken(user, process.env.JWT_SECRET);
-      console.log('🚀 ~ UserResolver ~ access_token:', access_token);
       setTokenInCookie(res, access_token);
 
       const profil = getProfil(user);
