@@ -22,7 +22,7 @@ export const User = () => {
 
   return (
     <>
-      <h1 className="mb-8 rounded-full text-center text-3xl font-thin">
+      <h1 className="mb-4 rounded-full text-center text-2xl font-thin">
         🌱 Welcome User 🌱
       </h1>
 

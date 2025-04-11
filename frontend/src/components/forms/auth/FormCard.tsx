@@ -29,7 +29,7 @@ export const FormCard = ({
   return (
     <Card className="mx-auto w-full max-w-sm rounded-2xl p-4 shadow-md sm:max-w-md">
       <CardHeader>
-        <CardTitle className="text-center text-xl">{title}</CardTitle>
+        <CardTitle className="text-md text-center">{title}</CardTitle>
       </CardHeader>
 
       <CardContent>{children}</CardContent>

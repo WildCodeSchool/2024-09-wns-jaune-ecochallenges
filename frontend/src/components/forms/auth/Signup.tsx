@@ -40,9 +40,11 @@ export const Signup = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-2 sm:space-y-4"
+      >
         <div className="grid gap-4">
-          {/* Firstname */}
           <FormField
             control={form.control}
             name="firstname"
@@ -54,7 +56,7 @@ export const Signup = () => {
                     id="firstname"
                     placeholder="John"
                     autoComplete="given-name"
-                    className="bg-background text-foreground border-input"
+                    className="bg-background text-foreground border-input w-full"
                     {...field}
                   />
                 </FormControl>
@@ -74,7 +76,7 @@ export const Signup = () => {
                     id="lastname"
                     placeholder="Doe"
                     autoComplete="family-name"
-                    className="bg-background text-foreground border-input"
+                    className="bg-background text-foreground border-input w-full"
                     {...field}
                   />
                 </FormControl>
@@ -95,7 +97,7 @@ export const Signup = () => {
                     placeholder="johndoe@mail.com"
                     type="email"
                     autoComplete="email"
-                    className="bg-background text-foreground border-input"
+                    className="bg-background text-foreground border-input w-full"
                     {...field}
                   />
                 </FormControl>
@@ -104,7 +106,6 @@ export const Signup = () => {
             )}
           />
 
-          {/* Password */}
           <FormField
             control={form.control}
             name="password"
@@ -116,7 +117,7 @@ export const Signup = () => {
                     id="password"
                     placeholder="******"
                     autoComplete="new-password"
-                    className="bg-background text-foreground border-input"
+                    className="bg-background text-foreground border-input w-full"
                     {...field}
                   />
                 </FormControl>
@@ -138,7 +139,7 @@ export const Signup = () => {
                     id="confirmPassword"
                     placeholder="******"
                     autoComplete="new-password"
-                    className="bg-background text-foreground border-input"
+                    className="bg-background text-foreground border-input w-full"
                     {...field}
                   />
                 </FormControl>
