@@ -63,7 +63,6 @@ export const Signup = () => {
             )}
           />
 
-          {/* Lastname */}
           <FormField
             control={form.control}
             name="lastname"
@@ -84,7 +83,6 @@ export const Signup = () => {
             )}
           />
 
-          {/* Email */}
           <FormField
             control={form.control}
             name="email"
@@ -127,7 +125,6 @@ export const Signup = () => {
             )}
           />
 
-          {/* Confirm Password */}
           <FormField
             control={form.control}
             name="confirmPassword"

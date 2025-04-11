@@ -1,5 +1,3 @@
-// FormCard.tsx
-
 import {
   Card,
   CardContent,

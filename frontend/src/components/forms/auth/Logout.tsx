@@ -1,12 +1,14 @@
 import { Button } from '@/components/ui/button';
 import { useUserStore } from '@/lib/zustand/userStore';
+import { useNavigate } from 'react-router-dom';
 
 export const Logout = () => {
   const logout = useUserStore((state) => state.logout);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
-    // Tu peux ajouter ici une redirection vers la page d'accueil après la déconnexion
+    navigate('/');
   };
 
   return (

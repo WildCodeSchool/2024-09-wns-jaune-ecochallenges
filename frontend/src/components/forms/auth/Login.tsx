@@ -16,10 +16,20 @@ import {
   LoginUserInput,
   useLogInMutation,
 } from '@/lib/graphql/generated/graphql-types';
+import { useUserStore } from '@/lib/zustand/userStore'; // Assure-toi d'importer correctement ton store
+import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
   const form = useLoginForm();
   const [logInMutation] = useLogInMutation();
+
+  const login = useUserStore((state) => state.login);
+  const navigate = useNavigate();
+
+  const handleFakeLogin = () => {
+    login({ email: 'test@user.com', password: 'Hello123+' });
+    navigate('/');
+  };
 
   const onSubmit = async (values: LoginFormValues) => {
     try {
@@ -82,6 +92,9 @@ export const Login = () => {
           />
           <Button type="submit" className="w-full">
             Se connecter
+          </Button>
+          <Button onClick={handleFakeLogin} variant="secondary">
+            Fake connexion
           </Button>
         </div>
       </form>
