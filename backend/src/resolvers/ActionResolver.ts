@@ -1,13 +1,6 @@
-import {
-  Arg,
-  Field,
-  InputType,
-  Int,
-  Mutation,
-  Query,
-  Resolver,
-} from 'type-graphql';
+import { Arg, Field, InputType, Mutation, Query, Resolver } from 'type-graphql';
 import { Action } from '@/entities';
+import { In, LessThanOrEqual } from 'typeorm';
 
 @InputType()
 export class ActionInput {
@@ -28,6 +21,9 @@ export class ActionInput {
 
   @Field()
   time!: number;
+
+  @Field(() => [String])
+  tags!: string[];
 }
 
 @Resolver(Action)
@@ -55,12 +51,16 @@ export class ActionResolver {
     return action;
   }
 
-  /*   @Query(() => [Int])
-  async getAllDurations(): Promise<number[]> {
-    const durations = await Action.createQueryBuilder('action')
-      .select('DISTINCT action.time', 'time')
-      .getRawMany();
-
-    return durations.map((d) => d.time).sort((a, b) => a - b);
-  } */
+  @Query(() => [Action])
+  async getActionsFiltered(@Arg('data') data: ActionInput) {
+    const actions = await Action.find({
+      where: {
+        tags: { name: In(data?.tags) },
+        level: In([data?.level]),
+        time: LessThanOrEqual(data.time),
+      },
+      relations: ['tags'],
+    });
+    return actions;
+  }
 }

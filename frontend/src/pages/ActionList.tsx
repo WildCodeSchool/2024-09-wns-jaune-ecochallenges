@@ -1,24 +1,18 @@
 import {
-  Action,
-  Tag,
   useGetActionsQuery,
   useGetAllTagsQuery,
 } from '@/lib/graphql/generated/graphql-types';
-import { ActionCard, Pill } from '@/components';
+import { ActionCard } from '@/components';
 import { Input } from '@/components/ui/input';
 import { Leaf, Search, Sprout, TreePalm, X } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 
 import {
   Command,
-  CommandDialog,
   CommandEmpty,
-  CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-  CommandShortcut,
 } from '@/components/ui/command';
 
 import {
@@ -29,19 +23,20 @@ import {
 
 import { Button } from '@/components/ui/button';
 import { Check } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const ActionList = () => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [selectedDifficulty, setSelectedDifficulty] = useState<string[]>([]);
-  const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
+  const [selectedDifficulty, setSelectedDifficulty] = useState<number[]>([]);
+  const [selectedDurations, setSelectedDurations] = useState<number[]>([]);
+  useEffect(() => {
+    console.log(selectedTags);
+    console.log(selectedDifficulty);
+    console.log(selectedDurations);
+  }, [selectedTags, selectedDurations, selectedDifficulty]);
 
   const { data, loading, error } = useGetActionsQuery();
-  const {
-    data: tagsData,
-    loading: tagsLoading,
-    error: tagsError,
-  } = useGetAllTagsQuery();
+  const { data: tagsData } = useGetAllTagsQuery();
 
   if (!data?.getActions) return <p>No eco-actions found</p>;
   if (loading) return <div>Loading...</div>;
@@ -58,69 +53,67 @@ export const ActionList = () => {
     setSelectedTags((prev) => prev.filter((t) => t !== tag));
   };
 
-  const toggleDifficulty = (difficulty: string) => {
+  const toggleDifficulty = (difficulty: number) => {
     setSelectedDifficulty((prev) =>
       prev.includes(difficulty)
         ? prev.filter((d) => d !== difficulty)
         : [...prev, difficulty]
     );
   };
-  const removeDifficulty = (difficulty: string) => {
+  const removeDifficulty = (difficulty: number) => {
     setSelectedDifficulty((prev) => prev.filter((d) => d !== difficulty));
   };
 
-  const toggleDuration = (duration: string) => {
+  const toggleDuration = (duration: number) => {
     setSelectedDurations((prev) =>
       prev.includes(duration)
         ? prev.filter((d) => d !== duration)
         : [...prev, duration]
     );
   };
-
-  const removeDuration = (duration: string) => {
+  const removeDuration = (duration: number) => {
     setSelectedDurations((prev) => prev.filter((d) => d !== duration));
   };
 
   const difficulties = [
     {
-      value: '1',
+      value: 1,
       label: 'Facile',
       icon: <Sprout className="text-primary/30" />,
     },
     {
-      value: '2',
+      value: 2,
       label: 'Moyen',
       icon: <Leaf className="text-primary/60" />,
     },
     {
-      value: '3',
+      value: 3,
       label: 'Difficile',
       icon: <TreePalm className="text-primary" />,
     },
   ];
-
   const durations = [
     {
-      value: '2',
+      value: 2,
       label: '2 heures ou moins',
     },
     {
-      value: '4',
+      value: 4,
       label: '4 heures ou moins',
     },
     {
-      value: '6',
+      value: 6,
       label: '6 heures ou moins',
     },
     {
-      value: '8',
+      value: 8,
       label: '8 heures ou moins',
     },
   ];
+
   return (
     <>
       <div className="mx-auto mb-10 flex max-w-screen-md flex-col gap-3 bg-emerald-100 p-5">
-        <h1>FILTER CONTAINER</h1>
         <div className="relative w-full">
           <span className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400">
             <Search className="h-4 w-4" />
