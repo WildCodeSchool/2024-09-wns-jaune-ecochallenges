@@ -51,3 +51,14 @@ export const GET_ALL_TAGS = gql`
     }
   }
 `;
+
+export const GET_ALL_FILTERS_DATA = gql`
+  query GetAllfilters {
+    getAllTags {
+      name
+      id
+    }
+    getAllLevels
+    getAllDurations
+  }
+`;

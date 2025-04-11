@@ -1,4 +1,12 @@
-import { Arg, Field, InputType, Mutation, Query, Resolver } from 'type-graphql';
+import {
+  Arg,
+  Field,
+  InputType,
+  Int,
+  Mutation,
+  Query,
+  Resolver,
+} from 'type-graphql';
 import { Action } from '@/entities';
 
 @InputType()
@@ -46,4 +54,13 @@ export class ActionResolver {
     await action.save();
     return action;
   }
+
+  /*   @Query(() => [Int])
+  async getAllDurations(): Promise<number[]> {
+    const durations = await Action.createQueryBuilder('action')
+      .select('DISTINCT action.time', 'time')
+      .getRawMany();
+
+    return durations.map((d) => d.time).sort((a, b) => a - b);
+  } */
 }
