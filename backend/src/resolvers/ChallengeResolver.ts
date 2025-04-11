@@ -12,6 +12,9 @@ import { In } from 'typeorm';
 
 @InputType()
 class ChallengeInput {
+  @Field({ nullable: true })
+  id?: string;
+
   @Field()
   label!: string;
 
@@ -39,6 +42,15 @@ export class ChallengeResolver {
     return challenges;
   }
 
+  @Query(() => Challenge)
+  async getChallenge(@Arg('id', () => ID) id: string): Promise<Challenge> {
+    const challenge = await Challenge.findOneOrFail({
+      where: { id },
+      relations: ['actions'],
+    });
+    return challenge;
+  }
+
   @Mutation(() => Challenge)
   async createChallenge(@Arg('data') data: ChallengeInput) {
     try {
@@ -57,24 +69,24 @@ export class ChallengeResolver {
     }
   }
 
-  // @Mutation(() => Challenge)
-  // async addActionsToChallenge(
-  //   @Arg('challengeId', () => ID) challengeId: string,
-  //   @Arg('actions', () => [ID]) actions: string[]
-  // ): Promise<Challenge> {
-  //   try {
-  //     const challenge = await Challenge.findOneOrFail({
-  //       where: { id: challengeId },
-  //       relations: ['actions'],
-  //     });
-  //     const actionEntities = await Action.findBy({ id: In(actions) });
-  //     challenge.actions = [...(challenge.actions || []), ...actionEntities];
-  //     await challenge.save();
-  //     return challenge;
-  //   } catch (err) {
-  //     throw new Error(
-  //       `Echec lors de l'ajout des actions à ce challenge: ${err}`
-  //     );
-  //   }
-  // }
+  @Mutation(() => Challenge)
+  async updateChallenge(
+    @Arg('id', () => ID) id: string,
+    @Arg('data') data: ChallengeInput
+  ): Promise<Challenge> {
+    try {
+      const challenge = await Challenge.findOneOrFail({ where: { id } });
+      Object.assign(challenge, data);
+      if (data.actions && data.actions.length) {
+        const actions = await Action.findBy({ id: In(data.actions) });
+        challenge.actions = actions;
+      } else {
+        challenge.actions = [];
+      }
+      await challenge.save();
+      return challenge;
+    } catch (err) {
+      throw new Error(`Echec lors de la mise à jour de ce challenge: ${err}`);
+    }
+  }
 }

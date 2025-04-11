@@ -7,6 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   useCreateChallengeMutation,
   useGetActionsQuery,
+  useGetChallengeQuery,
+  useUpdateChallengeMutation,
 } from '@/lib/graphql/generated/graphql-types';
 import { Step1Init, Step2Actions } from '@/components/ChallengeForm';
 import { Check } from 'lucide-react';
@@ -42,44 +44,62 @@ const formSchema = z
 
 type FormType = z.infer<typeof formSchema>;
 
-export const ChallengeForm = () => {
+export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
   const [createChallenge] = useCreateChallengeMutation();
+  const [updateChallenge] = useUpdateChallengeMutation();
+  const { data, loading, error } = useGetChallengeQuery({
+    skip: !challengeId,
+    variables: { id: challengeId! },
+  });
   const actionsQuery = useGetActionsQuery();
 
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      label: '',
-      description: '',
-      bannerURL: '',
+    values: data?.getChallenge && {
+      label: data.getChallenge.label,
+      description: data.getChallenge.description || '',
+      bannerURL: data.getChallenge.bannerUrl || '',
       dateRange: {
-        from: undefined,
-        to: undefined,
+        from: new Date(data.getChallenge.startDate),
+        to: new Date(data.getChallenge.endDate),
       },
-      actions: [],
+      actions: data.getChallenge.actions.map((action) => action.id),
     },
   });
 
-  const onSubmit = async (data: FormType) => {
+  const onSubmit = async (formData: FormType) => {
     try {
-      console.log('Données soumises:', data);
-      const response = await createChallenge({
-        variables: {
-          data: {
-            label: data.label,
-            ...(data.description && { description: data.description }),
-            ...(data.bannerURL && { bannerUrl: data.bannerURL }),
-            startDate: data.dateRange.from.toISOString(),
-            endDate: data.dateRange.to.toISOString(),
-            actions: data.actions,
-          },
-        },
-      });
+      const challengeData = {
+        label: formData.label,
+        ...(formData.description && { description: formData.description }),
+        ...(formData.bannerURL && { bannerUrl: formData.bannerURL }),
+        startDate: formData.dateRange.from.toISOString(),
+        endDate: formData.dateRange.to.toISOString(),
+        actions: formData.actions,
+      };
+
+      const response = await (challengeId
+        ? updateChallenge({
+            variables: {
+              id: challengeId,
+              data: challengeData,
+            },
+          })
+        : createChallenge({
+            variables: {
+              data: challengeData,
+            },
+          }));
+
+      if (response.errors) throw new Error(response.errors[0].message);
       console.log('Challenge créé avec succès :', response.data);
     } catch (error) {
       console.error('Erreur lors de la création du challenge :', error);
     }
   };
+
+  if (loading) return <div>Chargement...</div>;
+  if (error) return <div>Une erreur est survenue : {error.message}</div>;
 
   return (
     <Form {...form}>

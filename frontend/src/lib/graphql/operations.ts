@@ -25,9 +25,33 @@ export const GET_CHALLENGES = gql`
   }
 `;
 
+export const GET_CHALLENGE = gql`
+  query GetChallenge($id: ID!) {
+    getChallenge(id: $id) {
+      id
+      label
+      description
+      bannerUrl
+      startDate
+      endDate
+      actions {
+        id
+      }
+    }
+  }
+`;
+
 export const CREATE_CHALLENGE = gql`
   mutation CreateChallenge($data: ChallengeInput!) {
     createChallenge(data: $data) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_CHALLENGE = gql`
+  mutation UpdateChallenge($id: ID!, $data: ChallengeInput!) {
+    updateChallenge(id: $id, data: $data) {
       id
     }
   }

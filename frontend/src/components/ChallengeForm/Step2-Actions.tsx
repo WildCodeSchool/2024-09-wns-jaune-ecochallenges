@@ -17,10 +17,10 @@ export const Step2Actions = ({
     data?.getActions || []
   );
 
-  if (!data?.getActions) return <p>No eco-actions found</p>;
-  if (loading) return <p>Chargement des actions...</p>;
+  if (!data?.getActions) return <p>Aucun éco-gestes trouvé</p>;
+  if (loading) return <p>Chargement des éco-gestes...</p>;
   if (error)
-    return <p>Erreur lors du chargement des actions : {error.message}</p>;
+    return <p>Erreur lors du chargement des éco-gestes : {error.message}</p>;
 
   useEffect(() => {
     const subscription = form.watch((value) => {

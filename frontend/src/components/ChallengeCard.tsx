@@ -12,7 +12,11 @@ import { Pill } from '@/components';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
-export const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
+export const ChallengeCard = ({
+  challenge,
+}: {
+  challenge: Omit<Challenge, 'actions'>;
+}) => {
   const dates = {
     startDate: format(new Date(challenge.startDate), 'dd LLL', {
       locale: fr,
@@ -42,7 +46,7 @@ export const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
 
   return (
     <article className="h-full">
-      <Link to={`/challenges`}>
+      <Link to={`/challenge/${challenge.id}/edit`}>
         <Card className="relative h-full justify-between bg-linear-to-br from-slate-100 to-slate-200 transition-colors hover:bg-linear-to-br hover:from-slate-200 hover:to-slate-300 active:bg-linear-to-br active:from-slate-300 active:to-slate-400">
           <CardHeader className="overflow-hidden">
             <img

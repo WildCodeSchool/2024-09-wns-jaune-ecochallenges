@@ -4,7 +4,13 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { client } from './lib/api.ts';
 import { App } from './App.tsx';
-import { Home, ActionList, ChallengeList, ChallengeCreation } from '@/pages';
+import {
+  Home,
+  ActionList,
+  ChallengeList,
+  ChallengeCreation,
+  ChallengeEdition,
+} from '@/pages';
 
 import './index.css';
 import { NotFoundRedirect } from './pages/NotFoundRedirect.tsx';
@@ -29,6 +35,10 @@ export const router = createBrowserRouter([
       {
         path: '/challenge/new',
         element: <ChallengeCreation />,
+      },
+      {
+        path: '/challenge/:challengeId/edit',
+        element: <ChallengeEdition />,
       },
       {
         path: '/actions',
