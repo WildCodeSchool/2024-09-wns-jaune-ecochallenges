@@ -1,3 +1,5 @@
+// FormCard.tsx
+
 import {
   Card,
   CardContent,
@@ -6,12 +8,19 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Link, useLocation } from 'react-router-dom';
 
-export const FormCard = ({ children }: { children: React.ReactNode }) => {
-  const { pathname } = useLocation();
+type FormCardProps = {
+  children: React.ReactNode;
+  variant: 'login' | 'signup';
+  onToggleForm: () => void;
+};
 
-  const isLogin = pathname === '/login';
+export const FormCard = ({
+  children,
+  variant,
+  onToggleForm,
+}: FormCardProps) => {
+  const isLogin = variant === 'login';
 
   const title = isLogin ? 'Welcome back' : 'Create your account';
   const description = isLogin ? 'Login Form' : 'SignUp Form';
@@ -19,7 +28,6 @@ export const FormCard = ({ children }: { children: React.ReactNode }) => {
     ? "Vous n'avez pas encore de compte ?"
     : 'Vous avez déjà un compte ?';
   const footerLinkText = isLogin ? 'Créer un compte' : 'Se connecter';
-  const footerLinkTo = isLogin ? '/signup' : '/login';
 
   return (
     <Card className="mx-auto w-full max-w-sm rounded-2xl p-4 shadow-md sm:max-w-md">
@@ -38,12 +46,13 @@ export const FormCard = ({ children }: { children: React.ReactNode }) => {
         </div>
         <p>
           {footerText}{' '}
-          <Link
-            to={footerLinkTo}
+          <button
+            type="button"
+            onClick={onToggleForm}
             className="text-primary underline hover:opacity-80"
           >
             {footerLinkText}
-          </Link>
+          </button>
         </p>
       </CardFooter>
     </Card>
