@@ -21,9 +21,6 @@ export const FormCard = ({
   const isLogin = variant === 'login';
 
   const title = isLogin ? 'Bienvenue' : 'Créez votre compte';
-  const description = isLogin
-    ? 'Formulaire de connexion'
-    : "Formulaire d'inscription";
   const footerText = isLogin
     ? "Vous n'avez pas encore de compte ?"
     : 'Vous avez déjà un compte ?';
@@ -33,7 +30,6 @@ export const FormCard = ({
     <Card className="mx-auto w-full max-w-sm rounded-2xl p-4 shadow-md sm:max-w-md">
       <CardHeader>
         <CardTitle className="text-center text-xl">{title}</CardTitle>
-        <CardDescription className="text-center">{description}</CardDescription>
       </CardHeader>
 
       <CardContent>{children}</CardContent>
