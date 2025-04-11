@@ -1,6 +1,5 @@
 import { Arg, Field, InputType, Mutation, Query, Resolver } from 'type-graphql';
 import { Action } from '@/entities';
-import { In, LessThanOrEqual } from 'typeorm';
 
 @InputType()
 export class ActionInput {
@@ -49,18 +48,5 @@ export class ActionResolver {
     action = Object.assign(action, data);
     await action.save();
     return action;
-  }
-
-  @Query(() => [Action])
-  async getActionsFiltered(@Arg('data') data: ActionInput) {
-    const actions = await Action.find({
-      where: {
-        tags: { name: In(data?.tags) },
-        level: In([data?.level]),
-        time: LessThanOrEqual(data.time),
-      },
-      relations: ['tags'],
-    });
-    return actions;
   }
 }

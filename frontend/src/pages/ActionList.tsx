@@ -1,11 +1,11 @@
 import {
+  Action,
   useGetActionsQuery,
   useGetAllTagsQuery,
 } from '@/lib/graphql/generated/graphql-types';
 import { ActionCard } from '@/components';
 import { Input } from '@/components/ui/input';
 import { Leaf, Search, Sprout, TreePalm, X } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
 
 import {
   Command,
@@ -29,13 +29,35 @@ export const ActionList = () => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedDifficulty, setSelectedDifficulty] = useState<number[]>([]);
   const [selectedDurations, setSelectedDurations] = useState<number[]>([]);
+  const [search, setSearch] = useState<string>('');
+  const [actions, setActions] = useState<Action[]>([]);
+  const [filteredActions, setFilteredActions] = useState<Action[]>([]);
   useEffect(() => {
-    console.log(selectedTags);
-    console.log(selectedDifficulty);
-    console.log(selectedDurations);
-  }, [selectedTags, selectedDurations, selectedDifficulty]);
+    const result = actions.filter((action: Action) => {
+      const hasMatchingTag =
+        selectedTags.length === 0 ||
+        action.tags?.some((tag) => selectedTags.includes(tag.name));
 
-  const { data, loading, error } = useGetActionsQuery();
+      const hasMatchingLevel =
+        selectedDifficulty.length === 0 ||
+        selectedDifficulty.includes(action.level);
+
+      const maxDuration = Math.max(...selectedDurations);
+      const hasMatchingDuration =
+        selectedDurations.length === 0 || action.time <= maxDuration;
+
+      return hasMatchingTag && hasMatchingLevel && hasMatchingDuration;
+    });
+    setFilteredActions(
+      result.filter((action) => action.name.toLowerCase().includes(search))
+    );
+  }, [selectedTags, selectedDurations, selectedDifficulty, actions, search]);
+
+  const { data, loading, error } = useGetActionsQuery({
+    onCompleted: (data) => {
+      setActions(data.getActions);
+    },
+  });
   const { data: tagsData } = useGetAllTagsQuery();
 
   if (!data?.getActions) return <p>No eco-actions found</p>;
@@ -111,9 +133,15 @@ export const ActionList = () => {
     },
   ];
 
+  const resetFilter = () => {
+    setSelectedTags([]);
+    setSelectedDifficulty([]);
+    setSelectedDurations([]);
+  };
+
   return (
     <>
-      <div className="mx-auto mb-10 flex max-w-screen-md flex-col gap-3 bg-emerald-100 p-5">
+      <div className="mx-auto mb-10 flex max-w-screen-lg flex-col gap-3 p-5">
         <div className="relative w-full">
           <span className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400">
             <Search className="h-4 w-4" />
@@ -122,9 +150,11 @@ export const ActionList = () => {
             type="text"
             placeholder="Rechercher..."
             className="w-full rounded-md border border-gray-300 py-2 pr-4 pl-10"
+            onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div className="flex flex-row gap-2">
+
+        <div className="flex flex-row flex-wrap gap-2">
           {/* tag */}
           <Popover>
             <PopoverTrigger asChild>
@@ -156,7 +186,7 @@ export const ActionList = () => {
               </Command>
             </PopoverContent>
           </Popover>
-          <Separator orientation="vertical" />
+
           {/* difficulty */}
           <Popover>
             <PopoverTrigger asChild>
@@ -188,13 +218,13 @@ export const ActionList = () => {
               </Command>
             </PopoverContent>
           </Popover>
-          <Separator orientation="vertical" />
+
           {/* Durée */}
           <Popover>
             <PopoverTrigger asChild>
               <Button variant="outline">
-                {selectedDifficulty.length > 0
-                  ? `${selectedDifficulty.length} durée(s) sélectionnée(s)`
+                {selectedDurations.length > 0
+                  ? `${selectedDurations.length} durée(s) sélectionnée(s)`
                   : 'Filtrer par durée'}
               </Button>
             </PopoverTrigger>
@@ -202,7 +232,7 @@ export const ActionList = () => {
               <Command>
                 <CommandInput placeholder="durée" />
                 <CommandList>
-                  <CommandEmpty>Aucun tag trouvé.</CommandEmpty>
+                  <CommandEmpty>Aucune durée trouvée.</CommandEmpty>
 
                   {durations.map((duration) => (
                     <CommandItem
@@ -220,6 +250,14 @@ export const ActionList = () => {
               </Command>
             </PopoverContent>
           </Popover>
+
+          {selectedTags.length ||
+          selectedDifficulty.length ||
+          selectedDurations.length ? (
+            <Button onClick={resetFilter} size="sm" variant="link">
+              Réinitialiser
+            </Button>
+          ) : null}
         </div>
         <div className="flex flex-row gap-2">
           {selectedTags.map((tag) => (
@@ -253,9 +291,11 @@ export const ActionList = () => {
         </div>
       </div>
       <div className="flex flex-col items-center gap-3 text-center lg:flex-row lg:flex-wrap lg:justify-center">
-        {data.getActions.map((action) => (
-          <ActionCard key={action.id} action={action} />
-        ))}
+        {filteredActions.length > 0
+          ? filteredActions.map((action) => (
+              <ActionCard key={action.id} action={action} />
+            ))
+          : 'Aucun éco geste trouvé avec ces filtres'}
       </div>
     </>
   );

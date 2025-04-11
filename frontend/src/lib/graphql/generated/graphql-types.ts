@@ -50,6 +50,7 @@ export type ActionInput = {
   level: Scalars['Float']['input'];
   name: Scalars['String']['input'];
   requires_view: Scalars['Boolean']['input'];
+  tags: Array<Scalars['String']['input']>;
   time: Scalars['Float']['input'];
 };
 
@@ -79,11 +80,16 @@ export type Query = {
   getActions: Array<Action>;
   getAllTags: Array<Tag>;
   getChallenges: Array<Challenge>;
+  getFilteredActions: Array<Action>;
   getUsersAsUser: Array<User>;
 };
 
 export type QueryGetActionByIdArgs = {
   id: Scalars['String']['input'];
+};
+
+export type QueryGetFilteredActionsArgs = {
+  data: ActionInput;
 };
 
 export type Tag = {

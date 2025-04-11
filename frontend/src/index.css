@@ -118,7 +118,6 @@
   /* CUSTOM */
   --spacing-navbar: 4rem;
   --text-primary: oklch(0.145 0 0);
-  --text-secondary: oklch(97% 0.001 106.4);
 }
 
 @layer base {
