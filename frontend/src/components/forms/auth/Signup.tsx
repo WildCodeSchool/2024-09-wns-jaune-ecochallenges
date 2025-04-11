@@ -16,15 +16,13 @@ import {
   SignUpUserInput,
   useSignUpMutation,
 } from '@/lib/graphql/generated/graphql-types';
+import { useUserStore } from '@/lib/zustand/userStore';
 
-type SignupProps = {
-  onToggleForm?: () => void;
-};
-
-export const Signup = ({ onToggleForm }: SignupProps) => {
+export const Signup = () => {
   const form = useRegisterForm();
-  const [signUpMutation] = useSignUpMutation();
   const navigate = useNavigate();
+  const setUserToStore = useUserStore((state) => state.login);
+  const [signUpMutation] = useSignUpMutation();
 
   const onSubmit = async (values: RegisterFormValues) => {
     try {
@@ -39,33 +37,38 @@ export const Signup = ({ onToggleForm }: SignupProps) => {
         variables: { data: formatedData },
       });
 
-      navigate('/');
+      if (!data.data?.signUp) throw new Error('Login failed');
+      const profile = JSON.parse(data.data.signUp);
+      if (profile) {
+        setUserToStore(profile);
+        navigate('/');
+      }
     } catch (error) {
       console.error('Form submission error:', error);
     }
   };
 
-  // Fausse inscription
-  const handleFakeSignup = () => {
-    const fakeData: RegisterFormValues = {
-      firstname: 'John',
-      lastname: 'Doe',
-      email: 'johndoe@mail.com',
-      password: 'Hello123+',
-      confirmPassword: 'Hello123+',
-    };
+  // // Fausse inscription
+  // const handleFakeSignup = () => {
+  //   const fakeData: RegisterFormValues = {
+  //     firstname: 'John',
+  //     lastname: 'Doe',
+  //     email: 'johndoe@mail.com',
+  //     password: 'Hello123+',
+  //     confirmPassword: 'Hello123+',
+  //   };
 
-    form.setValue('firstname', fakeData.firstname);
-    form.setValue('lastname', fakeData.lastname);
-    form.setValue('email', fakeData.email);
-    form.setValue('password', fakeData.password);
-    form.setValue('confirmPassword', fakeData.confirmPassword);
+  //   form.setValue('firstname', fakeData.firstname);
+  //   form.setValue('lastname', fakeData.lastname);
+  //   form.setValue('email', fakeData.email);
+  //   form.setValue('password', fakeData.password);
+  //   form.setValue('confirmPassword', fakeData.confirmPassword);
 
-    // 👉 Bascule vers le formulaire de login sans redirection ni mutation
-    if (onToggleForm) {
-      onToggleForm();
-    }
-  };
+  //   // 👉 Bascule vers le formulaire de login sans redirection ni mutation
+  //   if (onToggleForm) {
+  //     onToggleForm();
+  //   }
+  // };
 
   return (
     <Form {...form}>
@@ -181,14 +184,14 @@ export const Signup = ({ onToggleForm }: SignupProps) => {
             S'inscrire
           </Button>
 
-          <Button
+          {/* <Button
             type="button"
             onClick={handleFakeSignup}
             variant="secondary"
             className="w-full"
           >
             Fake Inscription
-          </Button>
+          </Button> */}
         </div>
       </form>
     </Form>

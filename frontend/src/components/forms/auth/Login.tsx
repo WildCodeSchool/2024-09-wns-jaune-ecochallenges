@@ -21,29 +21,27 @@ import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
   const form = useLoginForm();
-  const [logInMutation] = useLogInMutation();
-
-  const login = useUserStore((state) => state.login);
   const navigate = useNavigate();
-
-  const handleFakeLogin = () => {
-    login({ email: 'test@user.com', password: 'Hello123+' });
-    navigate('/');
-  };
+  const setUserToStore = useUserStore((state) => state.login);
+  const [logInMutation] = useLogInMutation();
 
   const onSubmit = async (values: LoginFormValues) => {
     try {
-      console.log('Form submitted:', values);
-
       const formatedData: LoginUserInput = {
         email: values.email,
         hashedPassword: values.password,
       };
 
-      //TODO a voir ce qu'on fait avec le store ici ???
       const data = await logInMutation({
         variables: { data: formatedData },
       });
+
+      if (!data.data?.logIn) throw new Error('Login failed');
+      const profile = JSON.parse(data.data.logIn);
+      if (profile) {
+        setUserToStore(profile);
+        navigate('/');
+      }
     } catch (error) {
       console.error('Form submission error:', error);
     }
@@ -93,9 +91,7 @@ export const Login = () => {
           <Button type="submit" className="w-full">
             Se connecter
           </Button>
-          <Button onClick={handleFakeLogin} variant="secondary">
-            Fake connexion
-          </Button>
+          <Button variant="secondary">Fake connexion</Button>
         </div>
       </form>
     </Form>
