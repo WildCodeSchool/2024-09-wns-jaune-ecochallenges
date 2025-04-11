@@ -20,8 +20,10 @@ export const FormCard = ({
 }: FormCardProps) => {
   const isLogin = variant === 'login';
 
-  const title = isLogin ? 'Welcome back' : 'Create your account';
-  const description = isLogin ? 'Login Form' : 'SignUp Form';
+  const title = isLogin ? 'Bienvenue' : 'Créez votre compte';
+  const description = isLogin
+    ? 'Formulaire de connexion'
+    : "Formulaire d'inscription";
   const footerText = isLogin
     ? "Vous n'avez pas encore de compte ?"
     : 'Vous avez déjà un compte ?';
