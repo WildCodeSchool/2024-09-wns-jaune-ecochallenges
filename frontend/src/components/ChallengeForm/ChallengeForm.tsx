@@ -9,6 +9,7 @@ import {
   useGetActionsQuery,
 } from '@/lib/graphql/generated/graphql-types';
 import { Step1Init, Step2Actions } from '@/components/ChallengeForm';
+import { Check } from 'lucide-react';
 
 const formSchema = z
   .object({
@@ -82,7 +83,7 @@ export const ChallengeForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="relative">
         <Tabs defaultValue="step1">
           <TabsList className="w-full">
             <TabsTrigger value="step1">Infos</TabsTrigger>
@@ -90,10 +91,10 @@ export const ChallengeForm = () => {
             <TabsTrigger value="step3">Participants</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="step1">
+          <TabsContent value="step1" className="space-y-4">
             <Step1Init />
           </TabsContent>
-          <TabsContent value="step2">
+          <TabsContent value="step2" className="">
             <Step2Actions actionsQuery={actionsQuery} />
           </TabsContent>
           <TabsContent value="step3">
@@ -101,7 +102,13 @@ export const ChallengeForm = () => {
           </TabsContent>
         </Tabs>
 
-        <Button type="submit">Créer le challenge</Button>
+        <Button
+          type="submit"
+          variant="default"
+          className="fixed right-4 bottom-20 z-50 size-14 rounded-full shadow-md shadow-black/50"
+        >
+          <Check className="size-10" strokeWidth={1.4} />
+        </Button>
       </form>
     </Form>
   );

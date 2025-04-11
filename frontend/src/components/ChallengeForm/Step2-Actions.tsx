@@ -43,7 +43,7 @@ export const Step2Actions = ({
       control={form.control}
       name="actions"
       render={({ field }) => (
-        <div className="flex flex-col flex-wrap justify-center text-center align-middle xl:flex-row">
+        <div className="flex flex-col flex-wrap items-center justify-center gap-4 text-center xl:flex-row">
           {sortedActions.map((action) => (
             <FormItem key={action.id}>
               <FormControl>

@@ -1,6 +1,7 @@
 import { ChallengeCard } from '@/components';
 import { Button } from '@/components/ui/button';
 import { useGetChallengesAsChallengeQuery } from '@/lib/graphql/generated/graphql-types';
+import { Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const ChallengeList = () => {
@@ -24,8 +25,14 @@ export const ChallengeList = () => {
         ))}
       </ul>
 
-      <Button asChild className="fixed right-4 bottom-20 z-50">
-        <Link to="/challenge/new">Créer un challenge</Link>
+      <Button
+        asChild
+        variant="default"
+        className="fixed right-4 bottom-20 z-50 size-14 rounded-full shadow-md shadow-black/50"
+      >
+        <Link to="/challenge/new">
+          <Plus className="size-10" strokeWidth={1.4} />
+        </Link>
       </Button>
     </div>
   );

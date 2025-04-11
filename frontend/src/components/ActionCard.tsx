@@ -7,7 +7,13 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { CirclePlus, Ellipsis, Hourglass, ImagePlus } from 'lucide-react';
+import {
+  CircleCheck,
+  CirclePlus,
+  Ellipsis,
+  Hourglass,
+  ImagePlus,
+} from 'lucide-react';
 import { Pill } from '@/components';
 
 type ActionCardProps = {
@@ -80,26 +86,23 @@ export const ActionCard = ({
           </Pill>
         </CardFooter>
       </div>
-      {/* // 3ème block */}
       <div className="basis-1/6 md:flex md:items-center md:justify-center">
         <Button
           type="button"
           variant="ghost"
           className="cursor-pointer hover:bg-transparent hover:opacity-100"
+          onClick={onClick}
         >
-          <CirclePlus
-            data-testid="circle-plus"
-            style={{ minWidth: '50px', minHeight: '50px' }}
-            strokeWidth={3}
-          />
+          {isSelected ? (
+            <CircleCheck
+              data-testid="circle-plus"
+              className="size-8 fill-slate-300"
+            />
+          ) : (
+            <CirclePlus data-testid="circle-plus" className="size-8" />
+          )}
         </Button>
       </div>
     </Card>
   );
 };
-
-// {isSelected ? (
-//   <CircleCheck className="size-8 fill-slate-300" />
-// ) : (
-//   <CirclePlus className="size-8" />
-// )}
