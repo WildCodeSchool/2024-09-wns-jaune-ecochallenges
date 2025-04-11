@@ -7,18 +7,18 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui';
+} from '@/components/ui/card';
 import { Pill } from '@/components';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 export const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
   const dates = {
-    startDate: new Date(challenge.startDate).toLocaleDateString('fr-FR', {
-      month: 'short',
-      day: 'numeric',
+    startDate: format(new Date(challenge.startDate), 'dd LLL', {
+      locale: fr,
     }),
-    endDate: new Date(challenge.endDate).toLocaleDateString('fr-FR', {
-      month: 'short',
-      day: 'numeric',
+    endDate: format(new Date(challenge.endDate), 'dd LLL', {
+      locale: fr,
     }),
     timeLeft: Math.floor(
       (new Date(challenge.endDate).getTime() - new Date().getTime()) /

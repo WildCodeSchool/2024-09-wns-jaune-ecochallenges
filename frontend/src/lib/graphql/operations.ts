@@ -33,14 +33,6 @@ export const CREATE_CHALLENGE = gql`
   }
 `;
 
-export const ADD_ACTIONS_TO_CHALLENGE = gql`
-  mutation AddActionsToChallenge($challengeId: ID!, $actions: [ID!]!) {
-    addActionsToChallenge(challengeId: $challengeId, actions: $actions) {
-      id
-    }
-  }
-`;
-
 export const GET_ACTIONS = gql`
   query GetActions {
     getActions {

@@ -6,14 +6,20 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Button } from '@/components/ui';
-import { Hourglass, ImagePlus, Plus } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { CircleCheck, CirclePlus, Hourglass, ImagePlus } from 'lucide-react';
 
 type ActionCardProps = {
   readonly action: Action;
+  readonly isSelected: boolean;
+  readonly onClick: () => void;
 };
 
-export const ActionCard = ({ action }: ActionCardProps) => {
+export const ActionCard = ({
+  action,
+  isSelected = false,
+  onClick,
+}: ActionCardProps) => {
   return (
     <Card
       key={action.id}
@@ -21,7 +27,7 @@ export const ActionCard = ({ action }: ActionCardProps) => {
     >
       <div className="flex">
         <img
-          src={`./icons/${action.icon}.png`}
+          src={`/icons/${action.icon}.png`}
           alt="name"
           className="w-1/7 object-contain"
         />
@@ -41,7 +47,7 @@ export const ActionCard = ({ action }: ActionCardProps) => {
             </Button>
             <img
               className="w-10"
-              src={`./icons/level-${action.level}.png`}
+              src={`/icons/level-${action.level}.png`}
               alt="icon of dificulty level"
             />
 
@@ -51,8 +57,17 @@ export const ActionCard = ({ action }: ActionCardProps) => {
             </div>
           </CardFooter>
         </div>
-        <Button type="button" variant="ghost" className="m-auto cursor-pointer">
-          <Plus style={{ minWidth: '36px', minHeight: '36px' }} />
+        <Button
+          type="button"
+          variant="ghost"
+          onClick={onClick}
+          className="m-auto cursor-pointer"
+        >
+          {isSelected ? (
+            <CircleCheck className="size-8 fill-slate-300" />
+          ) : (
+            <CirclePlus className="size-8" />
+          )}
         </Button>
       </div>
     </Card>

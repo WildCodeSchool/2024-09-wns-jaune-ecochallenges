@@ -8,9 +8,7 @@ import {
   useCreateChallengeMutation,
   useGetActionsQuery,
 } from '@/lib/graphql/generated/graphql-types';
-import { Step1Init } from './Step1-Init';
-import { useState, useEffect } from 'react';
-import { Step2Actions } from './Step2-Actions';
+import { Step1Init, Step2Actions } from '@/components/ChallengeForm';
 
 const formSchema = z
   .object({
@@ -44,7 +42,6 @@ const formSchema = z
 type FormType = z.infer<typeof formSchema>;
 
 export const ChallengeForm = () => {
-  const [challengeId, setChallengeId] = useState<string | null>(null);
   const [createChallenge] = useCreateChallengeMutation();
   const actionsQuery = useGetActionsQuery();
 
@@ -62,14 +59,6 @@ export const ChallengeForm = () => {
     },
   });
 
-  // Afficher les valeurs du formulaire à chaque changement
-  useEffect(() => {
-    const subscription = form.watch((value) => {
-      console.log('Valeurs du formulaire (watch):', value);
-    });
-    return () => subscription.unsubscribe();
-  }, [form]);
-
   const onSubmit = async (data: FormType) => {
     try {
       console.log('Données soumises:', data);
@@ -86,7 +75,6 @@ export const ChallengeForm = () => {
         },
       });
       console.log('Challenge créé avec succès :', response.data);
-      setChallengeId(response.data?.createChallenge?.id || null);
     } catch (error) {
       console.error('Erreur lors de la création du challenge :', error);
     }
@@ -96,20 +84,17 @@ export const ChallengeForm = () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <Tabs defaultValue="step1">
-          <TabsList>
-            <TabsTrigger value="step1">Étape 1</TabsTrigger>
-            <TabsTrigger value="step2">Étape 2</TabsTrigger>
-            <TabsTrigger value="step3">Étape 3</TabsTrigger>
+          <TabsList className="w-full">
+            <TabsTrigger value="step1">Infos</TabsTrigger>
+            <TabsTrigger value="step2">Éco-gestes</TabsTrigger>
+            <TabsTrigger value="step3">Participants</TabsTrigger>
           </TabsList>
 
           <TabsContent value="step1">
             <Step1Init />
           </TabsContent>
           <TabsContent value="step2">
-            <Step2Actions
-              challengeId={challengeId}
-              actionsQuery={actionsQuery}
-            />
+            <Step2Actions actionsQuery={actionsQuery} />
           </TabsContent>
           <TabsContent value="step3">
             <p>Coming soon...</p>

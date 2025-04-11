@@ -1,4 +1,4 @@
-import { ChallengeForm } from '@/components/ChallengeForm/ChallengeForm';
+import { ChallengeForm } from '@/components/ChallengeForm';
 
 export const ChallengeCreation = () => {
   return <ChallengeForm />;
