@@ -4,13 +4,13 @@ export const Home = () => {
   const ecoChallenges = [
     {
       id: '1',
-      name: 'No Plastic Week',
+      name: 'Sans platique !',
       imageUrl:
         'https://images.pexels.com/photos/256221/pexels-photo-256221.jpeg?auto=compress&cs=tinysrgb&h=600',
       users: ['Lina', 'Matthieu', 'Sophie'],
       description:
         'Évitez les plastiques à usage unique pendant 7 jours. Apportez vos propres sacs, bouteilles et contenants !',
-      tags: ['sans plastique', 'zéro déchet', 'mode de vie durable'],
+      tags: ['Sans plastique', 'Zéro déchet', 'Durable'],
     },
     {
       id: '2',
@@ -20,7 +20,7 @@ export const Home = () => {
       users: ['Thomas', 'Nina', 'Léo'],
       description:
         'Laissez la voiture au garage et prenez le vélo pour aller au travail ou à l’école tous les jours cette semaine.',
-      tags: ['transport écologique', 'réduction des émissions', 'vélo'],
+      tags: ['transport ', 'Basses émissions', 'vélo'],
     },
     {
       id: '3',
@@ -30,7 +30,7 @@ export const Home = () => {
       users: ['Claire', 'Maxime', 'Alice'],
       description:
         'Ne mangez pas de viande pendant une journée pour réduire votre empreinte carbone.',
-      tags: ['à base de plantes', 'basse émission', 'alimentation saine'],
+      tags: ['Plantes', 'Basses émissions', 'Alimentation'],
     },
     {
       id: '4',
@@ -40,7 +40,7 @@ export const Home = () => {
       users: ['Julien', 'Emma', 'Yasmine'],
       description:
         'Rejoignez vos voisins pour ramasser les déchets dans votre parc ou rue.',
-      tags: ['communauté', 'ramassage de déchets', 'plein air'],
+      tags: ['Communauté', 'Déchets', 'plein air'],
     },
     {
       id: '5',
@@ -50,7 +50,7 @@ export const Home = () => {
       users: ['Lucas', 'Camille', 'Jade'],
       description:
         'Prenez uniquement des douches froides de 3 minutes pendant une semaine pour économiser l’eau et l’énergie.',
-      tags: ['économie d’eau', 'efficacité énergétique', 'pleine conscience'],
+      tags: ['Eau', 'Efficacité énergétique', 'Conscience'],
     },
   ];
 

@@ -53,7 +53,7 @@ export const ChallengeCarouselCard = ({ item }: ChallengeCarouselCardProps) => {
         alt={item.name}
       />
 
-      <CardContent className="flex flex-col justify-around bg-[#8FA99E] p-0 pt-1 pl-3 text-white">
+      <CardContent className="bg-background flex flex-col justify-around p-0 pt-1 pl-3">
         <CardTitle data-testid="card-title" className="my-3 text-left">
           {item.name}
         </CardTitle>
@@ -61,27 +61,33 @@ export const ChallengeCarouselCard = ({ item }: ChallengeCarouselCardProps) => {
           {item.tags.slice(0, maxVisibleTags).map((tag) => (
             <Pill
               data-testid="pills"
-              className="px-1 py-3 text-[#222725]"
+              className="bg-secondary/50 border-0 px-1 py-3"
               key={tag}
             >
               {tag}
             </Pill>
           ))}
           {item.tags.length > maxVisibleTags && (
-            <Pill data-testid="tag-more" className="p-3 text-[#222725]">
+            <Pill
+              data-testid="tag-more"
+              className="bg-secondary/50 border-0 p-3"
+            >
               +{item.tags.length - maxVisibleTags}
             </Pill>
           )}
         </CardHeader>
 
-        <CardDescription data-testid="card-description" className="text-white">
+        <CardDescription
+          data-testid="card-description"
+          className="text-textColor"
+        >
           {item.description}
         </CardDescription>
         <CardFooter>
           <Button
             data-testid="card-button"
             size={'sm'}
-            className="mx-auto bg-amber-600"
+            className="hover:bg-accent text-background mx-auto"
           >
             Rejoindre ce challenge
           </Button>
