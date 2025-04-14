@@ -1,4 +1,125 @@
-export const Filterbar = () => {
+import { Leaf, Search, Sprout, TreePalm, X } from 'lucide-react';
+import { Input } from './ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+import { Button } from './ui/button';
+import {
+  Command,
+  CommandInput,
+  CommandList,
+  CommandEmpty,
+  CommandItem,
+} from './ui/command';
+import { Check } from 'lucide-react';
+import { useGetAllTagsQuery } from '@/lib/graphql/generated/graphql-types';
+
+type Filters = {
+  search: string;
+  selectedTags: string[];
+  selectedDurations: number[];
+  selectedDifficulty: number[];
+};
+
+interface FilterBarProps {
+  filters: Filters;
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
+}
+
+export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
+  const { data: tagsData } = useGetAllTagsQuery();
+
+  const toggleTag = (tagName: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      selectedTags: prev.selectedTags.includes(tagName)
+        ? prev.selectedTags.filter((tag) => tag !== tagName)
+        : [...prev.selectedTags, tagName],
+    }));
+  };
+
+  const removeTag = (tag: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      selectedTags: prev.selectedTags.filter((t) => t !== tag),
+    }));
+  };
+
+  const toggleDifficulty = (difficulty: number) => {
+    setFilters((prev) => ({
+      ...prev,
+      selectedDifficulty: prev.selectedDifficulty.includes(difficulty)
+        ? prev.selectedDifficulty.filter((d) => d !== difficulty)
+        : [...prev.selectedDifficulty, difficulty],
+    }));
+  };
+  const removeDifficulty = (difficulty: number) => {
+    setFilters((prev) => ({
+      ...prev,
+      selectedDifficulty: prev.selectedDifficulty.filter(
+        (d) => d !== difficulty
+      ),
+    }));
+  };
+
+  const toggleDuration = (duration: number) => {
+    setFilters((prev) => ({
+      ...prev,
+      selectedDurations: prev.selectedDurations.includes(duration)
+        ? prev.selectedDurations.filter((d) => d !== duration)
+        : [...prev.selectedDurations, duration],
+    }));
+  };
+  const removeDuration = (duration: number) => {
+    setFilters((prev) => ({
+      ...prev,
+      selectedDurations: prev.selectedDurations.filter((d) => d !== duration),
+    }));
+  };
+
+  const difficulties = [
+    {
+      value: 1,
+      label: 'Facile',
+      icon: <Sprout className="text-primary/30" />,
+    },
+    {
+      value: 2,
+      label: 'Moyen',
+      icon: <Leaf className="text-primary/60 h-4 w-4" />,
+    },
+    {
+      value: 3,
+      label: 'Difficile',
+      icon: <TreePalm className="text-primary" />,
+    },
+  ];
+  const durations = [
+    {
+      value: 2,
+      label: '2 heures ou moins',
+    },
+    {
+      value: 4,
+      label: '4 heures ou moins',
+    },
+    {
+      value: 6,
+      label: '6 heures ou moins',
+    },
+    {
+      value: 8,
+      label: '8 heures ou moins',
+    },
+  ];
+
+  const resetFilter = () => {
+    setFilters({
+      search: '',
+      selectedTags: [],
+      selectedDurations: [],
+      selectedDifficulty: [],
+    });
+  };
+
   return (
     <div className="mx-auto mb-10 flex max-w-screen-lg flex-col gap-3 p-5">
       <div className="relative w-full">
@@ -9,7 +130,7 @@ export const Filterbar = () => {
           type="text"
           placeholder="Rechercher..."
           className="w-full rounded-md border border-gray-300 py-2 pr-4 pl-10"
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => setFilters({ ...filters, search: e.target.value })}
         />
       </div>
 
@@ -18,8 +139,8 @@ export const Filterbar = () => {
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="outline">
-              {selectedTags.length > 0
-                ? `${selectedTags.length} tag(s) sélectionné(s)`
+              {filters.selectedTags.length > 0
+                ? `${filters.selectedTags.length} tag(s) sélectionné(s)`
                 : 'Filtrer par tags'}
             </Button>
           </PopoverTrigger>
@@ -36,7 +157,7 @@ export const Filterbar = () => {
                     className="flex cursor-pointer justify-between"
                   >
                     {tag.name}
-                    {selectedTags.includes(tag.name) && (
+                    {filters.selectedTags.includes(tag.name) && (
                       <Check className="h-4 w-4 text-emerald-500" />
                     )}
                   </CommandItem>
@@ -50,8 +171,8 @@ export const Filterbar = () => {
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="outline">
-              {selectedDifficulty.length > 0
-                ? `${selectedDifficulty.length} difficulté(s) sélectionnée(s)`
+              {filters.selectedDifficulty.length > 0
+                ? `${filters.selectedDifficulty.length} difficulté(s) sélectionnée(s)`
                 : 'Filtrer par difficulté'}
             </Button>
           </PopoverTrigger>
@@ -68,7 +189,7 @@ export const Filterbar = () => {
                     className="justify-left flex cursor-pointer"
                   >
                     {difficulty.label} {difficulty.icon}
-                    {selectedDifficulty.includes(difficulty.value) && (
+                    {filters.selectedDifficulty.includes(difficulty.value) && (
                       <Check className="h-4 w-4 text-emerald-500" />
                     )}
                   </CommandItem>
@@ -82,8 +203,8 @@ export const Filterbar = () => {
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="outline">
-              {selectedDurations.length > 0
-                ? `${selectedDurations.length} durée(s) sélectionnée(s)`
+              {filters.selectedDurations.length > 0
+                ? `${filters.selectedDurations.length} durée(s) sélectionnée(s)`
                 : 'Filtrer par durée'}
             </Button>
           </PopoverTrigger>
@@ -100,7 +221,7 @@ export const Filterbar = () => {
                     className="justify-left flex cursor-pointer"
                   >
                     {duration.label}
-                    {selectedDurations.includes(duration.value) && (
+                    {filters.selectedDurations.includes(duration.value) && (
                       <Check className="h-4 w-4 text-emerald-500" />
                     )}
                   </CommandItem>
@@ -110,23 +231,23 @@ export const Filterbar = () => {
           </PopoverContent>
         </Popover>
 
-        {selectedTags.length ||
-        selectedDifficulty.length ||
-        selectedDurations.length ? (
+        {filters.selectedTags.length ||
+        filters.selectedDifficulty.length ||
+        filters.selectedDurations.length ? (
           <Button onClick={resetFilter} size="sm" variant="link">
             Réinitialiser
           </Button>
         ) : null}
       </div>
       <div className="flex flex-row gap-2">
-        {selectedTags.map((tag) => (
+        {filters.selectedTags.map((tag) => (
           <Button onClick={() => removeTag(tag)} variant="ghost" key={tag}>
             {tag}
             <X className="h-4 w-4" />
           </Button>
         ))}
 
-        {selectedDifficulty.map((difficulty) => (
+        {filters.selectedDifficulty.map((difficulty) => (
           <Button
             onClick={() => removeDifficulty(difficulty)}
             variant="ghost"
@@ -137,7 +258,7 @@ export const Filterbar = () => {
           </Button>
         ))}
 
-        {selectedDurations.map((duration) => (
+        {filters.selectedDurations.map((duration) => (
           <Button
             onClick={() => removeDuration(duration)}
             variant="ghost"
