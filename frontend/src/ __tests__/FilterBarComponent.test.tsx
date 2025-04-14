@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { render, screen, within } from '@testing-library/react';
 import { Filterbar, Filters } from '@/components';
 import { describe, expect, it } from 'vitest';
-import { act, useState } from 'react';
+import { useState } from 'react';
 import { MockedProvider } from '@apollo/client/testing';
 import { GET_ALL_TAGS } from '@/lib/graphql/operations';
 import userEvent from '@testing-library/user-event';
@@ -47,11 +47,11 @@ describe('Filter bar component tests', () => {
     expect(test).toBeInTheDocument();
   });
 
-  /* it('renders the search input', () => {
+  it('renders the search input', () => {
     render(<Wrapper />);
     const searchInput = screen.getByTestId('search-input');
     expect(searchInput).toHaveProperty('placeholder', 'Rechercher...');
-  }); */
+  });
 
   it('renders the tag button', async () => {
     render(<Wrapper />);
@@ -59,13 +59,12 @@ describe('Filter bar component tests', () => {
     expect(tagButton).toHaveTextContent('Filtrer par tags');
 
     await userEvent.click(screen.getByTestId('tag-button'));
-    const popover = await screen.findByRole('dialog'); // Or use a testId on PopoverContent
+    const popover = await screen.findByRole('dialog');
     const tagOption = within(popover).getByText('Recyclage');
 
     expect(tagOption).toBeInTheDocument();
 
-    /*
-
+    await userEvent.click(tagOption);
     expect(tagButton).toHaveTextContent('1 tag(s) sélectionné(s)');
 
     const filterItemButtons = screen.getByTestId('filter-item-buttons');
@@ -76,43 +75,67 @@ describe('Filter bar component tests', () => {
     expect(resetFilterButton).toBeInTheDocument();
     expect(resetFilterButton).toHaveTextContent('Réinitialiser');
 
-    resetFilterButton.click();
+    await userEvent.click(resetFilterButton);
 
     expect(tagButton).toHaveTextContent('Filtrer par tags');
-    expect(filterItemButtons).not.toBeInTheDocument(); */
+    expect(resetFilterButton).not.toBeInTheDocument();
   });
 
-  /*  it('renders the difficulty button', () => {
-        render(<Wrapper />);
-        const difficultyButton = screen.getByTestId('difficulty-button');
-        expect(difficultyButton).toHaveTextContent('Filtrer par difficulté');
+  it('renders the difficulty button', async () => {
+    render(<Wrapper />);
+    const difficultyButton = screen.getByTestId('difficulty-button');
+    expect(difficultyButton).toHaveTextContent('Filtrer par difficulté');
 
-        difficultyButton.click();
+    await userEvent.click(screen.getByTestId('difficulty-button'));
+    const popover = await screen.findByRole('dialog');
+    const difficultyOption = within(popover).getByText('Facile');
 
-        const difficultyPopover = screen.getByTestId('difficulty-popover');
-        expect(difficultyPopover).toBeInTheDocument();
-        expect(difficultyPopover.children).toHaveLength(20);
+    expect(difficultyOption).toBeInTheDocument();
 
-        const difficultyItem = screen.getByText('Facile');
-        expect(difficultyItem).toBeInTheDocument();
+    await userEvent.click(difficultyOption);
+    expect(difficultyButton).toHaveTextContent(
+      '1 difficulté(s) sélectionnée(s)'
+    );
 
-        difficultyItem.click();
+    const filterItemButtons = screen.getByTestId('filter-item-buttons');
+    expect(filterItemButtons).toBeInTheDocument();
+    expect(filterItemButtons.children).toHaveLength(1);
 
-        expect(difficultyButton).toHaveTextContent(
-          '0 difficulté(s) sélectionné(s)'
-        );
+    const resetFilterButton = screen.getByTestId('reset-filter-button');
+    expect(resetFilterButton).toBeInTheDocument();
+    expect(resetFilterButton).toHaveTextContent('Réinitialiser');
 
-        const filterItemButtons = screen.getByTestId('filter-item-buttons');
-        expect(filterItemButtons).toBeInTheDocument();
-        expect(filterItemButtons.children).toHaveLength(1);
+    await userEvent.click(resetFilterButton);
 
-        const resetFilterButton = screen.getByTestId('reset-filter-button');
-        expect(resetFilterButton).toBeInTheDocument();
-        expect(resetFilterButton).toHaveTextContent('Réinitialiser');
+    expect(difficultyButton).toHaveTextContent('Filtrer par difficulté');
+    expect(resetFilterButton).not.toBeInTheDocument();
+  });
 
-        resetFilterButton.click();
+  it('renders the duration button', async () => {
+    render(<Wrapper />);
+    const durationButton = screen.getByTestId('duration-button');
+    expect(durationButton).toHaveTextContent('Filtrer par durée');
 
-        expect(difficultyButton).toHaveTextContent('Filtrer par difficulté');
-        expect(filterItemButtons).not.toBeInTheDocument();
-      }); */
+    await userEvent.click(screen.getByTestId('duration-button'));
+    const popover = await screen.findByRole('dialog');
+    const durationOption = within(popover).getByText('2 heures ou moins');
+
+    expect(durationOption).toBeInTheDocument();
+
+    await userEvent.click(durationOption);
+    expect(durationButton).toHaveTextContent('1 durée(s) sélectionnée(s)');
+
+    const filterItemButtons = screen.getByTestId('filter-item-buttons');
+    expect(filterItemButtons).toBeInTheDocument();
+    expect(filterItemButtons.children).toHaveLength(1);
+
+    const resetFilterButton = screen.getByTestId('reset-filter-button');
+    expect(resetFilterButton).toBeInTheDocument();
+    expect(resetFilterButton).toHaveTextContent('Réinitialiser');
+
+    await userEvent.click(resetFilterButton);
+
+    expect(durationButton).toHaveTextContent('Filtrer par durée');
+    expect(resetFilterButton).not.toBeInTheDocument();
+  });
 });

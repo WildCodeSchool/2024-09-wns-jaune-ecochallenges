@@ -206,13 +206,13 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
         {/* Durée */}
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline">
+            <Button variant="outline" data-testid="duration-button">
               {filters.selectedDurations.length > 0
                 ? `${filters.selectedDurations.length} durée(s) sélectionnée(s)`
                 : 'Filtrer par durée'}
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-64 p-0">
+          <PopoverContent className="w-64 p-0" data-testid="duration-popover">
             <Command>
               <CommandInput placeholder="durée" />
               <CommandList>
