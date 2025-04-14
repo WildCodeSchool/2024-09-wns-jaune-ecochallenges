@@ -12,7 +12,7 @@ import {
 import { Check } from 'lucide-react';
 import { useGetAllTagsQuery } from '@/lib/graphql/generated/graphql-types';
 
-type Filters = {
+export type Filters = {
   search: string;
   selectedTags: string[];
   selectedDurations: number[];
@@ -121,12 +121,16 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
   };
 
   return (
-    <div className="mx-auto mb-10 flex max-w-screen-lg flex-col gap-3 p-5">
+    <div
+      data-testid="filterbar"
+      className="mx-auto mb-10 flex max-w-screen-lg flex-col gap-3 p-5"
+    >
       <div className="relative w-full">
         <span className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400">
           <Search className="h-4 w-4" />
         </span>
         <Input
+          data-testid="search-input"
           type="text"
           placeholder="Rechercher..."
           className="w-full rounded-md border border-gray-300 py-2 pr-4 pl-10"
@@ -138,7 +142,7 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
         {/* tag */}
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline">
+            <Button variant="outline" data-testid="tag-button">
               {filters.selectedTags.length > 0
                 ? `${filters.selectedTags.length} tag(s) sélectionné(s)`
                 : 'Filtrer par tags'}
@@ -148,7 +152,7 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
           <PopoverContent className="w-64 p-0">
             <Command>
               <CommandInput placeholder="Rechercher un tag..." />
-              <CommandList>
+              <CommandList data-testid="tag-popover">
                 <CommandEmpty>Aucun tag trouvé.</CommandEmpty>
                 {tagsData?.getAllTags?.map((tag) => (
                   <CommandItem
@@ -170,13 +174,13 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
         {/* difficulty */}
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline">
+            <Button variant="outline" data-testid="difficulty-button">
               {filters.selectedDifficulty.length > 0
                 ? `${filters.selectedDifficulty.length} difficulté(s) sélectionnée(s)`
                 : 'Filtrer par difficulté'}
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-64 p-0">
+          <PopoverContent className="w-64 p-0" data-testid="difficulty-popover">
             <Command>
               <CommandInput placeholder="difficulté" />
               <CommandList>
@@ -234,12 +238,17 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
         {filters.selectedTags.length ||
         filters.selectedDifficulty.length ||
         filters.selectedDurations.length ? (
-          <Button onClick={resetFilter} size="sm" variant="link">
+          <Button
+            data-testid="reset-filter-button"
+            onClick={resetFilter}
+            size="sm"
+            variant="link"
+          >
             Réinitialiser
           </Button>
         ) : null}
       </div>
-      <div className="flex flex-row gap-2">
+      <div data-testid="filter-item-buttons" className="flex flex-row gap-2">
         {filters.selectedTags.map((tag) => (
           <Button onClick={() => removeTag(tag)} variant="ghost" key={tag}>
             {tag}
