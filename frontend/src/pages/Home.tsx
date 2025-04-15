@@ -1,4 +1,8 @@
-import { ChallengeCarouselCard, CarouselComponent } from '@/components';
+import {
+  ChallengeCarouselCard,
+  CarouselComponent,
+  UserCard,
+} from '@/components';
 
 export const Home = () => {
   const ecoChallenges = [
@@ -59,6 +63,7 @@ export const Home = () => {
       <h1 className="mb-8 rounded-full text-center text-3xl font-thin">
         🌱 Bienvenue sur Eco-challenges 🌱
       </h1>
+      <UserCard></UserCard>
       <CarouselComponent
         data={ecoChallenges}
         CardComponent={ChallengeCarouselCard}
