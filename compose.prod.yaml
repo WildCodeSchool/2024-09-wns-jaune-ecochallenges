@@ -3,7 +3,7 @@ services:
     depends_on:
       - database-eco
     container_name: backend-eco
-    build: ./backend
+    image: ${DOCKER_HUB_USERNAME}/${DOCKER_HUB_SERVER_IMAGE_NAME}:latest
     volumes:
       - ./backend/src/:/app/src/
     environment:
@@ -16,9 +16,7 @@ services:
 
   files:
     container_name: files-eco
-    build:
-      context: ./files
-      dockerfile: Dockerfile.dev
+    image: ${DOCKER_HUB_USERNAME}/${DOCKER_HUB_FILES_IMAGE_NAME}:latest
     volumes:
       - ./files/src:/app/src/
       - ./persist/files-dev:/app/public
@@ -28,7 +26,7 @@ services:
       - backend
       - files
     container_name: frontend-eco
-    build: ./frontend
+    image: ${DOCKER_HUB_USERNAME}/${DOCKER_HUB_CLIENT_IMAGE_NAME}:latest
     volumes:
       - ./frontend/src/:/app/src/
     environment:
@@ -44,10 +42,6 @@ services:
       POSTGRES_DB: ${DB_SCHEMA}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_HOST: ${DB_HOST}
-
-  vizualizer:
-    container_name: vizualizer-eco
-    image: adminer
 
   gateway:
     depends_on:
