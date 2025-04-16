@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { client } from './lib/api.ts';
 import { App } from './App.tsx';
-import { Home, ActionList, ChallengeList, User } from '@/pages';
+import { Home, ActionList, ChallengeList, UserPortal } from '@/pages';
 import './index.css';
 import { NotFoundRedirect } from './pages/NotFoundRedirect.tsx';
 
@@ -31,7 +31,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/user',
-        element: <User />,
+        element: <UserPortal />,
       },
     ],
   },

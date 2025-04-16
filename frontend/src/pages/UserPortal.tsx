@@ -5,7 +5,7 @@ import { Signup } from '@/components/forms/auth/Signup';
 import { Logout } from '@/components/forms/auth/Logout';
 import { useUserStore } from '@/lib/zustand/userStore';
 
-export const User = () => {
+export const UserPortal = () => {
   const [isLoginMode, setIsLoginMode] = useState(false);
   const user = useUserStore((state) => state.user);
   const isAuthenticated = !!user;
