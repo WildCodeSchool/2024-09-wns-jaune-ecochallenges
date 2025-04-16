@@ -1,3 +1,4 @@
+import { GraphQLError } from 'graphql';
 import {
   Arg,
   Ctx,
@@ -79,29 +80,39 @@ export class UserResolver {
 
   @Mutation(() => String)
   async signUp(
-    @Arg('data') userSingUpData: SignUpUserInput,
+    @Arg('data') userSignUpData: SignUpUserInput,
     @Ctx() { res }: { res: Response }
   ) {
-    try {
-      if (!process.env.JWT_SECRET) throw new Error('Missing env variable');
+    if (!process.env.JWT_SECRET) {
+      throw new GraphQLError('Missing JWT_SECRET environment variable');
+    }
 
-      const hashedPassword = await argon.hash(userSingUpData.hashedPassword);
+    try {
+      const existingUser = await User.findOne({
+        where: { email: userSignUpData.email },
+      });
+      if (existingUser) {
+        throw new GraphQLError('Un compte avec cet email existe déjà');
+      }
+
+      const hashedPassword = await argon.hash(userSignUpData.hashedPassword);
 
       const user = await User.save({
-        email: userSingUpData.email,
+        email: userSignUpData.email,
         hashedPassword: hashedPassword,
-        firstname: userSingUpData.firstname,
-        lastname: userSingUpData.lastname,
+        firstname: userSignUpData.firstname,
+        lastname: userSignUpData.lastname,
       });
 
       const access_token = verifyToken(user, process.env.JWT_SECRET);
       setTokenInCookie(res, access_token);
 
       const profil = getProfil(user);
-
       return JSON.stringify(profil);
     } catch (e) {
+      if (e instanceof GraphQLError) throw e;
       console.error(e);
+      throw new GraphQLError("Échec de l'inscription. Veuillez réessayer.");
     }
   }
 
@@ -110,24 +121,33 @@ export class UserResolver {
     @Arg('data') userLogInData: LoginUserInput,
     @Ctx() { res }: { res: Response }
   ) {
-    try {
-      if (!process.env.JWT_SECRET) throw new Error('Missing env variable');
+    if (!process.env.JWT_SECRET) {
+      throw new GraphQLError('Missing JWT_SECRET environment variable');
+    }
 
+    try {
       const user = await User.findOneByOrFail({ email: userLogInData.email });
+
       const isValid = await argon.verify(
         user.hashedPassword,
         userLogInData.hashedPassword
       );
+
+      if (!isValid) {
+        throw new GraphQLError('Email ou mot de passe incorrect');
+      }
+
       const access_token = verifyToken(user, process.env.JWT_SECRET);
       setTokenInCookie(res, access_token);
 
-      if (!isValid) throw new Error('Wrong password');
-
       const profil = getProfil(user);
-
       return JSON.stringify(profil);
     } catch (e) {
+      if (e instanceof GraphQLError) throw e;
       console.error(e);
+      throw new GraphQLError(
+        'Échec de la connexion. Vérifiez vos identifiants.'
+      );
     }
   }
 }
