@@ -1,17 +1,14 @@
-FROM node:lts-alpine
+FROM node:lts-alpine as builder
 
 WORKDIR /app
- ENV CHOKIDAR_USEPOLLING=true
-
 COPY package*.json ./
 RUN npm install
+COPY . .
+RUN npm run build
 
-COPY vite.config.ts ./
-COPY tsconfig* ./
-COPY codegen.ts ./
-COPY components.json ./
-COPY index.html ./
-COPY src ./src
-COPY public ./public
-CMD npm run build
-CMD npm run dev
+FROM node:lts-alpine
+WORKDIR /app
+RUN npm install -g serve
+COPY --from=builder /app/dist ./dist
+EXPOSE 5173
+CMD ["serve", "-s", "dist", "-l", "5173"]
