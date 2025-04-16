@@ -22,7 +22,7 @@ export default tseslint.config({
       tsconfigRootDir: import.meta.dirname,
     },
   },
-})
+});
 ```
 
 - Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
@@ -31,7 +31,7 @@ export default tseslint.config({
 
 ```js
 // eslint.config.js
-import react from 'eslint-plugin-react'
+import react from 'eslint-plugin-react';
 
 export default tseslint.config({
   // Set the react version
@@ -46,5 +46,27 @@ export default tseslint.config({
     ...react.configs.recommended.rules,
     ...react.configs['jsx-runtime'].rules,
   },
-})
+});
+```
+
+## TO display images from the files service:
+
+    - Add the image to persist/files-dev/your folder
+
+call the image in html using /files/your folder/your image
+
+```html
+<img src="/files/icons/water.png" alt="test" />
+```
+
+### 🧪 Testing
+
+This project uses **Vitest** as the frontend test environment.
+
+- All test files should be placed in the `__tests__` folder inside the `frontend/` directory.
+- You can run the tests from the project root using either of the following commands:
+
+```bash
+npm run test       # runs Vitest from within the frontend folder
+make vitest          # runs Vitest using the Makefile from the project root
 ```

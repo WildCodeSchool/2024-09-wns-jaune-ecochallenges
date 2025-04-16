@@ -1,11 +1,13 @@
-function App() {
+import { Outlet } from 'react-router-dom';
+import { Navbar } from '@/components';
+
+export const App = () => {
   return (
     <>
-      <h1 className="text-3xl font-bold underline text-red-500">
-        Hello world with tailwind css!
-      </h1>
+      <main className="mx-auto h-[calc(100vh-var(--spacing-navbar))] overflow-y-auto bg-blue-50 p-2 md:p-4 lg:p-8">
+        <Outlet />
+      </main>
+      <Navbar />
     </>
   );
-}
-
-export default App;
+};

@@ -1,0 +1,53 @@
+services:
+  backend:
+    container_name: backend-eco
+    build: ./backend
+    volumes:
+      - ./backend/src/:/app/src/
+    environment:
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_SCHEMA: ${DB_SCHEMA}
+      DB_USER: ${DB_USER}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      BACKEND_PORT: ${BACKEND_PORT}
+
+  files:
+    container_name: files-eco
+    build:
+      context: ./files
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./files/src:/app/src/
+      - ./persist/files-dev:/app/public
+
+  frontend:
+    container_name: frontend-eco
+    build: ./frontend
+    volumes:
+      - ./frontend/src/:/app/src/
+    environment:
+      VITE_GATEWAY_PORT: ${GATEWAY_PORT}
+  database-eco:
+    container_name: database-eco
+    image: postgres
+    volumes:
+      - ./persist/data/:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_SCHEMA}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_HOST: ${DB_HOST}
+  vizualizer:
+    container_name: vizualizer-eco
+    image: adminer
+  gateway:
+    container_name: gateway-eco
+    image: nginx
+    ports:
+      - ${GATEWAY_PORT}:80
+    volumes:
+      - ./nginx.dev.conf:/etc/nginx/conf.d/dev.conf.template
+    environment:
+      BACKEND_PORT: ${BACKEND_PORT}
+    command: /bin/bash -c "envsubst '$$BACKEND_PORT' < /etc/nginx/conf.d/dev.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
