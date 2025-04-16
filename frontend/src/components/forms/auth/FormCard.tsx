@@ -26,7 +26,7 @@ export const FormCard = ({
   const footerLinkText = isLogin ? 'Créer un compte' : 'Se connecter';
 
   return (
-    <Card className="mx-auto w-full max-w-sm rounded-[var(--radius-lg)] bg-[var(--color-card)] p-4 shadow-lg sm:max-w-md">
+    <Card className="bg-card mx-auto w-full max-w-sm rounded-[var(--radius-lg)] p-4 shadow-lg sm:max-w-md">
       <CardHeader>
         <CardTitle className="text-center text-lg text-[var(--color-primary)]">
           {title}
