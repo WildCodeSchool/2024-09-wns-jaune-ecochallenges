@@ -1,17 +1,34 @@
-FROM node:lts-alpine
+# 🏗 Stage 1: Build the Vite app
+FROM node:lts-alpine AS builder
 
 WORKDIR /app
+
+# Optional for watch mode (not needed here)
 ENV CHOKIDAR_USEPOLLING=true
 
+# Install deps
 COPY package*.json ./
 RUN npm install
 
-COPY vite.config.ts ./
-COPY tsconfig* ./
-COPY codegen.ts ./
-COPY components.json ./
-COPY index.html ./
-COPY src ./src
-COPY public ./public
+# Copy source
+COPY . .
 
-CMD npm run dev
+# Build the frontend
+RUN npm run build
+
+# 📦 Stage 2: Serve the built app using a lightweight HTTP server
+FROM node:lts-alpine
+
+WORKDIR /app
+
+# Install serve globally
+RUN npm install -g serve
+
+# Copy the built files from the previous stage
+COPY --from=builder /app/dist ./dist
+
+# Optional: expose the port serve will use (Vite-style default is 5173)
+EXPOSE 5173
+
+# Serve the app
+CMD ["serve", "-s", "dist", "-l", "5173"]

@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "types": ["@testing-library/jest-dom"],
+    "types": [],
+    //"types": ["@testing-library/jest-dom"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
@@ -27,5 +28,6 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "vitest.config.ts", "vitest.setup.ts"]
+  //"include": ["src", "vitest.config.ts", "vitest.setup.ts"]
+  "include": ["src"]
 }

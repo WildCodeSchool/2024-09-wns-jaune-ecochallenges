@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "types": ["vitest", "@testing-library/jest-dom"]
+  },
+  "include": ["src", "vitest.config.ts", "vitest.setup.ts", "tests"]
+}
