@@ -1,7 +1,6 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -27,25 +26,29 @@ export const FormCard = ({
   const footerLinkText = isLogin ? 'Créer un compte' : 'Se connecter';
 
   return (
-    <Card className="mx-auto w-full max-w-sm rounded-2xl p-4 shadow-md sm:max-w-md">
+    <Card className="mx-auto w-full max-w-sm rounded-[var(--radius-lg)] bg-[var(--color-card)] p-4 shadow-lg sm:max-w-md">
       <CardHeader>
-        <CardTitle className="text-md text-center">{title}</CardTitle>
+        <CardTitle className="text-center text-lg text-[var(--color-primary)]">
+          {title}
+        </CardTitle>
       </CardHeader>
 
       <CardContent>{children}</CardContent>
 
-      <CardFooter className="text-muted-foreground flex flex-col items-center gap-2 text-sm">
+      <CardFooter className="flex flex-col items-center gap-2 text-sm text-[var(--color-muted-foreground)]">
         <div className="flex w-full items-center justify-center gap-2">
-          <span className="bg-border h-px w-full" />
-          <span className="text-muted-foreground text-xs uppercase">ou</span>
-          <span className="bg-border h-px w-full" />
+          <span className="h-px w-full bg-[var(--color-border)]" />
+          <span className="text-xs text-[var(--color-muted-foreground)] uppercase">
+            ou
+          </span>
+          <span className="h-px w-full bg-[var(--color-border)]" />
         </div>
         <p>
           {footerText}{' '}
           <button
             type="button"
             onClick={onToggleForm}
-            className="text-primary underline hover:opacity-80"
+            className="text-[var(--color-primary)] underline hover:opacity-80"
           >
             {footerLinkText}
           </button>

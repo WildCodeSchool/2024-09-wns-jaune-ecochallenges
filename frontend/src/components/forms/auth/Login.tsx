@@ -32,16 +32,15 @@ export const Login = () => {
         hashedPassword: values.password,
       };
 
-      const data = await logInMutation({
+      const { data } = await logInMutation({
         variables: { data: formatedData },
       });
 
-      if (!data.data?.logIn) throw new Error('Login failed');
-      const profile = JSON.parse(data.data.logIn);
-      if (profile) {
-        setUserToStore(profile);
-        navigate('/');
-      }
+      if (!data?.logIn) throw new Error('Login failed');
+
+      const profile = JSON.parse(data.logIn);
+      setUserToStore(profile);
+      navigate('/');
     } catch (error) {
       console.error('Form submission error:', error);
     }
@@ -91,7 +90,6 @@ export const Login = () => {
           <Button type="submit" className="w-full">
             Se connecter
           </Button>
-          <Button variant="secondary">Fake connexion</Button>
         </div>
       </form>
     </Form>

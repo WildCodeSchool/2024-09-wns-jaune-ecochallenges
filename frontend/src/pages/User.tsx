@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { FormCard } from '@/components/forms';
 import { Login } from '@/components/forms/auth/Login';
 import { Signup } from '@/components/forms/auth/Signup';
@@ -8,17 +7,8 @@ import { useUserStore } from '@/lib/zustand/userStore';
 
 export const User = () => {
   const [isLoginMode, setIsLoginMode] = useState(false);
-  const toggleForm = () => setIsLoginMode((prev) => !prev);
-
-  const navigate = useNavigate();
   const user = useUserStore((state) => state.user);
   const isAuthenticated = !!user;
-
-  useEffect(() => {
-    if (isAuthenticated && window.location.pathname !== '/user') {
-      navigate('/');
-    }
-  }, [isAuthenticated, navigate]);
 
   return (
     <>
@@ -26,17 +16,16 @@ export const User = () => {
         🌱 Welcome User 🌱
       </h1>
 
-      {!isAuthenticated && (
+      {!isAuthenticated ? (
         <FormCard
           variant={isLoginMode ? 'login' : 'signup'}
-          onToggleForm={toggleForm}
+          onToggleForm={setIsLoginMode}
         >
-          {isLoginMode ? <Login /> : <Signup onToggleForm={toggleForm} />}
-          {/* {isLoginMode ? <Login /> : <Signup />} */}
+          {isLoginMode ? <Login /> : <Signup onToggleForm={setIsLoginMode} />}
         </FormCard>
+      ) : (
+        <Logout />
       )}
-
-      {isAuthenticated && <Logout />}
     </>
   );
 };
