@@ -1,4 +1,4 @@
-// components/forms/auth/Login.tsx
+import { useState } from 'react';
 import { LoginFormValues } from '@/schemas/auth/login.schema';
 import {
   Button,
@@ -25,6 +25,8 @@ export const Login = () => {
   const setUserToStore = useUserStore((state) => state.login);
   const [logInMutation] = useLogInMutation();
 
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const onSubmit = async (values: LoginFormValues) => {
     try {
       const formatedData: LoginUserInput = {
@@ -42,7 +44,7 @@ export const Login = () => {
       setUserToStore(profile);
       navigate('/');
     } catch (error) {
-      console.error('Form submission error:', error);
+      setErrorMessage("Une erreur s'est produite. Veuillez réessayer.");
     }
   };
 
@@ -87,6 +89,9 @@ export const Login = () => {
               </FormItem>
             )}
           />
+          {errorMessage && (
+            <p className="text-center text-sm text-red-500">{errorMessage}</p>
+          )}
           <Button type="submit" className="w-full">
             Se connecter
           </Button>
