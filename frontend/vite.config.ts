@@ -13,7 +13,7 @@ export default defineConfig({
   },
   server: {
     host: true,
-    allowedHosts: ['frontend'],
+    allowedHosts: ['frontend', 'frontend-eco-dev'],
     hmr: { path: 'hmr' },
   },
 });
