@@ -13,5 +13,5 @@ COPY components.json ./
 COPY index.html ./
 COPY src ./src
 COPY public ./public
-
+CMD npm run build
 CMD npm run dev
