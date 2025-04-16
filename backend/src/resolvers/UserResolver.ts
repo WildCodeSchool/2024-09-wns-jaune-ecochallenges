@@ -52,7 +52,7 @@ const verifyToken = (user: User, jwtSecret: string): string => {
     email: user.email,
     firstname: user.firstname,
     lastname: user.lastname,
-    roles: user.roles,
+    role: user.role,
   };
   const access_token = jwt.sign(tokenContent, jwtSecret);
 

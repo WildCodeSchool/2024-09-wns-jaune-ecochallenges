@@ -48,7 +48,7 @@ export class User extends BaseEntity {
     enum: UserRole,
     default: UserRole.USER,
   })
-  roles!: UserRole;
+  role!: UserRole;
 
   @BeforeInsert()
   @BeforeUpdate()
