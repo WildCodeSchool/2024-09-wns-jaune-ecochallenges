@@ -25,8 +25,8 @@ export const NotFoundRedirect = () => {
   }
 
   return (
-    <div className="bg-background flex min-h-screen flex-col items-center justify-center p-6 text-center">
-      <div className="border-emerald w-full max-w-md rounded-2xl border bg-white p-6 shadow-md">
+    <div className="flex min-h-screen flex-col items-center justify-center p-6 text-center">
+      <div className="bg-background border-secondary w-full max-w-md rounded-2xl border p-6 shadow-md">
         <div className="mb-4 flex items-center justify-center">
           <span className="text-4xl">🌿</span>
         </div>

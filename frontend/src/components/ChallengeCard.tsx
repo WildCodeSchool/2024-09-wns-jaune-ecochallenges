@@ -43,7 +43,7 @@ export const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
   return (
     <article className="h-full">
       <Link to={`/challenges`}>
-        <Card className="relative h-full justify-between bg-linear-to-br from-slate-100 to-slate-200 transition-colors hover:bg-linear-to-br hover:from-slate-200 hover:to-slate-300 active:bg-linear-to-br active:from-slate-300 active:to-slate-400">
+        <Card className="hover:from-accent/20 hover:to-accent/50 relative h-full justify-between">
           <CardHeader className="overflow-hidden">
             <img
               src="https://picsum.photos/400/100"
@@ -51,7 +51,7 @@ export const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
               className="absolute top-0 left-0 z-0 h-16 w-full rounded-t-lg"
             />
 
-            <CardTitle className="absolute top-0 left-0 z-10 flex h-16 w-full items-center justify-center rounded-t-lg text-white shadow-black drop-shadow-lg backdrop-blur-[2px]">
+            <CardTitle className="text-lightText absolute top-0 left-0 z-10 flex h-16 w-full items-center justify-center rounded-t-lg shadow-black drop-shadow-lg backdrop-blur-[2px]">
               <h2>{challenge.label}</h2>
             </CardTitle>
           </CardHeader>

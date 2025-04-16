@@ -15,7 +15,7 @@ export const Navbar = () => {
   const location = useLocation();
 
   return (
-    <nav className="h-navbar bg-primary fixed bottom-0 z-50 flex w-full items-center justify-between p-4 text-white md:justify-around">
+    <nav className="h-navbar bg-sidebar-primary text-sidebar-foreground fixed bottom-0 z-50 flex w-full items-center justify-between p-4 md:justify-around">
       {navItems.map(({ to, icon: Icon, label }) => {
         const isActive = location.pathname === to;
 
@@ -27,12 +27,12 @@ export const Navbar = () => {
             key={to}
             aria-label={label}
             className={cn(
-              'rounded-md p-3 transition-colors',
-              isActive ? 'bg-secondary text-black' : 'text-white'
+              'hover:bg-sidebar-accent hover:text-sidebar-accent-foreground bg-sidebar-primary text-sidebar-primary-foreground rounded-md p-6 transition-colors',
+              isActive ? 'bg-sidebar-accent text-sidebar-accent-foreground' : ''
             )}
           >
             <Link to={to} className="flex flex-col items-center justify-center">
-              <Icon className="size-5" />
+              <Icon className="size-6" />
             </Link>
           </Button>
         );
