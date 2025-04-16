@@ -111,7 +111,6 @@ export class UserResolver {
       return JSON.stringify(profil);
     } catch (e) {
       if (e instanceof GraphQLError) throw e;
-      console.error(e);
       throw new GraphQLError("Échec de l'inscription. Veuillez réessayer.");
     }
   }
@@ -144,7 +143,6 @@ export class UserResolver {
       return JSON.stringify(profil);
     } catch (e) {
       if (e instanceof GraphQLError) throw e;
-      console.error(e);
       throw new GraphQLError(
         'Échec de la connexion. Vérifiez vos identifiants.'
       );
