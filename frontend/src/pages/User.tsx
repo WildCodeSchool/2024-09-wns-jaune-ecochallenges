@@ -9,17 +9,17 @@ export const User = () => {
   const [isLoginMode, setIsLoginMode] = useState(false);
   const user = useUserStore((state) => state.user);
   const isAuthenticated = !!user;
-
+  const toggleLoginMode = () => setIsLoginMode((prev) => !prev);
   return (
     <>
       <h1 className="mb-4 rounded-full text-center text-2xl font-thin">
-        🌱 Welcome User 🌱
+        🌱 Bienvenue 🌱
       </h1>
 
       {!isAuthenticated ? (
         <FormCard
           variant={isLoginMode ? 'login' : 'signup'}
-          onToggleForm={setIsLoginMode}
+          onToggleForm={toggleLoginMode}
         >
           {isLoginMode ? <Login /> : <Signup onToggleForm={setIsLoginMode} />}
         </FormCard>
