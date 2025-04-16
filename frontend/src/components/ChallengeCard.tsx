@@ -11,6 +11,7 @@ import {
 import { Pill } from '@/components';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import { cn } from '@/lib/utils';
 
 export const ChallengeCard = ({
   challenge,
@@ -47,7 +48,12 @@ export const ChallengeCard = ({
   return (
     <article className="h-full">
       <Link to={`/challenge/${challenge.id}/edit`}>
-        <Card className="relative h-full justify-between bg-linear-to-br from-slate-100 to-slate-200 transition-colors hover:bg-linear-to-br hover:from-slate-200 hover:to-slate-300 active:bg-linear-to-br active:from-slate-300 active:to-slate-400">
+        <Card
+          className={cn(
+            'bg-linear-to-br from-slate-100 to-slate-200 transition-colors hover:bg-linear-to-br hover:from-slate-200 hover:to-slate-300 active:bg-linear-to-br active:from-slate-300 active:to-slate-400',
+            'relative h-full justify-between'
+          )}
+        >
           <CardHeader className="overflow-hidden">
             <img
               src="https://picsum.photos/400/100"

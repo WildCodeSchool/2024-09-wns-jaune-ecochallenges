@@ -4,14 +4,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Step1Init, Step2Actions } from '@/components/ChallengeForm';
+import { GET_CHALLENGE, GET_CHALLENGES } from '@/lib/graphql/operations';
 import {
   useCreateChallengeMutation,
   useGetActionsQuery,
   useGetChallengeQuery,
   useUpdateChallengeMutation,
 } from '@/lib/graphql/generated/graphql-types';
-import { Step1Init, Step2Actions } from '@/components/ChallengeForm';
 import { Check } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const formSchema = z
   .object({
@@ -45,13 +47,35 @@ const formSchema = z
 type FormType = z.infer<typeof formSchema>;
 
 export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
-  const [createChallenge] = useCreateChallengeMutation();
-  const [updateChallenge] = useUpdateChallengeMutation();
+  const navigate = useNavigate();
+  const actionsQuery = useGetActionsQuery();
+  const [createChallenge] = useCreateChallengeMutation({
+    refetchQueries: [
+      {
+        query: GET_CHALLENGES,
+      },
+    ],
+    onCompleted: () => {
+      //! TODO: redirect to the challenge page
+      navigate(`/challenges`);
+    },
+  });
+  const [updateChallenge] = useUpdateChallengeMutation({
+    refetchQueries: [
+      {
+        query: GET_CHALLENGE,
+        variables: { id: challengeId },
+      },
+    ],
+    onCompleted: () => {
+      //! TODO: redirect to the challenge page
+      navigate(`/challenges`);
+    },
+  });
   const { data, loading, error } = useGetChallengeQuery({
     skip: !challengeId,
     variables: { id: challengeId! },
   });
-  const actionsQuery = useGetActionsQuery();
 
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
@@ -92,7 +116,10 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
           }));
 
       if (response.errors) throw new Error(response.errors[0].message);
-      console.log('Challenge créé avec succès :', response.data);
+      console.log(
+        `Challenge ${challengeId ? 'modifié' : 'créé'} avec succès :`,
+        response.data
+      );
     } catch (error) {
       console.error('Erreur lors de la création du challenge :', error);
     }

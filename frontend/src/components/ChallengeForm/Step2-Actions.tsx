@@ -1,11 +1,18 @@
+import { ActionCard } from '@/components';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { Button } from '@/components/ui/button';
+import { FormControl, FormField, FormItem } from '@/components/ui/form';
 import {
   Action,
   GetActionsQueryHookResult,
 } from '@/lib/graphql/generated/graphql-types';
-import { FormControl, FormField, FormItem } from '@/components/ui/form';
+import { CircleCheck, CirclePlus, CircleX, Trash } from 'lucide-react';
 import { useFormContext } from 'react-hook-form';
-import { ActionCard } from '@/components';
-import { useEffect, useState } from 'react';
 
 export const Step2Actions = ({
   actionsQuery: { data, loading, error },
@@ -13,56 +20,126 @@ export const Step2Actions = ({
   actionsQuery: GetActionsQueryHookResult;
 }) => {
   const form = useFormContext();
-  const [sortedActions, setSortedActions] = useState<Action[]>(
-    data?.getActions || []
+  const selectedActionIds = form.watch('actions') || [];
+
+  if (!data?.getActions) return <p role="alert">Aucun éco-gestes trouvé</p>;
+  if (loading)
+    return (
+      <p role="status" aria-busy="true">
+        Chargement des éco-gestes...
+      </p>
+    );
+  if (error)
+    return (
+      <p role="alert">
+        Erreur lors du chargement des éco-gestes : {error.message}
+      </p>
+    );
+
+  const selectedActions = data.getActions.filter((action) =>
+    selectedActionIds.includes(action.id)
   );
 
-  if (!data?.getActions) return <p>Aucun éco-gestes trouvé</p>;
-  if (loading) return <p>Chargement des éco-gestes...</p>;
-  if (error)
-    return <p>Erreur lors du chargement des éco-gestes : {error.message}</p>;
+  const availableActions = data.getActions.filter(
+    (action) => !selectedActionIds.includes(action.id)
+  );
 
-  useEffect(() => {
-    const subscription = form.watch((value) => {
-      const sortedActionsTmp = [...data?.getActions].sort((a, b) => {
-        if (!value.actions) return 0;
-        const isSelectedA = value.actions?.includes(a.id);
-        const isSelectedB = value.actions?.includes(b.id);
-        if (isSelectedA && !isSelectedB) return -1;
-        if (!isSelectedA && isSelectedB) return 1;
-        return 0;
-      });
+  const handleActionClick = (
+    action: Omit<Action, 'challenges'>,
+    isSelected: boolean
+  ) => {
+    const newValue = isSelected
+      ? selectedActionIds.filter((id: string) => id !== action.id)
+      : [...selectedActionIds, action.id];
+    form.setValue('actions', newValue, { shouldValidate: true });
+  };
 
-      setSortedActions(sortedActionsTmp);
-    });
-    return () => subscription.unsubscribe();
-  }, []);
+  const clearSelectedActions = () => {
+    form.setValue('actions', [], { shouldValidate: true });
+  };
 
   return (
     <FormField
       control={form.control}
       name="actions"
-      render={({ field }) => (
-        <div className="flex flex-col flex-wrap items-center justify-center gap-4 text-center xl:flex-row">
-          {sortedActions.map((action) => (
-            <FormItem key={action.id}>
-              <FormControl>
-                <ActionCard
-                  key={`action-${action.id}`}
-                  action={action}
-                  isSelected={field.value?.includes(action.id)}
-                  onClick={() => {
-                    const selectedActions = field.value || [];
-                    const newValue = selectedActions.includes(action.id)
-                      ? selectedActions.filter((id: string) => id !== action.id)
-                      : [...selectedActions, action.id];
-                    field.onChange(newValue);
-                  }}
-                />
-              </FormControl>
-            </FormItem>
-          ))}
-        </div>
+      render={() => (
+        <Accordion type="multiple" defaultValue={['selected', 'available']}>
+          <AccordionItem
+            value="selected"
+            disabled={selectedActions.length === 0}
+          >
+            <AccordionTrigger>
+              <div className="flex min-h-8 w-full items-center gap-2 uppercase">
+                {selectedActions.length > 0 ? (
+                  <>
+                    <CircleCheck aria-hidden="true" />
+                    <span>Actions sélectionnées : </span>
+                    <span
+                      className="font-bold"
+                      aria-label="Nombre d'actions sélectionnées"
+                    >
+                      {selectedActions.length}
+                    </span>
+                    <Button
+                      variant="destructive"
+                      className="ml-auto"
+                      size="sm"
+                      type="button"
+                      onClick={clearSelectedActions}
+                      aria-label="Supprimer toutes les actions sélectionnées"
+                    >
+                      <Trash aria-hidden="true" />
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <CircleX aria-hidden="true" />
+                    <span>Aucune action sélectionnée</span>
+                  </>
+                )}
+              </div>
+            </AccordionTrigger>
+
+            {selectedActions.length > 0 && (
+              <AccordionContent className="flex flex-col flex-wrap items-center justify-center gap-4 text-center xl:flex-row">
+                {selectedActions.map((action) => (
+                  <FormItem key={action.id}>
+                    <FormControl>
+                      <ActionCard
+                        action={action}
+                        isSelected={true}
+                        onClick={() => handleActionClick(action, true)}
+                      />
+                    </FormControl>
+                  </FormItem>
+                ))}
+              </AccordionContent>
+            )}
+          </AccordionItem>
+
+          <AccordionItem value="available">
+            <AccordionTrigger>
+              <div className="flex min-h-8 items-center gap-2 uppercase">
+                <CirclePlus aria-hidden="true" />
+                <span>Ajouter des actions</span>
+              </div>
+            </AccordionTrigger>
+
+            <AccordionContent className="flex flex-col flex-wrap items-center justify-center gap-4 text-center xl:flex-row">
+              {availableActions.map((action) => (
+                <FormItem key={action.id}>
+                  <FormControl>
+                    <ActionCard
+                      action={action}
+                      isSelected={false}
+                      onClick={() => handleActionClick(action, false)}
+                    />
+                  </FormControl>
+                </FormItem>
+              ))}
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       )}
     />
   );

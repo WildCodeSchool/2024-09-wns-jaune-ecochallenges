@@ -77,7 +77,7 @@ export const Step1Init = () => {
                   <Button
                     variant={'outline'}
                     className={cn(
-                      'w-[300px] justify-start text-left font-normal',
+                      'font-normal, bg-muted/30 w-[300px] justify-start text-left',
                       !field.value && 'text-muted-foreground'
                     )}
                   >
