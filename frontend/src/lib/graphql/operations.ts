@@ -8,7 +8,7 @@ export const GET_USERS = gql`
       lastname
       email
       hashedPassword
-      roles
+      role
     }
   }
 `;

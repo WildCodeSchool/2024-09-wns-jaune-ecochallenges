@@ -114,7 +114,7 @@ export type User = {
   hashedPassword: Scalars['String']['output'];
   id: Scalars['String']['output'];
   lastname: Scalars['String']['output'];
-  roles: Scalars['String']['output'];
+  role: Scalars['String']['output'];
 };
 
 export type GetUsersAsUserQueryVariables = Exact<{ [key: string]: never }>;
@@ -128,7 +128,7 @@ export type GetUsersAsUserQuery = {
     lastname: string;
     email: string;
     hashedPassword: string;
-    roles: string;
+    role: string;
   }>;
 };
 
@@ -187,7 +187,7 @@ export const GetUsersAsUserDocument = gql`
       lastname
       email
       hashedPassword
-      roles
+      role
     }
   }
 `;

@@ -30,7 +30,9 @@ services:
       - backend
       - files
     container_name: frontend-eco
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
     volumes:
       - ./frontend/src/:/app/src/
     environment:

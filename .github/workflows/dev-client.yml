@@ -40,6 +40,6 @@ jobs:
         name: Build and push
         with:
           context: ./frontend
-          file: ./frontend/Dockerfile
+          file: ./frontend/Dockerfile.prod
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_CLIENT_IMAGE_NAME }}:latest
