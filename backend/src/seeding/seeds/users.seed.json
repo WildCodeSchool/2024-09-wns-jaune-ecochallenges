@@ -2,39 +2,51 @@
   "users": [
     {
       "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f0",
-      "name": "thomas",
+      "firstname": "thomas",
+      "lastname": "NIG",
       "email": "thomas@example.com",
-      "hashedPassword": "Thomas123!"
+      "hashedPassword": "Thomas123!",
+      "roles": "admin"
     },
     {
       "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f1",
-      "name": "marjorie",
+      "firstname": "marjorie",
+      "lastname": "MARC",
       "email": "marjorie@example.com",
-      "hashedPassword": "Marjorie123!"
+      "hashedPassword": "Marjorie123!",
+      "roles": "admin"
     },
     {
       "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f2",
-      "name": "nicolas",
+      "firstname": "nicolas",
+      "lastname": "ALIB",
       "email": "nicolas@example.com",
-      "hashedPassword": "Nicolas123!"
+      "hashedPassword": "Nicolas123!",
+      "roles": "admin"
     },
     {
       "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f3",
-      "name": "ornella",
+      "firstname": "ornella",
+      "lastname": "BORG",
       "email": "ornella@example.com",
-      "hashedPassword": "Ornella123!"
+      "hashedPassword": "Ornella123!",
+      "roles": "admin"
     },
     {
       "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f4",
-      "name": "pierreAdrien",
+      "firstname": "pierreAdrien",
+      "lastname": "PA",
       "email": "pierreAdrien@example.com",
-      "hashedPassword": "PierreAdrien123!"
+      "hashedPassword": "PierreAdrien123!",
+      "roles": "admin"
     },
     {
       "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f5",
-      "name": "elie",
+      "firstname": "elie",
+      "lastname": "OEUF",
       "email": "elie@example.com",
-      "hashedPassword": "Elie123!"
+      "hashedPassword": "Elie123!",
+      "roles": "admin"
     }
   ]
 }

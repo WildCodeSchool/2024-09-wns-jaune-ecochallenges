@@ -4,9 +4,11 @@ export const GET_USERS = gql`
   query GetUsersAsUser {
     getUsersAsUser {
       id
-      name
+      firstname
+      lastname
       email
       hashedPassword
+      role
     }
   }
 `;
@@ -75,5 +77,17 @@ export const GET_ACTIONS = gql`
       level
       time
     }
+  }
+`;
+
+export const MUTATION_SIGN_UP = gql`
+  mutation SignUp($data: SignUpUserInput!) {
+    signUp(data: $data)
+  }
+`;
+
+export const MUTATION_LOG_IN = gql`
+  mutation LogIn($data: LoginUserInput!) {
+    logIn(data: $data)
   }
 `;
