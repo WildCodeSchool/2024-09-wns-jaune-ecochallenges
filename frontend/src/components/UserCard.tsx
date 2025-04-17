@@ -1,5 +1,4 @@
-import { Card } from '@/components/ui';
-import { Avatar, AvatarImage } from './ui/avatar';
+import { Card, Avatar, AvatarImage } from '@/components/ui';
 
 interface IUserCard {
   id: number;

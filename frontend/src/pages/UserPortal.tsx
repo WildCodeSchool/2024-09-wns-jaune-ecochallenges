@@ -7,8 +7,7 @@ import { useUserStore } from '@/lib/zustand/userStore';
 
 export const UserPortal = () => {
   const [isLoginMode, setIsLoginMode] = useState(false);
-  const userStore = useUserStore();
-  const isAuth = userStore.isAuthenticated();
+  const isAuth = useUserStore((state) => !!state.user);
   const toggleLoginMode = () => setIsLoginMode((prev) => !prev);
   return (
     <>

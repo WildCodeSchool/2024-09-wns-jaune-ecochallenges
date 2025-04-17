@@ -15,7 +15,6 @@ type UserState = {
   user: UserLogin | null;
   login: (user: UserLogin) => void;
   logout: () => void;
-  isAuthenticated: () => boolean;
 };
 
 export const useUserStore = create<UserState>()(
@@ -27,7 +26,6 @@ export const useUserStore = create<UserState>()(
         logout: () => {
           set({ user: null });
         },
-        isAuthenticated: () => get().user !== null,
         isAdmin: () => get().user?.role === 'admin',
       }),
       {

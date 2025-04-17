@@ -6,8 +6,7 @@ import {
 import { useUserStore } from '@/lib/zustand/userStore';
 
 export const Home = () => {
-  const userStore = useUserStore();
-  const isAuth = userStore.isAuthenticated();
+  const isAuth = useUserStore((state) => !!state.user);
 
   const ecoChallenges = [
     {
