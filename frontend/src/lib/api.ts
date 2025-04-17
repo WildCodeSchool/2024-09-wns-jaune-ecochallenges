@@ -1,6 +1,11 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
+
+const link = createHttpLink({
+  uri: '/api',
+  credentials: 'include',
+});
 
 export const client = new ApolloClient({
-  uri: `http://localhost:${import.meta.env.VITE_GATEWAY_PORT}/api`,
   cache: new InMemoryCache(),
+  link,
 });
