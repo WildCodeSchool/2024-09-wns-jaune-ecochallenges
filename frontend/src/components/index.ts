@@ -4,3 +4,7 @@ export * from './Navbar';
 export * from './Pill';
 export * from './ChallengeCarouselCard';
 export * from './CarouselComponent';
+export * from './ChallengeDetailHeader';
+export * from './ChallengeDetailTab';
+export * from './ActionResume';
+export * from './ActionList';

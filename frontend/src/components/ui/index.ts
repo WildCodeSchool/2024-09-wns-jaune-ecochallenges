@@ -3,4 +3,6 @@ export * from './card';
 export * from './form';
 export * from './input';
 export * from './label';
+export * from './avatar';
+export * from './checkbox';
 export * from '../PasswordInput';
