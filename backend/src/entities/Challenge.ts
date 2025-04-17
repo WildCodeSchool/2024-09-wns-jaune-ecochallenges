@@ -3,16 +3,19 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
+import { Action } from './Action';
 
 @Entity()
 @ObjectType()
 export class Challenge extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Field((_type) => ID)
-  id!: number;
+  id!: string;
 
   @Field()
   @Column({ length: 100 })
@@ -37,4 +40,9 @@ export class Challenge extends BaseEntity {
   @Field()
   @CreateDateColumn()
   createdAt!: Date;
+
+  @Field(() => [Action])
+  @ManyToMany(() => Action, (action) => action.challenges)
+  @JoinTable()
+  actions?: Action[];
 }

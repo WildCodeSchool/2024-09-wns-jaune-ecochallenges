@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
-import { Tag } from '@/entities';
+import { Tag, Challenge } from '@/entities';
 
 const levelType = {
   levelOne: 1,
@@ -23,7 +23,7 @@ const iconType = ['leaf', 'recycling', 'drop'];
 export class Action extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Field((_type) => ID)
-  id!: number;
+  id!: string;
 
   @Field()
   @Column({ length: 100 })
@@ -62,4 +62,8 @@ export class Action extends BaseEntity {
   updateDates() {
     this.createdAt = new Date();
   }
+
+  @Field(() => [Challenge])
+  @ManyToMany(() => Challenge, (challenge) => challenge.actions)
+  challenges?: Challenge[];
 }

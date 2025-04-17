@@ -33,8 +33,8 @@ describe('Example tests', () => {
 
     expect(actionCard).toBeInTheDocument();
 
-    const circlePlus = screen.getByTestId('circle-plus');
+    const actionCardButton = screen.getByTestId('action-card-button');
 
-    expect(circlePlus).toBeInTheDocument();
+    expect(actionCardButton).toBeInTheDocument();
   });
 });

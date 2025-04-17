@@ -42,7 +42,7 @@ export class ActionResolver {
   }
 
   @Query(() => Action)
-  async getActionById(@Arg('id') id: number) {
+  async getActionById(@Arg('id') id: string) {
     const action = await Action.findOneOrFail({
       where: { id },
       relations: ['tags'],
