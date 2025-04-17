@@ -63,7 +63,7 @@ export const Home = () => {
         data={ecoChallenges}
         CardComponent={ChallengeCarouselCard}
       />
-      <h1>THOMAS VOUS DIT BOJOUR DEPUIS LA STAGING BRANCH</h1>
+      <h1>THOMAS VOUS DIT BOJOUR DEPUIS LA STAGING BRANCHE</h1>
     </>
   );
 };
