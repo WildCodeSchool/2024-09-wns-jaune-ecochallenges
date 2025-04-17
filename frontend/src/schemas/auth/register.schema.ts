@@ -12,12 +12,9 @@ export const registerSchema = z
       .min(2, { message: 'Le nom doit faire au moins 2 caractères' })
       .max(100, { message: 'Le nom ne doit pas dépasser 100 caractères' }),
 
-    email: z
-      .string()
-      .email({ message: 'Adresse email invalide' })
-      .max(255, {
-        message: 'L’adresse email ne doit pas dépasser 255 caractères',
-      }),
+    email: z.string().email({ message: 'Adresse email invalide' }).max(255, {
+      message: 'L’adresse email ne doit pas dépasser 255 caractères',
+    }),
 
     password: z
       .string()
