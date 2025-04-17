@@ -20,7 +20,7 @@ services:
     container_name: files-eco
     build:
       context: ./files
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     volumes:
       - ./files/src:/app/src/
       - ./persist/files-dev:/app/public
