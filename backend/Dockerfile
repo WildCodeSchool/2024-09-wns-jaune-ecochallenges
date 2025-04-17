@@ -8,4 +8,4 @@ RUN npm i
 RUN npm install --save-dev nodemon
 RUN npm i -D nodemon ts-node concurrently
 COPY src src
-CMD npm run dev
+CMD ["npm", "run", "dev"]
