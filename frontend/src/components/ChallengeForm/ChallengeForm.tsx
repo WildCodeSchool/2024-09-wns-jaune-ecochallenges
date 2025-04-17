@@ -111,6 +111,9 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
       },
       actions: data.getChallenge.actions.map((action) => action.id),
     },
+    defaultValues: {
+      actions: [],
+    },
   });
 
   const onSubmit = async (formData: FormType) => {
@@ -185,6 +188,7 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
             <p>Coming soon...</p>
           </TabsContent>
         </Tabs>
+
         <div className="fixed right-4 bottom-20 z-50 flex flex-col gap-4">
           {challengeId && (
             <Dialog>
@@ -215,6 +219,7 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
               </DialogContent>
             </Dialog>
           )}
+
           <Button
             type="submit"
             variant="default"
