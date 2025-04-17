@@ -16,13 +16,13 @@ import {
   LoginUserInput,
   useLogInMutation,
 } from '@/lib/graphql/generated/graphql-types';
-import { useUserStore } from '@/lib/zustand/userStore'; // Assure-toi d'importer correctement ton store
+import { useUserStore } from '@/lib/zustand/userStore';
 import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
+  const { login } = useUserStore();
   const form = useLoginForm();
   const navigate = useNavigate();
-  const setUserToStore = useUserStore((state) => state.login);
   const [logInMutation] = useLogInMutation();
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -41,8 +41,10 @@ export const Login = () => {
       if (!data?.logIn) throw new Error('Login failed');
 
       const profile = JSON.parse(data.logIn);
-      setUserToStore(profile);
-      navigate('/');
+      if (profile) {
+        login(profile);
+        navigate('/');
+      }
     } catch (error) {
       setErrorMessage("Une erreur s'est produite. Veuillez réessayer.");
     }

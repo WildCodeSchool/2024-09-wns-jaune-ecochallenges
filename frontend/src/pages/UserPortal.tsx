@@ -7,8 +7,8 @@ import { useUserStore } from '@/lib/zustand/userStore';
 
 export const UserPortal = () => {
   const [isLoginMode, setIsLoginMode] = useState(false);
-  const user = useUserStore((state) => state.user);
-  const isAuthenticated = !!user;
+  const userStore = useUserStore();
+  const isAuth = userStore.isAuthenticated();
   const toggleLoginMode = () => setIsLoginMode((prev) => !prev);
   return (
     <>
@@ -16,7 +16,7 @@ export const UserPortal = () => {
         🌱 Bienvenue 🌱
       </h1>
 
-      {!isAuthenticated ? (
+      {!isAuth ? (
         <FormCard
           variant={isLoginMode ? 'login' : 'signup'}
           onToggleForm={toggleLoginMode}

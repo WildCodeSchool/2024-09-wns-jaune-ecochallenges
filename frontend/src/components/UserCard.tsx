@@ -1,12 +1,13 @@
-import { Card, Avatar, AvatarImage } from '@/components/ui';
+import { Card } from '@/components/ui';
+import { Avatar, AvatarImage } from './ui/avatar';
 
 interface IUserCard {
   id: number;
   bernardPoints: number;
   nbActions: number;
   nbChallenges: number;
-  picture: string;
-  pictureName: string;
+  picture?: string;
+  pictureName?: string;
 }
 
 type UserCardProps = {

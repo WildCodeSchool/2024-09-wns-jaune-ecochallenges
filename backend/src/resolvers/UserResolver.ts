@@ -39,9 +39,11 @@ export class LoginUserInput {
 
 const getProfil = (user: User) => {
   const profile = {
+    id: user.id,
     email: user.email,
     firstname: user.firstname,
     lastname: user.lastname,
+    role: user.role,
   };
 
   return profile;
