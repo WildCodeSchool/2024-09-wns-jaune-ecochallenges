@@ -26,6 +26,7 @@ import {
 import { toast } from 'sonner';
 import { Check, Trash } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const formSchema = z
   .object({
@@ -60,6 +61,7 @@ type FormType = z.infer<typeof formSchema>;
 
 export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('step1');
   const actionsQuery = useGetActionsQuery();
   const [createChallenge] = useCreateChallengeMutation({
     refetchQueries: [
@@ -112,6 +114,13 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
       actions: data.getChallenge.actions.map((action) => action.id),
     },
     defaultValues: {
+      label: '',
+      description: '',
+      bannerURL: '',
+      dateRange: {
+        from: undefined,
+        to: undefined,
+      },
       actions: [],
     },
   });
@@ -151,6 +160,26 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
     }
   };
 
+  const onError = (errors: typeof form.formState.errors) => {
+    const errorTab = getTabWithErrors(errors);
+    if (!errorTab) return;
+    setActiveTab(errorTab);
+    toast.error('Veuillez corriger les erreurs avant de continuer');
+  };
+
+  const getTabWithErrors = (errors: typeof form.formState.errors) => {
+    if (
+      errors.label ||
+      errors.description ||
+      errors.bannerURL ||
+      errors.dateRange
+    ) {
+      return 'step1';
+    }
+    if (errors.actions) return 'step2';
+    return null;
+  };
+
   const handleDeleteChallenge = async () => {
     try {
       const response = await deleteChallenge({
@@ -170,8 +199,11 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="relative">
-        <Tabs defaultValue="step1">
+      <form
+        onSubmit={form.handleSubmit(onSubmit, onError)}
+        className="relative"
+      >
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="w-full">
             <TabsTrigger value="step1">Infos</TabsTrigger>
             <TabsTrigger value="step2">Éco-gestes</TabsTrigger>
