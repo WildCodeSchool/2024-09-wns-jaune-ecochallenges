@@ -30,7 +30,9 @@ services:
       - backend
       - files
     container_name: frontend-eco
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
     volumes:
       - ./frontend/src/:/app/src/
     environment:
@@ -40,7 +42,7 @@ services:
     container_name: database-eco
     image: postgres
     volumes:
-      - ./persist/data/:/var/lib/postgresql/data/
+      - ./persist/data-dev/:/var/lib/postgresql/data/
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_SCHEMA}
