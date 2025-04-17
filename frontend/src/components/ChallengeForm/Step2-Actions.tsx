@@ -68,37 +68,42 @@ export const Step2Actions = ({
             value="selected"
             disabled={selectedActions.length === 0}
           >
-            <AccordionTrigger>
-              <div className="flex min-h-8 w-full items-center gap-2 uppercase">
-                {selectedActions.length > 0 ? (
-                  <>
-                    <CircleCheck aria-hidden="true" />
-                    <span>Actions sélectionnées : </span>
-                    <span
-                      className="font-bold"
-                      aria-label="Nombre d'actions sélectionnées"
-                    >
-                      {selectedActions.length}
-                    </span>
-                    <Button
-                      variant="destructive"
-                      className="ml-auto"
-                      size="sm"
-                      type="button"
-                      onClick={clearSelectedActions}
-                      aria-label="Supprimer toutes les actions sélectionnées"
-                    >
-                      <Trash aria-hidden="true" />
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <CircleX aria-hidden="true" />
-                    <span>Aucune action sélectionnée</span>
-                  </>
-                )}
-              </div>
-            </AccordionTrigger>
+            <div className="relative">
+              <AccordionTrigger>
+                <div className="flex items-center gap-2 uppercase">
+                  {selectedActions.length > 0 ? (
+                    <>
+                      <CircleCheck aria-hidden="true" />
+                      <span>Actions sélectionnées : </span>
+                      <span
+                        className="font-bold"
+                        aria-label="Nombre d'actions sélectionnées"
+                      >
+                        {selectedActions.length}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <CircleX aria-hidden="true" />
+                      <span>Aucune action sélectionnée</span>
+                    </>
+                  )}
+                </div>
+              </AccordionTrigger>
+
+              {selectedActions.length > 0 && (
+                <Button
+                  variant="destructive"
+                  className="absolute top-3 right-8"
+                  size="sm"
+                  type="button"
+                  onClick={clearSelectedActions}
+                  aria-label="Supprimer toutes les actions sélectionnées"
+                >
+                  <Trash aria-hidden="true" />
+                </Button>
+              )}
+            </div>
 
             {selectedActions.length > 0 && (
               <AccordionContent className="flex flex-col flex-wrap items-center justify-center gap-4 text-center xl:flex-row">
@@ -119,7 +124,7 @@ export const Step2Actions = ({
 
           <AccordionItem value="available">
             <AccordionTrigger>
-              <div className="flex min-h-8 items-center gap-2 uppercase">
+              <div className="flex items-center gap-2 uppercase">
                 <CirclePlus aria-hidden="true" />
                 <span>Ajouter des actions</span>
               </div>

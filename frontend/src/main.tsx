@@ -11,10 +11,10 @@ import {
   ChallengeCreation,
   ChallengeEdition,
   UserPortal,
+  NotFoundRedirect,
 } from '@/pages';
 
 import './index.css';
-import { NotFoundRedirect } from './pages/NotFoundRedirect.tsx';
 
 export const router = createBrowserRouter([
   {
