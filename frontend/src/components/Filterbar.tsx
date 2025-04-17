@@ -1,22 +1,32 @@
 import { Leaf, Search, Sprout, TreePalm, X } from 'lucide-react';
-import { Input } from './ui/input';
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
-import { Button } from './ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { Button } from '@/components/ui/button';
 import {
   Command,
   CommandInput,
   CommandList,
   CommandEmpty,
   CommandItem,
-} from './ui/command';
+} from '@/components/ui/command';
 import { Check } from 'lucide-react';
 import { useGetAllTagsQuery } from '@/lib/graphql/generated/graphql-types';
 
 export type Filters = {
   search: string;
-  selectedTags: string[];
-  selectedDurations: number[];
-  selectedDifficulty: number[];
+  tags: Set<string>;
+  durations: Set<number>;
+  difficulties: Set<number>;
+};
+
+type FiltersWithTypes = {
+  tags: string;
+  difficulties: number;
+  durations: number;
 };
 
 interface FilterBarProps {
@@ -24,99 +34,81 @@ interface FilterBarProps {
   setFilters: React.Dispatch<React.SetStateAction<Filters>>;
 }
 
+const difficulties = [
+  {
+    value: 1,
+    label: 'Facile',
+    icon: Sprout,
+    className: 'text-primary/30',
+  },
+  {
+    value: 2,
+    label: 'Moyen',
+    icon: Leaf,
+    className: 'text-primary/60 h-4 w-4',
+  },
+  {
+    value: 3,
+    label: 'Difficile',
+    icon: TreePalm,
+    className: 'text-primary',
+  },
+] as const;
+
+const durations = [
+  {
+    value: 2,
+    label: '2 heures ou moins',
+  },
+  {
+    value: 4,
+    label: '4 heures ou moins',
+  },
+  {
+    value: 6,
+    label: '6 heures ou moins',
+  },
+  {
+    value: 8,
+    label: '8 heures ou moins',
+  },
+] as const;
+
 export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
   const { data: tagsData } = useGetAllTagsQuery();
 
-  const toggleTag = (tagName: string) => {
-    setFilters((prev) => ({
-      ...prev,
-      selectedTags: prev.selectedTags.includes(tagName)
-        ? prev.selectedTags.filter((tag) => tag !== tagName)
-        : [...prev.selectedTags, tagName],
-    }));
-  };
+  const handleFilter = <K extends keyof FiltersWithTypes>(
+    key: K,
+    value: FiltersWithTypes[K],
+    action: 'toggle' | 'remove'
+  ) => {
+    setFilters((prev) => {
+      const newSet = new Set<FiltersWithTypes[K]>(
+        prev[key] as Set<FiltersWithTypes[K]>
+      );
 
-  const removeTag = (tag: string) => {
-    setFilters((prev) => ({
-      ...prev,
-      selectedTags: prev.selectedTags.filter((t) => t !== tag),
-    }));
-  };
+      switch (action) {
+        case 'toggle':
+          if (newSet.has(value)) newSet.delete(value);
+          else newSet.add(value);
+          break;
+        case 'remove':
+          newSet.delete(value);
+          break;
+        default:
+          throw new Error('Invalid action');
+      }
 
-  const toggleDifficulty = (difficulty: number) => {
-    setFilters((prev) => ({
-      ...prev,
-      selectedDifficulty: prev.selectedDifficulty.includes(difficulty)
-        ? prev.selectedDifficulty.filter((d) => d !== difficulty)
-        : [...prev.selectedDifficulty, difficulty],
-    }));
+      return { ...prev, [key]: newSet };
+    });
   };
-  const removeDifficulty = (difficulty: number) => {
-    setFilters((prev) => ({
-      ...prev,
-      selectedDifficulty: prev.selectedDifficulty.filter(
-        (d) => d !== difficulty
-      ),
-    }));
-  };
-
-  const toggleDuration = (duration: number) => {
-    setFilters((prev) => ({
-      ...prev,
-      selectedDurations: prev.selectedDurations.includes(duration)
-        ? prev.selectedDurations.filter((d) => d !== duration)
-        : [...prev.selectedDurations, duration],
-    }));
-  };
-  const removeDuration = (duration: number) => {
-    setFilters((prev) => ({
-      ...prev,
-      selectedDurations: prev.selectedDurations.filter((d) => d !== duration),
-    }));
-  };
-
-  const difficulties = [
-    {
-      value: 1,
-      label: 'Facile',
-      icon: <Sprout className="text-primary/30" />,
-    },
-    {
-      value: 2,
-      label: 'Moyen',
-      icon: <Leaf className="text-primary/60 h-4 w-4" />,
-    },
-    {
-      value: 3,
-      label: 'Difficile',
-      icon: <TreePalm className="text-primary" />,
-    },
-  ];
-  const durations = [
-    {
-      value: 2,
-      label: '2 heures ou moins',
-    },
-    {
-      value: 4,
-      label: '4 heures ou moins',
-    },
-    {
-      value: 6,
-      label: '6 heures ou moins',
-    },
-    {
-      value: 8,
-      label: '8 heures ou moins',
-    },
-  ];
 
   const resetFilter = () => {
     setFilters({
       search: '',
-      selectedTags: [],
-      selectedDurations: [],
-      selectedDifficulty: [],
+      tags: new Set(),
+      durations: new Set(),
+      difficulties: new Set(),
     });
   };
 
@@ -143,8 +135,8 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="outline" data-testid="tag-button">
-              {filters.selectedTags.length > 0
-                ? `${filters.selectedTags.length} tag(s) sélectionné(s)`
+              {filters.tags.size > 0
+                ? `${filters.tags.size} tag(s) sélectionné(s)`
                 : 'Filtrer par tags'}
             </Button>
           </PopoverTrigger>
@@ -157,11 +149,11 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
                 {tagsData?.getAllTags?.map((tag) => (
                   <CommandItem
                     key={tag.id}
-                    onSelect={() => toggleTag(tag.name)}
+                    onSelect={() => handleFilter('tags', tag.name, 'toggle')}
                     className="flex cursor-pointer justify-between"
                   >
                     {tag.name}
-                    {filters.selectedTags.includes(tag.name) && (
+                    {filters.tags.has(tag.name) && (
                       <Check className="h-4 w-4 text-emerald-500" />
                     )}
                   </CommandItem>
@@ -175,8 +167,8 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="outline" data-testid="difficulty-button">
-              {filters.selectedDifficulty.length > 0
-                ? `${filters.selectedDifficulty.length} difficulté(s) sélectionnée(s)`
+              {filters.difficulties.size > 0
+                ? `${filters.difficulties.size} difficulté(s) sélectionnée(s)`
                 : 'Filtrer par difficulté'}
             </Button>
           </PopoverTrigger>
@@ -189,11 +181,14 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
                 {difficulties.map((difficulty) => (
                   <CommandItem
                     key={difficulty.value}
-                    onSelect={() => toggleDifficulty(difficulty.value)}
+                    onSelect={() =>
+                      handleFilter('difficulties', difficulty.value, 'toggle')
+                    }
                     className="justify-left flex cursor-pointer"
                   >
-                    {difficulty.label} {difficulty.icon}
-                    {filters.selectedDifficulty.includes(difficulty.value) && (
+                    <difficulty.icon className={difficulty.className} />
+                    {difficulty.label}
+                    {filters.difficulties.has(difficulty.value) && (
                       <Check className="h-4 w-4 text-emerald-500" />
                     )}
                   </CommandItem>
@@ -207,8 +202,8 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="outline" data-testid="duration-button">
-              {filters.selectedDurations.length > 0
-                ? `${filters.selectedDurations.length} durée(s) sélectionnée(s)`
+              {filters.durations.size > 0
+                ? `${filters.durations.size} durée(s) sélectionnée(s)`
                 : 'Filtrer par durée'}
             </Button>
           </PopoverTrigger>
@@ -221,11 +216,13 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
                 {durations.map((duration) => (
                   <CommandItem
                     key={duration.value}
-                    onSelect={() => toggleDuration(duration.value)}
+                    onSelect={() =>
+                      handleFilter('durations', duration.value, 'toggle')
+                    }
                     className="justify-left flex cursor-pointer"
                   >
                     {duration.label}
-                    {filters.selectedDurations.includes(duration.value) && (
+                    {filters.durations.has(duration.value) && (
                       <Check className="h-4 w-4 text-emerald-500" />
                     )}
                   </CommandItem>
@@ -235,9 +232,9 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
           </PopoverContent>
         </Popover>
 
-        {filters.selectedTags.length ||
-        filters.selectedDifficulty.length ||
-        filters.selectedDurations.length ? (
+        {filters.tags.size ||
+        filters.difficulties.size ||
+        filters.durations.size ? (
           <Button
             data-testid="reset-filter-button"
             onClick={resetFilter}
@@ -249,16 +246,20 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
         ) : null}
       </div>
       <div data-testid="filter-item-buttons" className="flex flex-row gap-2">
-        {filters.selectedTags.map((tag) => (
-          <Button onClick={() => removeTag(tag)} variant="ghost" key={tag}>
+        {Array.from(filters.tags).map((tag) => (
+          <Button
+            onClick={() => handleFilter('tags', tag, 'remove')}
+            variant="ghost"
+            key={tag}
+          >
             {tag}
             <X className="h-4 w-4" />
           </Button>
         ))}
 
-        {filters.selectedDifficulty.map((difficulty) => (
+        {Array.from(filters.difficulties).map((difficulty) => (
           <Button
-            onClick={() => removeDifficulty(difficulty)}
+            onClick={() => handleFilter('difficulties', difficulty, 'remove')}
             variant="ghost"
             key={difficulty}
           >
@@ -267,9 +268,9 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
           </Button>
         ))}
 
-        {filters.selectedDurations.map((duration) => (
+        {Array.from(filters.durations).map((duration) => (
           <Button
-            onClick={() => removeDuration(duration)}
+            onClick={() => handleFilter('durations', duration, 'remove')}
             variant="ghost"
             key={duration}
           >
