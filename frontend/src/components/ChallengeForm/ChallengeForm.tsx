@@ -11,8 +11,20 @@ import {
   useGetActionsQuery,
   useGetChallengeQuery,
   useUpdateChallengeMutation,
+  useDeleteChallengeMutation,
 } from '@/lib/graphql/generated/graphql-types';
-import { Check } from 'lucide-react';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { toast } from 'sonner';
+import { Check, Trash } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const formSchema = z
@@ -72,6 +84,16 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
       navigate(`/challenges`);
     },
   });
+  const [deleteChallenge] = useDeleteChallengeMutation({
+    refetchQueries: [
+      {
+        query: GET_CHALLENGES,
+      },
+    ],
+    onCompleted: () => {
+      navigate(`/challenges`);
+    },
+  });
   const { data, loading, error } = useGetChallengeQuery({
     skip: !challengeId,
     variables: { id: challengeId! },
@@ -116,12 +138,27 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
           }));
 
       if (response.errors) throw new Error(response.errors[0].message);
-      console.log(
-        `Challenge ${challengeId ? 'modifié' : 'créé'} avec succès :`,
-        response.data
+      toast.success(
+        `Challenge ${challengeId ? 'modifié' : 'créé'} avec succès`
       );
     } catch (error) {
-      console.error('Erreur lors de la création du challenge :', error);
+      toast.error(
+        `Erreur lors de la ${challengeId ? 'modification' : 'création'} du challenge`
+      );
+    }
+  };
+
+  const handleDeleteChallenge = async () => {
+    try {
+      const response = await deleteChallenge({
+        variables: {
+          id: challengeId!,
+        },
+      });
+      if (response.errors) throw new Error(response.errors[0].message);
+      toast.success('Challenge supprimé avec succès');
+    } catch (error) {
+      toast.error('Erreur lors de la suppression du challenge');
     }
   };
 
@@ -148,14 +185,44 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
             <p>Coming soon...</p>
           </TabsContent>
         </Tabs>
-
-        <Button
-          type="submit"
-          variant="default"
-          className="fixed right-4 bottom-20 z-50 size-14 rounded-full shadow-md shadow-black/50"
-        >
-          <Check className="size-10" strokeWidth={1.4} />
-        </Button>
+        <div className="fixed right-4 bottom-20 z-50 flex flex-col gap-4">
+          {challengeId && (
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button
+                  variant="destructive"
+                  className="size-14 rounded-full shadow-md shadow-black/50"
+                >
+                  <Trash className="size-10" strokeWidth={1.4} />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Supprimer le challenge</DialogTitle>
+                  <DialogDescription>
+                    Êtes-vous sûr de vouloir supprimer ce challenge ? Cette
+                    action est irréversible.
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                  <Button type="button" onClick={handleDeleteChallenge}>
+                    Confirmer
+                  </Button>
+                  <DialogClose asChild>
+                    <Button>Annuler</Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          )}
+          <Button
+            type="submit"
+            variant="default"
+            className="size-14 rounded-full shadow-md shadow-black/50"
+          >
+            <Check className="size-10" strokeWidth={1.4} />
+          </Button>
+        </div>
       </form>
     </Form>
   );

@@ -89,4 +89,15 @@ export class ChallengeResolver {
       throw new Error(`Echec lors de la mise à jour de ce challenge: ${err}`);
     }
   }
+
+  @Mutation(() => Boolean)
+  async deleteChallenge(@Arg('id', () => ID) id: string): Promise<boolean> {
+    try {
+      const challenge = await Challenge.findOneOrFail({ where: { id } });
+      await challenge.remove();
+      return true;
+    } catch (err) {
+      throw new Error(`Echec lors de la suppression de ce challenge: ${err}`);
+    }
+  }
 }

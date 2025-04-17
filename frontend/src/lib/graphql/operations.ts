@@ -57,6 +57,12 @@ export const UPDATE_CHALLENGE = gql`
   }
 `;
 
+export const DELETE_CHALLENGE = gql`
+  mutation DeleteChallenge($id: ID!) {
+    deleteChallenge(id: $id)
+  }
+`;
+
 export const GET_ACTIONS = gql`
   query GetActions {
     getActions {

@@ -79,6 +79,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createChallenge: Challenge;
   createdAction: Action;
+  deleteChallenge: Scalars['Boolean']['output'];
   updateChallenge: Challenge;
 };
 
@@ -88,6 +89,10 @@ export type MutationCreateChallengeArgs = {
 
 export type MutationCreatedActionArgs = {
   data: ActionInput;
+};
+
+export type MutationDeleteChallengeArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type MutationUpdateChallengeArgs = {
@@ -187,6 +192,15 @@ export type UpdateChallengeMutationVariables = Exact<{
 export type UpdateChallengeMutation = {
   __typename?: 'Mutation';
   updateChallenge: { __typename?: 'Challenge'; id: string };
+};
+
+export type DeleteChallengeMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+export type DeleteChallengeMutation = {
+  __typename?: 'Mutation';
+  deleteChallenge: boolean;
 };
 
 export type GetActionsQueryVariables = Exact<{ [key: string]: never }>;
@@ -559,6 +573,54 @@ export type UpdateChallengeMutationResult =
 export type UpdateChallengeMutationOptions = Apollo.BaseMutationOptions<
   UpdateChallengeMutation,
   UpdateChallengeMutationVariables
+>;
+export const DeleteChallengeDocument = gql`
+  mutation DeleteChallenge($id: ID!) {
+    deleteChallenge(id: $id)
+  }
+`;
+export type DeleteChallengeMutationFn = Apollo.MutationFunction<
+  DeleteChallengeMutation,
+  DeleteChallengeMutationVariables
+>;
+
+/**
+ * __useDeleteChallengeMutation__
+ *
+ * To run a mutation, you first call `useDeleteChallengeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteChallengeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteChallengeMutation, { data, loading, error }] = useDeleteChallengeMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteChallengeMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteChallengeMutation,
+    DeleteChallengeMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteChallengeMutation,
+    DeleteChallengeMutationVariables
+  >(DeleteChallengeDocument, options);
+}
+export type DeleteChallengeMutationHookResult = ReturnType<
+  typeof useDeleteChallengeMutation
+>;
+export type DeleteChallengeMutationResult =
+  Apollo.MutationResult<DeleteChallengeMutation>;
+export type DeleteChallengeMutationOptions = Apollo.BaseMutationOptions<
+  DeleteChallengeMutation,
+  DeleteChallengeMutationVariables
 >;
 export const GetActionsDocument = gql`
   query GetActions {
