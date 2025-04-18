@@ -20,15 +20,17 @@ RUN npm run build
 FROM node:lts-alpine
 
 WORKDIR /app
+ ENV CHOKIDAR_USEPOLLING=true
 
-# Install serve globally
-RUN npm install -g serve
+COPY package*.json ./
+RUN npm install --legacy-peer-deps
 
-# Copy the built files from the previous stage
-COPY --from=builder /app/dist ./dist
+COPY vite.config.ts ./
+COPY tsconfig* ./
+COPY codegen.ts ./
+COPY components.json ./
+COPY index.html ./
+COPY src ./src
+COPY public ./public
 
-# Optional: expose the port serve will use (Vite-style default is 5173)
-EXPOSE 5173
-
-# Serve the app
-CMD ["serve", "-s", "dist", "-l", "5173"]
+CMD npm run dev
