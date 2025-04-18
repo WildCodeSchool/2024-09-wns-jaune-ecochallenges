@@ -1,6 +1,7 @@
+//tsconfig.app.json frontend entry point for tsconfig
 {
   "compilerOptions": {
-    "types": ["@testing-library/jest-dom"],
+    "types": [],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
@@ -27,5 +28,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "vitest.config.ts", "vitest.setup.ts"]
+  "include": ["src"]
 }

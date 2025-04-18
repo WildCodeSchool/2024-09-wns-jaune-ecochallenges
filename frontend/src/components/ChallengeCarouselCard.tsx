@@ -77,11 +77,7 @@ export const ChallengeCarouselCard = ({ item }: ChallengeCarouselCardProps) => {
           {item.description}
         </CardDescription>
         <CardFooter>
-          <Button
-            data-testid="card-button"
-            size={'sm'}
-            className="hover:bg-accent text-background mx-auto"
-          >
+          <Button data-testid="card-button" size={'sm'} className="mx-auto">
             Rejoindre ce challenge
           </Button>
         </CardFooter>

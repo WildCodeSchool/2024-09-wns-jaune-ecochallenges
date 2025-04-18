@@ -37,6 +37,6 @@ describe('Challenge Carousel Card Component', () => {
     );
 
     const button = screen.getByTestId('card-button');
-    expect(button).toHaveTextContent('Join this challenge');
+    expect(button).toHaveTextContent('Rejoindre ce challenge');
   });
 });

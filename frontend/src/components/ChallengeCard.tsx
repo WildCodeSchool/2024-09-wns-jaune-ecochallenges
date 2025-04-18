@@ -7,18 +7,23 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui';
+} from '@/components/ui/card';
 import { Pill } from '@/components';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
+import { cn } from '@/lib/utils';
 
-export const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
+export const ChallengeCard = ({
+  challenge,
+}: {
+  challenge: Omit<Challenge, 'actions'>;
+}) => {
   const dates = {
-    startDate: new Date(challenge.startDate).toLocaleDateString('fr-FR', {
-      month: 'short',
-      day: 'numeric',
+    startDate: format(new Date(challenge.startDate), 'dd LLL', {
+      locale: fr,
     }),
-    endDate: new Date(challenge.endDate).toLocaleDateString('fr-FR', {
-      month: 'short',
-      day: 'numeric',
+    endDate: format(new Date(challenge.endDate), 'dd LLL', {
+      locale: fr,
     }),
     timeLeft: Math.floor(
       (new Date(challenge.endDate).getTime() - new Date().getTime()) /
@@ -42,8 +47,8 @@ export const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
 
   return (
     <article className="h-full">
-      <Link to={`/challenges`}>
-        <Card className="hover:from-accent/20 hover:to-accent/50 relative h-full justify-between">
+      <Link to={`/challenge/${challenge.id}/edit`}>
+        <Card className={cn('relative h-full justify-between')}>
           <CardHeader className="overflow-hidden">
             <img
               src="https://picsum.photos/400/100"
@@ -51,7 +56,7 @@ export const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
               className="absolute top-0 left-0 z-0 h-16 w-full rounded-t-lg"
             />
 
-            <CardTitle className="text-lightText absolute top-0 left-0 z-10 flex h-16 w-full items-center justify-center rounded-t-lg shadow-black drop-shadow-lg backdrop-blur-[2px]">
+            <CardTitle className="text-secondary absolute top-0 left-0 z-10 flex h-16 w-full items-center justify-center rounded-t-lg backdrop-blur-[4px] text-shadow-black/30 text-shadow-lg">
               <h2>{challenge.label}</h2>
             </CardTitle>
           </CardHeader>

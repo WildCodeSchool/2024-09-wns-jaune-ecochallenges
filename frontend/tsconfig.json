@@ -1,3 +1,4 @@
+//tsconfig.json Global entry point for all tsconfig files
 {
   "files": [],
   "references": [
@@ -5,7 +6,6 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "types": ["vitest"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

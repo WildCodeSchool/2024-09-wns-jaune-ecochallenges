@@ -1,9 +1,190 @@
 @import 'tailwindcss';
-
 @plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));
+:root {
+  /* UI border radius */
+  --radius: 0.5rem;
 
+  /* Page background and base text color */
+  /* Warm off-white with green undertone */
+  --background: oklch(0.975 0.012 105);
+  /* Rich dark forest green */
+  --foreground: oklch(0.22 0.035 145);
+
+  /* Card elements */
+  --card: oklch(0.96 0.018 110);
+  --card-foreground: oklch(0.22 0.035 145);
+
+  /* Popover/tooltip/modals styling */
+  --popover: oklch(0.96 0.018 110);
+  --popover-foreground: oklch(0.22 0.035 145);
+
+  /* Primary button color – burnt orange (autumn leaves) */
+  --primary: oklch(0.65 0.21 55);
+  --primary-foreground: oklch(0.99 0.01 95);
+
+  /* Secondary – natural green base */
+  --secondary: oklch(0.58 0.13 135);
+  --secondary-foreground: oklch(0.98 0.01 110);
+
+  /* Muted – beige-gray for soft UIs */
+  --muted: oklch(0.91 0.01 95);
+  --muted-foreground: oklch(0.38 0.015 125);
+
+  /* Accent – golden amber */
+  --accent: oklch(0.76 0.14 75);
+  --accent-foreground: oklch(0.2 0.02 100);
+
+  /* Destructive – rich rust red */
+  --destructive: oklch(0.58 0.22 35);
+  --destructive-foreground: oklch(0.99 0.01 100);
+
+  /* Borders and inputs */
+  --border: oklch(0.88 0.01 100);
+  --input: oklch(0.955 0.01 105);
+  --ring: oklch(0.65 0.21 55); /* orange ring */
+
+  /* Sidebar elements */
+  --sidebar: oklch(0.97 0.01 105);
+  --sidebar-foreground: oklch(0.22 0.035 145);
+  --sidebar-primary: oklch(0.34 0.05 125);
+  --sidebar-primary-foreground: oklch(0.98 0.01 120);
+  --sidebar-accent: oklch(0.83 0.04 65); /* amber hover */
+  --sidebar-accent-foreground: oklch(0.2 0.02 100);
+  --sidebar-border: oklch(0.9 0.01 105);
+  --sidebar-ring: oklch(0.65 0.21 55);
+}
+
+:root {
+  /* UI border radius */
+  --radius: 0.5rem;
+
+  /* Page background and base text color */
+  /* Pale stone background, used for the entire app surface */
+  --background: oklch(0.965 0.01 110);
+  /* Base text color for body, paragraphs, headings */
+  --foreground: oklch(0.26 0.015 120);
+
+  /* Card elements (tiles, panels, containers) */
+  /* Slight bluish stone background for cards */
+  --card: oklch(0.94 0.015 230);
+  /* Text inside cards (usually same as foreground) */
+  --card-foreground: oklch(0.26 0.015 120);
+
+  /* Popovers (dropdowns, floating tooltips, info panels) */
+  /* Match card background for visual consistency */
+  --popover: oklch(0.94 0.015 230);
+  /* Text in popovers (small, readable) */
+  --popover-foreground: oklch(0.26 0.015 120);
+
+  /* Primary buttons – main call to action */
+  /* Deep moss green background */
+  --primary: oklch(0.45 0.12 145);
+  /* Light text for contrast on primary buttons */
+  --primary-foreground: oklch(0.97 0.01 120);
+
+  /* Secondary buttons or secondary highlights */
+  /* Warm gray-brown clay tone */
+  --secondary: oklch(0.75 0.04 80);
+  /* Text on secondary button */
+  --secondary-foreground: oklch(0.25 0.015 120);
+
+  /* Muted UI – borders, placeholders, disabled areas */
+  /* Soft slate-fog background */
+  --muted: oklch(0.88 0.01 240);
+  /* Dimmed text on muted elements */
+  --muted-foreground: oklch(0.4 0.01 140);
+
+  /* Accent color – used for hover, focus, links, or subtle emphasis */
+  /* Cool lichen green, vibrant but balanced */
+  --accent: oklch(0.68 0.1 160);
+  /* Text/icons that appear over accent backgrounds */
+  --accent-foreground: oklch(0.2 0.01 120);
+
+  /* Destructive – delete, danger, warning */
+  /* Iron oxide red background */
+  --destructive: oklch(0.52 0.2 40);
+  /* Light contrast text (e.g., "Delete" button text) */
+  --destructive-foreground: oklch(0.97 0.01 95);
+
+  /* Form UI – inputs, borders, focus rings */
+  /* Neutral border color for inputs and dividers */
+  --border: oklch(0.87 0.008 115);
+  /* Background of form fields (e.g. inputs, textareas) */
+  --input: oklch(0.945 0.01 110);
+  /* Focus ring on active input fields */
+  --ring: oklch(0.45 0.12 145); /* Match primary */
+
+  /* Sidebar or mobile nav */
+  /* Background of the sidebar/drawer menu */
+  --sidebar: oklch(0.955 0.01 110);
+  /* Text color inside sidebar */
+  --sidebar-foreground: oklch(0.26 0.015 120);
+  /* Active sidebar item background */
+  --sidebar-primary: oklch(0.3 0.035 150);
+  /* Text on active sidebar item */
+  --sidebar-primary-foreground: oklch(0.98 0.01 120);
+  /* Hovered item background in sidebar nav */
+  --sidebar-accent: oklch(0.85 0.04 70);
+  /* Text/icon color on hovered sidebar item */
+  --sidebar-accent-foreground: oklch(0.24 0.01 120);
+  /* Sidebar borders and dividers */
+  --sidebar-border: oklch(0.88 0.01 110);
+  /* Active ring on focused sidebar items */
+  --sidebar-ring: oklch(0.45 0.12 145);
+}
+:root {
+  /* UI border radius */
+  --radius: 0.5rem;
+
+  /* Page background and base text color */
+  --background: oklch(0.965 0.01 110);
+  --foreground: oklch(0.26 0.015 120);
+
+  /* Card elements */
+  --card: oklch(0.94 0.015 230);
+  --card-foreground: oklch(0.26 0.015 120);
+
+  /* Popovers */
+  --popover: oklch(0.94 0.015 230);
+  --popover-foreground: oklch(0.26 0.015 120);
+
+  /* Primary button – deep moss green */
+  --primary: oklch(0.45 0.12 145);
+  --primary-foreground: oklch(0.97 0.01 120);
+
+  /* Secondary – warm gray clay */
+  --secondary: oklch(0.75 0.04 80);
+  --secondary-foreground: oklch(0.25 0.015 120);
+
+  /* Muted – slate and fog */
+  --muted: oklch(0.88 0.01 240);
+  --muted-foreground: oklch(0.4 0.01 140);
+
+  /* Accent – cool lichen green */
+  --accent: oklch(0.68 0.1 160);
+  --accent-foreground: oklch(0.2 0.01 120);
+
+  /* Destructive – iron oxide red */
+  --destructive: oklch(0.52 0.2 40);
+  --destructive-foreground: oklch(0.97 0.01 95);
+
+  /* Form UI */
+  --border: oklch(0.87 0.008 115);
+  --input: oklch(0.945 0.01 110);
+  --ring: oklch(0.45 0.12 145); /* match primary (moss) */
+
+  /* Sidebar nav */
+  --sidebar: oklch(0.955 0.01 110);
+  --sidebar-foreground: oklch(0.26 0.015 120);
+  --sidebar-primary: oklch(0.3 0.035 150); /* dark moss green */
+  --sidebar-primary-foreground: oklch(0.98 0.01 120);
+  --sidebar-accent: oklch(0.85 0.04 70); /* yellow-cream hover */
+  --sidebar-accent-foreground: oklch(0.24 0.01 120);
+  --sidebar-border: oklch(0.88 0.01 110);
+  --sidebar-ring: oklch(0.45 0.12 145);
+}
 :root {
   /* UI border radius */
   --radius: 0.5rem;
@@ -155,189 +336,57 @@
   --sidebar-ring: oklch(0.58 0.15 140);
 }
 :root {
-  /* UI border radius */
+  --background: oklch(0.98 0.01 244.25);
+  --foreground: oklch(0.37 0.03 259.73);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.37 0.03 259.73);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.37 0.03 259.73);
+  --primary: oklch(0.72 0.19 149.58);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.95 0.03 236.82);
+  --secondary-foreground: oklch(0.45 0.03 256.8);
+  --muted: oklch(0.97 0 264.54);
+  --muted-foreground: oklch(0.55 0.02 264.36);
+  --accent: oklch(0.95 0.05 163.05);
+  --accent-foreground: oklch(0.37 0.03 259.73);
+  --destructive: oklch(0.64 0.21 25.33);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.93 0.01 264.53);
+  --input: oklch(0.93 0.01 264.53);
+  --ring: oklch(0.72 0.19 149.58);
+  --chart-1: oklch(0.72 0.19 149.58);
+  --chart-2: oklch(0.7 0.15 162.48);
+  --chart-3: oklch(0.6 0.13 163.23);
+  --chart-4: oklch(0.51 0.1 165.61);
+  --chart-5: oklch(0.43 0.09 166.91);
+  --sidebar: oklch(0.95 0.03 236.82);
+  --sidebar-foreground: oklch(0.37 0.03 259.73);
+  --sidebar-primary: oklch(0.72 0.19 149.58);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.95 0.05 163.05);
+  --sidebar-accent-foreground: oklch(0.37 0.03 259.73);
+  --sidebar-border: oklch(0.93 0.01 264.53);
+  --sidebar-ring: oklch(0.72 0.19 149.58);
+  --font-sans: DM Sans, sans-serif;
+  --font-serif: Lora, serif;
+  --font-mono: IBM Plex Mono, monospace;
   --radius: 0.5rem;
-
-  /* Page background and base text color */
-  /* Warm off-white with green undertone */
-  --background: oklch(0.975 0.012 105);
-  /* Rich dark forest green */
-  --foreground: oklch(0.22 0.035 145);
-
-  /* Card elements */
-  --card: oklch(0.96 0.018 110);
-  --card-foreground: oklch(0.22 0.035 145);
-
-  /* Popover/tooltip/modals styling */
-  --popover: oklch(0.96 0.018 110);
-  --popover-foreground: oklch(0.22 0.035 145);
-
-  /* Primary button color – burnt orange (autumn leaves) */
-  --primary: oklch(0.65 0.21 55);
-  --primary-foreground: oklch(0.99 0.01 95);
-
-  /* Secondary – natural green base */
-  --secondary: oklch(0.58 0.13 135);
-  --secondary-foreground: oklch(0.98 0.01 110);
-
-  /* Muted – beige-gray for soft UIs */
-  --muted: oklch(0.91 0.01 95);
-  --muted-foreground: oklch(0.38 0.015 125);
-
-  /* Accent – golden amber */
-  --accent: oklch(0.76 0.14 75);
-  --accent-foreground: oklch(0.2 0.02 100);
-
-  /* Destructive – rich rust red */
-  --destructive: oklch(0.58 0.22 35);
-  --destructive-foreground: oklch(0.99 0.01 100);
-
-  /* Borders and inputs */
-  --border: oklch(0.88 0.01 100);
-  --input: oklch(0.955 0.01 105);
-  --ring: oklch(0.65 0.21 55); /* orange ring */
-
-  /* Sidebar elements */
-  --sidebar: oklch(0.97 0.01 105);
-  --sidebar-foreground: oklch(0.22 0.035 145);
-  --sidebar-primary: oklch(0.34 0.05 125);
-  --sidebar-primary-foreground: oklch(0.98 0.01 120);
-  --sidebar-accent: oklch(0.83 0.04 65); /* amber hover */
-  --sidebar-accent-foreground: oklch(0.2 0.02 100);
-  --sidebar-border: oklch(0.9 0.01 105);
-  --sidebar-ring: oklch(0.65 0.21 55);
+  --shadow-2xs: 0px 4px 8px -1px hsl(0 0% 0% / 0.05);
+  --shadow-xs: 0px 4px 8px -1px hsl(0 0% 0% / 0.05);
+  --shadow-sm:
+    0px 4px 8px -1px hsl(0 0% 0% / 0.1), 0px 1px 2px -2px hsl(0 0% 0% / 0.1);
+  --shadow:
+    0px 4px 8px -1px hsl(0 0% 0% / 0.1), 0px 1px 2px -2px hsl(0 0% 0% / 0.1);
+  --shadow-md:
+    0px 4px 8px -1px hsl(0 0% 0% / 0.1), 0px 2px 4px -2px hsl(0 0% 0% / 0.1);
+  --shadow-lg:
+    0px 4px 8px -1px hsl(0 0% 0% / 0.1), 0px 4px 6px -2px hsl(0 0% 0% / 0.1);
+  --shadow-xl:
+    0px 4px 8px -1px hsl(0 0% 0% / 0.1), 0px 8px 10px -2px hsl(0 0% 0% / 0.1);
+  --shadow-2xl: 0px 4px 8px -1px hsl(0 0% 0% / 0.25);
 }
 
-:root {
-  /* UI border radius */
-  --radius: 0.5rem;
-
-  /* Page background and base text color */
-  --background: oklch(0.965 0.01 110);
-  --foreground: oklch(0.26 0.015 120);
-
-  /* Card elements */
-  --card: oklch(0.94 0.015 230);
-  --card-foreground: oklch(0.26 0.015 120);
-
-  /* Popovers */
-  --popover: oklch(0.94 0.015 230);
-  --popover-foreground: oklch(0.26 0.015 120);
-
-  /* Primary button – deep moss green */
-  --primary: oklch(0.45 0.12 145);
-  --primary-foreground: oklch(0.97 0.01 120);
-
-  /* Secondary – warm gray clay */
-  --secondary: oklch(0.75 0.04 80);
-  --secondary-foreground: oklch(0.25 0.015 120);
-
-  /* Muted – slate and fog */
-  --muted: oklch(0.88 0.01 240);
-  --muted-foreground: oklch(0.4 0.01 140);
-
-  /* Accent – cool lichen green */
-  --accent: oklch(0.68 0.1 160);
-  --accent-foreground: oklch(0.2 0.01 120);
-
-  /* Destructive – iron oxide red */
-  --destructive: oklch(0.52 0.2 40);
-  --destructive-foreground: oklch(0.97 0.01 95);
-
-  /* Form UI */
-  --border: oklch(0.87 0.008 115);
-  --input: oklch(0.945 0.01 110);
-  --ring: oklch(0.45 0.12 145); /* match primary (moss) */
-
-  /* Sidebar nav */
-  --sidebar: oklch(0.955 0.01 110);
-  --sidebar-foreground: oklch(0.26 0.015 120);
-  --sidebar-primary: oklch(0.3 0.035 150); /* dark moss green */
-  --sidebar-primary-foreground: oklch(0.98 0.01 120);
-  --sidebar-accent: oklch(0.85 0.04 70); /* yellow-cream hover */
-  --sidebar-accent-foreground: oklch(0.24 0.01 120);
-  --sidebar-border: oklch(0.88 0.01 110);
-  --sidebar-ring: oklch(0.45 0.12 145);
-}
-
-:root {
-  /* UI border radius */
-  --radius: 0.5rem;
-
-  /* Page background and base text color */
-  /* Pale stone background, used for the entire app surface */
-  --background: oklch(0.965 0.01 110);
-  /* Base text color for body, paragraphs, headings */
-  --foreground: oklch(0.26 0.015 120);
-
-  /* Card elements (tiles, panels, containers) */
-  /* Slight bluish stone background for cards */
-  --card: oklch(0.94 0.015 230);
-  /* Text inside cards (usually same as foreground) */
-  --card-foreground: oklch(0.26 0.015 120);
-
-  /* Popovers (dropdowns, floating tooltips, info panels) */
-  /* Match card background for visual consistency */
-  --popover: oklch(0.94 0.015 230);
-  /* Text in popovers (small, readable) */
-  --popover-foreground: oklch(0.26 0.015 120);
-
-  /* Primary buttons – main call to action */
-  /* Deep moss green background */
-  --primary: oklch(0.45 0.12 145);
-  /* Light text for contrast on primary buttons */
-  --primary-foreground: oklch(0.97 0.01 120);
-
-  /* Secondary buttons or secondary highlights */
-  /* Warm gray-brown clay tone */
-  --secondary: oklch(0.75 0.04 80);
-  /* Text on secondary button */
-  --secondary-foreground: oklch(0.25 0.015 120);
-
-  /* Muted UI – borders, placeholders, disabled areas */
-  /* Soft slate-fog background */
-  --muted: oklch(0.88 0.01 240);
-  /* Dimmed text on muted elements */
-  --muted-foreground: oklch(0.4 0.01 140);
-
-  /* Accent color – used for hover, focus, links, or subtle emphasis */
-  /* Cool lichen green, vibrant but balanced */
-  --accent: oklch(0.68 0.1 160);
-  /* Text/icons that appear over accent backgrounds */
-  --accent-foreground: oklch(0.2 0.01 120);
-
-  /* Destructive – delete, danger, warning */
-  /* Iron oxide red background */
-  --destructive: oklch(0.52 0.2 40);
-  /* Light contrast text (e.g., "Delete" button text) */
-  --destructive-foreground: oklch(0.97 0.01 95);
-
-  /* Form UI – inputs, borders, focus rings */
-  /* Neutral border color for inputs and dividers */
-  --border: oklch(0.87 0.008 115);
-  /* Background of form fields (e.g. inputs, textareas) */
-  --input: oklch(0.945 0.01 110);
-  /* Focus ring on active input fields */
-  --ring: oklch(0.45 0.12 145); /* Match primary */
-
-  /* Sidebar or mobile nav */
-  /* Background of the sidebar/drawer menu */
-  --sidebar: oklch(0.955 0.01 110);
-  /* Text color inside sidebar */
-  --sidebar-foreground: oklch(0.26 0.015 120);
-  /* Active sidebar item background */
-  --sidebar-primary: oklch(0.3 0.035 150);
-  /* Text on active sidebar item */
-  --sidebar-primary-foreground: oklch(0.98 0.01 120);
-  /* Hovered item background in sidebar nav */
-  --sidebar-accent: oklch(0.85 0.04 70);
-  /* Text/icon color on hovered sidebar item */
-  --sidebar-accent-foreground: oklch(0.24 0.01 120);
-  /* Sidebar borders and dividers */
-  --sidebar-border: oklch(0.88 0.01 110);
-  /* Active ring on focused sidebar items */
-  --sidebar-ring: oklch(0.45 0.12 145);
-}
 .dark {
   /* UI border radius */
   --radius: 0.5rem;

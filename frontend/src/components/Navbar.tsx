@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Button } from '@/components/ui';
+import { Button } from '@/components/ui/button';
 import { TrophyIcon, Leaf, HomeIcon, UserRound, BarChart3 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -15,7 +15,7 @@ export const Navbar = () => {
   const location = useLocation();
 
   return (
-    <nav className="h-navbar bg-sidebar-primary text-sidebar-foreground fixed bottom-0 z-50 flex w-full items-center justify-between p-4 md:justify-around">
+    <nav className="h-navbar bg-sidebar text-sidebar-foreground fixed bottom-0 z-50 flex w-full items-center justify-around rounded-t-2xl px-2 md:justify-around">
       {navItems.map(({ to, icon: Icon, label }) => {
         const isActive = location.pathname === to;
 
@@ -31,8 +31,8 @@ export const Navbar = () => {
               isActive ? 'bg-sidebar-accent text-sidebar-accent-foreground' : ''
             )}
           >
-            <Link to={to} className="flex flex-col items-center justify-center">
-              <Icon className="size-6" />
+            <Link to={to}>
+              <Icon className="size-5" />
             </Link>
           </Button>
         );

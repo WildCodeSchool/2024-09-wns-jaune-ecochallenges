@@ -3,9 +3,12 @@ import {
   BeforeInsert,
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Field, ObjectType } from 'type-graphql';
+import { Field, ID, ObjectType } from 'type-graphql';
+import { Tag, Challenge } from '@/entities';
 
 const levelType = {
   levelOne: 1,
@@ -19,7 +22,7 @@ const iconType = ['leaf', 'recycling', 'drop'];
 @ObjectType()
 export class Action extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Field()
+  @Field((_type) => ID)
   id!: string;
 
   @Field()
@@ -50,8 +53,17 @@ export class Action extends BaseEntity {
   @Column({ nullable: false })
   createdAt!: Date;
 
+  @Field(() => [Tag], { nullable: true })
+  @ManyToMany(() => Tag, (tag) => tag.actions)
+  @JoinTable()
+  tags?: Tag[];
+
   @BeforeInsert()
   updateDates() {
     this.createdAt = new Date();
   }
+
+  @Field(() => [Challenge])
+  @ManyToMany(() => Challenge, (challenge) => challenge.actions)
+  challenges?: Challenge[];
 }

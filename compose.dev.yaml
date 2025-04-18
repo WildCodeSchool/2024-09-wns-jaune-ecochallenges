@@ -1,5 +1,7 @@
 services:
   backend:
+    depends_on:
+      - database-eco
     container_name: backend-eco
     build: ./backend
     volumes:
@@ -11,37 +13,52 @@ services:
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
       BACKEND_PORT: ${BACKEND_PORT}
+      JWT_SECRET: ${JWT_SECRET}
+      COOKIE_TTL: ${COOKIE_TTL}
 
   files:
     container_name: files-eco
     build:
       context: ./files
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     volumes:
       - ./files/src:/app/src/
       - ./persist/files-dev:/app/public
 
   frontend:
+    depends_on:
+      - backend
+      - files
     container_name: frontend-eco
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
     volumes:
       - ./frontend/src/:/app/src/
     environment:
       VITE_GATEWAY_PORT: ${GATEWAY_PORT}
+
   database-eco:
     container_name: database-eco
     image: postgres
     volumes:
-      - ./persist/data/:/var/lib/postgresql/data/
+      - ./persist/data-dev/:/var/lib/postgresql/data/
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_SCHEMA}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_HOST: ${DB_HOST}
+
   vizualizer:
     container_name: vizualizer-eco
     image: adminer
+
   gateway:
+    depends_on:
+      - frontend
+      - backend
+      - database-eco
+      - files
     container_name: gateway-eco
     image: nginx
     ports:
