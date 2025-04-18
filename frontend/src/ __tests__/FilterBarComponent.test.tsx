@@ -26,10 +26,10 @@ const mockedTags = [
 
 describe('Filter bar component tests', () => {
   const mockFilters: Filters = {
-    selectedTags: [],
-    selectedDifficulty: [],
-    selectedDurations: [],
     search: '',
+    tags: new Set(),
+    durations: new Set(),
+    difficulties: new Set(),
   };
   const Wrapper = () => {
     const [filters, setFilters] = useState(mockFilters);
@@ -118,7 +118,7 @@ describe('Filter bar component tests', () => {
 
     await userEvent.click(screen.getByTestId('duration-button'));
     const popover = await screen.findByRole('dialog');
-    const durationOption = within(popover).getByText('2 heures ou moins');
+    const durationOption = within(popover).getByText('≤ 2 heures');
 
     expect(durationOption).toBeInTheDocument();
 

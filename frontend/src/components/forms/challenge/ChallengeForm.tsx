@@ -114,7 +114,7 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
         from: new Date(data.getChallenge.startDate),
         to: new Date(data.getChallenge.endDate),
       },
-      actions: data.getChallenge.actions.map((action) => action.id),
+      actions: data.getChallenge.actions?.map((action) => action.id) || [],
     },
     defaultValues: {
       label: '',
