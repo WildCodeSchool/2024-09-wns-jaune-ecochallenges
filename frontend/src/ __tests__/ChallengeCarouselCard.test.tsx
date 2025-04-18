@@ -14,7 +14,7 @@ describe('Challenge Carousel Card Component', () => {
         'Avoid single-use plastics for 7 days. Bring your own bags, bottles, and containers!',
       tags: ['plastic-free', 'zero waste', 'sustainable living'],
     };
-    render(<ChallengeCarouselCard item={mockData} />);
+    render(<ChallengeCarouselCard {...mockData} />);
 
     const card = screen.getByTestId('card-1');
     expect(card).toBeInTheDocument();

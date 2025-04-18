@@ -1,25 +1,24 @@
 import { Action } from '@/lib/graphql/generated/graphql-types';
 import {
+  Button,
   Card,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+} from '@/components/ui';
+import { Pill } from '@/components';
 import {
-  CircleCheck,
   CirclePlus,
   CircleX,
   Ellipsis,
   Hourglass,
   ImagePlus,
 } from 'lucide-react';
-import { Pill } from '@/components';
 import { cn } from '@/lib/utils';
 
 type ActionCardProps = {
-  action: Omit<Action, 'challenges'>;
+  action: Action;
   isSelected?: boolean;
   onClick?: () => void;
 };
@@ -52,6 +51,16 @@ export const ActionCard = ({
           </CardTitle>
           <CardDescription className="center text-base">
             {action.description}
+            <ul className="flex w-full flex-wrap gap-2">
+              {action.tags?.map((tag) => (
+                <li key={tag.id}>
+                  <Pill className="p-2">
+                    <span className="mr-1 text-lg">{tag.icon}</span>
+                    {tag.name}
+                  </Pill>
+                </li>
+              ))}
+            </ul>
           </CardDescription>
         </CardHeader>
         <CardFooter className="flex justify-around gap-2">

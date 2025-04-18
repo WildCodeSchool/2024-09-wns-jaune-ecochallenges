@@ -1,12 +1,8 @@
 import { type AuthChecker } from 'type-graphql';
+import { User } from '@/entities';
 
 interface UserContext {
-  user?: {
-    roles: string;
-    name: string;
-    hashedPassword: string;
-    email: string;
-  };
+  user?: User;
 }
 
 export const authChecker: AuthChecker<UserContext> = (
@@ -14,7 +10,7 @@ export const authChecker: AuthChecker<UserContext> = (
   needeRoles
 ) => {
   if (context.user) {
-    if (needeRoles.includes(context.user.roles)) return true;
+    if (needeRoles.includes(context.user.role)) return true;
   }
   return true;
 };

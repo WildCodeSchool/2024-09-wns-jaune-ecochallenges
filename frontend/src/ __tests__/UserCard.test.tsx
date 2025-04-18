@@ -14,7 +14,7 @@ describe('UserCard Component', () => {
       pictureName: 'toto',
       initial: 'PA',
     };
-    render(<UserCard item={mockData} />);
+    render(<UserCard {...mockData} />);
 
     const title = screen.getByText('Tes stats:');
     expect(title).toBeInTheDocument();

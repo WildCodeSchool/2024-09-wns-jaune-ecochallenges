@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { Navbar } from '@/components';
-import { Toaster } from '@/components/ui/sonner';
+import { Toaster } from '@/components/ui';
 
 export const App = () => {
   return (

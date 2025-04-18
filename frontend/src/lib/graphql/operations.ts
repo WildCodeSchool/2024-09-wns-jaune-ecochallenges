@@ -23,6 +23,16 @@ export const GET_CHALLENGES = gql`
       startDate
       endDate
       createdAt
+      actions {
+        id
+        name
+        icon
+        tags {
+          id
+          name
+          icon
+        }
+      }
     }
   }
 `;
@@ -38,6 +48,11 @@ export const GET_CHALLENGE = gql`
       endDate
       actions {
         id
+        tags {
+          id
+          name
+          icon
+        }
       }
     }
   }

@@ -4,9 +4,11 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
-import { Button } from '@/components/ui/button';
-import { FormControl, FormField, FormItem } from '@/components/ui/form';
+  Button,
+  FormControl,
+  FormField,
+  FormItem,
+} from '@/components/ui';
 import {
   Action,
   GetActionsQueryHookResult,

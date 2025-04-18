@@ -1,9 +1,9 @@
 import { cn } from '@/lib/utils';
 
-interface PillProps {
+type PillProps = {
   children: React.ReactNode;
   className?: string;
-}
+};
 
 export const Pill = ({ children, className, ...props }: PillProps) => {
   return (
