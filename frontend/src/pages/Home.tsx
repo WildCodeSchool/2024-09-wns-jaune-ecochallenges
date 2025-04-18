@@ -77,7 +77,9 @@ export const Home = () => {
       <h1 className="mb-8 rounded-full text-center text-3xl font-thin">
         🌱 Bienvenue sur Eco-challenges 🌱
       </h1>
-
+      <h1 className="mb-8 rounded-full text-center text-3xl font-thin">
+        Bonjour bonsoir
+      </h1>
       {isAuth && <UserCard {...fakeDataUser}></UserCard>}
 
       <CarouselComponent
