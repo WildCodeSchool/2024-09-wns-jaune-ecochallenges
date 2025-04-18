@@ -48,12 +48,7 @@ export const ChallengeCard = ({
   return (
     <article className="h-full">
       <Link to={`/challenge/${challenge.id}/edit`}>
-        <Card
-          className={cn(
-            'bg-linear-to-br from-slate-100 to-slate-200 transition-colors hover:bg-linear-to-br hover:from-slate-200 hover:to-slate-300 active:bg-linear-to-br active:from-slate-300 active:to-slate-400',
-            'relative h-full justify-between'
-          )}
-        >
+        <Card className={cn('relative h-full justify-between')}>
           <CardHeader className="overflow-hidden">
             <img
               src="https://picsum.photos/400/100"
@@ -61,7 +56,7 @@ export const ChallengeCard = ({
               className="absolute top-0 left-0 z-0 h-16 w-full rounded-t-lg"
             />
 
-            <CardTitle className="absolute top-0 left-0 z-10 flex h-16 w-full items-center justify-center rounded-t-lg text-white shadow-black drop-shadow-lg backdrop-blur-[2px]">
+            <CardTitle className="text-secondary absolute top-0 left-0 z-10 flex h-16 w-full items-center justify-center rounded-t-lg backdrop-blur-[4px] text-shadow-black/30 text-shadow-lg">
               <h2>{challenge.label}</h2>
             </CardTitle>
           </CardHeader>

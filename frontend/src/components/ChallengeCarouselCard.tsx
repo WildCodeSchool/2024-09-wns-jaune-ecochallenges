@@ -53,25 +53,18 @@ export const ChallengeCarouselCard = ({ item }: ChallengeCarouselCardProps) => {
         alt={item.name}
       />
 
-      <CardContent className="bg-background flex flex-col justify-around p-0 pt-1 pl-3">
+      <CardContent className="flex flex-col justify-around p-0 pt-1 pl-3">
         <CardTitle data-testid="card-title" className="my-3 text-left">
           {item.name}
         </CardTitle>
         <CardHeader className="mb-3 flex flex-row gap-2 p-0 text-xs">
           {item.tags.slice(0, maxVisibleTags).map((tag) => (
-            <Pill
-              data-testid="pills"
-              className="bg-secondary/50 border-0 px-1 py-3"
-              key={tag}
-            >
+            <Pill data-testid="pills" className="px-1 py-3" key={tag}>
               {tag}
             </Pill>
           ))}
           {item.tags.length > maxVisibleTags && (
-            <Pill
-              data-testid="tag-more"
-              className="bg-secondary/50 border-0 p-3"
-            >
+            <Pill data-testid="tag-more" className="p-3">
               +{item.tags.length - maxVisibleTags}
             </Pill>
           )}
@@ -84,11 +77,7 @@ export const ChallengeCarouselCard = ({ item }: ChallengeCarouselCardProps) => {
           {item.description}
         </CardDescription>
         <CardFooter>
-          <Button
-            data-testid="card-button"
-            size={'sm'}
-            className="hover:bg-accent text-background mx-auto"
-          >
+          <Button data-testid="card-button" size={'sm'} className="mx-auto">
             Rejoindre ce challenge
           </Button>
         </CardFooter>

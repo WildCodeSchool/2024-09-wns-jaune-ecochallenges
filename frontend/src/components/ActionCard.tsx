@@ -34,7 +34,6 @@ export const ActionCard = ({
       data-testid="action-card"
       key={action.id}
       className={cn(
-        'bg-linear-to-br from-slate-100 to-slate-200 p-1 transition-colors hover:bg-linear-to-br hover:from-slate-200 hover:to-slate-300 active:bg-linear-to-br active:from-slate-300 active:to-slate-400',
         'm-0 flex h-auto w-[90vw] flex-col sm:h-[20vh] sm:w-[70vw] md:w-[60vw] md:flex-row lg:w-[45vw] xl:w-[35vw] 2xl:w-[30vw]'
       )}
     >
