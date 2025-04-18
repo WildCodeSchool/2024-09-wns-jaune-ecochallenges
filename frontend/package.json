@@ -50,6 +50,7 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.55.0",
     "react-router-dom": "^7.1.5",
+    "react-style-singleton": "^2.2.3",
     "react-toastify": "^11.0.5",
     "sonner": "^2.0.3",
     "tailwind-merge": "^3.0.2",
