@@ -63,7 +63,6 @@ export const Home = () => {
         data={ecoChallenges}
         CardComponent={ChallengeCarouselCard}
       />
-      <h1 className="text-center text-3xl font-thin">NOW IT's DEV BRANCH</h1>
     </>
   );
 };

@@ -8,7 +8,9 @@ import { useEffect, useState } from 'react';
 export const ActionList = () => {
   const { data, loading, error } = useGetActionsQuery();
 
-  const [filteredActions, setFilteredActions] = useState<Action[]>([]);
+  const [filteredActions, setFilteredActions] = useState<
+    Omit<Action, 'challenges'>[]
+  >([]);
   const [filters, setFilters] = useState<Filters>({
     search: '',
     tags: new Set<string>(),
@@ -19,7 +21,7 @@ export const ActionList = () => {
   useEffect(() => {
     if (!data?.getActions) return;
 
-    const result = data.getActions.filter((action: Action) => {
+    const result = data.getActions.filter((action) => {
       const hasMatchingTag =
         filters.tags.size === 0 ||
         action.tags?.some((tag) => filters.tags.has(tag.name));
@@ -49,7 +51,6 @@ export const ActionList = () => {
   return (
     <>
       <Filterbar filters={filters} setFilters={setFilters} />
-
       <div className="flex flex-col items-center gap-3 text-center lg:flex-row lg:flex-wrap lg:justify-center">
         {filteredActions.length > 0
           ? filteredActions.map((action) => (

@@ -115,7 +115,7 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
   return (
     <div
       data-testid="filterbar"
-      className="mx-auto mb-10 flex max-w-screen-lg flex-col gap-3 p-5"
+      className="mx-auto flex max-w-screen-lg flex-col gap-3 p-5"
     >
       <div className="relative w-full">
         <span className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400">
@@ -245,7 +245,10 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
           </Button>
         ) : null}
       </div>
-      <div data-testid="filter-item-buttons" className="flex flex-row gap-2">
+      <div
+        data-testid="filter-item-buttons"
+        className="flex flex-row flex-wrap gap-2"
+      >
         {Array.from(filters.tags).map((tag) => (
           <Button
             onClick={() => handleFilter('tags', tag, 'remove')}
