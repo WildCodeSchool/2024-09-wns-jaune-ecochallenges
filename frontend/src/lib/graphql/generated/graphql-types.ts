@@ -191,6 +191,18 @@ export type GetChallengesAsChallengeQuery = {
     startDate: any;
     endDate: any;
     createdAt: any;
+    actions: Array<{
+      __typename?: 'Action';
+      id: string;
+      name: string;
+      icon: string;
+      tags?: Array<{
+        __typename?: 'Tag';
+        id: string;
+        name: string;
+        icon: string;
+      }> | null;
+    }>;
   }>;
 };
 
@@ -208,7 +220,16 @@ export type GetChallengeQuery = {
     bannerUrl?: string | null;
     startDate: any;
     endDate: any;
-    actions: Array<{ __typename?: 'Action'; id: string }>;
+    actions: Array<{
+      __typename?: 'Action';
+      id: string;
+      tags?: Array<{
+        __typename?: 'Tag';
+        id: string;
+        name: string;
+        icon: string;
+      }> | null;
+    }>;
   };
 };
 
@@ -379,6 +400,16 @@ export const GetChallengesAsChallengeDocument = gql`
       startDate
       endDate
       createdAt
+      actions {
+        id
+        name
+        icon
+        tags {
+          id
+          name
+          icon
+        }
+      }
     }
   }
 `;
@@ -463,6 +494,11 @@ export const GetChallengeDocument = gql`
       endDate
       actions {
         id
+        tags {
+          id
+          name
+          icon
+        }
       }
     }
   }

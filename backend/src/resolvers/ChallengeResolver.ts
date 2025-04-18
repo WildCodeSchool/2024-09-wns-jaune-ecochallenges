@@ -38,7 +38,9 @@ class ChallengeInput {
 export class ChallengeResolver {
   @Query(() => [Challenge])
   async getChallenges(): Promise<Challenge[]> {
-    const challenges = await Challenge.find();
+    const challenges = await Challenge.find({
+      relations: ['actions', 'actions.tags'],
+    });
     return challenges;
   }
 

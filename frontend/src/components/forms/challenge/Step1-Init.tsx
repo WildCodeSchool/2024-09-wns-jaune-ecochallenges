@@ -1,18 +1,16 @@
 import {
+  Button,
+  Calendar,
+  Input,
   FormField,
   FormItem,
   FormLabel,
   FormControl,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { Calendar } from '@/components/ui/calendar';
+} from '@/components/ui';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { CalendarIcon } from 'lucide-react';

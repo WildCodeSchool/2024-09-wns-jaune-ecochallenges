@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FormCard } from '@/components/forms';
+import { FormCard } from '@/components/forms/auth';
 import { Login } from '@/components/forms/auth/Login';
 import { Signup } from '@/components/forms/auth/Signup';
 import { Logout } from '@/components/forms/auth/Logout';

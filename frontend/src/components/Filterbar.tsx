@@ -1,18 +1,16 @@
 import { Leaf, Search, Sprout, TreePalm, X } from 'lucide-react';
-import { Input } from '@/components/ui/input';
 import {
+  Button,
+  Input,
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { Button } from '@/components/ui/button';
-import {
   Command,
   CommandInput,
   CommandList,
   CommandEmpty,
   CommandItem,
-} from '@/components/ui/command';
+} from '@/components/ui';
 import { Check } from 'lucide-react';
 import { useGetAllTagsQuery } from '@/lib/graphql/generated/graphql-types';
 

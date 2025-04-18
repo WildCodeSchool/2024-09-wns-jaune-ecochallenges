@@ -7,43 +7,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from '@/components/ui';
 import { Pill } from '@/components';
-import { format } from 'date-fns';
-import { fr } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
+import { getUniqueTagsFromActions, formatChallengeDates } from '@/utils';
 
-export const ChallengeCard = ({
-  challenge,
-}: {
-  challenge: Omit<Challenge, 'actions'>;
-}) => {
-  const dates = {
-    startDate: format(new Date(challenge.startDate), 'dd LLL', {
-      locale: fr,
-    }),
-    endDate: format(new Date(challenge.endDate), 'dd LLL', {
-      locale: fr,
-    }),
-    timeLeft: Math.floor(
-      (new Date(challenge.endDate).getTime() - new Date().getTime()) /
-        1000 /
-        60 /
-        60 /
-        24
-    ),
-  };
-
-  const tags = [
-    '🥦 food',
-    '🚗 transport',
-    '💡 energy',
-    '🗑️ waste',
-    '💧 water',
-    '💻 tech',
-  ]
-    .sort(() => Math.random() - 0.5)
-    .slice(0, Math.floor(Math.random() * 3) + 1);
+export const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
+  const dates = formatChallengeDates(challenge.startDate, challenge.endDate);
 
   return (
     <article className="h-full">
@@ -74,9 +44,12 @@ export const ChallengeCard = ({
 
           <CardFooter className="block w-full space-y-2">
             <ul className="flex w-full flex-wrap gap-2">
-              {tags.map((tag) => (
-                <li key={tag}>
-                  <Pill>{tag}</Pill>
+              {getUniqueTagsFromActions(challenge.actions).map((tag) => (
+                <li key={tag?.id}>
+                  <Pill>
+                    <span className="mr-1 text-lg">{tag?.icon}</span>
+                    {tag?.name}
+                  </Pill>
                 </li>
               ))}
             </ul>
