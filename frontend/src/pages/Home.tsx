@@ -78,7 +78,7 @@ export const Home = () => {
         🌱 Bienvenue sur Eco-challenges 🌱
       </h1>
       <h1 className="mb-8 rounded-full text-center text-3xl font-thin">
-        Bonjour
+        Bonjour bonjour
       </h1>
       {isAuth && <UserCard {...fakeDataUser}></UserCard>}
 
