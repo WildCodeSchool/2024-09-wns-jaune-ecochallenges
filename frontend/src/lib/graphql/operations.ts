@@ -120,3 +120,9 @@ export const MUTATION_LOG_IN = gql`
     logIn(data: $data)
   }
 `;
+
+export const MUTATION_LOG_OUT = gql`
+  mutation LogOut {
+    logOut
+  }
+`;
