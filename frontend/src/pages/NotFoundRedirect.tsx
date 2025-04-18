@@ -1,28 +1,21 @@
 import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const NotFoundRedirect = () => {
   const [countdown, setCountdown] = useState(5);
-  const [shouldRedirect, setShouldRedirect] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCountdown((prev) => prev - 1);
     }, 1000);
 
-    const timeout = setTimeout(() => {
-      setShouldRedirect(true);
-    }, 5000);
-
-    return () => {
-      clearInterval(interval);
-      clearTimeout(timeout);
-    };
+    return () => clearInterval(interval);
   }, []);
 
-  if (shouldRedirect) {
-    return <Navigate to="/" replace />;
-  }
+  useEffect(() => {
+    if (countdown <= 0) navigate('/');
+  }, [countdown]);
 
   return (
     <div className="bg-background flex min-h-screen flex-col items-center justify-center p-6 text-center">
