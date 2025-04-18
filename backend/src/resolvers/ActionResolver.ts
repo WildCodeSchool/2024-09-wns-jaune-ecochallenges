@@ -1,4 +1,12 @@
-import { Arg, Field, InputType, Mutation, Query, Resolver } from 'type-graphql';
+import {
+  Arg,
+  Field,
+  ID,
+  InputType,
+  Mutation,
+  Query,
+  Resolver,
+} from 'type-graphql';
 import { Action } from '@/entities';
 
 @InputType()
@@ -20,13 +28,16 @@ export class ActionInput {
 
   @Field()
   time!: number;
+
+  @Field(() => [ID])
+  tags!: number[];
 }
 
 @Resolver(Action)
 export class ActionResolver {
   @Query(() => [Action])
   async getActions() {
-    const actions = await Action.find();
+    const actions = await Action.find({ relations: ['tags'] });
     return actions;
   }
 
@@ -34,6 +45,7 @@ export class ActionResolver {
   async getActionById(@Arg('id') id: string) {
     const action = await Action.findOneOrFail({
       where: { id },
+      relations: ['tags'],
     });
     return action;
   }

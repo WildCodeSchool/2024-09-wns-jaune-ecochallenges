@@ -1,6 +1,11 @@
 import { dataSource } from '@/config/db';
-import { User, Challenge, Action } from '@/entities';
-import { usersData, challengesData, actionsData } from '@/seeding/seeds';
+import { User, Challenge, Action, Tag } from '@/entities';
+import {
+  usersData,
+  challengesData,
+  actionsData,
+  tagsData,
+} from '@/seeding/seeds';
 import chalk from 'chalk';
 
 chalk.level = 2;
@@ -59,7 +64,10 @@ const seedDatabase = async () => {
 
   // Add your seeds here
   await seedEntity(User, usersData.users);
-  await seedEntity(Action, actionsData.actions);
+  await seedEntity(Tag, tagsData.tags);
+  await seedEntity(Action, actionsData.actions, {
+    relations: [{ name: 'tags', entity: Tag }],
+  });
   await seedEntity(Challenge, challengesData.challenges, {
     relations: [{ name: 'actions', entity: Action }],
     dates: ['startDate', 'endDate'],

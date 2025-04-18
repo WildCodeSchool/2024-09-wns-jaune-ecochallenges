@@ -5,14 +5,14 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '@/components/ui/carousel';
+} from '@/components/ui';
 import Autoplay from 'embla-carousel-autoplay';
 import { useEffect, useRef, useState } from 'react';
 
-interface CarouselProps<T> {
+type CarouselProps<T> = {
   data: T[];
-  CardComponent: React.ComponentType<{ item: T; index: number }>;
-}
+  CardComponent: React.ComponentType<T>;
+};
 
 export const CarouselComponent = <T,>({
   data,
@@ -53,7 +53,7 @@ export const CarouselComponent = <T,>({
         <CarouselContent>
           {data.map((item, index) => (
             <CarouselItem key={index}>
-              <CardComponent key={index} item={item} index={index} />
+              <CardComponent key={index} {...item} />
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -70,7 +70,7 @@ export const CarouselComponent = <T,>({
                 key={index}
                 onClick={() => api?.scrollTo(index)}
                 className={`h-3 w-3 cursor-pointer rounded-full transition-colors ${
-                  index === current - 1 ? 'bg-accent' : 'bg-secondary'
+                  index === current - 1 ? 'bg-primary' : 'bg-secondary'
                 }`}
               />
             </div>

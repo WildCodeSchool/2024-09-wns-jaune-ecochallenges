@@ -1,27 +1,26 @@
 import { Action } from '@/lib/graphql/generated/graphql-types';
 import {
+  Button,
   Card,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+} from '@/components/ui';
+import { Pill } from '@/components';
 import {
-  CircleCheck,
   CirclePlus,
   CircleX,
   Ellipsis,
   Hourglass,
   ImagePlus,
 } from 'lucide-react';
-import { Pill } from '@/components';
 import { cn } from '@/lib/utils';
 
 type ActionCardProps = {
-  action: Omit<Action, 'challenges'>;
-  isSelected: boolean;
-  onClick: () => void;
+  action: Action;
+  isSelected?: boolean;
+  onClick?: () => void;
 };
 
 export const ActionCard = ({
@@ -34,7 +33,6 @@ export const ActionCard = ({
       data-testid="action-card"
       key={action.id}
       className={cn(
-        'bg-linear-to-br from-slate-100 to-slate-200 p-1 transition-colors hover:bg-linear-to-br hover:from-slate-200 hover:to-slate-300 active:bg-linear-to-br active:from-slate-300 active:to-slate-400',
         'm-0 flex h-auto w-[90vw] flex-col sm:h-[20vh] sm:w-[70vw] md:w-[60vw] md:flex-row lg:w-[45vw] xl:w-[35vw] 2xl:w-[30vw]'
       )}
     >
@@ -53,6 +51,16 @@ export const ActionCard = ({
           </CardTitle>
           <CardDescription className="center text-base">
             {action.description}
+            <ul className="flex w-full flex-wrap gap-2">
+              {action.tags?.map((tag) => (
+                <li key={tag.id}>
+                  <Pill className="p-2">
+                    <span className="mr-1 text-lg">{tag.icon}</span>
+                    {tag.name}
+                  </Pill>
+                </li>
+              ))}
+            </ul>
           </CardDescription>
         </CardHeader>
         <CardFooter className="flex justify-around gap-2">

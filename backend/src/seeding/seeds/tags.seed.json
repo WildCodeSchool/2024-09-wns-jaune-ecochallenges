@@ -1,0 +1,24 @@
+{
+  "tags": [
+    { "name": "Énergie", "icon": "⚡" },
+    { "name": "Déchets", "icon": "🗑️" },
+    { "name": "Consommation", "icon": "🛍️" },
+    { "name": "Nature", "icon": "🌿" },
+    { "name": "Climat", "icon": "🌡️" },
+    { "name": "Recyclage", "icon": "♻️" },
+    { "name": "Réemploi", "icon": "🔄" },
+    { "name": "Compost", "icon": "🌱" },
+    { "name": "Eau", "icon": "💧" },
+    { "name": "Local", "icon": "🏪" },
+    { "name": "Économie", "icon": "💰" },
+    { "name": "Mobilité", "icon": "🚲" },
+    { "name": "Éclairage", "icon": "💡" },
+    { "name": "Formation", "icon": "📚" },
+    { "name": "Plastique", "icon": "📦" },
+    { "name": "Alimentation", "icon": "🍽️" },
+    { "name": "Numérique", "icon": "💻" },
+    { "name": "Partage", "icon": "📢" },
+    { "name": "Jardinage", "icon": "🌺" },
+    { "name": "Innovation", "icon": "🔬" }
+  ]
+}

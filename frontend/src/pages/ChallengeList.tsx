@@ -1,5 +1,5 @@
 import { ChallengeCard } from '@/components';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui';
 import { useGetChallengesAsChallengeQuery } from '@/lib/graphql/generated/graphql-types';
 import { Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';

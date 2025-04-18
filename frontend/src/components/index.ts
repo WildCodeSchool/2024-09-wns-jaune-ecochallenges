@@ -4,4 +4,6 @@ export * from './Navbar';
 export * from './Pill';
 export * from './ChallengeCarouselCard';
 export * from './CarouselComponent';
+export * from './Filterbar';
 export * from './UserCard';
+export * from './PasswordInput';
