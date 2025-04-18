@@ -20,8 +20,8 @@ import { cn } from '@/lib/utils';
 
 type ActionCardProps = {
   action: Omit<Action, 'challenges'>;
-  isSelected: boolean;
-  onClick: () => void;
+  isSelected?: boolean;
+  onClick?: () => void;
 };
 
 export const ActionCard = ({

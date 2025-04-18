@@ -3,11 +3,12 @@ import {
   BeforeInsert,
   Column,
   Entity,
+  JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
-import { Challenge } from './Challenge';
+import { Tag, Challenge } from '@/entities';
 
 const levelType = {
   levelOne: 1,
@@ -51,6 +52,11 @@ export class Action extends BaseEntity {
   @Field()
   @Column({ nullable: false })
   createdAt!: Date;
+
+  @Field(() => [Tag], { nullable: true })
+  @ManyToMany(() => Tag, (tag) => tag.actions)
+  @JoinTable()
+  tags?: Tag[];
 
   @BeforeInsert()
   updateDates() {

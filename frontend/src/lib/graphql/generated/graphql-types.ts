@@ -41,6 +41,7 @@ export type Action = {
   level: Scalars['Float']['output'];
   name: Scalars['String']['output'];
   requires_view: Scalars['Boolean']['output'];
+  tags?: Maybe<Array<Tag>>;
   time: Scalars['Float']['output'];
 };
 
@@ -50,6 +51,7 @@ export type ActionInput = {
   level: Scalars['Float']['input'];
   name: Scalars['String']['input'];
   requires_view: Scalars['Boolean']['input'];
+  tags: Array<Scalars['ID']['input']>;
   time: Scalars['Float']['input'];
 };
 
@@ -119,6 +121,7 @@ export type Query = {
   __typename?: 'Query';
   getActionById: Action;
   getActions: Array<Action>;
+  getAllTags: Array<Tag>;
   getChallenge: Challenge;
   getChallenges: Array<Challenge>;
   getUsersAsUser: Array<User>;
@@ -137,6 +140,14 @@ export type SignUpUserInput = {
   firstname: Scalars['String']['input'];
   hashedPassword: Scalars['String']['input'];
   lastname: Scalars['String']['input'];
+};
+
+export type Tag = {
+  __typename?: 'Tag';
+  actions?: Maybe<Array<Action>>;
+  icon: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
 };
 
 export type User = {
@@ -243,6 +254,24 @@ export type GetActionsQuery = {
     icon: string;
     level: number;
     time: number;
+    tags?: Array<{
+      __typename?: 'Tag';
+      id: string;
+      name: string;
+      icon: string;
+    }> | null;
+  }>;
+};
+
+export type GetAllTagsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAllTagsQuery = {
+  __typename?: 'Query';
+  getAllTags: Array<{
+    __typename?: 'Tag';
+    id: string;
+    name: string;
+    icon: string;
   }>;
 };
 
@@ -673,6 +702,11 @@ export const GetActionsDocument = gql`
       icon
       level
       time
+      tags {
+        id
+        name
+        icon
+      }
     }
   }
 `;
@@ -740,6 +774,80 @@ export type GetActionsSuspenseQueryHookResult = ReturnType<
 export type GetActionsQueryResult = Apollo.QueryResult<
   GetActionsQuery,
   GetActionsQueryVariables
+>;
+export const GetAllTagsDocument = gql`
+  query GetAllTags {
+    getAllTags {
+      id
+      name
+      icon
+    }
+  }
+`;
+
+/**
+ * __useGetAllTagsQuery__
+ *
+ * To run a query within a React component, call `useGetAllTagsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllTagsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllTagsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllTagsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetAllTagsQuery,
+    GetAllTagsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetAllTagsQuery, GetAllTagsQueryVariables>(
+    GetAllTagsDocument,
+    options
+  );
+}
+export function useGetAllTagsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetAllTagsQuery,
+    GetAllTagsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetAllTagsQuery, GetAllTagsQueryVariables>(
+    GetAllTagsDocument,
+    options
+  );
+}
+export function useGetAllTagsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<GetAllTagsQuery, GetAllTagsQueryVariables>
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetAllTagsQuery, GetAllTagsQueryVariables>(
+    GetAllTagsDocument,
+    options
+  );
+}
+export type GetAllTagsQueryHookResult = ReturnType<typeof useGetAllTagsQuery>;
+export type GetAllTagsLazyQueryHookResult = ReturnType<
+  typeof useGetAllTagsLazyQuery
+>;
+export type GetAllTagsSuspenseQueryHookResult = ReturnType<
+  typeof useGetAllTagsSuspenseQuery
+>;
+export type GetAllTagsQueryResult = Apollo.QueryResult<
+  GetAllTagsQuery,
+  GetAllTagsQueryVariables
 >;
 export const SignUpDocument = gql`
   mutation SignUp($data: SignUpUserInput!) {

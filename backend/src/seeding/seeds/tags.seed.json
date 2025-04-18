@@ -1,0 +1,24 @@
+{
+  "tags": [
+    { "name": "Énergie", "icon": "⚡" },
+    { "name": "Mobilité douce", "icon": "🚲" },
+    { "name": "Zéro déchet", "icon": "🗑️" },
+    { "name": "Consommation responsable", "icon": "🛍️" },
+    { "name": "Biodiversité", "icon": "🌿" },
+    { "name": "Réduction des émissions", "icon": "☁️" },
+    { "name": "Recyclage", "icon": "♻️" },
+    { "name": "Réutilisation", "icon": "🔄" },
+    { "name": "Compostage", "icon": "🌱" },
+    { "name": "Sobriété énergétique", "icon": "🔋" },
+    { "name": "Eau", "icon": "💧" },
+    { "name": "Produits locaux", "icon": "🏪" },
+    { "name": "Économie circulaire", "icon": "🔁" },
+    { "name": "Transport écologique", "icon": "🚗" },
+    { "name": "Éclairage durable", "icon": "💡" },
+    { "name": "Éducation environnementale", "icon": "📖" },
+    { "name": "Réduction plastique", "icon": "📦" },
+    { "name": "Alimentation durable", "icon": "🍽️" },
+    { "name": "Réduction numérique", "icon": "💻" },
+    { "name": "Sensibilisation", "icon": "📢" }
+  ]
+}
