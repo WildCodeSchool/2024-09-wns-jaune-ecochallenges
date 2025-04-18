@@ -3,6 +3,8 @@ import { Eye, EyeOff } from 'lucide-react';
 import { Button, Input } from '@/components/ui';
 import { cn } from '@/lib/utils';
 
+type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
+
 const PasswordInput = forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...props }, ref) => {
     const [showPassword, setShowPassword] = useState(false);

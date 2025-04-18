@@ -27,6 +27,11 @@ export const GET_CHALLENGES = gql`
         id
         name
         icon
+        createdAt
+        description
+        level
+        requires_view
+        time
         tags {
           id
           name

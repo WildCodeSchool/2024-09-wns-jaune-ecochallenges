@@ -26,10 +26,10 @@ const mockedTags = [
 
 describe('Filter bar component tests', () => {
   const mockFilters: Filters = {
-    tags: new Set(),
-    difficulties: new Set(),
-    durations: new Set(),
     search: '',
+    tags: new Set(),
+    durations: new Set(),
+    difficulties: new Set(),
   };
   const Wrapper = () => {
     const [filters, setFilters] = useState(mockFilters);

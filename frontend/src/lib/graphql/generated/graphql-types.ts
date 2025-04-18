@@ -33,7 +33,7 @@ export type Scalars = {
 
 export type Action = {
   __typename?: 'Action';
-  challenges: Array<Challenge>;
+  challenges?: Maybe<Array<Challenge>>;
   createdAt: Scalars['DateTimeISO']['output'];
   description: Scalars['String']['output'];
   icon: Scalars['String']['output'];
@@ -57,7 +57,7 @@ export type ActionInput = {
 
 export type Challenge = {
   __typename?: 'Challenge';
-  actions: Array<Action>;
+  actions?: Maybe<Array<Action>>;
   bannerUrl?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTimeISO']['output'];
   description?: Maybe<Scalars['String']['output']>;
@@ -191,18 +191,23 @@ export type GetChallengesAsChallengeQuery = {
     startDate: any;
     endDate: any;
     createdAt: any;
-    actions: Array<{
+    actions?: Array<{
       __typename?: 'Action';
       id: string;
       name: string;
       icon: string;
+      createdAt: any;
+      description: string;
+      level: number;
+      requires_view: boolean;
+      time: number;
       tags?: Array<{
         __typename?: 'Tag';
         id: string;
         name: string;
         icon: string;
       }> | null;
-    }>;
+    }> | null;
   }>;
 };
 
@@ -220,7 +225,7 @@ export type GetChallengeQuery = {
     bannerUrl?: string | null;
     startDate: any;
     endDate: any;
-    actions: Array<{
+    actions?: Array<{
       __typename?: 'Action';
       id: string;
       tags?: Array<{
@@ -229,7 +234,7 @@ export type GetChallengeQuery = {
         name: string;
         icon: string;
       }> | null;
-    }>;
+    }> | null;
   };
 };
 
@@ -404,6 +409,11 @@ export const GetChallengesAsChallengeDocument = gql`
         id
         name
         icon
+        createdAt
+        description
+        level
+        requires_view
+        time
         tags {
           id
           name
