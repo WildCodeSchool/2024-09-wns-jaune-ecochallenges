@@ -49,8 +49,8 @@
 
 ### 🌱 Create a new seeder
 
-- create a `<pluralEntityName>.seed.json` file in [backend/src/database/seeds/](backend/src/database/seeds/) that match the entity you want to seed
-- import and export it in [backend/src/database/seeds/index.ts](backend/src/database/seeds/index.ts)
+- create a `<pluralEntityName>.seed.json` file in [backend/src/seeding/seeds/](backend/src/seeding/seeds/) that match the entity you want to seed
+- import and export it in [backend/src/database/seeds/index.ts](backend/src/seeding/seeds/index.ts)
 - follow this structure :
   ```json
   {
@@ -62,14 +62,28 @@
     ]
   }
   ```
-- go to [backend/src/database/seeder.ts](backend/src/database/seeder.ts)
+- go to [backend/src/seeding/index.ts](backend/src/seeding/index.ts)
+
   - import it using the TypeScript import alias `@/database/seeds`
-  - find the line `// Add your seeds here` and paste your seeding instruction at the end of existing ones :
+  - find the line `// Seed your entities here` and paste your seeding instruction at the end of existing ones :
+
   ```ts
-  await seedEntity(EntityName, entityData.pluralEntityName, [
-    'date_start',
-    'date_end',
-  ]);
+  await seed(EntityClass, entityData.pluralEntityName, {
+    relations: [{
+      { name: 'relationName', entity: relationEntityClass, property: 'email', type: 'manyToOne'},
+    }],
+    dates: ['startDate', 'endDate'],
+  }
+  );
   ```
-  > the third paramater is optional : array of entity fields of type Date
-- 🎉 you can now run the seed command to add your new seeding data!
+
+  - the third paramater is optional : an option object where you can pass relations and date properties
+
+    - `relations`: an array of objects describing the relations
+      - `name`: relation name as a string
+      - `entity`: the entity class of the relation
+      - `property`: _optional_, specify if other than `id`
+      - `type`: _optional_, specify if other than `manyToMany`
+    - `dates`: an array of date properties as strings
+
+- 🎉 you can now run the seed command (`make seed`) to add your new seeding data!

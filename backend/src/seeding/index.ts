@@ -4,6 +4,7 @@ import { seedDb } from './seeder';
 
 (async () => {
   await seedDb(async (seed) => {
+    // Seed your entities here
     await seed(User, usersData.users, {});
     await seed(Tag, tagsData.tags, {});
     await seed(Action, actionsData.actions, {
