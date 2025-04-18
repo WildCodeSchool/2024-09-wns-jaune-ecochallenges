@@ -70,7 +70,7 @@ export const CarouselComponent = <T,>({
                 key={index}
                 onClick={() => api?.scrollTo(index)}
                 className={`h-3 w-3 cursor-pointer rounded-full transition-colors ${
-                  index === current - 1 ? 'bg-accent' : 'bg-secondary'
+                  index === current - 1 ? 'bg-primary' : 'bg-secondary'
                 }`}
               />
             </div>
