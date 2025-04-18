@@ -7,8 +7,8 @@ export const GET_USERS = gql`
       firstname
       lastname
       email
-      hashedPassword
       role
+      description
     }
   }
 `;
@@ -82,7 +82,14 @@ export const GET_ACTIONS = gql`
 
 export const MUTATION_SIGN_UP = gql`
   mutation SignUp($data: SignUpUserInput!) {
-    signUp(data: $data)
+    signUp(data: $data) {
+      id
+      firstname
+      lastname
+      email
+      role
+      description
+    }
   }
 `;
 

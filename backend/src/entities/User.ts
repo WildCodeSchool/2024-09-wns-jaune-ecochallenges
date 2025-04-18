@@ -50,6 +50,10 @@ export class User extends BaseEntity {
   })
   role!: UserRole;
 
+  @Field({ nullable: true })
+  @Column({ type: 'text', nullable: true })
+  description?: string;
+
   @BeforeInsert()
   @BeforeUpdate()
   async hashPassword() {

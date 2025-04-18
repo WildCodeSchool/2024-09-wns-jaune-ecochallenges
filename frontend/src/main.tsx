@@ -15,6 +15,7 @@ import {
 } from '@/pages';
 
 import './index.css';
+import UserAccount from './pages/UserAccount.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ export const router = createBrowserRouter([
       {
         path: '/user',
         element: <UserPortal />,
+      },
+      {
+        path: '/user-account',
+        element: <UserAccount />,
       },
     ],
   },

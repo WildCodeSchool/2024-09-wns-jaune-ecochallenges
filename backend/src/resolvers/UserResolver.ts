@@ -26,6 +26,9 @@ export class SignUpUserInput {
 
   @Field()
   hashedPassword!: string;
+
+  @Field({ nullable: true })
+  description?: string;
 }
 
 @InputType()
@@ -44,6 +47,7 @@ const getProfil = (user: User) => {
     firstname: user.firstname,
     lastname: user.lastname,
     role: user.role,
+    description: user.description,
   };
 
   return profile;
@@ -104,6 +108,7 @@ export class UserResolver {
         hashedPassword: hashedPassword,
         firstname: userSignUpData.firstname,
         lastname: userSignUpData.lastname,
+        description: userSignUpData.description || '',
       });
 
       const access_token = verifyToken(user, process.env.JWT_SECRET);
