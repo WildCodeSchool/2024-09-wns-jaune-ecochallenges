@@ -1,3 +1,4 @@
+//tsconfig.test.json test entry point for tsconfig (Vitest, jest-dom, etc.)
 {
   "extends": "./tsconfig.app.json",
   "compilerOptions": {
