@@ -150,4 +150,15 @@ export class UserResolver {
       );
     }
   }
+
+  @Mutation(() => Boolean)
+  async logOut(@Ctx() { res }: { res: Response }) {
+    try {
+      res.clearCookie('access_token');
+      return true;
+    } catch (e) {
+      if (e instanceof GraphQLError) throw e;
+      throw new GraphQLError('Erreur lors de la déconnexion.');
+    }
+  }
 }
