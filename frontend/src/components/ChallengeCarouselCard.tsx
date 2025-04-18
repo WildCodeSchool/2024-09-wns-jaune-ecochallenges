@@ -1,28 +1,28 @@
 import { useEffect, useState } from 'react';
-import { Pill } from './Pill';
-import { Button } from './ui/button';
+import { Pill } from '@/components/Pill';
 import {
+  Button,
+  Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from './ui/card';
+} from '@/components/ui';
 
-import { Card } from './ui/card';
-
-interface IChallenge {
+type ChallengeCarouselCardProps = {
   id: string;
   name: string;
   description: string;
   tags: string[];
-}
-
-type ChallengeCarouselCardProps = {
-  readonly item: IChallenge;
 };
 
-export const ChallengeCarouselCard = ({ item }: ChallengeCarouselCardProps) => {
+export const ChallengeCarouselCard = ({
+  id,
+  name,
+  description,
+  tags,
+}: ChallengeCarouselCardProps) => {
   const [maxVisibleTags, setMaxVisibleTags] = useState(2);
 
   useEffect(() => {
@@ -41,24 +41,24 @@ export const ChallengeCarouselCard = ({ item }: ChallengeCarouselCardProps) => {
 
   return (
     <Card
-      data-testid={`card-${item.id}`}
-      key={item.id}
+      data-testid={`card-${id}`}
+      key={id}
       className="m-0 flex flex-row gap-0 p-0"
     >
       <img
         data-testid="card-image"
-        key={item.id}
+        key={id}
         className="aspect-square max-w-1/3"
         src="./images/sample.jpg"
-        alt={item.name}
+        alt={name}
       />
 
       <CardContent className="bg-background flex flex-col justify-around p-0 pt-1 pl-3">
         <CardTitle data-testid="card-title" className="my-3 text-left">
-          {item.name}
+          {name}
         </CardTitle>
         <CardHeader className="mb-3 flex flex-row gap-2 p-0 text-xs">
-          {item.tags.slice(0, maxVisibleTags).map((tag) => (
+          {tags.slice(0, maxVisibleTags).map((tag) => (
             <Pill
               data-testid="pills"
               className="bg-secondary/50 border-0 px-1 py-3"
@@ -67,12 +67,12 @@ export const ChallengeCarouselCard = ({ item }: ChallengeCarouselCardProps) => {
               {tag}
             </Pill>
           ))}
-          {item.tags.length > maxVisibleTags && (
+          {tags.length > maxVisibleTags && (
             <Pill
               data-testid="tag-more"
               className="bg-secondary/50 border-0 p-3"
             >
-              +{item.tags.length - maxVisibleTags}
+              +{tags.length - maxVisibleTags}
             </Pill>
           )}
         </CardHeader>
@@ -81,7 +81,7 @@ export const ChallengeCarouselCard = ({ item }: ChallengeCarouselCardProps) => {
           data-testid="card-description"
           className="text-textColor"
         >
-          {item.description}
+          {description}
         </CardDescription>
         <CardFooter>
           <Button

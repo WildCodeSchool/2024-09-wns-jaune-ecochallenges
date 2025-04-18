@@ -1,19 +1,13 @@
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form } from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Step1Init, Step2Actions } from '@/components/ChallengeForm';
-import { GET_CHALLENGE, GET_CHALLENGES } from '@/lib/graphql/operations';
 import {
-  useCreateChallengeMutation,
-  useGetActionsQuery,
-  useGetChallengeQuery,
-  useUpdateChallengeMutation,
-  useDeleteChallengeMutation,
-} from '@/lib/graphql/generated/graphql-types';
-import {
+  Form,
+  Button,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
   Dialog,
   DialogClose,
   DialogContent,
@@ -22,11 +16,20 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from '@/components/ui';
+import { Step1Init, Step2Actions } from '@/components/forms/challenge';
+import { GET_CHALLENGE, GET_CHALLENGES } from '@/lib/graphql/operations';
+import {
+  useCreateChallengeMutation,
+  useGetActionsQuery,
+  useGetChallengeQuery,
+  useUpdateChallengeMutation,
+  useDeleteChallengeMutation,
+} from '@/lib/graphql/generated/graphql-types';
 import { toast } from 'sonner';
 import { Check, Trash } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const formSchema = z
   .object({

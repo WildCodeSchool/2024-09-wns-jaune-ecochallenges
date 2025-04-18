@@ -61,7 +61,7 @@ export const Home = () => {
     },
   ];
 
-  // TODO put the reel data user
+  //! TODO: put the real data user
   const fakeDataUser = {
     id: 1,
     bernardPoints: 3444,
@@ -77,7 +77,9 @@ export const Home = () => {
       <h1 className="mb-8 rounded-full text-center text-3xl font-thin">
         🌱 Bienvenue sur Eco-challenges 🌱
       </h1>
-      {isAuth && <UserCard item={fakeDataUser}></UserCard>}
+
+      {isAuth && <UserCard {...fakeDataUser}></UserCard>}
+
       <CarouselComponent
         data={ecoChallenges}
         CardComponent={ChallengeCarouselCard}

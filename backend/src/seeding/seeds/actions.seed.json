@@ -1,94 +1,274 @@
 {
   "actions": [
     {
-      "name": "Gestion Eau",
-      "description": "Optimisation de la consommation d'eau.",
+      "name": "Installer des mousseurs",
+      "description": "Installer des mousseurs sur tous les robinets pour réduire la consommation d'eau de 50%.",
+      "requires_view": false,
+      "level": 1,
+      "icon": "drop",
+      "time": "2",
+      "tags": ["9", "3"]
+    },
+    {
+      "name": "Créer un compost",
+      "description": "Mettre en place un bac à compost et définir les règles de tri des déchets organiques.",
+      "requires_view": false,
+      "level": 2,
+      "icon": "leaf",
+      "time": "4",
+      "tags": ["8", "2"]
+    },
+    {
+      "name": "Organiser un repair café",
+      "description": "Organiser un événement pour réparer les objets cassés avec l'aide de bricoleurs bénévoles.",
+      "requires_view": true,
+      "level": 2,
+      "icon": "recycling",
+      "time": "6",
+      "tags": ["7", "18"]
+    },
+    {
+      "name": "Chasse aux veilles",
+      "description": "Identifier et éliminer toutes les consommations électriques inutiles des appareils en veille.",
       "requires_view": false,
       "level": 1,
       "icon": "leaf",
       "time": "1",
-      "tags": ["11"]
+      "tags": ["1", "17"]
     },
     {
-      "name": "Recyclage",
-      "description": "Mise en place du tri sélectif.",
+      "name": "Atelier zéro déchet",
+      "description": "Organiser un atelier de fabrication de produits ménagers naturels.",
+      "requires_view": true,
+      "level": 2,
+      "icon": "recycling",
+      "time": "3",
+      "tags": ["2", "14"]
+    },
+    {
+      "name": "Diagnostic biodiversité",
+      "description": "Réaliser un inventaire des espèces présentes dans le jardin ou sur le balcon.",
+      "requires_view": false,
+      "level": 1,
+      "icon": "leaf",
+      "time": "4",
+      "tags": ["4", "19"]
+    },
+    {
+      "name": "Challenge mobilité",
+      "description": "Utiliser uniquement des modes de transport doux pendant une journée.",
       "requires_view": false,
       "level": 2,
       "icon": "leaf",
       "time": "1",
-      "tags": ["7"]
+      "tags": ["12", "5"]
     },
     {
-      "name": "Énergie Verte",
-      "description": "Utilisation d'énergies renouvelables.",
+      "name": "Tri des mails",
+      "description": "Nettoyer sa boîte mail et se désabonner des newsletters inutiles.",
       "requires_view": false,
-      "level": 3,
+      "level": 1,
       "icon": "recycling",
       "time": "2",
-      "tags": ["1"]
+      "tags": ["17", "2"]
     },
     {
-      "name": "Réduction Papier",
-      "description": "Diminution de l'usage du papier.",
-      "requires_view": false,
-      "level": 3,
-      "icon": "recycling",
-      "time": "2",
-      "tags": ["17"]
-    },
-    {
-      "name": "Transports Écologiques",
-      "description": "Encouragement du covoiturage et vélo.",
+      "name": "Courses locales",
+      "description": "Faire ses courses uniquement chez des producteurs locaux pendant une semaine.",
       "requires_view": false,
       "level": 2,
-      "icon": "drop",
-      "time": "2",
-      "tags": ["14", "6"]
-    },
-    {
-      "name": "Consommation Responsable",
-      "description": "Achat de produits éco-responsables.",
-      "requires_view": false,
-      "level": 2,
-      "icon": "drop",
-      "time": "12",
-      "tags": ["4", "3"]
-    },
-    {
-      "name": "Économie Circulaire",
-      "description": "Réutilisation et réparation des objets.",
-      "requires_view": false,
-      "level": 1,
-      "icon": "drop",
-      "time": "1",
-      "tags": ["13"]
-    },
-    {
-      "name": "Éclairage LED",
-      "description": "Remplacement des ampoules par des LED.",
-      "requires_view": false,
-      "level": 1,
       "icon": "leaf",
-      "time": "13",
-      "tags": ["15", "10"]
+      "time": "4",
+      "tags": ["10", "16"]
     },
     {
-      "name": "Isolation Bâtiments",
-      "description": "Amélioration de l'isolation thermique.",
+      "name": "Audit éclairage",
+      "description": "Remplacer toutes les ampoules énergivores par des LED.",
+      "requires_view": false,
+      "level": 1,
+      "icon": "drop",
+      "time": "3",
+      "tags": ["13", "1"]
+    },
+    {
+      "name": "Défi zéro plastique",
+      "description": "Éviter tout achat de produits contenant du plastique pendant 3 jours.",
+      "requires_view": false,
+      "level": 2,
+      "icon": "recycling",
+      "time": "3",
+      "tags": ["15", "3"]
+    },
+    {
+      "name": "Jardin urbain",
+      "description": "Créer un petit potager en pots sur son balcon ou rebord de fenêtre.",
+      "requires_view": false,
+      "level": 2,
+      "icon": "leaf",
+      "time": "4",
+      "tags": ["19", "16"]
+    },
+    {
+      "name": "Défi végétarien",
+      "description": "Adopter un régime végétarien pendant 3 jours.",
       "requires_view": false,
       "level": 2,
       "icon": "leaf",
       "time": "3",
-      "tags": ["6"]
+      "tags": ["16", "5"]
     },
     {
-      "name": "Sensibilisation Écologique",
-      "description": "Formation et information sur l'écologie.",
+      "name": "Recyclage créatif",
+      "description": "Transformer des déchets en objets utiles ou décoratifs.",
+      "requires_view": false,
+      "level": 1,
+      "icon": "recycling",
+      "time": "4",
+      "tags": ["6", "7"]
+    },
+    {
+      "name": "Eco-nettoyage",
+      "description": "Fabriquer ses produits ménagers naturels pour un grand nettoyage.",
+      "requires_view": false,
+      "level": 1,
+      "icon": "drop",
+      "time": "2",
+      "tags": ["3", "9"]
+    },
+    {
+      "name": "Atelier réparation",
+      "description": "Apprendre à réparer un petit électroménager en panne.",
+      "requires_view": true,
+      "level": 3,
+      "icon": "recycling",
+      "time": "4",
+      "tags": ["7", "14"]
+    },
+    {
+      "name": "Défi numérique",
+      "description": "Réduire son temps d'écran de 50% pendant une journée.",
+      "requires_view": false,
+      "level": 1,
+      "icon": "leaf",
+      "time": "1",
+      "tags": ["17", "1"]
+    },
+    {
+      "name": "Troc de graines",
+      "description": "Organiser un échange de graines et de conseils de jardinage.",
+      "requires_view": true,
+      "level": 2,
+      "icon": "leaf",
+      "time": "3",
+      "tags": ["19", "18"]
+    },
+    {
+      "name": "Chasse au gaspi",
+      "description": "Identifier et corriger toutes les sources de gaspillage alimentaire.",
+      "requires_view": false,
+      "level": 1,
+      "icon": "recycling",
+      "time": "2",
+      "tags": ["16", "2"]
+    },
+    {
+      "name": "Eco-communication",
+      "description": "Créer une campagne de sensibilisation sur un réseau social.",
+      "requires_view": false,
+      "level": 2,
+      "icon": "drop",
+      "time": "4",
+      "tags": ["18", "14"]
+    },
+    {
+      "name": "Test mobilité",
+      "description": "Tester un nouveau mode de transport doux pour aller au travail.",
+      "requires_view": false,
+      "level": 1,
+      "icon": "leaf",
+      "time": "1",
+      "tags": ["12", "20"]
+    },
+    {
+      "name": "Audit énergétique",
+      "description": "Mesurer et optimiser la consommation des appareils électriques.",
+      "requires_view": false,
+      "level": 2,
+      "icon": "drop",
+      "time": "3",
+      "tags": ["1", "3"]
+    },
+    {
+      "name": "Marché local",
+      "description": "Découvrir et acheter uniquement au marché local cette semaine.",
+      "requires_view": false,
+      "level": 1,
+      "icon": "leaf",
+      "time": "3",
+      "tags": ["10", "16"]
+    },
+    {
+      "name": "Défi minimaliste",
+      "description": "Identifier et donner 10 objets non utilisés depuis 6 mois.",
+      "requires_view": false,
+      "level": 1,
+      "icon": "recycling",
+      "time": "2",
+      "tags": ["7", "3"]
+    },
+    {
+      "name": "Eco-lavage",
+      "description": "Optimiser ses cycles de lavage (linge et vaisselle) pendant 3 jours.",
+      "requires_view": false,
+      "level": 1,
+      "icon": "drop",
+      "time": "3",
+      "tags": ["9", "1"]
+    },
+    {
+      "name": "Biodiversité urbaine",
+      "description": "Installer des nichoirs ou hôtels à insectes.",
+      "requires_view": false,
+      "level": 2,
+      "icon": "leaf",
+      "time": "4",
+      "tags": ["4", "19"]
+    },
+    {
+      "name": "Challenge courses",
+      "description": "Faire des courses zéro déchet avec contenants réutilisables.",
+      "requires_view": false,
+      "level": 2,
+      "icon": "recycling",
+      "time": "2",
+      "tags": ["2", "15"]
+    },
+    {
+      "name": "Eco-bureau",
+      "description": "Mettre en place des solutions d'économie d'énergie au bureau.",
+      "requires_view": false,
+      "level": 1,
+      "icon": "drop",
+      "time": "2",
+      "tags": ["1", "17"]
+    },
+    {
+      "name": "Partage de savoirs",
+      "description": "Organiser un mini-atelier pour partager une compétence écologique.",
+      "requires_view": true,
+      "level": 2,
+      "icon": "leaf",
+      "time": "3",
+      "tags": ["14", "18"]
+    },
+    {
+      "name": "Innovation verte",
+      "description": "Proposer et tester une solution innovante pour un problème environnemental local.",
       "requires_view": false,
       "level": 3,
       "icon": "recycling",
-      "time": "1",
-      "tags": ["20"]
+      "time": "5",
+      "tags": ["20", "4"]
     }
   ]
 }

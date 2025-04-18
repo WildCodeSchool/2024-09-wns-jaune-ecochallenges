@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { LoginFormValues } from '@/schemas/auth/login.schema';
+import { LoginFormValues } from '@/schemas/auth';
+import { PasswordInput } from '@/components';
 import {
   Button,
   Input,
-  PasswordInput,
   Form,
   FormField,
   FormItem,

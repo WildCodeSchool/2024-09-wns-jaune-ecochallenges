@@ -1,18 +1,16 @@
 import { Leaf, Search, Sprout, TreePalm, X } from 'lucide-react';
-import { Input } from '@/components/ui/input';
 import {
+  Button,
+  Input,
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { Button } from '@/components/ui/button';
-import {
   Command,
   CommandInput,
   CommandList,
   CommandEmpty,
   CommandItem,
-} from '@/components/ui/command';
+} from '@/components/ui';
 import { Check } from 'lucide-react';
 import { useGetAllTagsQuery } from '@/lib/graphql/generated/graphql-types';
 
@@ -29,10 +27,10 @@ type FiltersWithTypes = {
   durations: number;
 };
 
-interface FilterBarProps {
+type FilterBarProps = {
   filters: Filters;
   setFilters: React.Dispatch<React.SetStateAction<Filters>>;
-}
+};
 
 const difficulties = [
   {
@@ -58,19 +56,19 @@ const difficulties = [
 const durations = [
   {
     value: 2,
-    label: '2 heures ou moins',
+    label: '≤ 2 heures',
   },
   {
     value: 4,
-    label: '4 heures ou moins',
+    label: '≤ 4 heures',
   },
   {
     value: 6,
-    label: '6 heures ou moins',
+    label: '≤ 6 heures',
   },
   {
     value: 8,
-    label: '8 heures ou moins',
+    label: '≤ 8 heures',
   },
 ] as const;
 
@@ -103,7 +101,7 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
     });
   };
 
-  const resetFilter = () => {
+  const resetFilters = () => {
     setFilters({
       search: '',
       tags: new Set(),
@@ -141,7 +139,7 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
             </Button>
           </PopoverTrigger>
 
-          <PopoverContent className="w-72 p-0">
+          <PopoverContent className="p-0">
             <Command>
               <CommandInput placeholder="Rechercher un tag..." />
               <CommandList data-testid="tag-popover">
@@ -210,7 +208,7 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
                 : 'Filtrer par durée'}
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-64 p-0" data-testid="duration-popover">
+          <PopoverContent className="w-48 p-0" data-testid="duration-popover">
             <Command>
               <CommandInput placeholder="durée" />
               <CommandList>
@@ -240,7 +238,7 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
         filters.durations.size ? (
           <Button
             data-testid="reset-filter-button"
-            onClick={resetFilter}
+            onClick={resetFilters}
             size="sm"
             variant="link"
           >

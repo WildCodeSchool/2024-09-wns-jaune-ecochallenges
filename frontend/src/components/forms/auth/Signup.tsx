@@ -1,8 +1,8 @@
 import { RegisterFormValues } from '@/schemas/auth/register.schema';
+import { PasswordInput } from '@/components';
 import {
   Button,
   Input,
-  PasswordInput,
   Form,
   FormField,
   FormItem,

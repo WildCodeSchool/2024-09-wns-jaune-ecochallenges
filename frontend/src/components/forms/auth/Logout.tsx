@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui';
 import { useUserStore } from '@/lib/zustand/userStore';
 import { useNavigate } from 'react-router-dom';
 

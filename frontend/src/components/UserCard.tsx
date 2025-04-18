@@ -1,6 +1,6 @@
 import { Card, Avatar, AvatarImage, AvatarFallback } from '@/components/ui';
 
-interface IUserCard {
+type UserCardProps = {
   id: number;
   bernardPoints: number;
   nbActions: number;
@@ -8,23 +8,27 @@ interface IUserCard {
   picture?: string;
   pictureName?: string;
   initial: string;
-}
-
-type UserCardProps = {
-  readonly item: IUserCard;
 };
 
-export const UserCard = ({ item }: UserCardProps) => {
+export const UserCard = ({
+  id,
+  bernardPoints = 0,
+  nbActions = 0,
+  nbChallenges = 0,
+  picture,
+  pictureName,
+  initial,
+}: UserCardProps) => {
   return (
     <article className="m-4 mx-auto max-w-xl">
-      <Card data-testid={`user-card-${item?.id}`} className="flex flex-row p-2">
+      <Card data-testid={`user-card-${id}`} className="flex flex-row p-2">
         <Avatar className="h-20 w-20">
           <AvatarImage
-            src={item?.picture}
-            alt={item?.pictureName}
+            src={picture}
+            alt={pictureName}
             data-testid="card-image"
-          ></AvatarImage>
-          <AvatarFallback delayMs={600}>{item.initial}</AvatarFallback>
+          />
+          <AvatarFallback delayMs={600}>{initial}</AvatarFallback>
         </Avatar>
         <div>
           <h3 className="text-xl font-bold">Tes stats:</h3>
@@ -34,12 +38,11 @@ export const UserCard = ({ item }: UserCardProps) => {
             <div className="m-3 flex">
               <div className="ml-2 text-3xl">🦀</div>
               <div className="ml-2 flex flex-col font-bold">
-                {' '}
                 <span
                   className="text-accent text-3xl"
                   data-testid="bernardPoints"
                 >
-                  {item?.bernardPoints ?? 0}
+                  {bernardPoints}
                 </span>
                 bernards
               </div>
@@ -49,9 +52,8 @@ export const UserCard = ({ item }: UserCardProps) => {
             <div className="m-3 flex">
               <div className="ml-2 text-3xl">🌿</div>
               <div className="ml-2 flex flex-col font-bold">
-                {' '}
                 <span className="text-chart-2 text-3xl" data-testid="nbActions">
-                  {item?.nbActions ?? 0}
+                  {nbActions}
                 </span>
                 actions
               </div>
@@ -61,12 +63,11 @@ export const UserCard = ({ item }: UserCardProps) => {
             <div className="m-3 flex">
               <div className="ml-2 text-3xl">🏆</div>
               <div className="ml-2 flex flex-col font-bold">
-                {' '}
                 <span
                   className="text-chart-4 text-3xl"
                   data-testid="nbChallenges"
                 >
-                  {item?.nbChallenges ?? 0}
+                  {nbChallenges}
                 </span>
                 challenges
               </div>
