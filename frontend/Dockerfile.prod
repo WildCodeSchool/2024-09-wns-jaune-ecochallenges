@@ -1,21 +1,15 @@
+# 🏗 Étape 1 : Build du projet
 FROM node:lts-alpine AS builder
+
 WORKDIR /app
-COPY *.json .
-COPY *.html .
-COPY *.ts .
-RUN npm install
-RUN npm install -g typescript
-COPY src/ .
-RUN tsc
 
-#FROM node:lts-alpine
-#RUN apk --no-cache add curl
-#WORKDIR /app
-#COPY --from=builder /app/build .
-#COPY package*.json .
-#RUN npm install --production
-#CMD ["npm", "run", "start"]
+COPY package*.json ./
+RUN npm install --legacy-peer-deps
 
+COPY . .
+RUN npm run build
+
+# 📦 Étape 2 : Serve statique avec `serve`
 FROM node:lts-alpine
 
 WORKDIR /app
