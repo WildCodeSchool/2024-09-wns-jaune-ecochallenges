@@ -18,7 +18,7 @@ import {
 import { cn } from '@/lib/utils';
 
 type ActionCardProps = {
-  action: Action;
+  action: Omit<Action, 'challenges'>;
   isSelected?: boolean;
   onClick?: () => void;
 };
