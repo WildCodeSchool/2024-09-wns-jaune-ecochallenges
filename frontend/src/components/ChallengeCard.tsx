@@ -7,18 +7,23 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui';
+} from '@/components/ui/card';
 import { Pill } from '@/components';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
+import { cn } from '@/lib/utils';
 
-export const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
+export const ChallengeCard = ({
+  challenge,
+}: {
+  challenge: Omit<Challenge, 'actions'>;
+}) => {
   const dates = {
-    startDate: new Date(challenge.startDate).toLocaleDateString('fr-FR', {
-      month: 'short',
-      day: 'numeric',
+    startDate: format(new Date(challenge.startDate), 'dd LLL', {
+      locale: fr,
     }),
-    endDate: new Date(challenge.endDate).toLocaleDateString('fr-FR', {
-      month: 'short',
-      day: 'numeric',
+    endDate: format(new Date(challenge.endDate), 'dd LLL', {
+      locale: fr,
     }),
     timeLeft: Math.floor(
       (new Date(challenge.endDate).getTime() - new Date().getTime()) /
@@ -42,8 +47,13 @@ export const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
 
   return (
     <article className="h-full">
-      <Link to={`/challenges`}>
-        <Card className="relative h-full justify-between bg-linear-to-br from-slate-100 to-slate-200 transition-colors hover:bg-linear-to-br hover:from-slate-200 hover:to-slate-300 active:bg-linear-to-br active:from-slate-300 active:to-slate-400">
+      <Link to={`/challenge/${challenge.id}/edit`}>
+        <Card
+          className={cn(
+            'bg-linear-to-br from-slate-100 to-slate-200 transition-colors hover:bg-linear-to-br hover:from-slate-200 hover:to-slate-300 active:bg-linear-to-br active:from-slate-300 active:to-slate-400',
+            'relative h-full justify-between'
+          )}
+        >
           <CardHeader className="overflow-hidden">
             <img
               src="https://picsum.photos/400/100"
