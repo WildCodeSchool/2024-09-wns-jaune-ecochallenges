@@ -1,52 +1,123 @@
 {
   "users": [
     {
-      "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f0",
+      "firstname": "admin",
+      "lastname": "admin",
+      "email": "admin@example.com",
+      "hashedPassword": "admin1234",
+      "role": "admin"
+    },
+    {
       "firstname": "thomas",
       "lastname": "NIG",
       "email": "thomas@example.com",
       "hashedPassword": "Thomas123!",
-      "roles": "admin"
+      "role": "admin"
     },
     {
-      "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f1",
       "firstname": "marjorie",
       "lastname": "MARC",
       "email": "marjorie@example.com",
       "hashedPassword": "Marjorie123!",
-      "roles": "admin"
+      "role": "admin"
     },
     {
-      "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f2",
       "firstname": "nicolas",
       "lastname": "ALIB",
       "email": "nicolas@example.com",
       "hashedPassword": "Nicolas123!",
-      "roles": "admin"
+      "role": "admin"
     },
     {
-      "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f3",
       "firstname": "ornella",
       "lastname": "BORG",
       "email": "ornella@example.com",
       "hashedPassword": "Ornella123!",
-      "roles": "admin"
+      "role": "admin"
     },
     {
-      "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f4",
       "firstname": "pierreAdrien",
       "lastname": "PA",
       "email": "pierreAdrien@example.com",
       "hashedPassword": "PierreAdrien123!",
-      "roles": "admin"
+      "role": "admin"
     },
     {
-      "id": "cee5b95e-c5ee-4d1e-99c6-72e6911009f5",
       "firstname": "elie",
       "lastname": "OEUF",
       "email": "elie@example.com",
       "hashedPassword": "Elie123!",
-      "roles": "admin"
+      "role": "admin"
+    },
+    {
+      "firstname": "John",
+      "lastname": "Doe",
+      "email": "john@example.com",
+      "hashedPassword": "abcd1234",
+      "role": "user"
+    },
+    {
+      "firstname": "Jane",
+      "lastname": "Smith",
+      "email": "jane@example.com",
+      "hashedPassword": "abcd1234",
+      "role": "user"
+    },
+    {
+      "firstname": "Michael",
+      "lastname": "Johnson",
+      "email": "michael@example.com",
+      "hashedPassword": "abcd1234",
+      "role": "user"
+    },
+    {
+      "firstname": "Sarah",
+      "lastname": "Williams",
+      "email": "sarah@example.com",
+      "hashedPassword": "abcd1234",
+      "role": "user"
+    },
+    {
+      "firstname": "David",
+      "lastname": "Brown",
+      "email": "david@example.com",
+      "hashedPassword": "abcd1234",
+      "role": "user"
+    },
+    {
+      "firstname": "Emily",
+      "lastname": "Jones",
+      "email": "emily@example.com",
+      "hashedPassword": "abcd1234",
+      "role": "user"
+    },
+    {
+      "firstname": "James",
+      "lastname": "Taylor",
+      "email": "james@example.com",
+      "hashedPassword": "abcd1234",
+      "role": "user"
+    },
+    {
+      "firstname": "Lisa",
+      "lastname": "Anderson",
+      "email": "lisa@example.com",
+      "hashedPassword": "abcd1234",
+      "role": "user"
+    },
+    {
+      "firstname": "Robert",
+      "lastname": "Martin",
+      "email": "robert@example.com",
+      "hashedPassword": "abcd1234",
+      "role": "user"
+    },
+    {
+      "firstname": "Emma",
+      "lastname": "Wilson",
+      "email": "emma@example.com",
+      "hashedPassword": "abcd1234",
+      "role": "user"
     }
   ]
 }

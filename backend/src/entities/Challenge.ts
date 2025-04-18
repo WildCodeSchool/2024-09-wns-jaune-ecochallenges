@@ -5,10 +5,11 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
-import { Action } from './Action';
+import { Action, User } from '@/entities';
 
 @Entity()
 @ObjectType()
@@ -45,4 +46,13 @@ export class Challenge extends BaseEntity {
   @ManyToMany(() => Action, (action) => action.challenges)
   @JoinTable()
   actions?: Action[];
+
+  @Field(() => [User])
+  @ManyToMany(() => User, (user) => user.participatedChallenges)
+  @JoinTable()
+  members?: User[];
+
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.createdChallenges)
+  owner?: User;
 }
