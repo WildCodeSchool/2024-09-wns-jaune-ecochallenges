@@ -53,7 +53,7 @@ export const ChallengeCarouselCard = ({
         alt={name}
       />
 
-      <CardContent className="bg-background flex flex-col justify-around p-0 pt-1 pl-3">
+      <CardContent className="flex flex-col justify-around p-0 pt-1 pl-3">
         <CardTitle data-testid="card-title" className="my-3 text-left">
           {name}
         </CardTitle>
@@ -84,11 +84,7 @@ export const ChallengeCarouselCard = ({
           {description}
         </CardDescription>
         <CardFooter>
-          <Button
-            data-testid="card-button"
-            size={'sm'}
-            className="hover:bg-accent text-background mx-auto"
-          >
+          <Button data-testid="card-button" size={'sm'} className="mx-auto">
             Rejoindre ce challenge
           </Button>
         </CardFooter>
