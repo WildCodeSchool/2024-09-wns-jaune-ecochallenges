@@ -8,10 +8,20 @@ RUN npm install -g typescript
 COPY src/ .
 RUN tsc
 
+#FROM node:lts-alpine
+#RUN apk --no-cache add curl
+#WORKDIR /app
+#COPY --from=builder /app/build .
+#COPY package*.json .
+#RUN npm install --production
+#CMD ["npm", "run", "start"]
+
 FROM node:lts-alpine
-RUN apk --no-cache add curl
+
 WORKDIR /app
-COPY --from=builder /app/build .
-COPY package*.json .
-RUN npm install --production
-CMD ["npm", "run", "start"]
+RUN npm install -g serve
+
+COPY --from=builder /app/dist ./dist
+
+EXPOSE 5173
+CMD ["serve", "-s", "dist", "-l", "5173"]
