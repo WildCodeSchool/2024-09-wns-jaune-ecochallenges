@@ -12,6 +12,7 @@ describe('UserCard Component', () => {
       nbChallenges: 1,
       picture: 'https://github.com/shadcn.png',
       pictureName: 'toto',
+      initial: 'PA',
     };
     render(<UserCard item={mockData} />);
 

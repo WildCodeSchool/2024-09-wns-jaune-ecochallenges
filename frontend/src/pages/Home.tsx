@@ -68,6 +68,8 @@ export const Home = () => {
     nbActions: 432,
     nbChallenges: 2,
     role: 'user',
+    initial: 'PA',
+    picture: 'https://github.com/shadcn.png',
   };
 
   return (
@@ -80,7 +82,6 @@ export const Home = () => {
         data={ecoChallenges}
         CardComponent={ChallengeCarouselCard}
       />
-      <h1 className="text-center text-3xl font-thin">NOW IT's DEV BRANCH</h1>
     </>
   );
 };

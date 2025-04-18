@@ -1,4 +1,4 @@
-import { Card, Avatar, AvatarImage } from '@/components/ui';
+import { Card, Avatar, AvatarImage, AvatarFallback } from '@/components/ui';
 
 interface IUserCard {
   id: number;
@@ -7,6 +7,7 @@ interface IUserCard {
   nbChallenges: number;
   picture?: string;
   pictureName?: string;
+  initial: string;
 }
 
 type UserCardProps = {
@@ -19,10 +20,11 @@ export const UserCard = ({ item }: UserCardProps) => {
       <Card data-testid={`user-card-${item?.id}`} className="flex flex-row p-2">
         <Avatar className="h-20 w-20">
           <AvatarImage
-            src={item?.picture ?? 'https://github.com/shadcn.png'}
-            alt={item?.picture ?? 'default avatar'}
+            src={item?.picture}
+            alt={item?.pictureName}
             data-testid="card-image"
           ></AvatarImage>
+          <AvatarFallback delayMs={600}>{item.initial}</AvatarFallback>
         </Avatar>
         <div>
           <h3 className="text-xl font-bold">Tes stats:</h3>
