@@ -1,6 +1,13 @@
-import { ChallengeCarouselCard, CarouselComponent } from '@/components';
+import {
+  ChallengeCarouselCard,
+  CarouselComponent,
+  UserCard,
+} from '@/components';
+import { useUserStore } from '@/lib/zustand/userStore';
 
 export const Home = () => {
+  const isAuth = useUserStore((state) => !!state.user);
+
   const ecoChallenges = [
     {
       id: '1',
@@ -54,11 +61,23 @@ export const Home = () => {
     },
   ];
 
+  // TODO put the reel data user
+  const fakeDataUser = {
+    id: 1,
+    bernardPoints: 3444,
+    nbActions: 432,
+    nbChallenges: 2,
+    role: 'user',
+    initial: 'PA',
+    picture: 'https://github.com/shadcn.png',
+  };
+
   return (
     <>
       <h1 className="mb-8 rounded-full text-center text-3xl font-thin">
         🌱 Bienvenue sur Eco-challenges 🌱
       </h1>
+      {isAuth && <UserCard item={fakeDataUser}></UserCard>}
       <CarouselComponent
         data={ecoChallenges}
         CardComponent={ChallengeCarouselCard}
