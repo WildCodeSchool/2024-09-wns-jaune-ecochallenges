@@ -1,17 +1,18 @@
 FROM node:lts-alpine
 
 WORKDIR /app
- ENV CHOKIDAR_USEPOLLING=true
+# ENV CHOKIDAR_USEPOLLING=true
 
 COPY package*.json ./
+COPY tsconfig* ./
+COPY codegen.ts ./
 RUN npm install --legacy-peer-deps
 
 COPY vite.config.ts ./
-COPY tsconfig* ./
-COPY codegen.ts ./
 COPY components.json ./
 COPY index.html ./
 COPY src ./src
 COPY public ./public
 
-CMD npm run dev
+#CMD npm run dev
+CMD ["npm", "run", "dev"]

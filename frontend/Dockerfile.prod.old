@@ -1,0 +1,36 @@
+# 🏗 Stage 1: Build the Vite app
+FROM node:lts-alpine AS builder
+
+WORKDIR /app
+
+# Optional for watch mode (not needed here)
+ENV CHOKIDAR_USEPOLLING=true
+
+# Install deps
+COPY package*.json ./
+RUN npm install --legacy-peer-deps
+
+# Copy source
+COPY . .
+
+# Build the frontend
+RUN npm run build
+
+# 📦 Stage 2: Serve the built app using a lightweight HTTP server
+FROM node:lts-alpine
+
+WORKDIR /app
+ ENV CHOKIDAR_USEPOLLING=true
+
+COPY package*.json ./
+RUN npm install --legacy-peer-deps
+
+COPY vite.config.ts ./
+COPY tsconfig* ./
+COPY codegen.ts ./
+COPY components.json ./
+COPY index.html ./
+COPY src ./src
+COPY public ./public
+
+CMD npm run dev
