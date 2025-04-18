@@ -7,7 +7,7 @@
       "level": 1,
       "icon": "leaf",
       "time": "1",
-      "tags": [{ "id": "11", "name": "Eau" }]
+      "tags": ["11"]
     },
     {
       "name": "Recyclage",
@@ -16,7 +16,7 @@
       "level": 2,
       "icon": "leaf",
       "time": "1",
-      "tags": [{ "id": "7", "name": "Recyclage" }]
+      "tags": ["7"]
     },
     {
       "name": "Énergie Verte",
@@ -25,7 +25,7 @@
       "level": 3,
       "icon": "recycling",
       "time": "2",
-      "tags": [{ "id": "1", "name": "Énergie" }]
+      "tags": ["1"]
     },
     {
       "name": "Réduction Papier",
@@ -34,7 +34,7 @@
       "level": 3,
       "icon": "recycling",
       "time": "2",
-      "tags": [{ "id": "17", "name": "Réduction plastique" }]
+      "tags": ["17"]
     },
     {
       "name": "Transports Écologiques",
@@ -43,10 +43,7 @@
       "level": 2,
       "icon": "drop",
       "time": "2",
-      "tags": [
-        { "id": "14", "name": "Transport écologique" },
-        { "id": "6", "name": "Réduction des émissions" }
-      ]
+      "tags": ["14", "6"]
     },
     {
       "name": "Consommation Responsable",
@@ -55,10 +52,7 @@
       "level": 2,
       "icon": "drop",
       "time": "12",
-      "tags": [
-        { "id": "4", "name": "Consommation responsable" },
-        { "id": "3", "name": "Zéro déchet" }
-      ]
+      "tags": ["4", "3"]
     },
     {
       "name": "Économie Circulaire",
@@ -67,7 +61,7 @@
       "level": 1,
       "icon": "drop",
       "time": "1",
-      "tags": [{ "id": "13", "name": "Économie circulaire" }]
+      "tags": ["13"]
     },
     {
       "name": "Éclairage LED",
@@ -76,10 +70,7 @@
       "level": 1,
       "icon": "leaf",
       "time": "13",
-      "tags": [
-        { "id": "15", "name": "Éclairage durable" },
-        { "id": "10", "name": "Sobriété énergétique" }
-      ]
+      "tags": ["15", "10"]
     },
     {
       "name": "Isolation Bâtiments",
@@ -88,7 +79,7 @@
       "level": 2,
       "icon": "leaf",
       "time": "3",
-      "tags": [{ "id": "6", "name": "Réduction des émissions" }]
+      "tags": ["6"]
     },
     {
       "name": "Sensibilisation Écologique",
@@ -97,7 +88,7 @@
       "level": 3,
       "icon": "recycling",
       "time": "1",
-      "tags": [{ "id": "20", "name": "Sensibilisation" }]
+      "tags": ["20"]
     }
   ]
 }

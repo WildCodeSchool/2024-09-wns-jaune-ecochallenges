@@ -141,7 +141,7 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
             </Button>
           </PopoverTrigger>
 
-          <PopoverContent className="w-64 p-0">
+          <PopoverContent className="w-72 p-0">
             <Command>
               <CommandInput placeholder="Rechercher un tag..." />
               <CommandList data-testid="tag-popover">
@@ -152,7 +152,10 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
                     onSelect={() => handleFilter('tags', tag.name, 'toggle')}
                     className="flex cursor-pointer justify-between"
                   >
-                    {tag.name}
+                    <div>
+                      <span className="mr-2 text-lg">{tag.icon}</span>
+                      {tag.name}
+                    </div>
                     {filters.tags.has(tag.name) && (
                       <Check className="h-4 w-4 text-emerald-500" />
                     )}

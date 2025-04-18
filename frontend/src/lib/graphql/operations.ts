@@ -79,6 +79,7 @@ export const GET_ACTIONS = gql`
       tags {
         id
         name
+        icon
       }
     }
   }
@@ -88,6 +89,7 @@ export const GET_ALL_TAGS = gql`
     getAllTags {
       id
       name
+      icon
     }
   }
 `;

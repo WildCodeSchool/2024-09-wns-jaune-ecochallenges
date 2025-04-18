@@ -20,6 +20,10 @@ export class Tag extends BaseEntity {
   @Column()
   name!: string;
 
+  @Field()
+  @Column()
+  icon!: string;
+
   @Field(() => [Action], { nullable: true })
   @ManyToMany(() => Action, (action) => action.tags)
   actions?: Action[];

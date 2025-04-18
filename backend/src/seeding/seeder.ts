@@ -65,7 +65,9 @@ const seedDatabase = async () => {
   // Add your seeds here
   await seedEntity(User, usersData.users);
   await seedEntity(Tag, tagsData.tags);
-  await seedEntity(Action, actionsData.actions);
+  await seedEntity(Action, actionsData.actions, {
+    relations: [{ name: 'tags', entity: Tag }],
+  });
   await seedEntity(Challenge, challengesData.challenges, {
     relations: [{ name: 'actions', entity: Action }],
     dates: ['startDate', 'endDate'],

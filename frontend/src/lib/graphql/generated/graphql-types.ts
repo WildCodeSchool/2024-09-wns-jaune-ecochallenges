@@ -145,6 +145,7 @@ export type SignUpUserInput = {
 export type Tag = {
   __typename?: 'Tag';
   actions?: Maybe<Array<Action>>;
+  icon: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
 };
@@ -253,7 +254,12 @@ export type GetActionsQuery = {
     icon: string;
     level: number;
     time: number;
-    tags?: Array<{ __typename?: 'Tag'; id: string; name: string }> | null;
+    tags?: Array<{
+      __typename?: 'Tag';
+      id: string;
+      name: string;
+      icon: string;
+    }> | null;
   }>;
 };
 
@@ -261,7 +267,12 @@ export type GetAllTagsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetAllTagsQuery = {
   __typename?: 'Query';
-  getAllTags: Array<{ __typename?: 'Tag'; id: string; name: string }>;
+  getAllTags: Array<{
+    __typename?: 'Tag';
+    id: string;
+    name: string;
+    icon: string;
+  }>;
 };
 
 export type SignUpMutationVariables = Exact<{
@@ -694,6 +705,7 @@ export const GetActionsDocument = gql`
       tags {
         id
         name
+        icon
       }
     }
   }
@@ -768,6 +780,7 @@ export const GetAllTagsDocument = gql`
     getAllTags {
       id
       name
+      icon
     }
   }
 `;
