@@ -1,15 +1,8 @@
+//tsconfig.json Global entry point for all tsconfig files
 {
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ],
-  "compilerOptions": {
-    "types": [],
-    //"types": ["vitest", "@testing-library/jest-dom"],
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  }
+  ]
 }
