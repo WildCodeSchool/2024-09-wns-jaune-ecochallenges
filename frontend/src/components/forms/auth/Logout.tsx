@@ -3,7 +3,7 @@ import { useUserStore } from '@/lib/zustand/userStore';
 import { useNavigate } from 'react-router-dom';
 
 export const Logout = () => {
-  const logout = useUserStore((state) => state.logout);
+  const { logout } = useUserStore();
   const navigate = useNavigate();
 
   const handleLogout = () => {
