@@ -110,7 +110,9 @@ export const ActionCard = ({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <CardDescription>{action.description}</CardDescription>
+          <CardDescription>
+            <p className="truncate">{action.description} </p>
+          </CardDescription>
         </CardContent>
 
         <CardFooter className="flex w-full justify-between gap-1">
