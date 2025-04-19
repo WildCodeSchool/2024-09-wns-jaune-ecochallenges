@@ -2,6 +2,7 @@ import { Action } from '@/lib/graphql/generated/graphql-types';
 import {
   Button,
   Card,
+  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -9,11 +10,14 @@ import {
 } from '@/components/ui';
 import { Pill } from '@/components';
 import {
-  CirclePlus,
-  CircleX,
+  BookmarkCheck,
+  BookmarkMinus,
   Ellipsis,
-  Hourglass,
   ImagePlus,
+  Leaf,
+  LucideProps,
+  Sprout,
+  TreePalm,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -23,96 +27,124 @@ type ActionCardProps = {
   onClick?: () => void;
 };
 
+type dfficultyProps = {
+  value: number;
+  label: string;
+  icon: React.ForwardRefExoticComponent<
+    Omit<LucideProps, 'ref'> & React.RefAttributes<SVGSVGElement>
+  >;
+  className: string;
+};
+
+export const difficulties = [
+  {
+    value: 1,
+    label: 'Facile',
+    icon: Sprout,
+    className: 'text-colorcard-foreground  size-7',
+  },
+  {
+    value: 2,
+    label: 'Moyen',
+    icon: Leaf,
+    className: 'text-colorcard-foreground  size-6',
+  },
+  {
+    value: 3,
+    label: 'Difficile',
+    icon: TreePalm,
+    className: 'text-colorcard-foreground  size-7',
+  },
+] as const;
+
+const getdifficulty = (
+  difficulties: readonly dfficultyProps[],
+  value: number
+) => {
+  const result = difficulties.filter(
+    (difficulty: dfficultyProps) => difficulty.value === value
+  );
+  return result;
+};
+
 export const ActionCard = ({
   action,
   isSelected = false,
   onClick,
 }: ActionCardProps) => {
   return (
-    <Card
-      data-testid="action-card"
-      key={action.id}
-      className={cn(
-        'm-0 flex h-auto w-[90vw] flex-col sm:h-[20vh] sm:w-[70vw] md:w-[60vw] md:flex-row lg:w-[45vw] xl:w-[35vw] 2xl:w-[30vw]'
-      )}
-    >
-      <div className="w-10 basis-1/6 md:h-25 md:w-25 2xl:p-3">
-        <img
-          src={`/icons/${action.icon}.png`}
-          alt="name"
-          className="size-12 object-contain"
-        />
-      </div>
-
-      <div className="flex basis-3/6 flex-col gap-4 md:justify-around">
-        <CardHeader className="flex flex-col items-center">
-          <CardTitle className="center text-lg font-bold">
-            {action.name}
-          </CardTitle>
-          <CardDescription className="center text-base">
-            {action.description}
-            <ul className="flex w-full flex-wrap gap-2">
+    <article className="h-full">
+      <Card className={cn('h-full')}>
+        <CardHeader className="flex w-full flex-col">
+          <div className="flex w-full flex-row items-center justify-between">
+            <div className="flex gap-1">
               {action.tags?.map((tag) => (
-                <li key={tag.id}>
-                  <Pill className="p-2">
-                    <span className="mr-1 text-lg">{tag.icon}</span>
-                    {tag.name}
-                  </Pill>
-                </li>
+                <Pill key={tag.id} className="p-1">
+                  {tag.icon}
+                </Pill>
               ))}
-            </ul>
-          </CardDescription>
-        </CardHeader>
-        <CardFooter className="flex justify-around gap-2">
-          <Pill className="p-4">
-            <Button
-              type="button"
-              variant="ghost"
-              className="hover:bg-transparent hover:opacity-100"
-            >
-              <ImagePlus strokeWidth={2} className="min-h-6 min-w-6" />
-            </Button>
-          </Pill>
-          <Pill className="p-4">
-            <img
-              className="w-7"
-              src={`/icons/level-${action.level}.png`}
-              alt="icon of dificulty level"
-            />
-          </Pill>
-          <Pill className="p-4">
-            <Hourglass strokeWidth={3} />
-            <span className="text-base font-bold">{action.time}h</span>
-          </Pill>
-          <Pill className="p-4">
-            <Button
-              type="button"
-              variant="ghost"
-              className="hover:bg-transparent hover:opacity-100"
-            >
-              <Ellipsis strokeWidth={3} />
-            </Button>
-          </Pill>
-        </CardFooter>
-      </div>
+            </div>
 
-      <div className="basis-1/6 md:flex md:items-center md:justify-center">
-        <Button
-          type="button"
-          variant="ghost"
-          className="hover:bg-transparent hover:opacity-100"
-          onClick={onClick}
-        >
-          {isSelected ? (
-            <CircleX
-              data-testid="action-card-button"
-              className="size-8 fill-slate-300"
-            />
-          ) : (
-            <CirclePlus data-testid="action-card-button" className="size-8" />
-          )}
-        </Button>
-      </div>
-    </Card>
+            <Button
+              type="button"
+              variant="ghost"
+              className="hover:bg-transparent hover:opacity-100"
+              onClick={onClick}
+            >
+              {isSelected ? (
+                <BookmarkCheck
+                  data-testid="action-card-button"
+                  className="size-8"
+                />
+              ) : (
+                <BookmarkMinus
+                  data-testid="action-card-button"
+                  className="size-8"
+                />
+              )}
+            </Button>
+          </div>
+
+          <CardTitle className="text-lg font-bold">
+            <h2>{action.name}</h2>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <CardDescription>{action.description}</CardDescription>
+        </CardContent>
+
+        <CardFooter className="flex w-full justify-between gap-1">
+          <div className="flex gap-1">
+            <Pill>
+              <span className="text-base">{action.time}h</span>
+            </Pill>
+            {getdifficulty(difficulties, action.level).map((difficulty) => (
+              <Pill className="flex" key={difficulty.value}>
+                <span className="text-xs">niveau:</span>
+                <difficulty.icon className={difficulty.className} />
+              </Pill>
+            ))}
+          </div>
+
+          <div>
+            <Button
+              type="button"
+              variant="ghost"
+              className="hover:bg-transparent hover:opacity-100"
+            >
+              <ImagePlus className="size-7" />
+            </Button>
+
+            <Button
+              type="button"
+              variant="ghost"
+              className="hover:bg-transparent hover:opacity-100"
+            >
+              <Ellipsis className="size-7" />
+            </Button>
+          </div>
+        </CardFooter>
+      </Card>
+    </article>
   );
 };

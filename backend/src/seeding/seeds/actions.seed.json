@@ -2,7 +2,7 @@
   "actions": [
     {
       "name": "Installer des mousseurs",
-      "description": "Installer des mousseurs sur tous les robinets pour réduire la consommation d'eau de 50%.",
+      "description": "Installer des mousseurs sur tous les robinets permet de réduire la consommation d'eau jusqu'à 50% sans perte de confort. Cette action simple contribue à préserver les ressources en eau potable et à réduire vos factures d'eau.",
       "requires_view": false,
       "level": 1,
       "icon": "drop",
@@ -11,7 +11,7 @@
     },
     {
       "name": "Créer un compost",
-      "description": "Mettre en place un bac à compost et définir les règles de tri des déchets organiques.",
+      "description": "Mettre en place un bac à compost aide à valoriser les déchets organiques de la maison. En transformant les épluchures et restes alimentaires en engrais naturel, vous réduisez le volume de vos ordures ménagères et enrichissez la terre de vos plantations.",
       "requires_view": false,
       "level": 2,
       "icon": "leaf",
@@ -20,7 +20,7 @@
     },
     {
       "name": "Organiser un repair café",
-      "description": "Organiser un événement pour réparer les objets cassés avec l'aide de bricoleurs bénévoles.",
+      "description": "Un repair café favorise la réparation d'objets cassés plutôt que leur remplacement. Cet événement renforce les liens sociaux, développe les compétences en bricolage et lutte contre l'obsolescence programmée.",
       "requires_view": true,
       "level": 2,
       "icon": "recycling",
@@ -29,7 +29,7 @@
     },
     {
       "name": "Chasse aux veilles",
-      "description": "Identifier et éliminer toutes les consommations électriques inutiles des appareils en veille.",
+      "description": "Supprimer les consommations électriques inutiles des appareils en veille permet de faire des économies d'énergie significatives et de réduire son empreinte carbone de façon très simple au quotidien.",
       "requires_view": false,
       "level": 1,
       "icon": "leaf",
@@ -38,7 +38,7 @@
     },
     {
       "name": "Atelier zéro déchet",
-      "description": "Organiser un atelier de fabrication de produits ménagers naturels.",
+      "description": "En organisant un atelier de fabrication de produits ménagers naturels, vous sensibilisez les participants à la réduction des déchets plastiques et chimiques, tout en leur offrant des alternatives économiques et écologiques.",
       "requires_view": true,
       "level": 2,
       "icon": "recycling",
@@ -47,7 +47,7 @@
     },
     {
       "name": "Diagnostic biodiversité",
-      "description": "Réaliser un inventaire des espèces présentes dans le jardin ou sur le balcon.",
+      "description": "Réaliser un inventaire de la biodiversité locale, même sur un balcon, permet de mieux comprendre et protéger les écosystèmes en milieu urbain, en favorisant notamment la création de micro-habitats pour la faune locale.",
       "requires_view": false,
       "level": 1,
       "icon": "leaf",
@@ -56,7 +56,7 @@
     },
     {
       "name": "Challenge mobilité",
-      "description": "Utiliser uniquement des modes de transport doux pendant une journée.",
+      "description": "Utiliser uniquement des modes de transport doux (marche, vélo, transports en commun) pendant une journée sensibilise à l'impact environnemental des déplacements motorisés et encourage l’adoption de nouvelles habitudes durables.",
       "requires_view": false,
       "level": 2,
       "icon": "leaf",
@@ -65,7 +65,7 @@
     },
     {
       "name": "Tri des mails",
-      "description": "Nettoyer sa boîte mail et se désabonner des newsletters inutiles.",
+      "description": "Nettoyer sa boîte mail réduit l’espace de stockage sur les serveurs, qui consomment énormément d’énergie. C'est un geste numérique simple pour alléger son empreinte écologique.",
       "requires_view": false,
       "level": 1,
       "icon": "recycling",
@@ -74,7 +74,7 @@
     },
     {
       "name": "Courses locales",
-      "description": "Faire ses courses uniquement chez des producteurs locaux pendant une semaine.",
+      "description": "Faire ses courses chez des producteurs locaux soutient l'économie de proximité, réduit les émissions liées au transport des marchandises et favorise une alimentation plus fraîche et de saison.",
       "requires_view": false,
       "level": 2,
       "icon": "leaf",
@@ -83,7 +83,7 @@
     },
     {
       "name": "Audit éclairage",
-      "description": "Remplacer toutes les ampoules énergivores par des LED.",
+      "description": "Remplacer les ampoules énergivores par des LED permet d'économiser jusqu’à 80% d'énergie pour l'éclairage, tout en allongeant la durée de vie des installations.",
       "requires_view": false,
       "level": 1,
       "icon": "drop",
@@ -92,7 +92,7 @@
     },
     {
       "name": "Défi zéro plastique",
-      "description": "Éviter tout achat de produits contenant du plastique pendant 3 jours.",
+      "description": "Éviter l’achat de produits plastiques pendant 3 jours incite à prendre conscience de l’omniprésence du plastique et encourage l'adoption de solutions alternatives durables.",
       "requires_view": false,
       "level": 2,
       "icon": "recycling",
@@ -101,7 +101,7 @@
     },
     {
       "name": "Jardin urbain",
-      "description": "Créer un petit potager en pots sur son balcon ou rebord de fenêtre.",
+      "description": "Créer un potager sur son balcon permet de produire ses propres herbes et légumes, tout en reconnectant avec la nature et en favorisant la biodiversité en ville.",
       "requires_view": false,
       "level": 2,
       "icon": "leaf",
@@ -110,7 +110,7 @@
     },
     {
       "name": "Défi végétarien",
-      "description": "Adopter un régime végétarien pendant 3 jours.",
+      "description": "Adopter un régime végétarien pendant 3 jours sensibilise à l’impact environnemental de l’élevage intensif et montre qu’il est possible de varier son alimentation tout en réduisant son empreinte carbone.",
       "requires_view": false,
       "level": 2,
       "icon": "leaf",
@@ -119,7 +119,7 @@
     },
     {
       "name": "Recyclage créatif",
-      "description": "Transformer des déchets en objets utiles ou décoratifs.",
+      "description": "Transformer des déchets en objets utiles ou décoratifs développe la créativité tout en donnant une seconde vie aux matériaux destinés à la poubelle.",
       "requires_view": false,
       "level": 1,
       "icon": "recycling",
@@ -128,7 +128,7 @@
     },
     {
       "name": "Eco-nettoyage",
-      "description": "Fabriquer ses produits ménagers naturels pour un grand nettoyage.",
+      "description": "Fabriquer ses propres produits ménagers naturels réduit l’utilisation de substances chimiques toxiques pour la santé et l’environnement, tout en réalisant des économies.",
       "requires_view": false,
       "level": 1,
       "icon": "drop",
@@ -137,7 +137,7 @@
     },
     {
       "name": "Atelier réparation",
-      "description": "Apprendre à réparer un petit électroménager en panne.",
+      "description": "Apprendre à réparer un petit électroménager évite le gaspillage et prolonge la durée de vie des appareils, tout en développant les compétences techniques des participants.",
       "requires_view": true,
       "level": 3,
       "icon": "recycling",
@@ -146,7 +146,7 @@
     },
     {
       "name": "Défi numérique",
-      "description": "Réduire son temps d'écran de 50% pendant une journée.",
+      "description": "Réduire son temps d’écran de 50% pendant une journée favorise une consommation numérique responsable, diminue la consommation énergétique et améliore le bien-être personnel.",
       "requires_view": false,
       "level": 1,
       "icon": "leaf",
@@ -155,7 +155,7 @@
     },
     {
       "name": "Troc de graines",
-      "description": "Organiser un échange de graines et de conseils de jardinage.",
+      "description": "Organiser un échange de graines encourage la biodiversité cultivée et permet de conserver des variétés locales, tout en créant du lien entre passionnés de jardinage.",
       "requires_view": true,
       "level": 2,
       "icon": "leaf",
@@ -164,7 +164,7 @@
     },
     {
       "name": "Chasse au gaspi",
-      "description": "Identifier et corriger toutes les sources de gaspillage alimentaire.",
+      "description": "Identifier et corriger les sources de gaspillage alimentaire permet d'économiser de l'argent, de respecter le travail des producteurs et de lutter contre le réchauffement climatique.",
       "requires_view": false,
       "level": 1,
       "icon": "recycling",
@@ -173,7 +173,7 @@
     },
     {
       "name": "Eco-communication",
-      "description": "Créer une campagne de sensibilisation sur un réseau social.",
+      "description": "Créer une campagne de sensibilisation sur un réseau social est un levier puissant pour éveiller les consciences et encourager une dynamique collective vers plus d'éco-responsabilité.",
       "requires_view": false,
       "level": 2,
       "icon": "drop",
@@ -182,7 +182,7 @@
     },
     {
       "name": "Test mobilité",
-      "description": "Tester un nouveau mode de transport doux pour aller au travail.",
+      "description": "Tester un nouveau mode de transport doux pour se rendre au travail permet de s'ouvrir à des alternatives plus respectueuses de l'environnement et souvent bénéfiques pour la santé.",
       "requires_view": false,
       "level": 1,
       "icon": "leaf",
@@ -191,7 +191,7 @@
     },
     {
       "name": "Audit énergétique",
-      "description": "Mesurer et optimiser la consommation des appareils électriques.",
+      "description": "Mesurer la consommation de ses appareils électriques permet d'identifier les équipements énergivores et d'adopter des gestes d'économie facilement.",
       "requires_view": false,
       "level": 2,
       "icon": "drop",
@@ -200,7 +200,7 @@
     },
     {
       "name": "Marché local",
-      "description": "Découvrir et acheter uniquement au marché local cette semaine.",
+      "description": "Acheter exclusivement au marché local cette semaine permet de soutenir l'agriculture locale, de limiter l'empreinte carbone liée au transport et d'avoir accès à des produits frais et de saison.",
       "requires_view": false,
       "level": 1,
       "icon": "leaf",
@@ -209,7 +209,7 @@
     },
     {
       "name": "Défi minimaliste",
-      "description": "Identifier et donner 10 objets non utilisés depuis 6 mois.",
+      "description": "Donner 10 objets inutilisés depuis 6 mois libère de l’espace, simplifie son quotidien et encourage une consommation plus réfléchie.",
       "requires_view": false,
       "level": 1,
       "icon": "recycling",
@@ -218,7 +218,7 @@
     },
     {
       "name": "Eco-lavage",
-      "description": "Optimiser ses cycles de lavage (linge et vaisselle) pendant 3 jours.",
+      "description": "Optimiser les cycles de lavage linge et vaisselle réduit la consommation d'eau et d'électricité, tout en prolongeant la durée de vie des appareils.",
       "requires_view": false,
       "level": 1,
       "icon": "drop",
@@ -227,7 +227,7 @@
     },
     {
       "name": "Biodiversité urbaine",
-      "description": "Installer des nichoirs ou hôtels à insectes.",
+      "description": "Installer des nichoirs ou hôtels à insectes favorise la survie d'espèces en déclin et contribue à maintenir l’équilibre écologique en milieu urbain.",
       "requires_view": false,
       "level": 2,
       "icon": "leaf",
@@ -236,7 +236,7 @@
     },
     {
       "name": "Challenge courses",
-      "description": "Faire des courses zéro déchet avec contenants réutilisables.",
+      "description": "Faire des courses zéro déchet avec ses propres contenants encourage une démarche d'achat plus consciente, en réduisant considérablement les emballages jetables.",
       "requires_view": false,
       "level": 2,
       "icon": "recycling",
@@ -245,7 +245,7 @@
     },
     {
       "name": "Eco-bureau",
-      "description": "Mettre en place des solutions d'économie d'énergie au bureau.",
+      "description": "Mettre en place des actions d'économie d'énergie au bureau, comme éteindre les ordinateurs ou optimiser l'éclairage, réduit les coûts et l'empreinte écologique des activités professionnelles.",
       "requires_view": false,
       "level": 1,
       "icon": "drop",
@@ -254,7 +254,7 @@
     },
     {
       "name": "Partage de savoirs",
-      "description": "Organiser un mini-atelier pour partager une compétence écologique.",
+      "description": "Organiser un mini-atelier pour transmettre une compétence écologique valorise le savoir-faire, inspire et incite à la reproduction d'initiatives vertueuses.",
       "requires_view": true,
       "level": 2,
       "icon": "leaf",
@@ -263,7 +263,7 @@
     },
     {
       "name": "Innovation verte",
-      "description": "Proposer et tester une solution innovante pour un problème environnemental local.",
+      "description": "Proposer et tester une solution innovante pour résoudre un problème environnemental local stimule la créativité et encourage l’engagement citoyen face aux enjeux écologiques.",
       "requires_view": false,
       "level": 3,
       "icon": "recycling",
