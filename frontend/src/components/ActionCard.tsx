@@ -57,7 +57,7 @@ export const difficulties = [
   },
 ] as const;
 
-const getdifficulty = (
+const getDifficulty = (
   difficulties: readonly dfficultyProps[],
   value: number
 ) => {
@@ -74,7 +74,7 @@ export const ActionCard = ({
 }: ActionCardProps) => {
   return (
     <article className="h-full">
-      <Card className={cn('h-full')}>
+      <Card className={cn('h-full gap-0')}>
         <CardHeader className="flex w-full flex-col">
           <div className="flex w-full flex-row items-center justify-between">
             <div className="flex gap-1">
@@ -115,12 +115,12 @@ export const ActionCard = ({
           </CardDescription>
         </CardContent>
 
-        <CardFooter className="flex w-full justify-between gap-1">
+        <CardFooter className="mt-4 flex w-full justify-between gap-1">
           <div className="flex gap-1">
             <Pill>
               <span className="text-base">{action.time}h</span>
             </Pill>
-            {getdifficulty(difficulties, action.level).map((difficulty) => (
+            {getDifficulty(difficulties, action.level).map((difficulty) => (
               <Pill className="flex" key={difficulty.value}>
                 <span className="text-xs">niveau:</span>
                 <difficulty.icon className={difficulty.className} />
