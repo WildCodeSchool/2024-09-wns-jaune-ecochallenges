@@ -33,13 +33,13 @@ export const UserCard = ({
         <div>
           <h3 className="text-xl font-bold">Tes stats:</h3>
 
-          <div className="flex flex-wrap">
+          <div className="grid grid-cols-2 md:flex">
             {/* section bernard point */}
-            <div className="m-3 flex">
+            <div className="col-start-1 col-end-1 m-3 flex">
               <div className="ml-2 text-3xl">🦀</div>
               <div className="ml-2 flex flex-col font-bold">
                 <span
-                  className="text-accent text-3xl"
+                  className="text-foreground text-3xl"
                   data-testid="bernardPoints"
                 >
                   {bernardPoints}
@@ -49,10 +49,13 @@ export const UserCard = ({
             </div>
 
             {/* section actions */}
-            <div className="m-3 flex">
+            <div className="col-start-2 col-end-2 m-3 flex">
               <div className="ml-2 text-3xl">🌿</div>
               <div className="ml-2 flex flex-col font-bold">
-                <span className="text-chart-2 text-3xl" data-testid="nbActions">
+                <span
+                  className="text-foreground text-3xl"
+                  data-testid="nbActions"
+                >
                   {nbActions}
                 </span>
                 actions
@@ -60,11 +63,11 @@ export const UserCard = ({
             </div>
 
             {/* section challenges */}
-            <div className="m-3 flex">
+            <div className="col-span-2 col-start-1 col-end-3 m-3 flex justify-center">
               <div className="ml-2 text-3xl">🏆</div>
               <div className="ml-2 flex flex-col font-bold">
                 <span
-                  className="text-chart-4 text-3xl"
+                  className="text-foreground text-3xl"
                   data-testid="nbChallenges"
                 >
                   {nbChallenges}
