@@ -88,23 +88,30 @@
       "members": ["admin@example.com", "james@example.com"]
     },
     {
-      "label": "Cuisine anti-gaspi collective",
+      "label": "Cuisine anti-gaspi collective (privé)",
       "description": "Organisez des ateliers cuisine collectifs pour transformer les invendus des commerces locaux en repas solidaires",
       "bannerUrl": "food-waste-banner.jpg",
       "startDate": "2025-03-27T00:00:00Z",
       "endDate": "2025-04-27T23:59:59Z",
       "actions": [6, 7, 10],
+      "isPublic": false,
       "owner": "admin@example.com",
-      "members": ["admin@example.com", "robert@example.com", "emma@example.com"]
+      "members": [
+        "admin@example.com",
+        "robert@example.com",
+        "emma@example.com",
+        "nicolas@example.com"
+      ]
     },
     {
-      "label": "Boycott des multinationales polluantes",
+      "label": "Boycott des multinationales polluantes (privé)",
       "description": "Identifiez et évitez pendant un mois les produits des 10 entreprises les plus polluantes. Proposez des alternatives locales !",
       "bannerUrl": "boycott-banner.jpg",
       "startDate": "2025-03-27T00:00:00Z",
       "endDate": "2025-04-27T23:59:59Z",
       "actions": [6, 10],
       "owner": "admin@example.com",
+      "isPublic": false,
       "members": [
         "admin@example.com",
         "jane@example.com",
@@ -113,12 +120,13 @@
       ]
     },
     {
-      "label": "Déconnexion hebdomadaire",
+      "label": "Déconnexion hebdomadaire (privé)",
       "description": "Chaque dimanche, passez 24h sans écrans. Organisez des activités nature ou créatives avec votre entourage !",
       "bannerUrl": "digital-detox-banner.jpg",
       "startDate": "2025-03-27T00:00:00Z",
       "endDate": "2025-06-27T23:59:59Z",
       "actions": [3, 4, 10],
+      "isPublic": false,
       "owner": "admin@example.com",
       "members": ["admin@example.com", "emily@example.com"]
     }

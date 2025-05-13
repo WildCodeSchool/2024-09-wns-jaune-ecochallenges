@@ -71,8 +71,7 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
       },
     ],
     onCompleted: () => {
-      //! TODO: redirect to the challenge page
-      navigate(`/challenges`);
+      navigate(`/challenge/${challengeId}`);
     },
   });
   const [updateChallenge] = useUpdateChallengeMutation({
@@ -83,8 +82,7 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
       },
     ],
     onCompleted: () => {
-      //! TODO: redirect to the challenge page
-      navigate(`/challenges`);
+      navigate(`/challenge/${challengeId}`);
     },
   });
   const [deleteChallenge] = useDeleteChallengeMutation({

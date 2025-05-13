@@ -15,7 +15,7 @@ import { Action, User } from '@/entities';
 @ObjectType()
 export class Challenge extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Field((_type) => ID)
+  @Field(() => ID)
   id!: string;
 
   @Field()
@@ -37,6 +37,10 @@ export class Challenge extends BaseEntity {
   @Field()
   @Column({ type: 'timestamp' })
   endDate!: Date;
+
+  @Field()
+  @Column({ type: 'boolean', default: true })
+  isPublic!: boolean;
 
   @Field()
   @CreateDateColumn()

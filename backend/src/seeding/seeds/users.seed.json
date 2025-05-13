@@ -12,42 +12,42 @@
       "lastname": "NIG",
       "email": "thomas@example.com",
       "hashedPassword": "Thomas123!",
-      "role": "admin"
+      "role": "user"
     },
     {
       "firstname": "marjorie",
       "lastname": "MARC",
       "email": "marjorie@example.com",
       "hashedPassword": "Marjorie123!",
-      "role": "admin"
+      "role": "user"
     },
     {
       "firstname": "nicolas",
       "lastname": "ALIB",
       "email": "nicolas@example.com",
       "hashedPassword": "Nicolas123!",
-      "role": "admin"
+      "role": "user"
     },
     {
       "firstname": "ornella",
       "lastname": "BORG",
       "email": "ornella@example.com",
       "hashedPassword": "Ornella123!",
-      "role": "admin"
+      "role": "user"
     },
     {
       "firstname": "pierreAdrien",
       "lastname": "PA",
       "email": "pierreAdrien@example.com",
       "hashedPassword": "PierreAdrien123!",
-      "role": "admin"
+      "role": "user"
     },
     {
       "firstname": "elie",
       "lastname": "OEUF",
       "email": "elie@example.com",
       "hashedPassword": "Elie123!",
-      "role": "admin"
+      "role": "user"
     },
     {
       "firstname": "John",

@@ -1,5 +1,6 @@
 import {
   Arg,
+  Ctx,
   Field,
   ID,
   InputType,
@@ -7,7 +8,7 @@ import {
   Query,
   Resolver,
 } from 'type-graphql';
-import { Action, Challenge } from '@/entities';
+import { Action, Challenge, User } from '@/entities';
 import { In } from 'typeorm';
 
 @InputType()
@@ -37,18 +38,24 @@ class ChallengeInput {
 @Resolver(Challenge)
 export class ChallengeResolver {
   @Query(() => [Challenge])
-  async getChallenges(): Promise<Challenge[]> {
+  async getChallenges(@Ctx() { user }: { user: User }): Promise<Challenge[]> {
+    console.log(user);
     const challenges = await Challenge.find({
-      relations: ['actions', 'actions.tags'],
+      relations: ['actions', 'actions.tags', 'members', 'owner'],
     });
-    return challenges;
+
+    return challenges.filter((challenge) => {
+      if (challenge.isPublic) return true;
+      if (user)
+        return challenge.members?.some((member) => member.id === user.id);
+    });
   }
 
   @Query(() => Challenge)
   async getChallenge(@Arg('id', () => ID) id: string): Promise<Challenge> {
     const challenge = await Challenge.findOneOrFail({
       where: { id },
-      relations: ['actions'],
+      relations: ['actions', 'members', 'owner'],
     });
     return challenge;
   }
