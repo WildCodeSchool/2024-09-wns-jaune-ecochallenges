@@ -74,7 +74,7 @@ export const ActionCard = ({
 }: ActionCardProps) => {
   return (
     <article className="h-full">
-      <Card className={cn('h-full gap-0')}>
+      <Card data-testid="action-card" className={cn('h-full gap-0')}>
         <CardHeader className="flex w-full flex-col">
           <div className="flex w-full flex-row items-center justify-between">
             <div className="flex gap-1">

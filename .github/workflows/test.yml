@@ -1,0 +1,15 @@
+name: test-project
+
+on: pull_request
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: node:20
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          node-version: 20
+      - run: cd frontend
+      - run: npm run test
