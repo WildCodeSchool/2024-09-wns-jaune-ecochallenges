@@ -21,7 +21,6 @@ import { Step1Init, Step2Actions } from '@/components/forms/challenge';
 import { GET_CHALLENGE, GET_CHALLENGES } from '@/lib/graphql/operations';
 import {
   useCreateChallengeMutation,
-  useGetActionsQuery,
   useGetChallengeQuery,
   useUpdateChallengeMutation,
   useDeleteChallengeMutation,
@@ -65,7 +64,6 @@ type FormType = z.infer<typeof formSchema>;
 export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('step1');
-  const actionsQuery = useGetActionsQuery();
   const [createChallenge] = useCreateChallengeMutation({
     refetchQueries: [
       {
@@ -217,7 +215,7 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
             <Step1Init />
           </TabsContent>
           <TabsContent value="step2" className="">
-            <Step2Actions actionsQuery={actionsQuery} />
+            <Step2Actions />
           </TabsContent>
           <TabsContent value="step3">
             <p>Coming soon...</p>
