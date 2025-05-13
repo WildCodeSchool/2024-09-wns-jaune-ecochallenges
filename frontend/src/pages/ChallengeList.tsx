@@ -19,9 +19,35 @@ export const ChallengeList = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  const challenges = [...data.getChallenges].sort((a, b) => {
-    return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
-  });
+  const sortedChallenges = [...data.getChallenges].sort(
+    (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+  );
+
+  const { managedChallenges, participatedChallenges, openChallenges } =
+    sortedChallenges.reduce(
+      (acc, challenge) => {
+        const isOwnerOrAdmin =
+          challenge.owner?.id === user?.id || user?.role === 'admin';
+        const isMember = challenge.members.some(
+          (member) => member.id === user?.id
+        );
+
+        if (isOwnerOrAdmin) {
+          acc.managedChallenges.push(challenge);
+        } else if (isMember) {
+          acc.participatedChallenges.push(challenge);
+        } else if (challenge.isPublic) {
+          acc.openChallenges.push(challenge);
+        }
+
+        return acc;
+      },
+      {
+        managedChallenges: [] as typeof sortedChallenges,
+        participatedChallenges: [] as typeof sortedChallenges,
+        openChallenges: [] as typeof sortedChallenges,
+      }
+    );
 
   const managedChallenges = challenges.filter(
     (challenge) => challenge.owner?.id === user?.id || user?.role === 'admin'
