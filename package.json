@@ -1,10 +1,6 @@
 {
   "name": "eco-challenge",
   "private": true,
-  "workspaces": [
-    "frontend",
-    "backend"
-  ],
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write .",
