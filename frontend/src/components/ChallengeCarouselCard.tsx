@@ -59,28 +59,18 @@ export const ChallengeCarouselCard = ({
         </CardTitle>
         <CardHeader className="mb-3 flex flex-row gap-2 p-0 text-xs">
           {tags.slice(0, maxVisibleTags).map((tag) => (
-            <Pill
-              data-testid="pills"
-              className="bg-secondary/50 border-0 px-1 py-3"
-              key={tag}
-            >
+            <Pill data-testid="pills" key={tag}>
               {tag}
             </Pill>
           ))}
           {tags.length > maxVisibleTags && (
-            <Pill
-              data-testid="tag-more"
-              className="bg-secondary/50 border-0 p-3"
-            >
+            <Pill data-testid="tag-more" className="p-3">
               +{tags.length - maxVisibleTags}
             </Pill>
           )}
         </CardHeader>
 
-        <CardDescription
-          data-testid="card-description"
-          className="text-textColor"
-        >
+        <CardDescription data-testid="card-description">
           {description}
         </CardDescription>
         <CardFooter>

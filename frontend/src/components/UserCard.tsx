@@ -30,18 +30,15 @@ export const UserCard = ({
           />
           <AvatarFallback delayMs={600}>{initial}</AvatarFallback>
         </Avatar>
-        <div>
+        <div className="w-full">
           <h3 className="text-xl font-bold">Tes stats:</h3>
 
-          <div className="grid grid-cols-2 md:flex">
+          <div className="mt-3 grid w-full grid-cols-2 justify-around gap-3 sm:flex">
             {/* section bernard point */}
-            <div className="col-start-1 col-end-1 m-3 flex">
-              <div className="ml-2 text-3xl">🦀</div>
+            <div className="col-start-1 col-end-1 flex">
+              <div className="text-3xl">🦀</div>
               <div className="ml-2 flex flex-col font-bold">
-                <span
-                  className="text-foreground text-3xl"
-                  data-testid="bernardPoints"
-                >
+                <span className="text-3xl" data-testid="bernardPoints">
                   {bernardPoints}
                 </span>
                 bernards
@@ -49,13 +46,10 @@ export const UserCard = ({
             </div>
 
             {/* section actions */}
-            <div className="col-start-2 col-end-2 m-3 flex">
-              <div className="ml-2 text-3xl">🌿</div>
+            <div className="col-start-2 col-end-2 flex">
+              <div className="text-3xl">🌿</div>
               <div className="ml-2 flex flex-col font-bold">
-                <span
-                  className="text-foreground text-3xl"
-                  data-testid="nbActions"
-                >
+                <span className="text-3xl" data-testid="nbActions">
                   {nbActions}
                 </span>
                 actions
@@ -63,13 +57,10 @@ export const UserCard = ({
             </div>
 
             {/* section challenges */}
-            <div className="col-span-2 col-start-1 col-end-3 m-3 flex justify-center">
-              <div className="ml-2 text-3xl">🏆</div>
+            <div className="col-start-1 col-end-2 flex">
+              <div className="text-3xl">🏆</div>
               <div className="ml-2 flex flex-col font-bold">
-                <span
-                  className="text-foreground text-3xl"
-                  data-testid="nbChallenges"
-                >
+                <span className="text-3xl" data-testid="nbChallenges">
                   {nbChallenges}
                 </span>
                 challenges

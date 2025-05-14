@@ -22,7 +22,7 @@ import {
 import { cn } from '@/lib/utils';
 
 type ActionCardProps = {
-  action: Action;
+  action: Omit<Action, 'challenges'>;
   isSelected?: boolean;
   onClick?: () => void;
 };
@@ -74,10 +74,10 @@ export const ActionCard = ({
 }: ActionCardProps) => {
   return (
     <article className="h-full">
-      <Card className={cn('h-full gap-0')}>
+      <Card className={cn('h-full gap-4 py-2')}>
         <CardHeader className="flex w-full flex-col">
           <div className="flex w-full flex-row items-center justify-between">
-            <div className="flex gap-1">
+            <div className="flex gap-4">
               {action.tags?.map((tag) => (
                 <Pill key={tag.id} className="p-1">
                   {tag.icon}
@@ -86,6 +86,7 @@ export const ActionCard = ({
             </div>
 
             <Button
+              size="icon"
               type="button"
               variant="ghost"
               className="hover:bg-transparent hover:opacity-100"
@@ -94,12 +95,12 @@ export const ActionCard = ({
               {isSelected ? (
                 <BookmarkCheck
                   data-testid="action-card-button"
-                  className="size-8"
+                  className="size-7"
                 />
               ) : (
                 <BookmarkMinus
                   data-testid="action-card-button"
-                  className="size-8"
+                  className="size-7"
                 />
               )}
             </Button>
@@ -107,42 +108,41 @@ export const ActionCard = ({
 
           <CardTitle className="text-lg font-bold">
             <h2>{action.name}</h2>
+            <div className="mt-1 flex gap-4">
+              <Pill>
+                <span className="text-base">{action.time}h</span>
+              </Pill>
+              {getDifficulty(difficulties, action.level).map((difficulty) => (
+                <Pill className="flex" key={difficulty.value}>
+                  <span className="mr-1 text-xs">niveau:</span>
+                  <difficulty.icon className={difficulty.className} />
+                </Pill>
+              ))}
+            </div>
           </CardTitle>
         </CardHeader>
         <CardContent>
           <CardDescription>
-            <p className="truncate">{action.description} </p>
+            <p className="max-w-full truncate">{action.description} </p>
           </CardDescription>
         </CardContent>
 
-        <CardFooter className="mt-4 flex w-full justify-between gap-1">
-          <div className="flex gap-1">
-            <Pill>
-              <span className="text-base">{action.time}h</span>
-            </Pill>
-            {getDifficulty(difficulties, action.level).map((difficulty) => (
-              <Pill className="flex" key={difficulty.value}>
-                <span className="text-xs">niveau:</span>
-                <difficulty.icon className={difficulty.className} />
-              </Pill>
-            ))}
-          </div>
-
-          <div>
+        <CardFooter className="flex w-full justify-between px-2">
+          <div className="w-full text-end">
             <Button
               type="button"
               variant="ghost"
-              className="hover:bg-transparent hover:opacity-100"
+              className="m-0 p-0 hover:bg-transparent hover:opacity-100"
             >
-              <ImagePlus className="size-7" />
+              <ImagePlus className="size-6" />
             </Button>
 
             <Button
               type="button"
               variant="ghost"
-              className="hover:bg-transparent hover:opacity-100"
+              className="m-0 p-0 hover:bg-transparent hover:opacity-100"
             >
-              <Ellipsis className="size-7" />
+              <Ellipsis className="size-6" />
             </Button>
           </div>
         </CardFooter>
