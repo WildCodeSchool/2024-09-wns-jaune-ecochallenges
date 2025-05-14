@@ -108,7 +108,7 @@ export const Step2Actions = ({
             </div>
 
             {selectedActions.length > 0 && (
-              <AccordionContent className="flex flex-col gap-1 sm:grid sm:grid-cols-3 md:gap-3 xl:grid-cols-4 xl:gap-4">
+              <AccordionContent className="flex flex-col gap-1 sm:grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-3 xl:grid-cols-4 xl:gap-4">
                 {selectedActions.map((action) => (
                   <FormItem key={action.id}>
                     <FormControl>
@@ -134,7 +134,7 @@ export const Step2Actions = ({
               </div>
             </AccordionTrigger>
 
-            <AccordionContent className="flex max-w-full flex-col gap-2 sm:grid sm:grid-cols-3 md:gap-3 xl:grid-cols-4 xl:gap-4">
+            <AccordionContent className="flex flex-col gap-1 sm:grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-3 xl:grid-cols-4 xl:gap-4">
               {availableActions.map((action) => (
                 <FormItem key={action.id}>
                   <FormControl>
