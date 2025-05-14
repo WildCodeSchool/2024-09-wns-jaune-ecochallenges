@@ -20,6 +20,18 @@ export const Step3Members = () => {
   const { data, loading, error } = useGetUsersAsUserQuery();
   const form = useFormContext();
   const selectedMembersIds = form.watch('members') || [];
+  if (loading)
+    return (
+      <p role="status" aria-busy="true">
+        Chargement des participants ...
+      </p>
+    );
+  if (error)
+    return (
+      <p role="alert">
+        Erreur lors du chargement des participants : {error.message}
+      </p>
+    );
 
   const selectedMembers =
     data?.getUsersAsUser.filter((user) =>
@@ -116,7 +128,11 @@ export const Step3Members = () => {
               {availableMembers.map((member) => (
                 <FormItem key={member.id}>
                   <FormControl>
-                    <UserCard user={member} />
+                    <UserCard
+                      user={member}
+                      isSelected={false}
+                      onClick={() => handleMemberClick(member, false)}
+                    />
                   </FormControl>
                 </FormItem>
               ))}
