@@ -1,0 +1,108 @@
+
+
+<mjml>
+  <mj-head>
+    <mj-font
+      name="Roboto"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,500"
+    ></mj-font>
+    <mj-attributes>
+      <mj-all font-family="Roboto, Helvetica, sans-serif"></mj-all>
+      <mj-text
+        font-weight="300"
+        font-size="16px"
+        color="#616161"
+        line-height="24px"
+      ></mj-text>
+      <mj-section padding="0px"></mj-section>
+    </mj-attributes>
+  </mj-head>
+  <mj-body>
+    <mj-section padding="20px 0">
+    </mj-section>
+    <mj-section>
+      <mj-column width="45%">
+        <mj-text align="center" font-weight="500" padding="0px" font-size="18px"
+          >🌿 CHALLENGE 🌿 </br></mj-text
+        >
+        <mj-divider border-width="2px" border-color="#616161"></mj-divider>
+        <mj-divider
+          border-width="2px"
+          border-color="#616161"
+          width="45%"
+        ></mj-divider>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column width="100%">
+        <mj-image
+          href="votre-site.com"
+          src="https://cdn.pixabay.com/photo/2022/12/07/08/39/labyrinth-7640561_1280.jpg"
+        ></mj-image>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column width="100%">
+        <mj-text align="center"
+          >Création de ton challenge  🦀<strong> {{ecochallengeName}} </strong>🦀</mj-text
+        >
+        <mj-divider
+          border-width="2px"
+          border-color="#616161"
+          width="45%"
+        ></mj-divider>
+        <mj-divider border-width="2px" border-color="#616161" width="70%"></mj-divider>
+      </mj-column>
+    </mj-section>
+    <mj-section padding-top="30px">
+      <mj-column width="100%">
+        <mj-text>
+          <p>Bonjour à toi, cher(ère) défenseur(se) de notre belle planète 🌍 💚</p>
+
+          <p>
+            Bonne nouvelle ! Tu as réussi à créer ton challenge intitulé : <strong>{{ecochallengeName}}</strong>. Félicitations !<br>
+            Il commencera le <strong>{{startDate}}</strong> et se terminera le <strong>{{endDate}}</strong>.
+          </p>
+
+          <p>
+            N’hésite pas à l’enrichir avec des éco-gestes que toi, tes amis ou tes collègues aimeriez réaliser.
+          </p>
+
+          <p>
+            Toute l’équipe d’Éco-Challenge te félicite pour ton engagement et te souhaite une belle aventure écoresponsable !
+          </p>
+        </mj-text>
+        <mj-divider border-width="1px" border-color="#E0E0E0"></mj-divider>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column width="11%">
+        <mj-image
+          padding-right="0px"
+          padding-left="25px"
+          align="left"
+          width="70px"
+          href="./image.png"
+          src="https://cdn.pixabay.com/photo/2022/12/28/02/23/crab-7682086_1280.jpg"
+        ></mj-image>
+      </mj-column>
+      <mj-column width="89%">
+        <mj-text padding="0 25px">
+          <p style="color: #bdbdbd; line-height: 9px">
+            Toute l'équipe d'éco-challenge -
+            <a href="#" style="color:rgb(70, 163, 73)">
+              ecochallenge.fr
+            </a>
+          </p>
+          <p style="font-style: italic; color: #bdbdbd; line-height: 9px">
+            Chaque gestes comptent
+          </p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column width="100%">
+        <mj-divider border-width="1px" border-color="#E0E0E0"></mj-divider>
+      </mj-column>
+  </mj-body>
+</mjml>
