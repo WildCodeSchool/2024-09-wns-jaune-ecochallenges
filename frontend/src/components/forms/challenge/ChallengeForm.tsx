@@ -140,6 +140,7 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
         startDate: formData.dateRange.from.toISOString(),
         endDate: formData.dateRange.to.toISOString(),
         actions: formData.actions,
+        members: formData.members,
       };
 
       const response = await (challengeId

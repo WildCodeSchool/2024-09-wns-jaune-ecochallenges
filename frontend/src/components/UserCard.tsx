@@ -8,6 +8,8 @@ export const UserCard = ({
   onClick,
 }: {
   user: User;
+  isSelected?: boolean;
+  onClick?: () => void;
 }) => {
   return (
     <article className="h-full w-full">

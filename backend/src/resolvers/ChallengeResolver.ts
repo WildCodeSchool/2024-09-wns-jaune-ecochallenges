@@ -31,15 +31,20 @@ class ChallengeInput {
   @Field()
   endDate!: Date;
 
+  @Field(() => ID)
+  owner!: User;
+
   @Field(() => [ID])
   actions?: Action[];
+
+  @Field(() => [ID])
+  members?: User[];
 }
 
 @Resolver(Challenge)
 export class ChallengeResolver {
   @Query(() => [Challenge])
   async getChallenges(@Ctx() { user }: { user: User }): Promise<Challenge[]> {
-    console.log(user);
     const challenges = await Challenge.find({
       relations: ['actions', 'actions.tags', 'members', 'owner'],
     });
@@ -61,15 +66,25 @@ export class ChallengeResolver {
   }
 
   @Mutation(() => Challenge)
-  async createChallenge(@Arg('data') data: ChallengeInput) {
+  async createChallenge(
+    @Arg('data') data: ChallengeInput,
+    @Ctx() { user }: { user: User }
+  ) {
     try {
       let challenge = new Challenge();
       challenge = Object.assign(challenge, data);
+      challenge.owner = user;
       if (data.actions && data.actions.length) {
         const actions = await Action.findBy({ id: In(data.actions) });
         challenge.actions = actions;
       } else {
         challenge.actions = [];
+      }
+      if (data.members && data.members.length) {
+        const members = await User.findBy({ id: In(data.members) });
+        challenge.members = members;
+      } else {
+        challenge.members = [];
       }
       await challenge.save();
       return challenge;
