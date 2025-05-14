@@ -75,8 +75,8 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
         query: GET_CHALLENGES,
       },
     ],
-    onCompleted: () => {
-      navigate(`/challenge/${challengeId}`);
+    onCompleted: (data) => {
+      navigate(`/challenge/${data.createChallenge.id}`);
     },
   });
   const [updateChallenge] = useUpdateChallengeMutation({
@@ -86,8 +86,8 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
         variables: { id: challengeId },
       },
     ],
-    onCompleted: () => {
-      navigate(`/challenge/${challengeId}`);
+    onCompleted: (data) => {
+      navigate(`/challenge/${data.updateChallenge.id}`);
     },
   });
   const [deleteChallenge] = useDeleteChallengeMutation({

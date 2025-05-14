@@ -40,7 +40,7 @@ export const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
           <CardFooter className="block w-full space-y-2">
             <ul className="flex w-full flex-wrap gap-2">
               {getUniqueTagsFromActions(challenge.actions).map((tag) => (
-                <li key={tag?.id}>
+                <li key={`${challenge.id}-${tag?.id}`}>
                   <Pill>
                     <span className="mr-1 text-lg">{tag?.icon}</span>
                     {tag?.name}

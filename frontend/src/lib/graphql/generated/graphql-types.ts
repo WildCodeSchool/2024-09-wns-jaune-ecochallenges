@@ -78,7 +78,6 @@ export type ChallengeInput = {
   id?: InputMaybe<Scalars['String']['input']>;
   label: Scalars['String']['input'];
   members: Array<Scalars['ID']['input']>;
-  owner: Scalars['ID']['input'];
   startDate: Scalars['DateTimeISO']['input'];
 };
 

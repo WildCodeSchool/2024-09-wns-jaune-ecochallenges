@@ -8,11 +8,12 @@ import { useUserStore } from '@/lib/zustand/userStore';
 export const UserPortal = () => {
   const [isLoginMode, setIsLoginMode] = useState(false);
   const isAuth = useUserStore((state) => !!state.user);
+  const user = useUserStore((state) => state.user);
   const toggleLoginMode = () => setIsLoginMode((prev) => !prev);
   return (
     <>
       <h1 className="mb-4 rounded-full text-center text-2xl font-thin">
-        🌱 Bienvenue 🌱
+        🌱 Bienvenue {user?.firstname} 🌱
       </h1>
 
       {!isAuth ? (
