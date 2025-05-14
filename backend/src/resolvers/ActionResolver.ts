@@ -8,6 +8,7 @@ import {
   Resolver,
 } from 'type-graphql';
 import { Action } from '@/entities';
+import { email } from '@/services/email/emailService';
 
 @InputType()
 export class ActionInput {
@@ -52,6 +53,19 @@ export class ActionResolver {
 
   @Mutation(() => Action)
   async createdAction(@Arg('data') data: ActionInput) {
+    //email.welcomeEmail.send('marcos.marjorie@hotmail.fr', { url: 'lalalall ' });
+    // email.invitationEmail.send('marcos.marjorie@hotmail.fr', {
+    //   ecochallengeName: 'lala Challenge',
+    //   startDate: '02/06/2025',
+    //   endDate: '14/06/2025',
+    //   loginUrl:
+    //     'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce',
+    // });
+    email.challengeCreatedEmail.send('marcos.marjorie@hotmail.fr', {
+      ecochallengeName: 'lala Challenge',
+      startDate: '02/06/2025',
+      endDate: '14/06/2025',
+    });
     let action = new Action();
     action = Object.assign(action, data);
     await action.save();
