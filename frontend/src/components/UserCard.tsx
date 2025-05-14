@@ -1,74 +1,15 @@
-import { Card, Avatar, AvatarImage, AvatarFallback } from '@/components/ui';
-
-type UserCardProps = {
-  id: number;
-  bernardPoints: number;
-  nbActions: number;
-  nbChallenges: number;
-  picture?: string;
-  pictureName?: string;
-  initial: string;
-};
+import { User } from '@/lib/graphql/generated/graphql-types';
 
 export const UserCard = ({
-  id,
-  bernardPoints = 0,
-  nbActions = 0,
-  nbChallenges = 0,
-  picture,
-  pictureName,
-  initial,
-}: UserCardProps) => {
+  user,
+  isSelected = false,
+  onClick,
+}: {
+  user: User;
+}) => {
   return (
-    <article className="m-4 mx-auto max-w-xl">
-      <Card data-testid={`user-card-${id}`} className="flex flex-row p-2">
-        <Avatar className="h-20 w-20">
-          <AvatarImage
-            src={picture}
-            alt={pictureName}
-            data-testid="card-image"
-          />
-          <AvatarFallback delayMs={600}>{initial}</AvatarFallback>
-        </Avatar>
-        <div className="w-full">
-          <h3 className="text-xl font-bold">Tes stats:</h3>
-
-          <div className="mt-3 grid w-full grid-cols-2 justify-around gap-3 sm:flex">
-            {/* section bernard point */}
-            <div className="col-start-1 col-end-1 flex">
-              <div className="text-3xl">🦀</div>
-              <div className="ml-2 flex flex-col font-bold">
-                <span className="text-3xl" data-testid="bernardPoints">
-                  {bernardPoints}
-                </span>
-                bernards
-              </div>
-            </div>
-
-            {/* section actions */}
-            <div className="col-start-2 col-end-2 flex">
-              <div className="text-3xl">🌿</div>
-              <div className="ml-2 flex flex-col font-bold">
-                <span className="text-3xl" data-testid="nbActions">
-                  {nbActions}
-                </span>
-                actions
-              </div>
-            </div>
-
-            {/* section challenges */}
-            <div className="col-start-1 col-end-2 flex">
-              <div className="text-3xl">🏆</div>
-              <div className="ml-2 flex flex-col font-bold">
-                <span className="text-3xl" data-testid="nbChallenges">
-                  {nbChallenges}
-                </span>
-                challenges
-              </div>
-            </div>
-          </div>
-        </div>
-      </Card>
-    </article>
+    <p>
+      {user?.firstname} {user?.lastname};
+    </p>
   );
 };

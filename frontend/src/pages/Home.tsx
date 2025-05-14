@@ -1,7 +1,7 @@
 import {
   ChallengeCarouselCard,
   CarouselComponent,
-  UserCard,
+  MyUserCard,
 } from '@/components';
 import { useUserStore } from '@/lib/zustand/userStore';
 
@@ -78,7 +78,7 @@ export const Home = () => {
         🌱 Bienvenue sur Eco-challenges 🌱
       </h1>
 
-      {isAuth && <UserCard {...fakeDataUser}></UserCard>}
+      {isAuth && <MyUserCard {...fakeDataUser}></MyUserCard>}
 
       <CarouselComponent
         data={ecoChallenges}

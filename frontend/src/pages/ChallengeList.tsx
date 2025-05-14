@@ -49,23 +49,6 @@ export const ChallengeList = () => {
       }
     );
 
-  const managedChallenges = challenges.filter(
-    (challenge) => challenge.owner?.id === user?.id || user?.role === 'admin'
-  );
-
-  const participatedChallenges = challenges.filter(
-    (challenge) =>
-      challenge.members.some((member) => member.id === user?.id) &&
-      !(challenge.owner?.id === user?.id || user?.role === 'admin')
-  );
-
-  const openChallenges = challenges.filter(
-    (challenge) =>
-      challenge.isPublic &&
-      !challenge.members.some((member) => member.id === user?.id) &&
-      !(challenge.owner?.id === user?.id || user?.role === 'admin')
-  );
-
   return (
     <div className="relative">
       <Accordion

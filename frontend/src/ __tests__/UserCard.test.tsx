@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
-import { UserCard } from '@/components';
+import { MyUserCard } from '@/components';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
-describe('UserCard Component', () => {
-  it('should render the userCard component with the correct data', () => {
+describe('MyUserCard Component', () => {
+  it('should render the MyUserCard component with the correct data', () => {
     const mockData = {
       id: 1,
       bernardPoints: 6566,
@@ -14,7 +14,7 @@ describe('UserCard Component', () => {
       pictureName: 'toto',
       initial: 'PA',
     };
-    render(<UserCard {...mockData} />);
+    render(<MyUserCard {...mockData} />);
 
     const title = screen.getByText('Tes stats:');
     expect(title).toBeInTheDocument();

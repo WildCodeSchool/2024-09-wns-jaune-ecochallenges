@@ -17,7 +17,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui';
-import { Step1Init, Step2Actions } from '@/components/forms/challenge';
+import {
+  Step1Init,
+  Step2Actions,
+  Step3Members,
+} from '@/components/forms/challenge';
 import { GET_CHALLENGE, GET_CHALLENGES } from '@/lib/graphql/operations';
 import {
   useCreateChallengeMutation,
@@ -53,6 +57,7 @@ const formSchema = z
       }),
     }),
     actions: z.array(z.string()),
+    members: z.array(z.string()),
   })
   .refine((data) => data.dateRange.to > data.dateRange.from, {
     message: 'La date de fin doit être postérieure à la date de début',
@@ -111,6 +116,7 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
         to: new Date(data.getChallenge.endDate),
       },
       actions: data.getChallenge.actions.map((action) => action.id),
+      members: data.getChallenge.members.map((member) => member.id),
     },
     defaultValues: {
       label: '',
@@ -121,6 +127,7 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
         to: undefined,
       },
       actions: [],
+      members: [],
     },
   });
 
@@ -216,7 +223,7 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
             <Step2Actions />
           </TabsContent>
           <TabsContent value="step3">
-            <p>Coming soon...</p>
+            <Step3Members />
           </TabsContent>
         </Tabs>
 
