@@ -76,7 +76,11 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
       },
     ],
     onCompleted: (data) => {
+      toast.success('Challenge créé avec succès');
       navigate(`/challenge/${data.createChallenge.id}`);
+    },
+    onError: () => {
+      toast.error('Erreur lors de la création du challenge');
     },
   });
   const [updateChallenge] = useUpdateChallengeMutation({
@@ -87,7 +91,11 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
       },
     ],
     onCompleted: (data) => {
+      toast.success('Challenge modifié avec succès');
       navigate(`/challenge/${data.updateChallenge.id}`);
+    },
+    onError: () => {
+      toast.error('Erreur lors de la modification du challenge');
     },
   });
   const [deleteChallenge] = useDeleteChallengeMutation({
@@ -132,39 +140,28 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
   });
 
   const onSubmit = async (formData: FormType) => {
-    try {
-      const challengeData = {
-        label: formData.label,
-        ...(formData.description && { description: formData.description }),
-        ...(formData.bannerURL && { bannerUrl: formData.bannerURL }),
-        startDate: formData.dateRange.from.toISOString(),
-        endDate: formData.dateRange.to.toISOString(),
-        actions: formData.actions,
-        members: formData.members,
-      };
+    const challengeData = {
+      label: formData.label,
+      ...(formData.description && { description: formData.description }),
+      ...(formData.bannerURL && { bannerUrl: formData.bannerURL }),
+      startDate: formData.dateRange.from.toISOString(),
+      endDate: formData.dateRange.to.toISOString(),
+      actions: formData.actions,
+      members: formData.members,
+    };
 
-      const response = await (challengeId
-        ? updateChallenge({
-            variables: {
-              id: challengeId,
-              data: challengeData,
-            },
-          })
-        : createChallenge({
-            variables: {
-              data: challengeData,
-            },
-          }));
-
-      if (response.errors) throw new Error(response.errors[0].message);
-      toast.success(
-        `Challenge ${challengeId ? 'modifié' : 'créé'} avec succès`
-      );
-    } catch (error) {
-      toast.error(
-        `Erreur lors de la ${challengeId ? 'modification' : 'création'} du challenge`
-      );
-    }
+    challengeId
+      ? updateChallenge({
+          variables: {
+            id: challengeId,
+            data: challengeData,
+          },
+        })
+      : createChallenge({
+          variables: {
+            data: challengeData,
+          },
+        });
   };
 
   const onError = (errors: typeof form.formState.errors) => {

@@ -120,18 +120,13 @@ export const ActionCard = ({
               type="button"
               variant="ghost"
               className="hover:bg-transparent hover:opacity-100"
+              data-testid="action-card-button"
               onClick={onClick}
             >
               {isSelected ? (
-                <BookmarkCheck
-                  data-testid="action-card-button"
-                  className="fill-accent size-8"
-                />
+                <BookmarkCheck className="fill-accent size-8" />
               ) : (
-                <BookmarkPlus
-                  data-testid="action-card-button"
-                  className="size-7"
-                />
+                <BookmarkPlus className="size-7" />
               )}
             </Button>
           </div>
