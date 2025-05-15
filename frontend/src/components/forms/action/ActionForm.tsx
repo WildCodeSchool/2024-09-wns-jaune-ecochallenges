@@ -1,6 +1,11 @@
-import { Form } from 'react-router-dom';
 import { z } from 'zod';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui';
+import {
+  Form,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/ui';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Step1Init, Step2Tags } from '@/components/forms/action';
@@ -51,12 +56,12 @@ export const ActionForm = () => {
       requires_view: false,
       level: 1,
       icon: 'leaf',
-      time: 0,
+      time: 1,
     },
   });
   return (
     <Form {...form}>
-      <form className="relative">
+      <form>
         <Tabs>
           <TabsList className="w-full">
             <TabsTrigger value="step1">Infos</TabsTrigger>

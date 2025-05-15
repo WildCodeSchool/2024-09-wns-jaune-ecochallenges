@@ -14,3 +14,5 @@ export * from './popover';
 export * from './separator';
 export * from './sonner';
 export * from './tabs';
+export * from './switch';
+export * from './slider';
