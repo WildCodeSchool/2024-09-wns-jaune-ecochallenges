@@ -50,46 +50,56 @@ export const ChallengeList = () => {
     );
 
   return (
-    <div className="relative">
+    <>
       <Accordion
         type="multiple"
         defaultValue={['managed', 'participated', 'open']}
       >
-        <AccordionItem value="managed">
-          <AccordionTrigger disabled={managedChallenges.length === 0}>
-            Challenges gérés
-          </AccordionTrigger>
-          {managedChallenges.length > 0 && (
-            <AccordionContent>
-              <ul className="flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-3 xl:grid-cols-3 xl:gap-4">
-                {managedChallenges.map((challenge) => (
-                  <li key={challenge.id}>
-                    <ChallengeCard key={challenge.id} challenge={challenge} />
-                  </li>
-                ))}
-              </ul>
-            </AccordionContent>
-          )}
-        </AccordionItem>
-        <AccordionItem value="participated">
-          <AccordionTrigger disabled={participatedChallenges.length === 0}>
-            Challenges auxquels je participe
-          </AccordionTrigger>
-          {participatedChallenges.length > 0 && (
-            <AccordionContent>
-              <ul className="flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-3 xl:grid-cols-3 xl:gap-4">
-                {participatedChallenges.map((challenge) => (
-                  <li key={challenge.id}>
-                    <ChallengeCard key={challenge.id} challenge={challenge} />
-                  </li>
-                ))}
-              </ul>
-            </AccordionContent>
-          )}
-        </AccordionItem>
+        {user && (
+          <>
+            <AccordionItem value="managed">
+              <AccordionTrigger disabled={managedChallenges.length === 0}>
+                🛠️ Challenges gérés
+              </AccordionTrigger>
+              {managedChallenges.length > 0 && (
+                <AccordionContent>
+                  <ul className="flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-3 xl:grid-cols-3 xl:gap-4">
+                    {managedChallenges.map((challenge) => (
+                      <li key={challenge.id}>
+                        <ChallengeCard
+                          key={challenge.id}
+                          challenge={challenge}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </AccordionContent>
+              )}
+            </AccordionItem>
+            <AccordionItem value="participated">
+              <AccordionTrigger disabled={participatedChallenges.length === 0}>
+                🏃 Challenges auxquels je participe
+              </AccordionTrigger>
+              {participatedChallenges.length > 0 && (
+                <AccordionContent>
+                  <ul className="flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-3 xl:grid-cols-3 xl:gap-4">
+                    {participatedChallenges.map((challenge) => (
+                      <li key={challenge.id}>
+                        <ChallengeCard
+                          key={challenge.id}
+                          challenge={challenge}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </AccordionContent>
+              )}
+            </AccordionItem>
+          </>
+        )}
         <AccordionItem value="open">
-          <AccordionTrigger disabled={openChallenges.length === 0}>
-            Challenges publics
+          <AccordionTrigger disabled={openChallenges.length === 0 || !user}>
+            🌐 Challenges publics
           </AccordionTrigger>
           {openChallenges.length > 0 && (
             <AccordionContent>
@@ -105,15 +115,17 @@ export const ChallengeList = () => {
         </AccordionItem>
       </Accordion>
 
-      <Button
-        asChild
-        variant="default"
-        className="fixed right-4 bottom-20 z-50 size-14 rounded-full shadow-md shadow-black/50"
-      >
-        <Link to="/challenge/new">
-          <Plus className="size-10" strokeWidth={1.4} />
-        </Link>
-      </Button>
-    </div>
+      {user && (
+        <Button
+          asChild
+          variant="default"
+          className="fixed right-4 bottom-20 z-50 size-14 rounded-full shadow-md shadow-black/50"
+        >
+          <Link to="/challenge/new">
+            <Plus className="size-10" strokeWidth={1.4} />
+          </Link>
+        </Button>
+      )}
+    </>
   );
 };
