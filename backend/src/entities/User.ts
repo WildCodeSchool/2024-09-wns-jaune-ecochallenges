@@ -5,10 +5,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import argon2 from 'argon2';
+import { Action } from './Action';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -41,6 +43,10 @@ export class User extends BaseEntity {
   @Field()
   @Column({ nullable: false })
   hashedPassword!: string;
+
+  @Field(() => [Action])
+  @OneToMany(() => Action, (action) => action.createdBy)
+  createdActions?: Action[];
 
   @Field()
   @Column({
