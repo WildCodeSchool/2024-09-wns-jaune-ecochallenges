@@ -16,7 +16,7 @@ export const Navbar = () => {
   const location = useLocation();
 
   return (
-    <nav className="h-navbar bg-sidebar text-sidebar-foreground pointer-events-auto fixed bottom-0 z-50 flex w-full items-center justify-around rounded-t-2xl px-2 sm:hidden">
+    <nav className="h-navbar bg-sidebar text-sidebar-foreground fixed bottom-0 z-50 flex w-full items-center justify-around rounded-t-2xl px-2 sm:hidden">
       {navItems.map(({ to, icon: Icon, label }) => {
         const isActive = location.pathname === to;
 

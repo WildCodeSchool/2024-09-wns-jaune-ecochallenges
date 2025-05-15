@@ -15,7 +15,7 @@ export const DesktopNavbarComponent = () => {
 
   return (
     <nav
-      className="h-navbar bg-sidebar pointer-events-auto hidden items-center justify-between gap-2 p-4 sm:flex"
+      className="h-navbar bg-sidebar hidden items-center justify-between gap-2 p-4 sm:flex"
       role="navigation"
       aria-label="Navigation principale"
     >
@@ -29,7 +29,6 @@ export const DesktopNavbarComponent = () => {
         />
 
         <h1 className="text-sidebar-foreground text-2xl">Eco-challenges</h1>
-        <p className="ml-2 hidden xl:flex">deja 120 challenges réalisés</p>
       </div>
       <div
         className="flex h-full items-center md:gap-2 lg:gap-4 xl:gap-8"
@@ -42,10 +41,14 @@ export const DesktopNavbarComponent = () => {
           return (
             <>
               <span
+                key={`${to}-span`}
                 className="bg-sidebar-primary h-1.5 min-w-1.5 rounded-full first:hidden"
                 aria-hidden="true"
               ></span>
-              <div className="flex h-full w-full items-center justify-center">
+              <div
+                key={`${to}-div`}
+                className="flex h-full w-full items-center justify-center"
+              >
                 <Link
                   to={to}
                   key={to}

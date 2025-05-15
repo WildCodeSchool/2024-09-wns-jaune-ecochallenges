@@ -61,7 +61,7 @@ export const AccountDropdown = () => {
         <DropdownMenuTrigger className="flex items-center gap-2 rounded-full">
           {/* // ADD USER STORE WITH USER INFO */}
           {isAuth ? (
-            <Avatar className="h-10 w-10">
+            <Avatar className="h-10 w-10 cursor-pointer transition-all duration-100 hover:scale-115">
               <AvatarImage
                 src="https://github.com/shadcn.png"
                 alt="Photo de profil"
