@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { FormCard } from '@/components/forms/auth';
 import { Login } from '@/components/forms/auth/Login';
 import { Signup } from '@/components/forms/auth/Signup';
-import { Logout } from '@/components/forms/auth/Logout';
 import { useUserStore } from '@/lib/zustand/userStore';
+import { UserAcount } from '@/components/UserAcount';
 
 export const UserPortal = () => {
   const [isLoginMode, setIsLoginMode] = useState(false);
@@ -23,7 +23,7 @@ export const UserPortal = () => {
           {isLoginMode ? <Login /> : <Signup onToggleForm={setIsLoginMode} />}
         </FormCard>
       ) : (
-        <Logout />
+        <UserAcount />
       )}
     </>
   );
