@@ -79,7 +79,7 @@ export const ChallengeCarouselCard = ({
 
         <CardDescription
           data-testid="card-description"
-          className="text-textColor"
+          className="text-textColor line-clamp-2"
         >
           {description}
         </CardDescription>

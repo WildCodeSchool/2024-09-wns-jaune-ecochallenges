@@ -1,5 +1,6 @@
 export * from './ActionCard';
 export * from './ChallengeCard';
+export * from './DesktopNavbarComponent';
 export * from './Navbar';
 export * from './Pill';
 export * from './ChallengeCarouselCard';

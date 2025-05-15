@@ -44,7 +44,7 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="h-navbar bg-sidebar text-sidebar-foreground fixed bottom-0 z-50 flex w-full items-center justify-around rounded-t-2xl px-2 md:justify-around">
+    <nav className="h-navbar bg-sidebar text-sidebar-foreground fixed bottom-0 z-50 flex w-full items-center justify-around rounded-t-2xl px-2 sm:hidden">
       {navItems.map(({ to, icon: Icon, label }) => {
         const isActive = location.pathname === to;
 
@@ -71,16 +71,16 @@ export const Navbar = () => {
           <UserRound className="bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground size-12 cursor-pointer rounded-md p-3 transition-colors" />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56">
-          <DropdownMenuLabel>Mon profil</DropdownMenuLabel>
-          <DropdownMenuSeparator />
           {isAuth ? (
             <>
-              <DropdownMenuItem>
-                <Link to="/user" className="flex items-center gap-2">
+              <DropdownMenuLabel>Mon profil</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link to="/user" className="w-full">
                   Accéder à mon espace <UserRound className="size-4" />
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem asChild>
                 <Link to="/user" className="flex justify-between gap-2">
                   Déconnexion <LogOutIcon className="size-4" />
                 </Link>
@@ -88,8 +88,10 @@ export const Navbar = () => {
             </>
           ) : (
             <>
-              <DropdownMenuItem>
-                <Link to="/user">Inscription / Connexion</Link>
+              <DropdownMenuItem asChild>
+                <Link to="/user" className="w-full">
+                  Inscription / Connexion
+                </Link>
               </DropdownMenuItem>
             </>
           )}
@@ -98,10 +100,20 @@ export const Navbar = () => {
             Thème: {themeIcon[theme]}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => setTheme('light')}>
+          <DropdownMenuItem
+            onClick={(e) => {
+              setTheme('light');
+              e.preventDefault();
+            }}
+          >
             Thème clair {themeIcon['light']}
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setTheme('dark')}>
+          <DropdownMenuItem
+            onClick={(e) => {
+              setTheme('dark');
+              e.preventDefault();
+            }}
+          >
             Thème sombre {themeIcon['dark']}
           </DropdownMenuItem>
 
