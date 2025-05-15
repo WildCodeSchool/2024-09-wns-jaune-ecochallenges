@@ -40,6 +40,18 @@ export class LoginUserInput {
   hashedPassword!: string;
 }
 
+@InputType()
+class UpdateUserInput {
+  @Field({ nullable: true })
+  firstname?: string;
+
+  @Field({ nullable: true })
+  lastname?: string;
+
+  @Field({ nullable: true })
+  description?: string;
+}
+
 const getProfil = (user: User) => {
   const profile = {
     id: user.id,
@@ -154,5 +166,23 @@ export class UserResolver {
         'Échec de la connexion. Vérifiez vos identifiants.'
       );
     }
+  }
+  @Mutation(() => User)
+  async updateUser(
+    @Arg('id') id: string,
+    @Arg('data') data: UpdateUserInput
+  ): Promise<User> {
+    const user = await User.findOne({ where: { id } });
+    if (!user) {
+      throw new GraphQLError('Utilisateur introuvable');
+    }
+
+    // Mise à jour des champs autorisés
+    if (data.firstname !== undefined) user.firstname = data.firstname;
+    if (data.lastname !== undefined) user.lastname = data.lastname;
+    if (data.description !== undefined) user.description = data.description;
+
+    await user.save();
+    return user;
   }
 }

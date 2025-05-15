@@ -1,12 +1,9 @@
 import { useMutation, useQuery } from '@apollo/client';
-import {
-  GetUserByIdDocument,
-  UpdateUserDocument,
-} from '@/lib/graphql/generated/graphql-types';
 import { Pencil, Save } from 'lucide-react';
 import { Pill } from '@/components/Pill';
 import { Card } from '@/components/ui';
 import { useEffect, useState } from 'react';
+import { GetUserByIdDocument, UpdateUserDocument } from '@/graphql/generated';
 
 export const UserAccount = () => {
   const userId = 'cee5b95e-c5ee-4d1e-99c6-72e6911009f4';
@@ -38,16 +35,20 @@ export const UserAccount = () => {
       setSaving(true);
       await updateUser({
         variables: {
-          userId,
-          firstName,
-          lastName,
-          email,
-          description,
+          id: userId,
+          data: {
+            firstname: firstName,
+            lastname: lastName,
+            email: email,
+            description: description,
+          },
         },
       });
+
       await refetch().then(({ data }) => {
         console.log('Données rechargées :', data);
       });
+
       setIsEditing(false);
     } catch (err) {
       console.error('Erreur lors de la mise à jour :', err);

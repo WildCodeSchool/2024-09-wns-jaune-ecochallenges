@@ -90,6 +90,7 @@ export type Mutation = {
   logIn: Scalars['String']['output'];
   signUp: Scalars['String']['output'];
   updateChallenge: Challenge;
+  updateUser: User;
 };
 
 export type MutationCreateChallengeArgs = {
@@ -117,6 +118,11 @@ export type MutationUpdateChallengeArgs = {
   id: Scalars['ID']['input'];
 };
 
+export type MutationUpdateUserArgs = {
+  data: UpdateUserInput;
+  id: Scalars['String']['input'];
+};
+
 export type Query = {
   __typename?: 'Query';
   getActionById: Action;
@@ -136,6 +142,7 @@ export type QueryGetChallengeArgs = {
 };
 
 export type SignUpUserInput = {
+  description?: InputMaybe<Scalars['String']['input']>;
   email: Scalars['String']['input'];
   firstname: Scalars['String']['input'];
   hashedPassword: Scalars['String']['input'];
@@ -150,9 +157,16 @@ export type Tag = {
   name: Scalars['String']['output'];
 };
 
+export type UpdateUserInput = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  firstname?: InputMaybe<Scalars['String']['input']>;
+  lastname?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type User = {
   __typename?: 'User';
   createdAt: Scalars['DateTimeISO']['output'];
+  description?: Maybe<Scalars['String']['output']>;
   email: Scalars['String']['output'];
   firstname: Scalars['String']['output'];
   hashedPassword: Scalars['String']['output'];
@@ -171,8 +185,8 @@ export type GetUsersAsUserQuery = {
     firstname: string;
     lastname: string;
     email: string;
-    hashedPassword: string;
     role: string;
+    description?: string | null;
   }>;
 };
 
@@ -315,8 +329,8 @@ export const GetUsersAsUserDocument = gql`
       firstname
       lastname
       email
-      hashedPassword
       role
+      description
     }
   }
 `;

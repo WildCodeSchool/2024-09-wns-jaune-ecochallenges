@@ -111,7 +111,19 @@ export const GET_ALL_TAGS = gql`
 
 export const MUTATION_SIGN_UP = gql`
   mutation SignUp($data: SignUpUserInput!) {
-    signUp(data: $data) {
+    signUp(data: $data)
+  }
+`;
+
+export const MUTATION_LOG_IN = gql`
+  mutation LogIn($data: LoginUserInput!) {
+    logIn(data: $data)
+  }
+`;
+
+export const UPDATE_USER = gql`
+  mutation UpdateUser($id: ID!, $data: UpdateUserInput!) {
+    updateUser(id: $id, data: $data) {
       id
       firstname
       lastname
@@ -119,11 +131,5 @@ export const MUTATION_SIGN_UP = gql`
       role
       description
     }
-  }
-`;
-
-export const MUTATION_LOG_IN = gql`
-  mutation LogIn($data: LoginUserInput!) {
-    logIn(data: $data)
   }
 `;
