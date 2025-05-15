@@ -16,6 +16,7 @@ import {
   UserAccount,
   ActionCreation,
   ActionEdition,
+  ChallengeDetailPage,
 } from '@/pages';
 
 import './index.css';
@@ -48,6 +49,10 @@ export const router = createBrowserRouter([
       {
         path: '/challenge/:challengeId/edit',
         element: <ChallengeEdition />,
+      },
+      {
+        path: '/challenge/:challengeId',
+        element: <ChallengeDetailPage />,
       },
       {
         path: '/actions',
