@@ -1,3 +1,4 @@
+export * from './AccountDropdown';
 export * from './ActionCard';
 export * from './ChallengeCard';
 export * from './DesktopNavbarComponent';

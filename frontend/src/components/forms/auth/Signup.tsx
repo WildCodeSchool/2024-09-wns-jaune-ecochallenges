@@ -55,7 +55,7 @@ export const Signup = ({ onToggleForm }: SignupProps) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-2 sm:space-y-4"
+        className="pointer-events-auto space-y-2 sm:space-y-4"
       >
         <div className="grid gap-4">
           <FormField
