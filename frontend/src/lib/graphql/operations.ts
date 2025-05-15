@@ -247,3 +247,23 @@ export const UPDATE_USER = gql`
     }
   }
 `;
+
+export const GET_ACTIONS_BY_CHALLENGE_ID = gql`
+  query GetActionsByChallengeId($challengeId: String!) {
+    getActionsByChallengeId(challengeId: $challengeId) {
+      id
+      name
+      description
+      requires_view
+      createdAt
+      icon
+      level
+      time
+      tags {
+        id
+        name
+        icon
+      }
+    }
+  }
+`;
