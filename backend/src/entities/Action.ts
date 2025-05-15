@@ -30,7 +30,7 @@ export class Action extends BaseEntity {
   name!: string;
 
   @Field()
-  @Column({ nullable: false, length: 250 })
+  @Column({ nullable: false, length: 300 })
   description!: string;
 
   @Field()
