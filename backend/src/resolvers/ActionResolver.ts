@@ -7,7 +7,7 @@ import {
   Query,
   Resolver,
 } from 'type-graphql';
-import { Action } from '@/entities';
+import { Action, Challenge } from '@/entities';
 
 @InputType()
 export class ActionInput {
@@ -48,6 +48,15 @@ export class ActionResolver {
       relations: ['tags'],
     });
     return action;
+  }
+
+  @Query(() => [Action])
+  async getActionsByChallengeId(@Arg('challengeId') challengeId: string): Promise<Action[]> {
+    const challenge = await Challenge.findOneOrFail({
+      where: { id: challengeId },
+      relations: ['actions', 'actions.tags'],
+    });
+    return challenge.actions || [];
   }
 
   @Mutation(() => Action)
