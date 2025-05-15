@@ -8,7 +8,7 @@ import {
   Query,
   Resolver,
 } from 'type-graphql';
-import { Action, Tag, User, UserRole } from '@/entities';
+import { Action, Tag, User, UserRole, Challenge } from '@/entities';
 import { In } from 'typeorm';
 
 @InputType()
@@ -64,6 +64,17 @@ export class ActionResolver {
       relations: ['tags', 'createdBy'],
     });
     return action;
+  }
+
+  @Query(() => [Action])
+  async getActionsByChallengeId(
+    @Arg('challengeId') challengeId: string
+  ): Promise<Action[]> {
+    const challenge = await Challenge.findOneOrFail({
+      where: { id: challengeId },
+      relations: ['actions', 'actions.tags'],
+    });
+    return challenge.actions || [];
   }
 
   @Mutation(() => Action)
