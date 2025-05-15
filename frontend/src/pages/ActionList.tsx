@@ -4,6 +4,9 @@ import {
 } from '@/lib/graphql/generated/graphql-types';
 import { ActionCard, Filterbar, Filters } from '@/components';
 import { useEffect, useState } from 'react';
+import { Button } from '@/components/ui';
+import { Link } from 'react-router-dom';
+import { Plus } from 'lucide-react';
 
 export const ActionList = () => {
   const { data, loading, error } = useGetActionsQuery();
@@ -60,6 +63,15 @@ export const ActionList = () => {
             ))
           : 'Aucun éco geste trouvé avec ces filtres'}
       </ul>
+      <Button
+        asChild
+        variant="default"
+        className="fixed right-4 bottom-20 z-50 size-14 rounded-full shadow-md shadow-black/50"
+      >
+        <Link to="/action/new">
+          <Plus className="size-10" strokeWidth={1.4} />
+        </Link>
+      </Button>
     </>
   );
 };

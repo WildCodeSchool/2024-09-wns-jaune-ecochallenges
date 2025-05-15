@@ -82,7 +82,6 @@ export const ActionForm = () => {
       errors.description ||
       errors.requires_view ||
       errors.level ||
-      errors.icon ||
       errors.time
     ) {
       return 'step1';
@@ -101,24 +100,28 @@ export const ActionForm = () => {
 
   const onSubmit = async (formData: FormType) => {
     try {
-      const challengeData = {
+      let icon = 'sprout';
+      if (formData.level === 1) icon = 'sprout';
+      else if (formData.level === 2) icon = 'leaf';
+      else if (formData.level === 3) icon = 'tree-palm';
+      const actionData = {
         name: formData.name,
         description: formData.description,
         requires_view: formData.requires_view,
         level: formData.level,
-        icon: formData.icon,
+        icon: icon,
         time: formData.time,
       };
 
       const response = await createAction({
         variables: {
-          data: challengeData,
+          data: actionData,
         },
       });
 
       if (response.errors) throw new Error(response.errors[0].message);
     } catch (error) {
-      console.error('Error creating challenge:', error);
+      console.error('Error creating action:', error);
     }
   };
 
