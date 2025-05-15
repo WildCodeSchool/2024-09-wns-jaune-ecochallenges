@@ -74,7 +74,10 @@ export const ActionCard = ({
 }: ActionCardProps) => {
   return (
     <article className="h-full">
-      <Card className={cn('h-full justify-between gap-2 py-2')}>
+      <Card
+        data-testid="action-card"
+        className={cn('h-full justify-between gap-2 py-2')}
+      >
         <CardHeader className="flex w-full flex-col">
           <CardTitle className="text-lg font-bold">{action.name}</CardTitle>
         </CardHeader>
