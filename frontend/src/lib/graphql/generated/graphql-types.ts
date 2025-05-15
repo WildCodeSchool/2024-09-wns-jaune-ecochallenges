@@ -365,7 +365,11 @@ export type UpdateChallengeMutationVariables = Exact<{
 
 export type UpdateChallengeMutation = {
   __typename?: 'Mutation';
-  updateChallenge: { __typename?: 'Challenge'; id: string };
+  updateChallenge: {
+    __typename?: 'Challenge';
+    id: string;
+    description?: string | null;
+  };
 };
 
 export type DeleteChallengeMutationVariables = Exact<{
@@ -1097,6 +1101,7 @@ export const UpdateChallengeDocument = gql`
   mutation UpdateChallenge($id: ID!, $data: ChallengeInput!) {
     updateChallenge(id: $id, data: $data) {
       id
+      description
     }
   }
 `;
