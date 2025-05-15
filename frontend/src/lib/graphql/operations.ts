@@ -99,6 +99,15 @@ export const GET_ACTIONS = gql`
     }
   }
 `;
+
+export const CREATE_ACTION = gql`
+  mutation CreateAction($data: ActionInput!) {
+    createAction(data: $data) {
+      id
+    }
+  }
+`;
+
 export const GET_ALL_TAGS = gql`
   query GetAllTags {
     getAllTags {

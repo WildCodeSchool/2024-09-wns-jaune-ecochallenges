@@ -7,7 +7,7 @@ import {
   Query,
   Resolver,
 } from 'type-graphql';
-import { Action } from '@/entities';
+import { Action, Tag } from '@/entities';
 
 @InputType()
 export class ActionInput {
@@ -28,9 +28,6 @@ export class ActionInput {
 
   @Field()
   time!: number;
-
-  @Field(() => [ID])
-  tags!: number[];
 }
 
 @Resolver(Action)
@@ -51,10 +48,15 @@ export class ActionResolver {
   }
 
   @Mutation(() => Action)
-  async createdAction(@Arg('data') data: ActionInput) {
-    let action = new Action();
-    action = Object.assign(action, data);
-    await action.save();
-    return action;
+  async createAction(@Arg('data') data: ActionInput) {
+    try {
+      let action = new Action();
+      action = Object.assign(action, data);
+      await action.save();
+
+      return action;
+    } catch (error) {
+      throw new Error('Echec lors de la création de cette action: ${err}');
+    }
   }
 }
