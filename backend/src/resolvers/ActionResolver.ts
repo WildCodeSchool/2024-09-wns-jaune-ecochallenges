@@ -72,7 +72,7 @@ export class ActionResolver {
 
       return action;
     } catch (error) {
-      throw new Error('Echec lors de la création de cette action: ${err}');
+      throw new Error(`Echec lors de la création de cette action: ${error}`);
     }
   }
 }

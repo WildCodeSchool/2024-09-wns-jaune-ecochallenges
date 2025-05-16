@@ -56,7 +56,7 @@ export class Action extends BaseEntity {
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.createdActions)
-  createdBy?: User;
+  createdBy!: User;
 
   @Field(() => [Tag], { nullable: true })
   @ManyToMany(() => Tag, (tag) => tag.actions)
