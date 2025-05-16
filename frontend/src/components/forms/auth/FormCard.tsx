@@ -1,9 +1,11 @@
 import {
+  Button,
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
+  Separator,
 } from '@/components/ui';
 
 type FormCardProps = {
@@ -26,32 +28,32 @@ export const FormCard = ({
   const footerLinkText = isLogin ? 'Créer un compte' : 'Se connecter';
 
   return (
-    <Card className="bg-card mx-auto w-full max-w-sm rounded-[var(--radius-lg)] p-4 shadow-lg sm:max-w-md">
+    <Card className="mx-auto w-full max-w-sm p-4 shadow-lg sm:max-w-md">
       <CardHeader>
-        <CardTitle className="text-center text-lg text-[var(--color-primary)]">
+        <CardTitle className="text-primary text-center text-lg">
           {title}
         </CardTitle>
       </CardHeader>
 
       <CardContent>{children}</CardContent>
 
-      <CardFooter className="flex flex-col items-center gap-2 text-sm text-[var(--color-muted-foreground)]">
-        <div className="flex w-full items-center justify-center gap-2">
-          <span className="h-px w-full bg-[var(--color-border)]" />
-          <span className="text-xs text-[var(--color-muted-foreground)] uppercase">
+      <CardFooter className="text-muted-foreground flex flex-col items-center gap-2 text-sm">
+        <div className="flex w-full flex-col items-center justify-center gap-2">
+          <Separator orientation="horizontal" />
+          <span className="text-muted-foreground mx-auto text-xs uppercase">
             ou
           </span>
-          <span className="h-px w-full bg-[var(--color-border)]" />
         </div>
-        <p>
+        <p className="text-center">
           {footerText}{' '}
-          <button
+          <Button
+            variant="link"
             type="button"
             onClick={onToggleForm}
-            className="text-[var(--color-primary)] underline hover:opacity-80"
+            className="underline"
           >
             {footerLinkText}
-          </button>
+          </Button>
         </p>
       </CardFooter>
     </Card>
