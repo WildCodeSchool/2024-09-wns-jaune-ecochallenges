@@ -8,6 +8,7 @@ import {
   Home,
   ActionList,
   ChallengeList,
+  ChallengePage,
   ChallengeCreation,
   ChallengeEdition,
   UserPortal,
@@ -33,6 +34,10 @@ export const router = createBrowserRouter([
       {
         path: '/challenges',
         element: <ChallengeList />,
+      },
+      {
+        path: '/challenge/:challengeId',
+        element: <ChallengePage />,
       },
       {
         path: '/challenge/new',

@@ -49,7 +49,7 @@ export default tseslint.config({
 });
 ```
 
-## TO display images from the files service:
+### To display images from the files service:
 
     - Add the image to persist/files-dev/your folder
 
@@ -70,3 +70,42 @@ This project uses **Vitest** as the frontend test environment.
 npm run test       # runs Vitest from within the frontend folder
 make vitest          # runs Vitest using the Makefile from the project root
 ```
+
+### 🎨 Theme System
+
+Our app uses a custom color system based on OKLCH values for accurate contrast and modern color handling.
+All design tokens are defined using CSS variables inside :root, with optional dark mode support.
+
+You should `not` have to edit colors on a `shadcn` component and be able to use a `variant` if needed.
+
+Follow this guideline for your custom component:
+
+| Variable                       | Description                                                   |
+| ------------------------------ | ------------------------------------------------------------- |
+| `--background`                 | App/page background color                                     |
+| `--foreground`                 | Default text color                                            |
+| `--card`                       | Background for cards, tiles, and surfaces                     |
+| `--card-foreground`            | Text color used inside cards                                  |
+| `--popover`                    | Background for tooltips, dropdowns, or small overlays         |
+| `--popover-foreground`         | Text inside popovers                                          |
+| `--primary`                    | Main CTA (call-to-action) background (e.g., Validate, Submit) |
+| `--primary-foreground`         | Text/icon color on primary buttons                            |
+| `--secondary`                  | Secondary buttons or supporting interface zones               |
+| `--secondary-foreground`       | Text on secondary elements                                    |
+| `--accent`                     | Hover, active, or interactive accents                         |
+| `--accent-foreground`          | Foreground on accent elements                                 |
+| `--muted`                      | Disabled backgrounds, dividers, placeholders                  |
+| `--muted-foreground`           | Dimmed or secondary text                                      |
+| `--destructive`                | Error or delete action background                             |
+| `--destructive-foreground`     | Text on destructive buttons                                   |
+| `--border`                     | Border color for containers, cards, and forms                 |
+| `--input`                      | Background for input fields and form controls                 |
+| `--ring`                       | Focus ring color (used on focusable inputs/buttons)           |
+| `--sidebar`                    | Sidebar or drawer menu background                             |
+| `--sidebar-foreground`         | Text/icons inside sidebar                                     |
+| `--sidebar-primary`            | Active sidebar item background                                |
+| `--sidebar-primary-foreground` | Text for active nav item                                      |
+| `--sidebar-accent`             | Hovered nav item background                                   |
+| `--sidebar-accent-foreground`  | Text/icon on hovered nav item                                 |
+| `--sidebar-border`             | Border between sidebar items or from layout                   |
+| `--sidebar-ring`               | Focus ring for sidebar elements                               |

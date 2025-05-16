@@ -23,6 +23,13 @@ export const GET_CHALLENGES = gql`
       startDate
       endDate
       createdAt
+      isPublic
+      owner {
+        id
+      }
+      members {
+        id
+      }
       actions {
         id
         name
@@ -46,6 +53,12 @@ export const GET_CHALLENGE = gql`
       bannerUrl
       startDate
       endDate
+      owner {
+        id
+      }
+      members {
+        id
+      }
       actions {
         id
         tags {

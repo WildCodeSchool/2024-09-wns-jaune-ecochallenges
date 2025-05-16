@@ -1,82 +1,39 @@
-import { Card, Avatar, AvatarImage, AvatarFallback } from '@/components/ui';
-
-type UserCardProps = {
-  id: number;
-  bernardPoints: number;
-  nbActions: number;
-  nbChallenges: number;
-  picture?: string;
-  pictureName?: string;
-  initial: string;
-};
+import { User } from '@/lib/graphql/generated/graphql-types';
+import { Button, Card, CardContent } from './ui';
+import { CircleCheck, CirclePlus } from 'lucide-react';
 
 export const UserCard = ({
-  id,
-  bernardPoints = 0,
-  nbActions = 0,
-  nbChallenges = 0,
-  picture,
-  pictureName,
-  initial,
-}: UserCardProps) => {
+  user,
+  isSelected = false,
+  onClick,
+}: {
+  user: User;
+  isSelected?: boolean;
+  onClick?: () => void;
+}) => {
   return (
-    <article className="m-4 mx-auto max-w-xl">
-      <Card data-testid={`user-card-${id}`} className="flex flex-row p-2">
-        <Avatar className="h-20 w-20">
-          <AvatarImage
-            src={picture}
-            alt={pictureName}
-            data-testid="card-image"
-          />
-          <AvatarFallback delayMs={600}>{initial}</AvatarFallback>
-        </Avatar>
-        <div>
-          <h3 className="text-xl font-bold">Tes stats:</h3>
-
-          <div className="grid grid-cols-2 md:flex">
-            {/* section bernard point */}
-            <div className="col-start-1 col-end-1 m-3 flex">
-              <div className="ml-2 text-3xl">🦀</div>
-              <div className="ml-2 flex flex-col font-bold">
-                <span
-                  className="text-foreground text-3xl"
-                  data-testid="bernardPoints"
-                >
-                  {bernardPoints}
-                </span>
-                bernards
-              </div>
-            </div>
-
-            {/* section actions */}
-            <div className="col-start-2 col-end-2 m-3 flex">
-              <div className="ml-2 text-3xl">🌿</div>
-              <div className="ml-2 flex flex-col font-bold">
-                <span
-                  className="text-foreground text-3xl"
-                  data-testid="nbActions"
-                >
-                  {nbActions}
-                </span>
-                actions
-              </div>
-            </div>
-
-            {/* section challenges */}
-            <div className="col-span-2 col-start-1 col-end-3 m-3 flex justify-center">
-              <div className="ml-2 text-3xl">🏆</div>
-              <div className="ml-2 flex flex-col font-bold">
-                <span
-                  className="text-foreground text-3xl"
-                  data-testid="nbChallenges"
-                >
-                  {nbChallenges}
-                </span>
-                challenges
-              </div>
-            </div>
-          </div>
-        </div>
+    <article className="h-full w-full">
+      <Card className="h-full">
+        <CardContent className="flex items-center justify-between gap-2 p-4">
+          <p className="ml-6 text-xl">
+            {user.firstname} {user.lastname}
+          </p>
+          <Button
+            type="button"
+            variant="ghost"
+            className="hover:bg-transparent hover:opacity-100"
+            onClick={onClick}
+          >
+            {isSelected ? (
+              <CircleCheck
+                data-testid="member-card-button"
+                className="fill-accent size-8"
+              />
+            ) : (
+              <CirclePlus data-testid="member-card-button" className="size-8" />
+            )}
+          </Button>
+        </CardContent>
       </Card>
     </article>
   );

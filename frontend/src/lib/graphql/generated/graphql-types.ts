@@ -63,7 +63,10 @@ export type Challenge = {
   description?: Maybe<Scalars['String']['output']>;
   endDate: Scalars['DateTimeISO']['output'];
   id: Scalars['ID']['output'];
+  isPublic: Scalars['Boolean']['output'];
   label: Scalars['String']['output'];
+  members: Array<User>;
+  owner: User;
   startDate: Scalars['DateTimeISO']['output'];
 };
 
@@ -74,6 +77,7 @@ export type ChallengeInput = {
   endDate: Scalars['DateTimeISO']['input'];
   id?: InputMaybe<Scalars['String']['input']>;
   label: Scalars['String']['input'];
+  members: Array<Scalars['ID']['input']>;
   startDate: Scalars['DateTimeISO']['input'];
 };
 
@@ -155,11 +159,13 @@ export type User = {
   __typename?: 'User';
   createdActions: Array<Action>;
   createdAt: Scalars['DateTimeISO']['output'];
+  createdChallenges: Array<Challenge>;
   email: Scalars['String']['output'];
   firstname: Scalars['String']['output'];
   hashedPassword: Scalars['String']['output'];
   id: Scalars['String']['output'];
   lastname: Scalars['String']['output'];
+  participatedChallenges: Array<Challenge>;
   role: Scalars['String']['output'];
 };
 
@@ -193,6 +199,9 @@ export type GetChallengesAsChallengeQuery = {
     startDate: any;
     endDate: any;
     createdAt: any;
+    isPublic: boolean;
+    owner: { __typename?: 'User'; id: string };
+    members: Array<{ __typename?: 'User'; id: string }>;
     actions: Array<{
       __typename?: 'Action';
       id: string;
@@ -222,6 +231,8 @@ export type GetChallengeQuery = {
     bannerUrl?: string | null;
     startDate: any;
     endDate: any;
+    owner: { __typename?: 'User'; id: string };
+    members: Array<{ __typename?: 'User'; id: string }>;
     actions: Array<{
       __typename?: 'Action';
       id: string;
@@ -415,6 +426,13 @@ export const GetChallengesAsChallengeDocument = gql`
       startDate
       endDate
       createdAt
+      isPublic
+      owner {
+        id
+      }
+      members {
+        id
+      }
       actions {
         id
         name
@@ -507,6 +525,12 @@ export const GetChallengeDocument = gql`
       bannerUrl
       startDate
       endDate
+      owner {
+        id
+      }
+      members {
+        id
+      }
       actions {
         id
         tags {

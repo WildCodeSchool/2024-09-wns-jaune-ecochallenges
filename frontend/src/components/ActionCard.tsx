@@ -11,7 +11,7 @@ import {
 import { Pill } from '@/components';
 import {
   BookmarkCheck,
-  BookmarkMinus,
+  BookmarkPlus,
   Ellipsis,
   ImagePlus,
   Leaf,
@@ -19,10 +19,9 @@ import {
   Sprout,
   TreePalm,
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 type ActionCardProps = {
-  action: Action;
+  action: Omit<Action, 'challenges'>;
   isSelected?: boolean;
   onClick?: () => void;
 };
@@ -41,19 +40,19 @@ export const difficulties = [
     value: 1,
     label: 'Facile',
     icon: Sprout,
-    className: 'text-colorcard-foreground  size-7',
+    className: 'text-colorcard-foreground  size-6',
   },
   {
     value: 2,
     label: 'Moyen',
     icon: Leaf,
-    className: 'text-colorcard-foreground  size-6',
+    className: 'text-colorcard-foreground  size-5',
   },
   {
     value: 3,
     label: 'Difficile',
     icon: TreePalm,
-    className: 'text-colorcard-foreground  size-7',
+    className: 'text-colorcard-foreground  size-6',
   },
 ] as const;
 
@@ -74,75 +73,61 @@ export const ActionCard = ({
 }: ActionCardProps) => {
   return (
     <article className="h-full">
-      <Card className={cn('h-full gap-0')}>
+      <Card
+        data-testid="action-card"
+        className={'h-full justify-between gap-2 py-2'}
+      >
         <CardHeader className="flex w-full flex-col">
-          <div className="flex w-full flex-row items-center justify-between">
-            <div className="flex gap-1">
-              {action.tags?.map((tag) => (
-                <Pill key={tag.id} className="p-1">
-                  {tag.icon}
-                </Pill>
-              ))}
-            </div>
-
-            <Button
-              type="button"
-              variant="ghost"
-              className="hover:bg-transparent hover:opacity-100"
-              onClick={onClick}
-            >
-              {isSelected ? (
-                <BookmarkCheck
-                  data-testid="action-card-button"
-                  className="size-8"
-                />
-              ) : (
-                <BookmarkMinus
-                  data-testid="action-card-button"
-                  className="size-8"
-                />
-              )}
-            </Button>
-          </div>
-
-          <CardTitle className="text-lg font-bold">
-            <h2>{action.name}</h2>
-          </CardTitle>
+          <CardTitle className="text-lg font-bold">{action.name}</CardTitle>
         </CardHeader>
         <CardContent>
           <CardDescription>
-            <p className="truncate">{action.description} </p>
+            <p className="line-clamp-2 max-w-full">{action.description} </p>
+            <div className="mt-4 flex w-full flex-row items-center justify-start gap-2">
+              {action.tags?.map((tag) => <Pill key={tag.id}>{tag.icon}</Pill>)}
+              <Pill>
+                <span className="text-sm">{action.time}h</span>
+              </Pill>
+              {getDifficulty(difficulties, action.level).map((difficulty) => (
+                <Pill className="flex" key={difficulty.value}>
+                  <span className="mr-1 text-xs">niveau:</span>
+                  <difficulty.icon className={difficulty.className} />
+                </Pill>
+              ))}
+            </div>
           </CardDescription>
         </CardContent>
 
-        <CardFooter className="mt-4 flex w-full justify-between gap-1">
-          <div className="flex gap-1">
-            <Pill>
-              <span className="text-base">{action.time}h</span>
-            </Pill>
-            {getDifficulty(difficulties, action.level).map((difficulty) => (
-              <Pill className="flex" key={difficulty.value}>
-                <span className="text-xs">niveau:</span>
-                <difficulty.icon className={difficulty.className} />
-              </Pill>
-            ))}
-          </div>
-
-          <div>
+        <CardFooter className="flex w-full justify-between px-2">
+          <div className="w-full text-end">
             <Button
               type="button"
               variant="ghost"
-              className="hover:bg-transparent hover:opacity-100"
+              className="m-0 p-0 hover:bg-transparent hover:opacity-100"
             >
-              <ImagePlus className="size-7" />
+              <ImagePlus className="size-6" />
             </Button>
 
             <Button
               type="button"
               variant="ghost"
-              className="hover:bg-transparent hover:opacity-100"
+              className="m-0 p-0 hover:bg-transparent hover:opacity-100"
             >
-              <Ellipsis className="size-7" />
+              <Ellipsis className="size-6" />
+            </Button>
+            <Button
+              size="icon"
+              type="button"
+              variant="ghost"
+              className="hover:bg-transparent hover:opacity-100"
+              data-testid="action-card-button"
+              onClick={onClick}
+            >
+              {isSelected ? (
+                <BookmarkCheck className="fill-accent size-8" />
+              ) : (
+                <BookmarkPlus className="size-7" />
+              )}
             </Button>
           </div>
         </CardFooter>
