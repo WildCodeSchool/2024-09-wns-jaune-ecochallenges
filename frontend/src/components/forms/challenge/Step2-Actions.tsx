@@ -11,17 +11,14 @@ import {
 } from '@/components/ui';
 import {
   Action,
-  GetActionsQueryHookResult,
+  useGetActionsQuery,
 } from '@/lib/graphql/generated/graphql-types';
 import { CircleCheck, CirclePlus, CircleX, Trash } from 'lucide-react';
 import { useFormContext } from 'react-hook-form';
 
-export const Step2Actions = ({
-  actionsQuery: { data, loading, error },
-}: {
-  actionsQuery: GetActionsQueryHookResult;
-}) => {
+export const Step2Actions = () => {
   const form = useFormContext();
+  const { data, loading, error } = useGetActionsQuery();
   const selectedActionIds = form.watch('actions') || [];
 
   if (!data?.getActions) return <p role="alert">Aucun éco-gestes trouvé</p>;

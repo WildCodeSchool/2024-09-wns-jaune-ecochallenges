@@ -1,81 +1,120 @@
 import { dataSource } from '@/config/db';
-import { User, Challenge, Action, Tag } from '@/entities';
-import {
-  usersData,
-  challengesData,
-  actionsData,
-  tagsData,
-} from '@/seeding/seeds';
+import { BaseEntity } from 'typeorm';
 import chalk from 'chalk';
 
 chalk.level = 2;
 
-const seedEntity = async (
-  entity: any,
-  data: any,
-  options: {
-    relations?: { name: string; entity: any }[];
-    dates?: string[];
-  } = {}
-) => {
-  const repository = dataSource.getRepository(entity);
-  const entities = await Promise.all(
-    data.map(async (item: any) => {
-      const processedItem = { ...item };
+type CleanEntity<T> = {
+  [K in keyof Omit<T, keyof BaseEntity> as T[K] extends Function
+    ? never
+    : K]: T[K];
+};
 
-      if (options.relations) {
-        for (const {
-          name: relationName,
-          entity: relationEntity,
-        } of options.relations) {
-          if (!processedItem[relationName]) continue;
-          processedItem[relationName] = await Promise.all(
-            processedItem[relationName].map((id: string) =>
-              dataSource.getRepository(relationEntity).findOneBy({ id })
-            )
-          );
+// Type to extract entity relation keys
+type EntityRelationKeys<T> = keyof {
+  [K in keyof T as NonNullable<T[K]> extends
+    | BaseEntity
+    | BaseEntity[]
+    | Promise<BaseEntity | BaseEntity[]>
+    ? K
+    : never]: T[K];
+};
+
+// Type to extract Date property keys
+type DatePropertyKeys<T> = keyof {
+  [K in keyof T as T[K] extends Date ? K : never]: T[K];
+};
+
+const seedEntity = async <T extends BaseEntity>(
+  entity: new () => T,
+  data: Record<any, any>[],
+  options?: {
+    relations?: {
+      name: EntityRelationKeys<T>;
+      entity: new () => BaseEntity;
+      property?: string;
+      type?: 'manyToMany' | 'manyToOne';
+    }[];
+    dates?: DatePropertyKeys<T>[];
+  }
+): Promise<void> => {
+  try {
+    const repository = dataSource.getRepository(entity);
+    const entities = await Promise.all(
+      data.map(async (item) => {
+        const processedItem = { ...item };
+
+        // RELATIONS
+        if (options?.relations) {
+          for (const {
+            name: relationName,
+            entity: relationEntity,
+            property,
+            type,
+          } of options.relations) {
+            if (!processedItem[relationName]) continue;
+
+            const key = property || 'id';
+            const repository = dataSource.getRepository(relationEntity);
+
+            if (!type || type === 'manyToMany') {
+              processedItem[relationName] = await Promise.all(
+                processedItem[relationName].map((value: string) =>
+                  repository.findOneBy({ [key]: value })
+                )
+              );
+            } else if (type === 'manyToOne') {
+              processedItem[relationName] = await repository.findOneBy({
+                [key]: processedItem[key],
+              });
+            }
+          }
         }
-      }
 
-      if (options.dates) {
-        options.dates.forEach((date) => {
-          if (!processedItem[date]) return;
-          processedItem[date] = new Date(processedItem[date]);
-        });
-      }
+        // DATES
+        if (options?.dates) {
+          options.dates.forEach((dateField) => {
+            if (processedItem[dateField]) {
+              processedItem[dateField] = new Date(processedItem[dateField]);
+            }
+          });
+        }
 
-      return Object.assign(new entity(), processedItem);
-    })
-  );
+        return Object.assign(new (entity as any)(), processedItem);
+      })
+    );
 
-  await repository.save(entities);
-  console.log(`✔︎ ${entities.length} ${entity.name} added!`);
+    await repository.save(entities);
+    console.log(
+      chalk.green(`✔︎ ${entities.length} ${(entity as any).name}s added!`)
+    );
+  } catch (error) {
+    console.error(
+      chalk.red(`❌ Error seeding ${(entity as any).name}:`),
+      error
+    );
+    throw error;
+  }
 };
 
-const seedDatabase = async () => {
-  console.log('🔄 Initializing database...');
-  await dataSource.initialize();
-  console.log('🧼 Cleaning database...');
-  await dataSource.dropDatabase();
-  console.log('🏗️  Creating database...');
-  await dataSource.synchronize();
+export const seedDb = async (
+  seedCallback: (seedEntityFn: typeof seedEntity) => Promise<void>
+): Promise<void> => {
+  try {
+    console.log('🔄 Initializing database...');
+    await dataSource.initialize();
+    console.log('🧼 Cleaning database...');
+    await dataSource.dropDatabase();
+    console.log('🏗️  Creating database...');
+    await dataSource.synchronize();
+    console.log('🌱 Seeding database...');
 
-  console.log('🌱 Seeding database...');
+    await seedCallback(seedEntity);
 
-  // Add your seeds here
-  await seedEntity(User, usersData.users);
-  await seedEntity(Tag, tagsData.tags);
-  await seedEntity(Action, actionsData.actions, {
-    relations: [{ name: 'tags', entity: Tag }],
-  });
-  await seedEntity(Challenge, challengesData.challenges, {
-    relations: [{ name: 'actions', entity: Action }],
-    dates: ['startDate', 'endDate'],
-  });
-
-  await dataSource.destroy();
-
-  console.log(chalk.green('✅ Database seeding complete'));
+    await dataSource.destroy();
+    console.log(chalk.green('✅ Database seeding complete'));
+  } catch (error) {
+    console.error(chalk.red('❌ Seeding failed'), error);
+    process.exit(1);
+  }
 };
-
-seedDatabase().catch((error) => console.error('❌ Seeding failed', error));

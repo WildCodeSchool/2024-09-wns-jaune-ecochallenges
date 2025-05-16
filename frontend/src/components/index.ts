@@ -5,5 +5,6 @@ export * from './Pill';
 export * from './ChallengeCarouselCard';
 export * from './CarouselComponent';
 export * from './Filterbar';
-export * from './UserCard';
+export * from './MyUserCard';
 export * from './PasswordInput';
+export * from './UserCard';

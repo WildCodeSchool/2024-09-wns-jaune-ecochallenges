@@ -17,7 +17,7 @@ export const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
 
   return (
     <article className="h-full">
-      <Link to={`/challenge/${challenge.id}/edit`}>
+      <Link to={`/challenge/${challenge.id}`}>
         <Card className={cn('relative h-full justify-between')}>
           <CardHeader className="overflow-hidden">
             <img
@@ -40,7 +40,7 @@ export const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
           <CardFooter className="block w-full space-y-2">
             <ul className="flex w-full flex-wrap gap-2">
               {getUniqueTagsFromActions(challenge.actions).map((tag) => (
-                <li key={tag?.id}>
+                <li key={`${challenge.id}-${tag?.id}`}>
                   <Pill>
                     <span className="mr-1 text-lg">{tag?.icon}</span>
                     {tag?.name}
