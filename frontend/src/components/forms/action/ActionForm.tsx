@@ -57,6 +57,7 @@ const formSchema = z.object({
     required_error:
       'Vous devez obligatoirement indiquer le temps de réalisation de votre eco-geste',
   }),
+  tags: z.array(z.string()).optional(),
 });
 
 type FormType = z.infer<typeof formSchema>;
@@ -71,6 +72,7 @@ export const ActionForm = () => {
       level: 1,
       icon: 'leaf',
       time: 1,
+      tags: [],
     },
   });
 
@@ -86,7 +88,6 @@ export const ActionForm = () => {
     ) {
       return 'step1';
     }
-    //if (errors.tags) return 'step2';
     return null;
   };
 
@@ -111,6 +112,7 @@ export const ActionForm = () => {
         level: formData.level,
         icon: icon,
         time: formData.time,
+        tags: formData.tags,
       };
 
       const response = await createAction({

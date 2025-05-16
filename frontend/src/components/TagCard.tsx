@@ -13,9 +13,9 @@ export const TagCard = ({
 }) => {
   return (
     <article className="h-full w-full">
-      <Card className="h-full">
-        <CardContent className="flex items-center justify-between gap-2 p-4">
-          <p className="ml-6 text-xl">
+      <Card className="h-auto">
+        <CardContent className="flex items-center justify-between gap-2 px-4">
+          <p className="text-xl">
             {tag.icon} {tag.name}
           </p>
           <Button
@@ -25,12 +25,9 @@ export const TagCard = ({
             onClick={onClick}
           >
             {isSelected ? (
-              <CircleCheck
-                data-testid="member-card-button"
-                className="fill-accent size-8"
-              />
+              <CircleCheck className="fill-accent size-8" />
             ) : (
-              <CirclePlus data-testid="member-card-button" className="size-8" />
+              <CirclePlus className="size-8" />
             )}
           </Button>
         </CardContent>

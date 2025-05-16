@@ -1,5 +1,6 @@
 import {
   Arg,
+  Ctx,
   Field,
   ID,
   InputType,
@@ -7,7 +8,8 @@ import {
   Query,
   Resolver,
 } from 'type-graphql';
-import { Action, Tag } from '@/entities';
+import { Action, Tag, User } from '@/entities';
+import { In } from 'typeorm';
 
 @InputType()
 export class ActionInput {
@@ -28,6 +30,9 @@ export class ActionInput {
 
   @Field()
   time!: number;
+
+  @Field(() => [ID])
+  tags?: Tag[];
 }
 
 @Resolver(Action)
@@ -48,10 +53,21 @@ export class ActionResolver {
   }
 
   @Mutation(() => Action)
-  async createAction(@Arg('data') data: ActionInput) {
+  async createAction(
+    @Arg('data') data: ActionInput,
+    @Ctx() { user }: { user: User }
+  ) {
     try {
       let action = new Action();
       action = Object.assign(action, data);
+      action.createdBy = user;
+      if (data.tags && data.tags.length) {
+        const tags = await Tag.findBy({ id: In(data.tags) });
+        action.tags = tags;
+      } else {
+        action.tags = [];
+      }
+
       await action.save();
 
       return action;
