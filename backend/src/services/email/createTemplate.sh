@@ -30,41 +30,65 @@ NAME_CAPITALIZED="$(tr '[:lower:]' '[:upper:]' <<< "${NAME:0:1}")${NAME:1}"
 mkdir -p "$DIR"
 
 # Crée le fichier .ts avec un template
-cat > "$DIR/$NAME.ts" <<EOL
-// Fichier TypeScript pour le template "$NAME"
-import path from 'path'
-import { BaseEmailT } from '../../config/baseEmail'
+cat > "$DIR/"$NAME"Email.tsx" <<EOL
+// Fichier component pour le template du mail: "$NAME"
+import {
+  Html,
+  Head,
+  Font,
+  Body,
+  Preview,
+} from '@react-email/components';
+import * as React from 'react';
 
 
-interface ${NAME_CAPITALIZED}EmailVariables {
-  exemple: string;
-  // rest of your variable
+export interface ${NAME_CAPITALIZED}EmailProps {
+  preview: string;
+  // rest of your props
 }
 
-export class ${NAME_CAPITALIZED} extends BaseEmailT<${NAME_CAPITALIZED}EmailVariables> {
-  constructor() {
-    super({
-      subject: 'Welcome!',
-      template: path.join(__dirname, 'template.mjml'),
-    });
-  }
+export const ${NAME_CAPITALIZED}Email = (props: ${NAME_CAPITALIZED}EmailProps) => {
+  return (
+    <Html>
+      <Head>
+        <Font
+          fontFamily="Roboto"
+          fallbackFontFamily="Helvetica"
+          webFont={{
+            url: 'https://fonts.googleapis.com/css?family=Roboto:300,500',
+            format: 'woff2',
+          }}
+        />
+      </Head>
+      <Preview>
+        {props.preview}
+      </Preview>
+      <Body
+        style={{
+          fontFamily: 'Roboto, Helvetica, sans-serif',
+          backgroundColor: '#ffffff',
+        }}
+      >
+      </Body>
+    </Html>
+  )
 }
 EOL
 
 
-# Crée le fichier template.mjml avec du contenu de base
-cat > "$DIR/template.mjml" <<EOL
-<mjml>
-  <mj-body>
-    <mj-section>
-      <mj-column>
-        <mj-text>
-          Bonjour, ceci est le template MJML pour "$NAME".
-        </mj-text>
-      </mj-column>
-    </mj-section>
-  </mj-body>
-</mjml>
+# Crée le fichier sender qui permettra d'envoyer le mail avec les props
+cat > "$DIR/"$NAME"EmailSender.ts" <<EOL
+import { BaseEmailT } from '../../config/baseEmail';
+import { ${NAME_CAPITALIZED}Email, ${NAME_CAPITALIZED}EmailProps } from './${NAME}Email';
+
+export class ${NAME_CAPITALIZED}EmailSender extends BaseEmailT<${NAME_CAPITALIZED}EmailProps> {
+  constructor() {
+    super({
+      subject: "Ton challenge vient d'être créé !",
+      emailComponent: ${NAME_CAPITALIZED}Email,
+    });
+  }
+}
 EOL
 
 echo "✅ Dossier '$NAME' créé avec :"

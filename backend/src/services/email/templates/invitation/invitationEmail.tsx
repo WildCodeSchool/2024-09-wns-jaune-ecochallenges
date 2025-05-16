@@ -135,6 +135,7 @@ export const InvitationEmail = ({
                   fontSize: '16px',
                   color: '#616161',
                   lineHeight: '24px',
+                  textAlign: 'start',
                 }}
               >
                 Bonjour à toi, cher(ère) défenseur(se) de notre belle planète 🌍
@@ -147,6 +148,7 @@ export const InvitationEmail = ({
                   fontSize: '16px',
                   color: '#616161',
                   lineHeight: '24px',
+                  textAlign: 'start',
                 }}
               >
                 Bonne nouvelle ! Tu as été invité(e) à participer à un
@@ -163,6 +165,7 @@ export const InvitationEmail = ({
                   fontSize: '16px',
                   color: '#616161',
                   lineHeight: '24px',
+                  textAlign: 'start',
                 }}
               >
                 Le but ? Réaliser un maximum d’éco-gestes simples et efficaces,
@@ -177,6 +180,7 @@ export const InvitationEmail = ({
                   fontSize: '16px',
                   color: '#616161',
                   lineHeight: '24px',
+                  textAlign: 'start',
                 }}
               >
                 Alors, prêt(e) à relever le défi ? Inscris-toi dès maintenant en
@@ -195,40 +199,39 @@ export const InvitationEmail = ({
           <Section
             style={{
               display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'start',
             }}
           >
             <Img
               src="https://cdn.pixabay.com/photo/2022/12/28/02/23/crab-7682086_1280.jpg"
               alt="Crabe"
               width="70"
-              style={{ paddingLeft: 25, paddingRight: 0 }}
+              style={{ paddingLeft: 2, paddingRight: 0 }}
             />
             <Text
               style={{
-                paddingLeft: 25,
-                paddingRight: 25,
+                paddingLeft: 10,
                 fontSize: '14px',
                 color: '#bdbdbd',
               }}
             >
-              <p style={{ color: '#bdbdbd', lineHeight: '1.4em' }}>
-                Toute l’équipe d’éco-challenge -
-                <Link href="#" style={{ color: 'rgb(70, 163, 73)' }}>
-                  {' '}
-                  ecochallenge.fr
-                </Link>
-              </p>
-              <p
-                style={{
-                  fontStyle: 'italic',
-                  color: '#bdbdbd',
-                  lineHeight: '1.4em',
-                }}
+              Toute l’équipe d’éco-challenge -
+              <Link
+                href="https://ecochallenge.fr"
+                style={{ color: 'rgb(70, 163, 73)' }}
               >
-                Chaque geste compte
-              </p>
+                ecochallenge.fr
+              </Link>
+            </Text>
+            <Text
+              style={{
+                paddingLeft: 10,
+                fontSize: '14px',
+                color: '#bdbdbd',
+              }}
+            >
+              Chaque geste compte
             </Text>
           </Section>
 

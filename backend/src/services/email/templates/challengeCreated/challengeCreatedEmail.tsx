@@ -84,7 +84,7 @@ export default function ChallengeCreatedEmail({
             />
           </Section>
 
-          <Section style={{ textAlign: 'center' }}>
+          <Section style={{ textAlign: 'start' }}>
             <Text
               style={{
                 fontWeight: 300,
@@ -119,6 +119,7 @@ export default function ChallengeCreatedEmail({
                 fontSize: '16px',
                 color: '#616161',
                 lineHeight: '24px',
+                textAlign: 'start',
               }}
             >
               Bonjour à toi, cher(ère) défenseur(se) de notre belle planète 🌍
@@ -131,6 +132,7 @@ export default function ChallengeCreatedEmail({
                 fontSize: '16px',
                 color: '#616161',
                 lineHeight: '24px',
+                textAlign: 'start',
               }}
             >
               Bonne nouvelle ! Tu as réussi à créer ton challenge intitulé :{' '}
@@ -145,6 +147,7 @@ export default function ChallengeCreatedEmail({
                 fontSize: '16px',
                 color: '#616161',
                 lineHeight: '24px',
+                textAlign: 'start',
               }}
             >
               N’hésite pas à l’enrichir avec des éco-gestes que toi, tes amis ou
@@ -157,6 +160,7 @@ export default function ChallengeCreatedEmail({
                 fontSize: '16px',
                 color: '#616161',
                 lineHeight: '24px',
+                textAlign: 'start',
               }}
             >
               Toute l’équipe d’Éco-Challenge te félicite pour ton engagement et
@@ -171,7 +175,13 @@ export default function ChallengeCreatedEmail({
             />
           </Section>
 
-          <Section style={{ display: 'flex' }}>
+          <Section
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'start',
+            }}
+          >
             <Img
               src="https://cdn.pixabay.com/photo/2022/12/28/02/23/crab-7682086_1280.jpg"
               alt="Crabe"
@@ -192,6 +202,14 @@ export default function ChallengeCreatedEmail({
               >
                 ecochallenge.fr
               </Link>
+            </Text>
+            <Text
+              style={{
+                paddingLeft: 10,
+                fontSize: '14px',
+                color: '#bdbdbd',
+              }}
+            >
               Chaque geste compte
             </Text>
           </Section>
