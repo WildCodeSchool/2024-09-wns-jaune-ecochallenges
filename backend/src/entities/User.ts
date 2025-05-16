@@ -50,12 +50,11 @@ export class User extends BaseEntity {
   })
   role!: UserRole;
 
-  @Field({ nullable: true })
-  @Column({ type: 'text', nullable: true })
-  description?: string;
+  @Field()
+  @Column({ nullable: true })
+  description!: string;
 
   @BeforeInsert()
-  @BeforeUpdate()
   async hashPassword() {
     this.hashedPassword = await argon2.hash(this.hashedPassword);
   }

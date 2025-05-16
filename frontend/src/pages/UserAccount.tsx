@@ -1,54 +1,66 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Pencil, Save } from 'lucide-react';
-import { Pill } from '@/components/Pill';
+import {
+  Pencil,
+  Save,
+  Quote,
+  Mail,
+  User,
+  BarChart2,
+  ClipboardList,
+} from 'lucide-react';
 import { Card } from '@/components/ui';
 import { useEffect, useState } from 'react';
-import { GetUserByIdDocument, UpdateUserDocument } from '@/graphql/generated';
+import { GET_USER_BY_ID, UPDATE_USER } from '@/lib/graphql/operations';
+import { Logout } from '@/components/forms/auth';
+import { cn } from '@/lib/utils';
 
 export const UserAccount = () => {
-  const userId = 'cee5b95e-c5ee-4d1e-99c6-72e6911009f4';
-
-  const { data, loading, error, refetch } = useQuery(GetUserByIdDocument, {
-    variables: { id: userId },
-  });
+  const { data, loading, error, refetch } = useQuery(GET_USER_BY_ID);
+  const [updateUser] = useMutation(UPDATE_USER);
 
   const [isEditing, setIsEditing] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [description, setDescription] = useState('');
   const [saving, setSaving] = useState(false);
-
-  const [updateUser] = useMutation(UpdateUserDocument);
+  const [form, setForm] = useState({
+    firstname: '',
+    lastname: '',
+    email: '',
+    description: '',
+  });
 
   useEffect(() => {
-    if (data?.getUserById) {
-      setFirstName(data.getUserById.firstname || '');
-      setLastName(data.getUserById.lastname || '');
-      setEmail(data.getUserById.email || '');
-      setDescription(data.getUserById.description || 'Description à venir...');
+    if (data?.getCurrentUser) {
+      const { firstname, lastname, email, description } = data.getCurrentUser;
+      setForm({
+        firstname: firstname || '',
+        lastname: lastname || '',
+        email: email || '',
+        description: description || 'Description à venir...',
+      });
     }
   }, [data]);
 
+  const handleInputChange = (field: keyof typeof form, value: string) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
   const handleSave = async () => {
+    const userId = data?.getCurrentUser?.id;
+    if (!userId) return;
+
     try {
       setSaving(true);
       await updateUser({
         variables: {
-          id: userId,
-          data: {
-            firstname: firstName,
-            lastname: lastName,
-            email: email,
-            description: description,
+          user: {
+            id: userId,
+            firstname: form.firstname,
+            lastname: form.lastname,
+            description: form.description,
           },
         },
       });
 
-      await refetch().then(({ data }) => {
-        console.log('Données rechargées :', data);
-      });
-
+      await refetch();
       setIsEditing(false);
     } catch (err) {
       console.error('Erreur lors de la mise à jour :', err);
@@ -59,118 +71,116 @@ export const UserAccount = () => {
 
   if (loading) return <p>Chargement...</p>;
   if (error) return <p>Erreur : {error.message}</p>;
-  const user = data?.getUserById;
+
+  const user = data?.getCurrentUser;
   if (!user) return <p>Aucun utilisateur trouvé</p>;
 
   return (
-    <Card className="p-4 sm:p-6 md:p-8">
-      <div className="mx-auto max-w-3xl space-y-6">
-        {/* Avatar + nom/email */}
-        <Card className="relative min-h-48 overflow-hidden rounded-xl p-4 sm:p-6">
-          <div className="absolute inset-0 bg-[url('/images/fond-feuilles.jpg')] bg-cover bg-center opacity-30"></div>
-          <div className="relative flex items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <img
-                src="/public/icons/leaf.png"
-                alt="Avatar utilisateur"
-                className="bg-background h-20 w-20 rounded-full border-4 border-white object-cover"
-              />
-              <div className="text-left">
-                {isEditing ? (
-                  <>
-                    <input
-                      type="text"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                      className="mb-1 border-b border-gray-300 bg-transparent text-xl font-bold focus:outline-none"
-                    />
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="border-b border-gray-300 bg-transparent text-gray-600 focus:outline-none"
-                    />
-                  </>
-                ) : (
-                  <>
-                    <h2 className="text-2xl font-bold">
-                      {user.firstname} {user.lastname}
-                    </h2>
-                    <p className="text-gray-600">{user.email}</p>
-                  </>
-                )}
-              </div>
-            </div>
-            {isEditing ? (
-              <button
-                onClick={handleSave}
-                className="hover:text-primary text-foreground"
-              >
-                {saving ? '...' : <Save size={18} />}
-              </button>
-            ) : (
-              <button
-                onClick={() => setIsEditing(true)}
-                className="hover:text-primary text-foreground"
-              >
-                <Pencil size={18} />
-              </button>
-            )}
-          </div>
-        </Card>
+    <Card
+      className={cn(
+        'flex max-h-screen flex-col space-y-3 p-6',
+        'overflow-y-auto'
+      )}
+    >
+      {/* Titre */}
+      <h1 className="text-left text-2xl font-bold">Mon profil</h1>
 
-        {/* Description */}
-        <Card className="border-accent relative p-4">
-          <section>
-            <div className="mb-2 flex items-start justify-between">
-              <h3 className="text-lg font-semibold">À propos</h3>
-              {isEditing ? (
-                <button
-                  className="hover:text-primary text-gray-500"
-                  onClick={handleSave}
-                >
-                  <Save size={18} />
-                </button>
-              ) : (
-                <button
-                  className="hover:text-primary text-gray-500"
-                  onClick={() => setIsEditing(true)}
-                >
-                  <Pencil size={18} />
-                </button>
-              )}
-            </div>
-            {isEditing ? (
-              <textarea
-                className="w-full rounded-md border border-gray-300 p-2 text-gray-800"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                rows={4}
-              />
-            ) : (
-              <p className="whitespace-pre-line text-gray-700">{description}</p>
-            )}
-          </section>
-        </Card>
-
-        {/* Défis en cours */}
-        <Card className="border-accent relative p-4">
-          <section>
-            <h3 className="mb-2 text-lg font-semibold">Défis en cours</h3>
-            <div className="flex flex-wrap gap-2">
-              {user.currentChallenges.length === 0 ? (
-                <p className="text-gray-500">Aucun défi en cours</p>
-              ) : (
-                user.currentChallenges.map((challenge: any) => (
-                  <Pill key={challenge.id} className="bg-accent border-primary">
-                    {challenge.label}
-                  </Pill>
-                ))
-              )}
-            </div>
-          </section>
-        </Card>
+      {/* Avatar + Edit button */}
+      <div className="relative mx-auto mb-1 flex h-32 w-32 items-center justify-center rounded-full border-4 border-green-600 bg-white">
+        <img
+          src="https://github.com/shadcn.png"
+          alt="Avatar utilisateur"
+          className="h-28 w-28 rounded-full object-cover"
+        />
+        <button
+          onClick={() => {
+            if (isEditing) handleSave();
+            else setIsEditing(true);
+          }}
+          className="absolute right-1 bottom-1 flex h-8 w-8 items-center justify-center rounded-full bg-green-600 text-white hover:bg-green-700"
+          aria-label={isEditing ? 'Enregistrer' : 'Modifier profil'}
+        >
+          {isEditing ? <Save size={16} /> : <Pencil size={16} />}
+        </button>
       </div>
+
+      {/* Email */}
+      <div className="mx-auto mb-1 flex items-center gap-2 text-gray-600">
+        <Mail size={18} />
+        <span>{form.email}</span>
+      </div>
+
+      {/* Nom et prénom */}
+      <Card className="p-3">
+        {isEditing ? (
+          <>
+            <input
+              type="text"
+              value={form.firstname}
+              onChange={(e) => handleInputChange('firstname', e.target.value)}
+              className="mb-1 w-full border-b border-gray-300 bg-transparent text-lg font-semibold focus:outline-none"
+              placeholder="Prénom"
+            />
+            <input
+              type="text"
+              value={form.lastname}
+              onChange={(e) => handleInputChange('lastname', e.target.value)}
+              className="w-full border-b border-gray-300 bg-transparent text-lg font-semibold focus:outline-none"
+              placeholder="Nom"
+            />
+          </>
+        ) : (
+          <>
+            <p className="text-lg font-semibold">
+              {user.firstname} {user.lastname}
+            </p>
+          </>
+        )}
+      </Card>
+
+      {/* Description */}
+      <Card className="p-3">
+        <h3 className="text-muted-foreground mb-1 flex items-center gap-2 text-lg font-semibold">
+          <Quote size={16} />À propos
+        </h3>
+        {isEditing ? (
+          <textarea
+            className="w-full resize-none rounded-md border border-gray-300 p-1 text-gray-800"
+            value={form.description}
+            onChange={(e) => handleInputChange('description', e.target.value)}
+            rows={4}
+          />
+        ) : (
+          <p className="whitespace-pre-line text-gray-700">
+            {user.description}
+          </p>
+        )}
+      </Card>
+
+      {/* Stat et Challenges en cours (cards en dur) */}
+      <Card className="p-3">
+        <h3 className="mb-1 flex items-center gap-2 text-lg font-semibold">
+          <BarChart2 size={18} />
+          Statistiques
+        </h3>
+        <p>Nombre de défis réalisés : 12</p>
+        <p>Points accumulés : 320</p>
+      </Card>
+
+      <Card className="p-3">
+        <h3 className="mb-1 flex items-center gap-2 text-lg font-semibold">
+          <ClipboardList size={18} />
+          Challenges en cours
+        </h3>
+        <ul className="list-inside list-disc text-sm">
+          <li>Challenge zéro déchet</li>
+          <li>Challenge alimentation bio</li>
+          <li>Challenge économie d’énergie</li>
+        </ul>
+      </Card>
+
+      {/* Logout bouton */}
+      <Logout />
     </Card>
   );
 };

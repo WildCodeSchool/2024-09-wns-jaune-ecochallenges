@@ -127,14 +127,25 @@ export const MUTATION_LOG_OUT = gql`
   }
 `;
 
-export const UPDATE_USER = gql`
-  mutation UpdateUser($id: ID!, $data: UpdateUserInput!) {
-    updateUser(id: $id, data: $data) {
+export const GET_USER_BY_ID = gql`
+  query GetCurrentUser {
+    getCurrentUser {
       id
       firstname
       lastname
       email
       role
+      description
+    }
+  }
+`;
+
+export const UPDATE_USER = gql`
+  mutation UpdateUser($user: UpdateUserInput!) {
+    updateUser(user: $user) {
+      id
+      firstname
+      lastname
       description
     }
   }

@@ -12,6 +12,14 @@ import { User } from '@/entities';
 import * as argon from 'argon2';
 import * as jwt from 'jsonwebtoken';
 import { Response } from 'express';
+import { log } from 'console';
+
+type Test = {
+  id: any;
+  firstname: any;
+  lastname: any;
+  description: any;
+};
 
 @InputType()
 export class SignUpUserInput {
@@ -42,6 +50,9 @@ export class LoginUserInput {
 
 @InputType()
 class UpdateUserInput {
+  @Field()
+  id!: string;
+
   @Field({ nullable: true })
   firstname?: string;
 
@@ -67,6 +78,7 @@ const getProfil = (user: User) => {
 
 const verifyToken = (user: User, jwtSecret: string): string => {
   const tokenContent = {
+    id: user.id,
     email: user.email,
     firstname: user.firstname,
     lastname: user.lastname,
@@ -96,9 +108,40 @@ export class UserResolver {
     return users;
   }
 
+  @Query(() => User)
+  async getCurrentUser(@Ctx() { user }: { user: User }) {
+    const currentUser = await User.findOneByOrFail({ id: user.id });
+    return currentUser;
+  }
+
+  @Mutation(() => User)
+  async updateUser(
+    @Arg('user') userData: UpdateUserInput,
+    @Ctx() { user }: { user: User }
+  ) {
+    console.log('userData', userData);
+    console.log('user', user);
+
+    if (user.id !== userData.id) {
+      throw new GraphQLError(
+        "Vous ne pouvez pas éditer le profile d'un autre utilisateur"
+      );
+    }
+
+    const userToUpdate = await User.findOneByOrFail({ id: userData.id });
+
+    userToUpdate.firstname = userData.firstname ?? userToUpdate.firstname;
+    userToUpdate.lastname = userData.lastname ?? userToUpdate.lastname;
+    userToUpdate.description = userData.description ?? userToUpdate.description;
+
+    const updatedUser = await User.save(userToUpdate);
+
+    return updatedUser;
+  }
+
   @Mutation(() => String)
   async signUp(
-    @Arg('data') userSignUpData: SignUpUserInput,
+    @Arg('data') userInfos: SignUpUserInput,
     @Ctx() { res }: { res: Response }
   ) {
     if (!process.env.JWT_SECRET) {
@@ -107,20 +150,20 @@ export class UserResolver {
 
     try {
       const existingUser = await User.findOne({
-        where: { email: userSignUpData.email },
+        where: { email: userInfos.email },
       });
       if (existingUser) {
         throw new GraphQLError('Un compte avec cet email existe déjà');
       }
 
-      const hashedPassword = await argon.hash(userSignUpData.hashedPassword);
+      const hashedPassword = await argon.hash(userInfos.hashedPassword);
 
       const user = await User.save({
-        email: userSignUpData.email,
+        email: userInfos.email,
         hashedPassword: hashedPassword,
-        firstname: userSignUpData.firstname,
-        lastname: userSignUpData.lastname,
-        description: userSignUpData.description || '',
+        firstname: userInfos.firstname,
+        lastname: userInfos.lastname,
+        description: userInfos.description || '',
       });
 
       const access_token = verifyToken(user, process.env.JWT_SECRET);
@@ -144,7 +187,10 @@ export class UserResolver {
     }
 
     try {
+      console.log(userLogInData);
+
       const user = await User.findOneByOrFail({ email: userLogInData.email });
+      console.log(user);
 
       const isValid = await argon.verify(
         user.hashedPassword,
@@ -177,23 +223,5 @@ export class UserResolver {
       if (e instanceof GraphQLError) throw e;
       throw new GraphQLError('Erreur lors de la déconnexion.');
     }
-  }
-  @Mutation(() => User)
-  async updateUser(
-    @Arg('id') id: string,
-    @Arg('data') data: UpdateUserInput
-  ): Promise<User> {
-    const user = await User.findOne({ where: { id } });
-    if (!user) {
-      throw new GraphQLError('Utilisateur introuvable');
-    }
-
-    // Mise à jour des champs autorisés
-    if (data.firstname !== undefined) user.firstname = data.firstname;
-    if (data.lastname !== undefined) user.lastname = data.lastname;
-    if (data.description !== undefined) user.description = data.description;
-
-    await user.save();
-    return user;
   }
 }
