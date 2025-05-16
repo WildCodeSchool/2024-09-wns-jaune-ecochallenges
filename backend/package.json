@@ -7,6 +7,7 @@
     "start": "ts-node -r tsconfig-paths/register src/index.ts",
     "dev": "nodemon --exec 'ts-node -r tsconfig-paths/register' src/index.ts",
     "seed": "ts-node -r tsconfig-paths/register src/seeding/seeder.ts",
+    "test": "echo \"No tests defined for backend.\"",
     "email": "src/services/email/createTemplate.sh"
   },
   "keywords": [],

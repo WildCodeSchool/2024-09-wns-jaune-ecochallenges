@@ -2,10 +2,12 @@
 
 This service was set up to handle email sending within our project.  
 Source: [https://www.bretcameron.com/blog/sending-emails-with-nodejs-nodemailer-mjml-and-amazon-ses](https://www.bretcameron.com/blog/sending-emails-with-nodejs-nodemailer-mjml-and-amazon-ses)
+and :
+[https://react.email/](https://react.email/)
 
 ## 📂 Pre requis
 
-You need to put environnement variable in you file `.env.dev` with you email and password of your gmail acount where the sending email come from.
+You need to put environnement variables in you file `.env.dev` with you email and password of your gmail acount where the sending email come from.
 
 ```
 GOOGLE_APP_PASSWORD=
@@ -23,36 +25,73 @@ make email
 
 You will be asked to provide a name for your template in the terminal.
 It's recommended to choose a name related to the feature you're working on.
-For example, for a user signup email, you could name it signup.
+For example, for a user signup email, you could write it "signup".
+
+Then, two files'll be created :
+
+- email templs : `NameEmail.tsx`
+- class that handle to send the mail : `NameEmailSender.ts`
 
 ## ⚒️ Template configuration:
 
-Once the template folder has been created, you need to define the dynamic variables that will be injected into your `template.mjml`.
-
-To do this, open the `.ts` file generated in the folder.
+Once the template folder has been created, you need to define the dynamic props that will be injected into your `nameEmail.tsx`.
 
 Example for the onboarding template:
 
 ```ts
-interface OnboardingEmailVariables {
-  ecochallengeName: string;
-  startDate: Date;
-  endDate: Date;
-  loginUrl: string;
+export interface TestEmailProps {
+  preview: string;
+  // rest of your props
+}
+export const TestEmail = (props: TestEmailProps) => {
+  return (
+    <Html>
+      <Head>
+        <Font
+          fontFamily="Roboto"
+          fallbackFontFamily="Helvetica"
+          webFont={{
+            url: 'https://fonts.googleapis.com/css?family=Roboto:300,500',
+            format: 'woff2',
+          }}
+        />
+      </Head>
+      <Preview>
+        {props.preview} <- same kind of props injected in reactjs
+      </Preview>
+      <Body
+        style={{
+          fontFamily: 'Roboto, Helvetica, sans-serif',
+          backgroundColor: '#ffffff',
+        }}
+      >
+      </Body>
+    </Html>
+  )
 }
 ```
 
-These variables must be in the file `template.mjml`
+Check the second file named `NameEmailSender.ts` if there are any error and add the sibject of your email in the file :
 
-```mjml
-<mj-section>
-  <mj-column width="100%">
-    <mj-text align="center"
-      >Ton invitation à l'éco-challenge 🦀<strong> {{ecochallengeName}} </strong
-      >🦀</mj-text
-    >
-  </mj-column></mj-section
->
+```ts
+export class TestEmailSender extends BaseEmailT<TestEmailProps> {
+  constructor() {
+    super({
+      subject: 'Ceci est un objet de mail!',
+      emailComponent: TestEmail,
+    });
+  }
+}
+```
+
+## ✉️ Add you sender in email service:
+
+Open `emailService.ts` and add your new sender that you've just created :
+
+```ts
+class EmailService {
+  testEmail = new TestEmailSender();
+}
 ```
 
 ## ✉️ Sending the email:
@@ -66,11 +105,7 @@ import { email } from '@/services/email/emailService';
 Then inject the required variables like this:
 
 ```ts
-await email.onboarding.send('test@spam.com', {
-  ecochallengeName: 'Eco-challenge du crabe',
-  startDate: new Date(),
-  endDate: new Date(),
-  loginUrl:
-    'http://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Date',
-});
+email.testEmail.send('marcos.marjorie@hotmail.fr', { preview: 'lalalal ' });
 ```
+
+Congrats, you've just send your first email from this project 🤩

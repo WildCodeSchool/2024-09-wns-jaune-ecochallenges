@@ -1,9 +1,7 @@
 import { ChallengeCreatedEmailSender } from './templates/challengeCreated/challengeCreatedEmailSender';
-import { InvitationEmailSender } from './templates/onboarding/invitationEmailSender';
-import { WelcomeEmailSender } from './templates/welcome/welcomeEmailSender';
+import { InvitationEmailSender } from './templates/invitation/invitationEmailSender';
 
 class EmailService {
-  welcomeEmail = new WelcomeEmailSender();
   invitationEmail = new InvitationEmailSender();
   challengeCreatedEmail = new ChallengeCreatedEmailSender();
 }
