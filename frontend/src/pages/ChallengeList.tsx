@@ -63,7 +63,7 @@ export const ChallengeList = () => {
               </AccordionTrigger>
               {managedChallenges.length > 0 && (
                 <AccordionContent>
-                  <ul className="flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-3 xl:grid-cols-3 xl:gap-4">
+                  <ul className="flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-3 lg:grid-cols-3 xl:grid-cols-4 xl:gap-4">
                     {managedChallenges.map((challenge) => (
                       <li key={challenge.id}>
                         <ChallengeCard
@@ -82,7 +82,7 @@ export const ChallengeList = () => {
               </AccordionTrigger>
               {participatedChallenges.length > 0 && (
                 <AccordionContent>
-                  <ul className="flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-3 xl:grid-cols-3 xl:gap-4">
+                  <ul className="flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-3 lg:grid-cols-3 xl:grid-cols-4 xl:gap-4">
                     {participatedChallenges.map((challenge) => (
                       <li key={challenge.id}>
                         <ChallengeCard
@@ -103,7 +103,7 @@ export const ChallengeList = () => {
           </AccordionTrigger>
           {openChallenges.length > 0 && (
             <AccordionContent>
-              <ul className="flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-3 xl:grid-cols-3 xl:gap-4">
+              <ul className="flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-3 lg:grid-cols-3 xl:grid-cols-4 xl:gap-4">
                 {openChallenges.map((challenge) => (
                   <li key={challenge.id}>
                     <ChallengeCard key={challenge.id} challenge={challenge} />
