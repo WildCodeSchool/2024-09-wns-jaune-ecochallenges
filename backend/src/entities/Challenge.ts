@@ -5,16 +5,17 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
-import { Action } from './Action';
+import { Action, User } from '@/entities';
 
 @Entity()
 @ObjectType()
 export class Challenge extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Field((_type) => ID)
+  @Field(() => ID)
   id!: string;
 
   @Field()
@@ -38,6 +39,10 @@ export class Challenge extends BaseEntity {
   endDate!: Date;
 
   @Field()
+  @Column({ type: 'boolean', default: true })
+  isPublic!: boolean;
+
+  @Field()
   @CreateDateColumn()
   createdAt!: Date;
 
@@ -45,4 +50,13 @@ export class Challenge extends BaseEntity {
   @ManyToMany(() => Action, (action) => action.challenges)
   @JoinTable()
   actions?: Action[];
+
+  @Field(() => [User])
+  @ManyToMany(() => User, (user) => user.participatedChallenges)
+  @JoinTable()
+  members?: User[];
+
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.createdChallenges)
+  owner?: User;
 }

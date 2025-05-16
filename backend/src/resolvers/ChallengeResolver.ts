@@ -1,5 +1,6 @@
 import {
   Arg,
+  Ctx,
   Field,
   ID,
   InputType,
@@ -7,7 +8,7 @@ import {
   Query,
   Resolver,
 } from 'type-graphql';
-import { Action, Challenge } from '@/entities';
+import { Action, Challenge, User, UserRole } from '@/entities';
 import { In } from 'typeorm';
 
 @InputType()
@@ -32,38 +33,59 @@ class ChallengeInput {
 
   @Field(() => [ID])
   actions?: Action[];
+
+  @Field(() => [ID])
+  members?: User[];
 }
 
 @Resolver(Challenge)
 export class ChallengeResolver {
   @Query(() => [Challenge])
-  async getChallenges(): Promise<Challenge[]> {
+  async getChallenges(@Ctx() { user }: { user: User }): Promise<Challenge[]> {
     const challenges = await Challenge.find({
-      relations: ['actions', 'actions.tags'],
+      relations: ['actions', 'actions.tags', 'members', 'owner'],
     });
-    return challenges;
+
+    return challenges.filter((challenge) => {
+      if (challenge.isPublic) return true;
+      if (user)
+        return challenge.members?.some((member) => member.id === user.id);
+    });
   }
 
   @Query(() => Challenge)
   async getChallenge(@Arg('id', () => ID) id: string): Promise<Challenge> {
     const challenge = await Challenge.findOneOrFail({
       where: { id },
-      relations: ['actions'],
+      relations: ['actions', 'members', 'owner'],
     });
     return challenge;
   }
 
   @Mutation(() => Challenge)
-  async createChallenge(@Arg('data') data: ChallengeInput) {
+  async createChallenge(
+    @Arg('data') data: ChallengeInput,
+    @Ctx() { user }: { user: User }
+  ) {
     try {
       let challenge = new Challenge();
       challenge = Object.assign(challenge, data);
+      challenge.owner = user;
+
       if (data.actions && data.actions.length) {
         const actions = await Action.findBy({ id: In(data.actions) });
         challenge.actions = actions;
       } else {
         challenge.actions = [];
       }
+
+      if (data.members && data.members.length) {
+        const members = await User.findBy({ id: In(data.members) });
+        challenge.members = members;
+      } else {
+        challenge.members = [];
+      }
+
       await challenge.save();
       return challenge;
     } catch (err) {
@@ -74,17 +96,36 @@ export class ChallengeResolver {
   @Mutation(() => Challenge)
   async updateChallenge(
     @Arg('id', () => ID) id: string,
-    @Arg('data') data: ChallengeInput
+    @Arg('data') data: ChallengeInput,
+    @Ctx() { user }: { user: User }
   ): Promise<Challenge> {
     try {
-      const challenge = await Challenge.findOneOrFail({ where: { id } });
+      const challenge = await Challenge.findOneOrFail({
+        where: { id },
+        relations: ['owner'],
+      });
+      if (challenge.owner?.id !== user.id && user.role !== UserRole.ADMIN) {
+        throw new Error(
+          `Vous n'avez pas les droits pour modifier ce challenge: challenge.owner.id: ${challenge.owner?.id} !== user.id: ${user.id}`
+        );
+      }
+
       Object.assign(challenge, data);
+
       if (data.actions && data.actions.length) {
         const actions = await Action.findBy({ id: In(data.actions) });
         challenge.actions = actions;
       } else {
         challenge.actions = [];
       }
+
+      if (data.members?.length) {
+        const members = await User.findBy({ id: In(data.members) });
+        challenge.members = members;
+      } else {
+        challenge.members = [];
+      }
+
       await challenge.save();
       return challenge;
     } catch (err) {

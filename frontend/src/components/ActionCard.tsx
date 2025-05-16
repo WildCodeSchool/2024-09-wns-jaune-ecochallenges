@@ -11,7 +11,7 @@ import {
 import { Pill } from '@/components';
 import {
   BookmarkCheck,
-  BookmarkMinus,
+  BookmarkPlus,
   Ellipsis,
   ImagePlus,
   Leaf,
@@ -19,7 +19,6 @@ import {
   Sprout,
   TreePalm,
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 type ActionCardProps = {
   action: Omit<Action, 'challenges'>;
@@ -76,7 +75,7 @@ export const ActionCard = ({
     <article className="h-full">
       <Card
         data-testid="action-card"
-        className={cn('h-full justify-between gap-2 py-2')}
+        className={'h-full justify-between gap-2 py-2'}
       >
         <CardHeader className="flex w-full flex-col">
           <CardTitle className="text-lg font-bold">{action.name}</CardTitle>
@@ -121,18 +120,13 @@ export const ActionCard = ({
               type="button"
               variant="ghost"
               className="hover:bg-transparent hover:opacity-100"
+              data-testid="action-card-button"
               onClick={onClick}
             >
               {isSelected ? (
-                <BookmarkCheck
-                  data-testid="action-card-button"
-                  className="size-7"
-                />
+                <BookmarkCheck className="fill-accent size-8" />
               ) : (
-                <BookmarkMinus
-                  data-testid="action-card-button"
-                  className="size-7"
-                />
+                <BookmarkPlus className="size-7" />
               )}
             </Button>
           </div>
