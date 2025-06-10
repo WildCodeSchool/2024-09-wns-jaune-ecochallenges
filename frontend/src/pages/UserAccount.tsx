@@ -76,17 +76,10 @@ export const UserAccount = () => {
   if (!user) return <p>Aucun utilisateur trouvé</p>;
 
   return (
-    <Card
-      className={cn(
-        'flex max-h-screen flex-col space-y-3 p-6',
-        'overflow-y-auto'
-      )}
-    >
-      {/* Titre */}
+    <>
       <h1 className="text-left text-2xl font-bold">Mon profil</h1>
 
-      {/* Avatar + Edit button */}
-      <div className="relative mx-auto mb-1 flex h-32 w-32 items-center justify-center rounded-full border-4 border-green-600 bg-white">
+      <div className="relative mx-auto mt-4 mb-1 flex h-32 w-32 items-center justify-center rounded-full border-4 border-green-600 bg-white">
         <img
           src="https://github.com/shadcn.png"
           alt="Avatar utilisateur"
@@ -103,15 +96,12 @@ export const UserAccount = () => {
           {isEditing ? <Save size={16} /> : <Pencil size={16} />}
         </button>
       </div>
-
-      {/* Email */}
       <div className="mx-auto mb-1 flex items-center gap-2 text-gray-600">
         <Mail size={18} />
         <span>{form.email}</span>
       </div>
-
-      {/* Nom et prénom */}
-      <Card className="p-3">
+      <Card className="mt-4 p-3">
+        {' '}
         {isEditing ? (
           <>
             <input
@@ -137,9 +127,8 @@ export const UserAccount = () => {
           </>
         )}
       </Card>
-
-      {/* Description */}
-      <Card className="p-3">
+      <Card className="mt-4 p-3">
+        {' '}
         <h3 className="text-muted-foreground mb-1 flex items-center gap-2 text-lg font-semibold">
           <Quote size={16} />À propos
         </h3>
@@ -156,9 +145,8 @@ export const UserAccount = () => {
           </p>
         )}
       </Card>
-
-      {/* Stat et Challenges en cours (cards en dur) */}
-      <Card className="p-3">
+      <Card className="mt-4 p-3">
+        {' '}
         <h3 className="mb-1 flex items-center gap-2 text-lg font-semibold">
           <BarChart2 size={18} />
           Statistiques
@@ -166,8 +154,8 @@ export const UserAccount = () => {
         <p>Nombre de défis réalisés : 12</p>
         <p>Points accumulés : 320</p>
       </Card>
-
-      <Card className="p-3">
+      <Card className="mt-4 mb-4 p-3">
+        {' '}
         <h3 className="mb-1 flex items-center gap-2 text-lg font-semibold">
           <ClipboardList size={18} />
           Challenges en cours
@@ -178,10 +166,8 @@ export const UserAccount = () => {
           <li>Challenge économie d’énergie</li>
         </ul>
       </Card>
-
-      {/* Logout bouton */}
       <Logout />
-    </Card>
+    </>
   );
 };
 
