@@ -5,10 +5,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import argon2 from 'argon2';
+import { Challenge } from '@/entities';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -49,6 +52,14 @@ export class User extends BaseEntity {
     default: UserRole.USER,
   })
   role!: UserRole;
+
+  @Field(() => [Challenge])
+  @ManyToMany(() => Challenge, (challenge) => challenge.members)
+  participatedChallenges?: Challenge[];
+
+  @Field(() => [Challenge])
+  @OneToMany(() => Challenge, (challenge) => challenge.owner)
+  createdChallenges?: Challenge[];
 
   @Field()
   @Column({ nullable: true })

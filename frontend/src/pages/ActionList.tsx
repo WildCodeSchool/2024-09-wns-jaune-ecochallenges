@@ -51,7 +51,7 @@ export const ActionList = () => {
   return (
     <>
       <Filterbar filters={filters} setFilters={setFilters} />
-      <ul className="flex flex-col gap-1 sm:grid sm:grid-cols-3 md:gap-3 xl:grid-cols-4 xl:gap-4">
+      <ul className="flex flex-col gap-2 sm:grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-3 xl:grid-cols-4 xl:gap-4">
         {filteredActions.length > 0
           ? filteredActions.map((action) => (
               <li key={action.id}>

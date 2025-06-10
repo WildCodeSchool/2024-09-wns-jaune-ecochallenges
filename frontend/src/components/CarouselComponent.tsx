@@ -38,7 +38,7 @@ export const CarouselComponent = <T,>({
   }, [api, count]);
 
   return (
-    <div className="mx-auto max-w-xl">
+    <div className="mx-auto max-w-lg">
       <Carousel
         opts={{
           loop: true,

@@ -10,7 +10,7 @@ export const Pill = ({ children, className, ...props }: PillProps) => {
     <div
       data-testid="pill"
       className={cn(
-        'text-text-primary bg-primary/50 border-primary/70 flex h-[24px] w-auto items-center justify-center overflow-hidden rounded-lg border-1 p-1 text-sm shadow-sm sm:p-3',
+        'text-secondary-foreground bg-secondary border-border flex h-[24px] w-auto items-center justify-center overflow-hidden rounded-lg border-1 p-1 text-sm shadow-sm sm:p-3',
         className
       )}
       {...props}

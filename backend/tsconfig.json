@@ -11,6 +11,7 @@
     "outDir": "./dist",
     "resolveJsonModule": true,
     "baseUrl": ".",
+    "jsx": "react",
     "paths": {
       "@/*": ["./src/*"]
     }
