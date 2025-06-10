@@ -26,6 +26,7 @@ describe('Example tests', () => {
           requires_view: true,
           time: 1,
           createdAt: '2021-01-01',
+          challenges: [],
         }}
       />
     );

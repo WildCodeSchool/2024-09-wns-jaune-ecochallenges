@@ -1,21 +1,22 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui';
-import { TrophyIcon, Leaf, HomeIcon, UserRound, BarChart3 } from 'lucide-react';
+import { TrophyIcon, Leaf, HomeIcon, BarChart3 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
+import { AccountDropdown } from './AccountDropdown';
 
 const navItems = [
   { to: '/challenges', icon: TrophyIcon, label: 'Challenges' },
   { to: '/actions', icon: Leaf, label: 'Actions' },
   { to: '/', icon: HomeIcon, label: 'Home' },
   { to: '/stats', icon: BarChart3, label: 'Stats' },
-  { to: '/user', icon: UserRound, label: 'User' },
 ] as const;
 
 export const Navbar = () => {
   const location = useLocation();
 
   return (
-    <nav className="h-navbar bg-sidebar text-sidebar-foreground fixed bottom-0 z-50 flex w-full items-center justify-around rounded-t-2xl px-2 md:justify-around">
+    <nav className="h-navbar bg-sidebar text-sidebar-foreground fixed bottom-0 z-50 flex w-full items-center justify-around rounded-t-2xl px-2 sm:hidden">
       {navItems.map(({ to, icon: Icon, label }) => {
         const isActive = location.pathname === to;
 
@@ -37,6 +38,8 @@ export const Navbar = () => {
           </Button>
         );
       })}
+
+      <AccountDropdown />
     </nav>
   );
 };

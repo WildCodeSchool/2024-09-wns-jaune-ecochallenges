@@ -69,7 +69,7 @@ export const Signup = ({ onToggleForm }: SignupProps) => {
                     id="firstname"
                     placeholder="Entrez votre prénom"
                     autoComplete="given-name"
-                    className="border-2 border-black bg-[var(--color-input)] text-[var(--color-foreground)] outline-transparent placeholder:text-gray-400 focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)]"
+                    className="bg-input border-foreground"
                     {...field}
                   />
                 </FormControl>
@@ -89,7 +89,7 @@ export const Signup = ({ onToggleForm }: SignupProps) => {
                     id="lastname"
                     placeholder="Doe"
                     autoComplete="family-name"
-                    className="border-2 border-black bg-[var(--color-input)] text-[var(--color-foreground)] placeholder:text-gray-400 focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)]"
+                    className="bg-input border-foreground"
                     {...field}
                   />
                 </FormControl>
@@ -110,7 +110,7 @@ export const Signup = ({ onToggleForm }: SignupProps) => {
                     placeholder="johndoe@mail.com"
                     type="email"
                     autoComplete="email"
-                    className="border-2 border-black bg-[var(--color-input)] text-[var(--color-foreground)] placeholder:text-gray-400 focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)]"
+                    className="bg-input border-foreground"
                     {...field}
                   />
                 </FormControl>
@@ -130,7 +130,7 @@ export const Signup = ({ onToggleForm }: SignupProps) => {
                     id="password"
                     placeholder="******"
                     autoComplete="new-password"
-                    className="border-2 border-black bg-[var(--color-input)] text-[var(--color-foreground)] placeholder:text-gray-400 focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)]"
+                    className="bg-input border-foreground"
                     {...field}
                   />
                 </FormControl>
@@ -152,7 +152,7 @@ export const Signup = ({ onToggleForm }: SignupProps) => {
                     id="confirmPassword"
                     placeholder="******"
                     autoComplete="new-password"
-                    className="border-2 border-black bg-[var(--color-input)] text-[var(--color-foreground)] placeholder:text-gray-400 focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)]"
+                    className="bg-input border-foreground"
                     {...field}
                   />
                 </FormControl>

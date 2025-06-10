@@ -51,6 +51,7 @@ const getProfil = (user: User) => {
 
 const verifyToken = (user: User, jwtSecret: string): string => {
   const tokenContent = {
+    id: user.id,
     email: user.email,
     firstname: user.firstname,
     lastname: user.lastname,
