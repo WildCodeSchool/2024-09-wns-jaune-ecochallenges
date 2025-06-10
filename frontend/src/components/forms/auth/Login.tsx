@@ -62,6 +62,7 @@ export const Login = () => {
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <FormControl>
                   <Input
+                    className="bg-input border-foreground"
                     id="email"
                     placeholder="johndoe@mail.com"
                     type="email"
@@ -84,6 +85,7 @@ export const Login = () => {
                     id="password"
                     placeholder="******"
                     autoComplete="current-password"
+                    className="bg-input border-foreground"
                     {...field}
                   />
                 </FormControl>
@@ -92,7 +94,9 @@ export const Login = () => {
             )}
           />
           {errorMessage && (
-            <p className="text-center text-sm text-red-500">{errorMessage}</p>
+            <p className="text-destructive text-center text-sm">
+              {errorMessage}
+            </p>
           )}
           <Button type="submit" className="w-full">
             Se connecter

@@ -51,13 +51,15 @@ export const ActionList = () => {
   return (
     <>
       <Filterbar filters={filters} setFilters={setFilters} />
-      <div className="flex flex-col items-center gap-3 text-center lg:flex-row lg:flex-wrap lg:justify-center">
+      <ul className="flex flex-col gap-2 sm:grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-3 xl:grid-cols-4 xl:gap-4">
         {filteredActions.length > 0
           ? filteredActions.map((action) => (
-              <ActionCard key={action.id} action={action} />
+              <li key={action.id}>
+                <ActionCard action={action} />
+              </li>
             ))
           : 'Aucun éco geste trouvé avec ces filtres'}
-      </div>
+      </ul>
     </>
   );
 };

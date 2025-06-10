@@ -17,7 +17,7 @@ export const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
 
   return (
     <article className="h-full">
-      <Link to={`/challenge/${challenge.id}/edit`}>
+      <Link to={`/challenge/${challenge.id}`}>
         <Card className={cn('relative h-full justify-between')}>
           <CardHeader className="overflow-hidden">
             <img
@@ -26,7 +26,7 @@ export const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
               className="absolute top-0 left-0 z-0 h-16 w-full rounded-t-lg"
             />
 
-            <CardTitle className="text-secondary absolute top-0 left-0 z-10 flex h-16 w-full items-center justify-center rounded-t-lg backdrop-blur-[4px] text-shadow-black/30 text-shadow-lg">
+            <CardTitle className="text-primary-foreground absolute top-0 left-0 z-10 flex h-16 w-full items-center justify-center rounded-t-lg backdrop-blur-[4px] text-shadow-black/30 text-shadow-lg">
               <h2>{challenge.label}</h2>
             </CardTitle>
           </CardHeader>
@@ -39,8 +39,8 @@ export const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
 
           <CardFooter className="block w-full space-y-2">
             <ul className="flex w-full flex-wrap gap-2">
-              {getUniqueTagsFromActions(challenge.actions ?? []).map((tag) => (
-                <li key={tag?.id}>
+              {getUniqueTagsFromActions(challenge.actions).map((tag) => (
+                <li key={`${challenge.id}-${tag?.id}`}>
                   <Pill>
                     <span className="mr-1 text-lg">{tag?.icon}</span>
                     {tag?.name}

@@ -63,7 +63,10 @@ export type Challenge = {
   description?: Maybe<Scalars['String']['output']>;
   endDate: Scalars['DateTimeISO']['output'];
   id: Scalars['ID']['output'];
+  isPublic: Scalars['Boolean']['output'];
   label: Scalars['String']['output'];
+  members: Array<User>;
+  owner: User;
   startDate: Scalars['DateTimeISO']['output'];
 };
 
@@ -74,6 +77,7 @@ export type ChallengeInput = {
   endDate: Scalars['DateTimeISO']['input'];
   id?: InputMaybe<Scalars['String']['input']>;
   label: Scalars['String']['input'];
+  members: Array<Scalars['ID']['input']>;
   startDate: Scalars['DateTimeISO']['input'];
 };
 
@@ -88,6 +92,7 @@ export type Mutation = {
   createdAction: Action;
   deleteChallenge: Scalars['Boolean']['output'];
   logIn: Scalars['String']['output'];
+  logOut: Scalars['Boolean']['output'];
   signUp: Scalars['String']['output'];
   updateChallenge: Challenge;
 };
@@ -153,11 +158,13 @@ export type Tag = {
 export type User = {
   __typename?: 'User';
   createdAt: Scalars['DateTimeISO']['output'];
+  createdChallenges: Array<Challenge>;
   email: Scalars['String']['output'];
   firstname: Scalars['String']['output'];
   hashedPassword: Scalars['String']['output'];
   id: Scalars['String']['output'];
   lastname: Scalars['String']['output'];
+  participatedChallenges: Array<Challenge>;
   role: Scalars['String']['output'];
 };
 
@@ -191,7 +198,10 @@ export type GetChallengesAsChallengeQuery = {
     startDate: any;
     endDate: any;
     createdAt: any;
-    actions?: Array<{
+    isPublic: boolean;
+    owner: { __typename?: 'User'; id: string };
+    members: Array<{ __typename?: 'User'; id: string }>;
+    actions: Array<{
       __typename?: 'Action';
       id: string;
       name: string;
@@ -225,7 +235,9 @@ export type GetChallengeQuery = {
     bannerUrl?: string | null;
     startDate: any;
     endDate: any;
-    actions?: Array<{
+    owner: { __typename?: 'User'; id: string };
+    members: Array<{ __typename?: 'User'; id: string }>;
+    actions: Array<{
       __typename?: 'Action';
       id: string;
       tags?: Array<{
@@ -312,6 +324,10 @@ export type LogInMutationVariables = Exact<{
 }>;
 
 export type LogInMutation = { __typename?: 'Mutation'; logIn: string };
+
+export type LogOutMutationVariables = Exact<{ [key: string]: never }>;
+
+export type LogOutMutation = { __typename?: 'Mutation'; logOut: boolean };
 
 export const GetUsersAsUserDocument = gql`
   query GetUsersAsUser {
@@ -405,6 +421,13 @@ export const GetChallengesAsChallengeDocument = gql`
       startDate
       endDate
       createdAt
+      isPublic
+      owner {
+        id
+      }
+      members {
+        id
+      }
       actions {
         id
         name
@@ -502,6 +525,12 @@ export const GetChallengeDocument = gql`
       bannerUrl
       startDate
       endDate
+      owner {
+        id
+      }
+      members {
+        id
+      }
       actions {
         id
         tags {
@@ -984,4 +1013,48 @@ export type LogInMutationResult = Apollo.MutationResult<LogInMutation>;
 export type LogInMutationOptions = Apollo.BaseMutationOptions<
   LogInMutation,
   LogInMutationVariables
+>;
+export const LogOutDocument = gql`
+  mutation LogOut {
+    logOut
+  }
+`;
+export type LogOutMutationFn = Apollo.MutationFunction<
+  LogOutMutation,
+  LogOutMutationVariables
+>;
+
+/**
+ * __useLogOutMutation__
+ *
+ * To run a mutation, you first call `useLogOutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogOutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logOutMutation, { data, loading, error }] = useLogOutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogOutMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    LogOutMutation,
+    LogOutMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<LogOutMutation, LogOutMutationVariables>(
+    LogOutDocument,
+    options
+  );
+}
+export type LogOutMutationHookResult = ReturnType<typeof useLogOutMutation>;
+export type LogOutMutationResult = Apollo.MutationResult<LogOutMutation>;
+export type LogOutMutationOptions = Apollo.BaseMutationOptions<
+  LogOutMutation,
+  LogOutMutationVariables
 >;

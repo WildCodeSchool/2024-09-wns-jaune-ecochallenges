@@ -17,11 +17,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui';
-import { Step1Init, Step2Actions } from '@/components/forms/challenge';
+import {
+  Step1Init,
+  Step2Actions,
+  Step3Members,
+} from '@/components/forms/challenge';
 import { GET_CHALLENGE, GET_CHALLENGES } from '@/lib/graphql/operations';
 import {
   useCreateChallengeMutation,
-  useGetActionsQuery,
   useGetChallengeQuery,
   useUpdateChallengeMutation,
   useDeleteChallengeMutation,
@@ -54,6 +57,7 @@ const formSchema = z
       }),
     }),
     actions: z.array(z.string()),
+    members: z.array(z.string()),
   })
   .refine((data) => data.dateRange.to > data.dateRange.from, {
     message: 'La date de fin doit être postérieure à la date de début',
@@ -65,16 +69,18 @@ type FormType = z.infer<typeof formSchema>;
 export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('step1');
-  const actionsQuery = useGetActionsQuery();
   const [createChallenge] = useCreateChallengeMutation({
     refetchQueries: [
       {
         query: GET_CHALLENGES,
       },
     ],
-    onCompleted: () => {
-      //! TODO: redirect to the challenge page
-      navigate(`/challenges`);
+    onCompleted: (data) => {
+      toast.success('Challenge créé avec succès');
+      navigate(`/challenge/${data.createChallenge.id}`);
+    },
+    onError: () => {
+      toast.error('Erreur lors de la création du challenge');
     },
   });
   const [updateChallenge] = useUpdateChallengeMutation({
@@ -84,9 +90,12 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
         variables: { id: challengeId },
       },
     ],
-    onCompleted: () => {
-      //! TODO: redirect to the challenge page
-      navigate(`/challenges`);
+    onCompleted: (data) => {
+      toast.success('Challenge modifié avec succès');
+      navigate(`/challenge/${data.updateChallenge.id}`);
+    },
+    onError: () => {
+      toast.error('Erreur lors de la modification du challenge');
     },
   });
   const [deleteChallenge] = useDeleteChallengeMutation({
@@ -114,7 +123,8 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
         from: new Date(data.getChallenge.startDate),
         to: new Date(data.getChallenge.endDate),
       },
-      actions: data.getChallenge.actions?.map((action) => action.id) || [],
+      actions: data.getChallenge.actions.map((action) => action.id),
+      members: data.getChallenge.members.map((member) => member.id),
     },
     defaultValues: {
       label: '',
@@ -125,42 +135,33 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
         to: undefined,
       },
       actions: [],
+      members: [],
     },
   });
 
   const onSubmit = async (formData: FormType) => {
-    try {
-      const challengeData = {
-        label: formData.label,
-        ...(formData.description && { description: formData.description }),
-        ...(formData.bannerURL && { bannerUrl: formData.bannerURL }),
-        startDate: formData.dateRange.from.toISOString(),
-        endDate: formData.dateRange.to.toISOString(),
-        actions: formData.actions,
-      };
+    const challengeData = {
+      label: formData.label,
+      ...(formData.description && { description: formData.description }),
+      ...(formData.bannerURL && { bannerUrl: formData.bannerURL }),
+      startDate: formData.dateRange.from.toISOString(),
+      endDate: formData.dateRange.to.toISOString(),
+      actions: formData.actions,
+      members: formData.members,
+    };
 
-      const response = await (challengeId
-        ? updateChallenge({
-            variables: {
-              id: challengeId,
-              data: challengeData,
-            },
-          })
-        : createChallenge({
-            variables: {
-              data: challengeData,
-            },
-          }));
-
-      if (response.errors) throw new Error(response.errors[0].message);
-      toast.success(
-        `Challenge ${challengeId ? 'modifié' : 'créé'} avec succès`
-      );
-    } catch (error) {
-      toast.error(
-        `Erreur lors de la ${challengeId ? 'modification' : 'création'} du challenge`
-      );
-    }
+    challengeId
+      ? updateChallenge({
+          variables: {
+            id: challengeId,
+            data: challengeData,
+          },
+        })
+      : createChallenge({
+          variables: {
+            data: challengeData,
+          },
+        });
   };
 
   const onError = (errors: typeof form.formState.errors) => {
@@ -217,10 +218,10 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
             <Step1Init />
           </TabsContent>
           <TabsContent value="step2" className="">
-            <Step2Actions actionsQuery={actionsQuery} />
+            <Step2Actions />
           </TabsContent>
           <TabsContent value="step3">
-            <p>Coming soon...</p>
+            <Step3Members />
           </TabsContent>
         </Tabs>
 

@@ -16,8 +16,8 @@ const mockedTags = [
     result: {
       data: {
         getAllTags: [
-          { id: '1', name: 'Recyclage' },
-          { id: '2', name: 'Énergie Verte' },
+          { id: '1', name: 'Recyclage', icon: '♻️' },
+          { id: '2', name: 'Énergie Verte', icon: '⚡' },
         ],
       },
     },
@@ -26,6 +26,9 @@ const mockedTags = [
 
 describe('Filter bar component tests', () => {
   const mockFilters: Filters = {
+    tags: new Set<string>(),
+    difficulties: new Set<number>(),
+    durations: new Set<number>(),
     search: '',
     tags: new Set(),
     durations: new Set(),

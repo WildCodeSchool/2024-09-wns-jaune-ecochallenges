@@ -116,14 +116,14 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
       className="mx-auto flex max-w-screen-lg flex-col gap-3 p-5"
     >
       <div className="relative w-full">
-        <span className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400">
+        <span className="text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2">
           <Search className="h-4 w-4" />
         </span>
         <Input
           data-testid="search-input"
           type="text"
           placeholder="Rechercher..."
-          className="w-full rounded-md border border-gray-300 py-2 pr-4 pl-10"
+          className="w-full py-2 pr-4 pl-10"
           onChange={(e) => setFilters({ ...filters, search: e.target.value })}
         />
       </div>
@@ -155,7 +155,7 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
                       {tag.name}
                     </div>
                     {filters.tags.has(tag.name) && (
-                      <Check className="h-4 w-4 text-emerald-500" />
+                      <Check className="text-primary h-4 w-4" />
                     )}
                   </CommandItem>
                 ))}
@@ -190,7 +190,7 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
                     <difficulty.icon className={difficulty.className} />
                     {difficulty.label}
                     {filters.difficulties.has(difficulty.value) && (
-                      <Check className="h-4 w-4 text-emerald-500" />
+                      <Check className="text-primary h-4 w-4" />
                     )}
                   </CommandItem>
                 ))}
@@ -224,7 +224,7 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
                   >
                     {duration.label}
                     {filters.durations.has(duration.value) && (
-                      <Check className="h-4 w-4 text-emerald-500" />
+                      <Check className="text-primary h-4 w-4" />
                     )}
                   </CommandItem>
                 ))}

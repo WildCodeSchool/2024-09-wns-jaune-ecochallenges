@@ -11,17 +11,14 @@ import {
 } from '@/components/ui';
 import {
   Action,
-  GetActionsQueryHookResult,
+  useGetActionsQuery,
 } from '@/lib/graphql/generated/graphql-types';
 import { CircleCheck, CirclePlus, CircleX, Trash } from 'lucide-react';
 import { useFormContext } from 'react-hook-form';
 
-export const Step2Actions = ({
-  actionsQuery: { data, loading, error },
-}: {
-  actionsQuery: GetActionsQueryHookResult;
-}) => {
+export const Step2Actions = () => {
   const form = useFormContext();
+  const { data, loading, error } = useGetActionsQuery();
   const selectedActionIds = form.watch('actions') || [];
 
   if (!data?.getActions) return <p role="alert">Aucun éco-gestes trouvé</p>;
@@ -108,15 +105,17 @@ export const Step2Actions = ({
             </div>
 
             {selectedActions.length > 0 && (
-              <AccordionContent className="flex flex-col flex-wrap items-center justify-center gap-4 text-center xl:flex-row">
+              <AccordionContent className="flex flex-col gap-1 sm:grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-3 xl:grid-cols-4 xl:gap-4">
                 {selectedActions.map((action) => (
                   <FormItem key={action.id}>
                     <FormControl>
-                      <ActionCard
-                        action={action}
-                        isSelected={true}
-                        onClick={() => handleActionClick(action, true)}
-                      />
+                      <div className="max-w-full overflow-hidden">
+                        <ActionCard
+                          action={action}
+                          isSelected={true}
+                          onClick={() => handleActionClick(action, true)}
+                        />
+                      </div>
                     </FormControl>
                   </FormItem>
                 ))}
@@ -132,15 +131,17 @@ export const Step2Actions = ({
               </div>
             </AccordionTrigger>
 
-            <AccordionContent className="flex flex-col flex-wrap items-center justify-center gap-4 text-center xl:flex-row">
+            <AccordionContent className="flex flex-col gap-1 sm:grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-3 xl:grid-cols-4 xl:gap-4">
               {availableActions.map((action) => (
                 <FormItem key={action.id}>
                   <FormControl>
-                    <ActionCard
-                      action={action}
-                      isSelected={false}
-                      onClick={() => handleActionClick(action, false)}
-                    />
+                    <div className="max-w-full overflow-hidden">
+                      <ActionCard
+                        action={action}
+                        isSelected={false}
+                        onClick={() => handleActionClick(action, false)}
+                      />
+                    </div>
                   </FormControl>
                 </FormItem>
               ))}

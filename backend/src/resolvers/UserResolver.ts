@@ -51,6 +51,7 @@ const getProfil = (user: User) => {
 
 const verifyToken = (user: User, jwtSecret: string): string => {
   const tokenContent = {
+    id: user.id,
     email: user.email,
     firstname: user.firstname,
     lastname: user.lastname,
@@ -148,6 +149,17 @@ export class UserResolver {
       throw new GraphQLError(
         'Échec de la connexion. Vérifiez vos identifiants.'
       );
+    }
+  }
+
+  @Mutation(() => Boolean)
+  async logOut(@Ctx() { res }: { res: Response }) {
+    try {
+      res.clearCookie('access_token');
+      return true;
+    } catch (e) {
+      if (e instanceof GraphQLError) throw e;
+      throw new GraphQLError('Erreur lors de la déconnexion.');
     }
   }
 }

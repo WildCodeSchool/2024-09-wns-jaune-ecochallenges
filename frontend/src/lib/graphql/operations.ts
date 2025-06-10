@@ -23,6 +23,13 @@ export const GET_CHALLENGES = gql`
       startDate
       endDate
       createdAt
+      isPublic
+      owner {
+        id
+      }
+      members {
+        id
+      }
       actions {
         id
         name
@@ -51,6 +58,12 @@ export const GET_CHALLENGE = gql`
       bannerUrl
       startDate
       endDate
+      owner {
+        id
+      }
+      members {
+        id
+      }
       actions {
         id
         tags {
@@ -123,5 +136,11 @@ export const MUTATION_SIGN_UP = gql`
 export const MUTATION_LOG_IN = gql`
   mutation LogIn($data: LoginUserInput!) {
     logIn(data: $data)
+  }
+`;
+
+export const MUTATION_LOG_OUT = gql`
+  mutation LogOut {
+    logOut
   }
 `;
