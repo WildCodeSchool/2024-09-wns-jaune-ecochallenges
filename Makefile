@@ -76,6 +76,9 @@ shell-frontend: ## Open a shell in the frontend container
 seed: ## Seed the database
 	@docker exec -it backend-eco sh -c "npm run seed"
 
+email: ## Create a new template for sending email
+	@cd backend && npm run email
+
 codegen: ## Generate GraphQL types and hooks
 	@echo "$(GREEN)Generating GraphQL types...$(NC)"
 	@cd frontend && npm run codegen

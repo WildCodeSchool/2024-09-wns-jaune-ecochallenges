@@ -1,5 +1,7 @@
+export * from './AccountDropdown';
 export * from './ActionCard';
 export * from './ChallengeCard';
+export * from './DesktopNavbarComponent';
 export * from './Navbar';
 export * from './Pill';
 export * from './ChallengeCarouselCard';
@@ -7,4 +9,5 @@ export * from './CarouselComponent';
 export * from './Filterbar';
 export * from './MyUserCard';
 export * from './PasswordInput';
+export * from './UserAcount';
 export * from './UserCard';
