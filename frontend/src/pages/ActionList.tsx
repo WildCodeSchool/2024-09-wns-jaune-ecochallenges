@@ -4,7 +4,13 @@ import {
 } from '@/lib/graphql/generated/graphql-types';
 import { ActionCard, Filterbar, Filters } from '@/components';
 import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  Button,
+} from '@/components/ui';
 import { Link } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import { useUserStore } from '@/lib/zustand/userStore';
@@ -65,35 +71,51 @@ export const ActionList = () => {
     <>
       <Filterbar filters={filters} setFilters={setFilters} />
 
-      <section className="mb-8">
-        <h2 className="mb-2 text-xl font-bold">Eco-gestes publics</h2>
-        <ul className="flex flex-col gap-1 sm:grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-3 xl:grid-cols-4 xl:gap-4">
-          {publicActions.length > 0 ? (
-            publicActions.map((action) => (
-              <li key={action.id}>
-                <ActionCard action={action} />
-              </li>
-            ))
-          ) : (
-            <li>Aucun éco-geste public trouvé avec ces filtres</li>
+      <Accordion type="multiple" defaultValue={['public', 'private']}>
+        <AccordionItem value="public">
+          <AccordionTrigger disabled={publicActions.length === 0}>
+            🌱 Eco-gestes publics
+          </AccordionTrigger>
+          {publicActions.length > 0 && (
+            <AccordionContent>
+              <ul className="flex flex-col gap-1 sm:grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-3 xl:grid-cols-4 xl:gap-4">
+                {publicActions.map((action) => (
+                  <li key={action.id}>
+                    <ActionCard action={action} />
+                  </li>
+                ))}
+              </ul>
+            </AccordionContent>
           )}
-        </ul>
-      </section>
+          {publicActions.length === 0 && (
+            <AccordionContent>
+              <li>Aucun éco-geste public trouvé avec ces filtres</li>
+            </AccordionContent>
+          )}
+        </AccordionItem>
 
-      <section>
-        <h2 className="mb-2 text-xl font-bold">Mes éco-gestes</h2>
-        <ul className="flex flex-col gap-1 sm:grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-3 xl:grid-cols-4 xl:gap-4">
-          {privateActions.length > 0 ? (
-            privateActions.map((action) => (
-              <li key={action.id}>
-                <ActionCard action={action} />
-              </li>
-            ))
-          ) : (
-            <li>Aucun éco-geste personnel trouvé avec ces filtres</li>
+        <AccordionItem value="private">
+          <AccordionTrigger disabled={privateActions.length === 0}>
+            👤 Mes éco-gestes
+          </AccordionTrigger>
+          {privateActions.length > 0 && (
+            <AccordionContent>
+              <ul className="flex flex-col gap-1 sm:grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-3 xl:grid-cols-4 xl:gap-4">
+                {privateActions.map((action) => (
+                  <li key={action.id}>
+                    <ActionCard action={action} />
+                  </li>
+                ))}
+              </ul>
+            </AccordionContent>
           )}
-        </ul>
-      </section>
+          {privateActions.length === 0 && (
+            <AccordionContent>
+              <li>Aucun éco-geste personnel trouvé avec ces filtres</li>
+            </AccordionContent>
+          )}
+        </AccordionItem>
+      </Accordion>
 
       <Button
         asChild
