@@ -5,10 +5,11 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
-import { Tag, Challenge } from '@/entities';
+import { Tag, Challenge, UserActionChallenge } from '@/entities';
 
 const levelType = {
   levelOne: 1,
@@ -22,7 +23,7 @@ const iconType = ['leaf', 'recycling', 'drop'];
 @ObjectType()
 export class Action extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Field((_type) => ID)
+  @Field(() => ID)
   id!: string;
 
   @Field()
@@ -66,4 +67,11 @@ export class Action extends BaseEntity {
   @Field(() => [Challenge])
   @ManyToMany(() => Challenge, (challenge) => challenge.actions)
   challenges?: Challenge[];
+
+  @Field(() => [UserActionChallenge])
+  @OneToMany(
+    () => UserActionChallenge,
+    (userActionChallenge) => userActionChallenge.action
+  )
+  userActionChallenges?: UserActionChallenge[];
 }

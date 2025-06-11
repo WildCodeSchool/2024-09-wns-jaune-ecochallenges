@@ -36,7 +36,7 @@ export const router = createBrowserRouter([
         element: <ChallengeList />,
       },
       {
-        path: '/challenge/:challengeId',
+        path: '/challenges/:challengeId',
         element: <ChallengePage />,
       },
       {
