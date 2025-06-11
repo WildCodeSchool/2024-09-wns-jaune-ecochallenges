@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   Ctx,
   Field,
@@ -7,6 +8,9 @@ import {
   Query,
   Resolver,
 } from 'type-graphql';
+=======
+import { Field, ID, InputType, Mutation, Query, Resolver } from 'type-graphql';
+>>>>>>> 6823975 ( add userActionChallenge entity and resolver to edit and crete new entries on a user action)
 import {
   Action,
   Challenge,
@@ -21,6 +25,12 @@ import { QueryFailedError } from 'typeorm';
 @InputType()
 export class UserActionChallengeInput {
   @Field(() => ID)
+<<<<<<< HEAD
+=======
+  userId!: string;
+
+  @Field(() => ID)
+>>>>>>> 6823975 ( add userActionChallenge entity and resolver to edit and crete new entries on a user action)
   actionId!: string;
 
   @Field(() => ID)
@@ -49,7 +59,11 @@ export class UserActionChallengeResolver {
    * @throws {GraphQLError} If no UserActionChallenge is found with the given ID.
    */
   @Query(() => UserActionChallenge)
+<<<<<<< HEAD
   async getUserActionChallengeByUser(
+=======
+  async getUserActionChallenge(
+>>>>>>> 6823975 ( add userActionChallenge entity and resolver to edit and crete new entries on a user action)
     @Arg('id') id: string
   ): Promise<UserActionChallenge> {
     const userActionChallenge = await UserActionChallenge.findOneOrFail({
@@ -62,6 +76,7 @@ export class UserActionChallengeResolver {
   }
 
   /**
+<<<<<<< HEAD
    * Retrieves a single UserActionChallenge by challenge ID.
    *
    * This query attempts to find a UserActionChallenge where the `challengeId` matches the given `id`.
@@ -89,6 +104,8 @@ export class UserActionChallengeResolver {
   }
 
   /**
+=======
+>>>>>>> 6823975 ( add userActionChallenge entity and resolver to edit and crete new entries on a user action)
    * Retrieves all UserActionChallenge entries from the database.
    *
    * This query fetches all entries along with their related `user`, `action`, and `challenge` entities.
@@ -117,19 +134,30 @@ export class UserActionChallengeResolver {
    *
    * Throws an error if any of the required IDs are missing or if a duplicate key constraint is violated.
    *
+<<<<<<< HEAD
    * @param {UserActionChallengeInput} data - The input object containing actionId, challengeId, status, and optional comment.
    * @param {Object} ctx - The GraphQL context object.
    * @param {User} ctx.user - The authenticated user from the context.
+=======
+   * @param {UserActionChallengeInput} data - The input object containing userId, actionId, challengeId, status, and optional comment.
+>>>>>>> 6823975 ( add userActionChallenge entity and resolver to edit and crete new entries on a user action)
    * @returns {Promise<UserActionChallenge>} The newly created UserActionChallenge entity including related user, action, and challenge.
    * @throws {GraphQLError} If required fields are missing, if a referenced entity is not found, or if the insert violates database constraints.
    */
   @Mutation(() => UserActionChallenge)
   async createUserActionChallenge(
+<<<<<<< HEAD
     @Arg('data') data: UserActionChallengeInput,
     @Ctx() { user }: { user: User }
   ): Promise<UserActionChallenge> {
     try {
       if (!data.actionId || !data.challengeId || !user?.id) {
+=======
+    @Arg('data') data: UserActionChallengeInput
+  ): Promise<UserActionChallenge> {
+    try {
+      if (!data.userId || !data.actionId || !data.challengeId) {
+>>>>>>> 6823975 ( add userActionChallenge entity and resolver to edit and crete new entries on a user action)
         throw new GraphQLError(
           'Missing required fields: user, action, or challenge'
         );
@@ -138,7 +166,11 @@ export class UserActionChallengeResolver {
       const newEntry = new UserActionChallenge();
 
       newEntry.user = await User.findOneOrFail({
+<<<<<<< HEAD
         where: { id: user.id },
+=======
+        where: { id: data.userId },
+>>>>>>> 6823975 ( add userActionChallenge entity and resolver to edit and crete new entries on a user action)
       });
       newEntry.action = await Action.findOneOrFail({
         where: { id: data.actionId },
@@ -179,13 +211,17 @@ export class UserActionChallengeResolver {
    * The primary keys are not allowed to be changed.
    *
    * @param {UserActionChallengeInput} data - The input data containing userId, actionId, challengeId, and the new values to update.
+<<<<<<< HEAD
    * @param {Object} ctx - The GraphQL context object.
    * @param {User} ctx.user - The authenticated user from the context.
+=======
+>>>>>>> 6823975 ( add userActionChallenge entity and resolver to edit and crete new entries on a user action)
    * @returns {Promise<UserActionChallenge>} The updated UserActionChallenge entity.
    * @throws {GraphQLError} If the entity is not found or a database error occurs.
    */
   @Mutation(() => UserActionChallenge)
   async updateUserActionChallenge(
+<<<<<<< HEAD
     @Arg('data') data: UserActionChallengeInput,
     @Ctx() { user }: { user: User }
   ): Promise<UserActionChallenge> {
@@ -199,6 +235,14 @@ export class UserActionChallengeResolver {
       let userActionChallenge = await UserActionChallenge.findOneOrFail({
         where: {
           userId: user.id,
+=======
+    @Arg('data') data: UserActionChallengeInput
+  ): Promise<UserActionChallenge> {
+    try {
+      let userActionChallenge = await UserActionChallenge.findOneOrFail({
+        where: {
+          userId: data.userId,
+>>>>>>> 6823975 ( add userActionChallenge entity and resolver to edit and crete new entries on a user action)
           actionId: data.actionId,
           challengeId: data.challengeId,
         },
