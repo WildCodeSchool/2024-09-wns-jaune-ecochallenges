@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import argon2 from 'argon2';
-import { Challenge, Action } from '@/entities';
+import { Challenge, Action, UserActionChallenge } from '@/entities';
 import { Score } from './Score';
 
 export enum UserRole {
@@ -77,6 +77,13 @@ export class User extends BaseEntity {
   @Field({ nullable: true })
   @Column({ nullable: true, length: 255 })
   avatarUrl?: string;
+
+  @Field(() => [UserActionChallenge])
+  @OneToMany(
+    () => UserActionChallenge,
+    (userActionChallenge) => userActionChallenge.user
+  )
+  userActionChallenges?: UserActionChallenge[];
 
   @BeforeInsert()
   async hashPassword() {
