@@ -1,6 +1,13 @@
 import { DataSource } from 'typeorm';
 import { config } from 'dotenv';
-import { User, Challenge, Action, Tag, UserActionChallenge } from '@/entities';
+import {
+  User,
+  Challenge,
+  Action,
+  Tag,
+  UserActionChallenge,
+  UserActionChallenge,
+} from '@/entities';
 import { Score } from '@/entities/Score';
 
 config();
@@ -13,7 +20,15 @@ export const dataSource = new DataSource({
   password: DB_PASSWORD,
   database: DB_SCHEMA,
   port: Number(DB_PORT),
-  entities: [User, Challenge, Action, Tag, Score, UserActionChallenge],
+  entities: [
+    User,
+    Challenge,
+    Action,
+    Tag,
+    Score,
+    UserActionChallenge,
+    UserActionChallenge,
+  ],
   synchronize: true,
   // migrations: ["./bdd/migrations/*.ts"],
   // migrationsTableName: "migrations",
