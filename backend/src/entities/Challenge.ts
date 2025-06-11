@@ -6,10 +6,12 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { Action, User } from '@/entities';
+import { Score } from './Score';
 
 @Entity()
 @ObjectType()
@@ -59,4 +61,8 @@ export class Challenge extends BaseEntity {
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.createdChallenges)
   owner?: User;
+
+  @Field(() => Score)
+  @OneToMany(() => Score, (score) => score.challenge)
+  score?: Score;
 }

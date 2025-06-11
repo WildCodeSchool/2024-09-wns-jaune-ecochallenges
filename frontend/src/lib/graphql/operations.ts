@@ -104,6 +104,7 @@ export const GET_ACTIONS = gql`
       icon
       level
       time
+      points
       tags {
         id
         name
