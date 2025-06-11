@@ -158,6 +158,22 @@ export class ActionResolver {
     }
   }
 
+  /*   @Query(() => Action)
+  async getActionByIDInChallengeforUser(
+    @Arg('challengeId') challengeId: string,
+    @Arg('userId') userId: string,
+    @Arg('actionId') actionId: string
+  ) {
+    const action = await Action.findOneOrFail({
+      where: {
+        challenges: { id: challengeId, members: { id: userId } },
+        id: actionId,
+      },
+      relations: ['challenges', 'challenges.members'],
+    });
+    return action;
+  } */
+
   @Mutation(() => Action)
   async updateAction(
     @Arg('id', () => ID) id: string,
