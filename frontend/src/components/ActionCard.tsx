@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 
 type ActionCardProps = {
-  action: Omit<Action, 'challenges'>;
+  action: Omit<Action, 'challenges' | 'createdBy'>;
   isSelected?: boolean;
   onClick?: () => void;
 };

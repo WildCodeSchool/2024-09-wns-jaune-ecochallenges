@@ -52,6 +52,7 @@ export type ActionInput = {
   level: Scalars['Float']['input'];
   name: Scalars['String']['input'];
   requires_view: Scalars['Boolean']['input'];
+  tags: Array<Scalars['ID']['input']>;
   time: Scalars['Float']['input'];
 };
 
@@ -288,6 +289,7 @@ export type GetActionsQuery = {
     icon: string;
     level: number;
     time: number;
+    createdBy: { __typename?: 'User'; id: string; role: string };
     tags?: Array<{
       __typename?: 'Tag';
       id: string;
@@ -774,6 +776,10 @@ export const GetActionsDocument = gql`
       description
       requires_view
       createdAt
+      createdBy {
+        id
+        role
+      }
       icon
       level
       time

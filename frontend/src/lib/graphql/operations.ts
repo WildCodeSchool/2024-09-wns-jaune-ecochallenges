@@ -101,6 +101,10 @@ export const GET_ACTIONS = gql`
       description
       requires_view
       createdAt
+      createdBy {
+        id
+        role
+      }
       icon
       level
       time

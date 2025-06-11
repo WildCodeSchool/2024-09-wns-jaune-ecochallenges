@@ -1,4 +1,3 @@
-import { Pill } from '@/components/Pill';
 import {
   Button,
   FormControl,

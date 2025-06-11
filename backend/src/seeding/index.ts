@@ -8,7 +8,15 @@ import { seedDb } from './seeder';
     await seed(User, usersData.users, {});
     await seed(Tag, tagsData.tags, {});
     await seed(Action, actionsData.actions, {
-      relations: [{ name: 'tags', entity: Tag }],
+      relations: [
+        { name: 'tags', entity: Tag },
+        {
+          name: 'createdBy',
+          entity: User,
+          property: 'email',
+          type: 'manyToOne',
+        },
+      ],
     });
     await seed(Challenge, challengesData.challenges, {
       relations: [

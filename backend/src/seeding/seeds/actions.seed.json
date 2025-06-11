@@ -7,7 +7,8 @@
       "icon": "drop",
       "level": 1,
       "time": 2,
-      "tags": [9, 3]
+      "tags": [9, 3],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Créer un compost",
@@ -16,7 +17,8 @@
       "icon": "leaf",
       "level": 2,
       "time": 4,
-      "tags": [8, 2]
+      "tags": [8, 2],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Organiser un repair café",
@@ -25,7 +27,8 @@
       "icon": "recycling",
       "level": 2,
       "time": 6,
-      "tags": [7, 18]
+      "tags": [7, 18],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Chasse aux veilles",
@@ -34,7 +37,8 @@
       "icon": "leaf",
       "level": 1,
       "time": 1,
-      "tags": [1, 17]
+      "tags": [1, 17],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Atelier zéro déchet",
@@ -43,7 +47,8 @@
       "icon": "recycling",
       "level": 2,
       "time": 3,
-      "tags": [2, 14]
+      "tags": [2, 14],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Diagnostic biodiversité",
@@ -52,7 +57,8 @@
       "icon": "leaf",
       "level": 1,
       "time": 4,
-      "tags": [4, 19]
+      "tags": [4, 19],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Challenge mobilité",
@@ -61,7 +67,8 @@
       "icon": "leaf",
       "level": 2,
       "time": 1,
-      "tags": [12, 5]
+      "tags": [12, 5],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Tri des mails",
@@ -70,7 +77,8 @@
       "icon": "recycling",
       "level": 1,
       "time": 2,
-      "tags": [17, 2]
+      "tags": [17, 2],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Courses locales",
@@ -79,7 +87,8 @@
       "icon": "leaf",
       "level": 2,
       "time": 4,
-      "tags": [10, 16]
+      "tags": [10, 16],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Audit éclairage",
@@ -88,7 +97,8 @@
       "icon": "drop",
       "level": 1,
       "time": 3,
-      "tags": [13, 1]
+      "tags": [13, 1],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Défi zéro plastique",
@@ -97,7 +107,8 @@
       "icon": "recycling",
       "level": 2,
       "time": 3,
-      "tags": [15, 3]
+      "tags": [15, 3],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Jardin urbain",
@@ -106,7 +117,8 @@
       "icon": "leaf",
       "level": 2,
       "time": 4,
-      "tags": [19, 16]
+      "tags": [19, 16],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Défi végétarien",
@@ -115,7 +127,8 @@
       "icon": "leaf",
       "level": 2,
       "time": 3,
-      "tags": [16, 5]
+      "tags": [16, 5],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Recyclage créatif",
@@ -124,7 +137,8 @@
       "icon": "recycling",
       "level": 1,
       "time": 4,
-      "tags": [6, 7]
+      "tags": [6, 7],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Eco-nettoyage",
@@ -133,7 +147,8 @@
       "icon": "drop",
       "level": 1,
       "time": 2,
-      "tags": [3, 9]
+      "tags": [3, 9],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Atelier réparation",
@@ -142,7 +157,8 @@
       "icon": "recycling",
       "level": 3,
       "time": 4,
-      "tags": [7, 14]
+      "tags": [7, 14],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Défi numérique",
@@ -151,7 +167,8 @@
       "icon": "leaf",
       "level": 1,
       "time": 1,
-      "tags": [17, 1]
+      "tags": [17, 1],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Troc de graines",
@@ -160,7 +177,8 @@
       "icon": "leaf",
       "level": 2,
       "time": 3,
-      "tags": [19, 18]
+      "tags": [19, 18],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Chasse au gaspi",
@@ -169,7 +187,8 @@
       "icon": "recycling",
       "level": 1,
       "time": 2,
-      "tags": [16, 2]
+      "tags": [16, 2],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Eco-communication",
@@ -178,7 +197,8 @@
       "icon": "drop",
       "level": 2,
       "time": 4,
-      "tags": [18, 14]
+      "tags": [18, 14],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Test mobilité",
@@ -187,7 +207,8 @@
       "icon": "leaf",
       "level": 1,
       "time": 1,
-      "tags": [12, 20]
+      "tags": [12, 20],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Audit énergétique",
@@ -196,7 +217,8 @@
       "icon": "drop",
       "level": 2,
       "time": 3,
-      "tags": [1, 3]
+      "tags": [1, 3],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Marché local",
@@ -205,7 +227,8 @@
       "icon": "leaf",
       "level": 1,
       "time": 3,
-      "tags": [10, 16]
+      "tags": [10, 16],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Défi minimaliste",
@@ -214,7 +237,8 @@
       "icon": "recycling",
       "level": 1,
       "time": 2,
-      "tags": [7, 3]
+      "tags": [7, 3],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Eco-lavage",
@@ -223,7 +247,8 @@
       "icon": "drop",
       "level": 1,
       "time": 3,
-      "tags": [9, 1]
+      "tags": [9, 1],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Biodiversité urbaine",
@@ -232,7 +257,8 @@
       "icon": "leaf",
       "level": 2,
       "time": 4,
-      "tags": [4, 19]
+      "tags": [4, 19],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Challenge courses",
@@ -241,7 +267,8 @@
       "icon": "recycling",
       "level": 2,
       "time": 2,
-      "tags": [2, 15]
+      "tags": [2, 15],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Eco-bureau",
@@ -250,7 +277,8 @@
       "icon": "drop",
       "level": 1,
       "time": 2,
-      "tags": [1, 17]
+      "tags": [1, 17],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Partage de savoirs",
@@ -259,7 +287,8 @@
       "icon": "leaf",
       "level": 2,
       "time": 3,
-      "tags": [14, 18]
+      "tags": [14, 18],
+      "createdBy": "admin@example.com"
     },
     {
       "name": "Innovation verte",
@@ -268,7 +297,8 @@
       "icon": "recycling",
       "level": 3,
       "time": 5,
-      "tags": [20, 4]
+      "tags": [20, 4],
+      "createdBy": "admin@example.com"
     }
   ]
 }
