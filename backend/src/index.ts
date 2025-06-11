@@ -9,6 +9,7 @@ import {
   ChallengeResolver,
   TagResolver,
   UserResolver,
+  UserActionChallengeResolver,
 } from '@/resolvers';
 import { authChecker } from './auth/authChecker';
 import * as jwt from 'jsonwebtoken';
@@ -21,7 +22,13 @@ async function start() {
   await dataSource.initialize();
 
   const schema = await buildSchema({
-    resolvers: [UserResolver, ChallengeResolver, ActionResolver, TagResolver],
+    resolvers: [
+      UserResolver,
+      ChallengeResolver,
+      ActionResolver,
+      TagResolver,
+      UserActionChallengeResolver,
+    ],
     authChecker: authChecker,
   });
 
