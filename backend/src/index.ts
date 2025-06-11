@@ -9,6 +9,7 @@ import {
   ChallengeResolver,
   TagResolver,
   UserResolver,
+  UserActionChallengeResolver,
   ChallengeActionScoreResolver,
 } from '@/resolvers';
 import { authChecker } from './auth/authChecker';
@@ -24,9 +25,14 @@ async function start() {
   const schema = await buildSchema({
     resolvers: [
       UserResolver,
+
       ChallengeResolver,
+
       ActionResolver,
+
       TagResolver,
+      UserActionChallengeResolver,
+      ,
       ChallengeActionScoreResolver,
     ],
     authChecker: authChecker,
