@@ -13,6 +13,7 @@ import { useUserStore } from '@/lib/zustand/userStore';
   Action,
   useActionByChallengeWithStatusQuery,
   useGetActionsByChallengeIdQuery,
+  UserActionChallenge,
 } from '@/lib/graphql/generated/graphql-types';
 >>>>>>> 71aee31 (add the base logic to complete an action of a challenge)
 
@@ -108,13 +109,17 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
 
 export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
   const navigate = useNavigate();
-  //  const [actions, setActions] = useState<ActionLite[]>(initialActions);
   // get all actions
   const { data, loading, error } = useActionByChallengeWithStatusQuery({
     variables: { getChallengeId: challengeId },
   });
-  console.log('data', data?.getChallenge);
+
+  if (loading) console.log('Chargement des données...');
+  if (error) console.error('Erreur chargement challenge:', error);
+  if (!data?.getChallenge) console.warn('Aucune donnée de challenge récupérée');
+
   const onToggleStatus = (id: string) => {
+    console.log('id', id);
     console.log('toggle status');
     /*  setActions((prev) =>
       prev.map((action) =>
