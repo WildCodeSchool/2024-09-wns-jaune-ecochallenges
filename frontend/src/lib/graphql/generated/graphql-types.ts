@@ -89,16 +89,22 @@ export type LoginUserInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createChallenge: Challenge;
+  createUserActionChallenge: UserActionChallenge;
   createdAction: Action;
   deleteChallenge: Scalars['Boolean']['output'];
   logIn: Scalars['String']['output'];
   logOut: Scalars['Boolean']['output'];
   signUp: Scalars['String']['output'];
   updateChallenge: Challenge;
+  updateUserActionChallenge: UserActionChallenge;
 };
 
 export type MutationCreateChallengeArgs = {
   data: ChallengeInput;
+};
+
+export type MutationCreateUserActionChallengeArgs = {
+  data: UserActionChallengeInput;
 };
 
 export type MutationCreatedActionArgs = {
@@ -122,6 +128,10 @@ export type MutationUpdateChallengeArgs = {
   id: Scalars['ID']['input'];
 };
 
+export type MutationUpdateUserActionChallengeArgs = {
+  data: UserActionChallengeInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   getActionById: Action;
@@ -130,6 +140,8 @@ export type Query = {
   getAllTags: Array<Tag>;
   getChallenge: Challenge;
   getChallenges: Array<Challenge>;
+  getUserActionChallenge: UserActionChallenge;
+  getUserActionChallenges: Array<UserActionChallenge>;
   getUsersAsUser: Array<User>;
 };
 
@@ -143,6 +155,10 @@ export type QueryGetActionsByChallengeIdArgs = {
 
 export type QueryGetChallengeArgs = {
   id: Scalars['ID']['input'];
+};
+
+export type QueryGetUserActionChallengeArgs = {
+  id: Scalars['String']['input'];
 };
 
 export type SignUpUserInput = {
@@ -171,6 +187,24 @@ export type User = {
   lastname: Scalars['String']['output'];
   participatedChallenges: Array<Challenge>;
   role: Scalars['String']['output'];
+  userActionChallenges: Array<UserActionChallenge>;
+};
+
+export type UserActionChallenge = {
+  __typename?: 'UserActionChallenge';
+  action: Action;
+  challenge: Challenge;
+  comment: Scalars['String']['output'];
+  status: Scalars['String']['output'];
+  user: User;
+};
+
+export type UserActionChallengeInput = {
+  actionId: Scalars['ID']['input'];
+  challengeId: Scalars['ID']['input'];
+  comment?: InputMaybe<Scalars['String']['input']>;
+  status: Scalars['String']['input'];
+  userId: Scalars['ID']['input'];
 };
 
 export type GetUsersAsUserQueryVariables = Exact<{ [key: string]: never }>;
@@ -266,11 +300,7 @@ export type UpdateChallengeMutationVariables = Exact<{
 
 export type UpdateChallengeMutation = {
   __typename?: 'Mutation';
-  updateChallenge: {
-    __typename?: 'Challenge';
-    id: string;
-    description?: string | null;
-  };
+  updateChallenge: { __typename?: 'Challenge'; id: string };
 };
 
 export type DeleteChallengeMutationVariables = Exact<{
@@ -356,6 +386,20 @@ export type GetActionsByChallengeIdQuery = {
       icon: string;
     }> | null;
   }>;
+};
+
+export type CreateUserActionChallengeMutationVariables = Exact<{
+  data: UserActionChallengeInput;
+}>;
+
+export type CreateUserActionChallengeMutation = {
+  __typename?: 'Mutation';
+  createUserActionChallenge: {
+    __typename?: 'UserActionChallenge';
+    user: { __typename?: 'User'; firstname: string };
+    challenge: { __typename?: 'Challenge'; id: string };
+    action: { __typename?: 'Action'; id: string };
+  };
 };
 
 export const GetUsersAsUserDocument = gql`
@@ -695,7 +739,6 @@ export const UpdateChallengeDocument = gql`
   mutation UpdateChallenge($id: ID!, $data: ChallengeInput!) {
     updateChallenge(id: $id, data: $data) {
       id
-      description
     }
   }
 `;
@@ -1177,3 +1220,62 @@ export type GetActionsByChallengeIdQueryResult = Apollo.QueryResult<
   GetActionsByChallengeIdQuery,
   GetActionsByChallengeIdQueryVariables
 >;
+export const CreateUserActionChallengeDocument = gql`
+  mutation CreateUserActionChallenge($data: UserActionChallengeInput!) {
+    createUserActionChallenge(data: $data) {
+      user {
+        firstname
+      }
+      challenge {
+        id
+      }
+      action {
+        id
+      }
+    }
+  }
+`;
+export type CreateUserActionChallengeMutationFn = Apollo.MutationFunction<
+  CreateUserActionChallengeMutation,
+  CreateUserActionChallengeMutationVariables
+>;
+
+/**
+ * __useCreateUserActionChallengeMutation__
+ *
+ * To run a mutation, you first call `useCreateUserActionChallengeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserActionChallengeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createUserActionChallengeMutation, { data, loading, error }] = useCreateUserActionChallengeMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateUserActionChallengeMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateUserActionChallengeMutation,
+    CreateUserActionChallengeMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateUserActionChallengeMutation,
+    CreateUserActionChallengeMutationVariables
+  >(CreateUserActionChallengeDocument, options);
+}
+export type CreateUserActionChallengeMutationHookResult = ReturnType<
+  typeof useCreateUserActionChallengeMutation
+>;
+export type CreateUserActionChallengeMutationResult =
+  Apollo.MutationResult<CreateUserActionChallengeMutation>;
+export type CreateUserActionChallengeMutationOptions =
+  Apollo.BaseMutationOptions<
+    CreateUserActionChallengeMutation,
+    CreateUserActionChallengeMutationVariables
+  >;
