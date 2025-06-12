@@ -4,15 +4,23 @@ import { ChallengeBanner } from './ChallengeBanner';
 import { ActionsTabs } from './ActionsTabs/ActionsTabs';
 import { Button } from '@/components/ui/button';
 import {
+<<<<<<< HEAD
   useActionByChallengeWithStatusQuery,
   UserActionChallengeScore,
 } from '@/lib/graphql/generated/graphql-types';
 import { useUserStore } from '@/lib/zustand/userStore';
+=======
+  Action,
+  useActionByChallengeWithStatusQuery,
+  useGetActionsByChallengeIdQuery,
+} from '@/lib/graphql/generated/graphql-types';
+>>>>>>> 71aee31 (add the base logic to complete an action of a challenge)
 
 type ChallengeDetailProps = {
   challengeId: string;
 };
 
+<<<<<<< HEAD
 export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
   const userId = useUserStore((state) => state.user?.id || undefined);
 
@@ -62,6 +70,61 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
   const isAuthorized = data.getChallenge.members.some(
     (member) => member.id === userId
   );
+=======
+/* const initialActions: ActionLite[] = [
+  {
+    id: '1',
+    name: 'Éteindre les lumières inutiles',
+    description: "Réduire la consommation d'énergie à la maison.",
+    status: 'done',
+    tags: [{ name: 'Énergie' }],
+    icon: 'lightbulb',
+  },
+  {
+    id: '2',
+    name: 'Prendre le vélo',
+    description: 'Utiliser le vélo pour les trajets courts.',
+    status: 'pending',
+    tags: [{ name: 'Transport' }],
+    icon: 'bike',
+  },
+  {
+    id: '3',
+    name: 'Recycler les déchets',
+    description: 'Trier les emballages, papiers, et déchets organiques.',
+    status: 'done',
+    tags: [{ name: 'Recyclage' }],
+    icon: 'recycle',
+  },
+  {
+    id: '4',
+    name: 'Installer un mousseur de robinet',
+    description: 'Économiser l’eau facilement.',
+    status: 'pending',
+    tags: [{ name: 'Eau' }],
+    icon: 'droplet',
+  },
+]; */
+
+export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
+  const navigate = useNavigate();
+  //  const [actions, setActions] = useState<ActionLite[]>(initialActions);
+  // get all actions
+  const { data, loading, error } = useActionByChallengeWithStatusQuery({
+    variables: { getChallengeId: challengeId },
+  });
+  console.log('data', data?.getChallenge);
+  const onToggleStatus = (id: string) => {
+    console.log('toggle status');
+    /*  setActions((prev) =>
+      prev.map((action) =>
+        action.id === id
+          ? { ...action, status: action.status === 'done' ? 'pending' : 'done' }
+          : action
+      )
+    ); */
+  };
+>>>>>>> 71aee31 (add the base logic to complete an action of a challenge)
 
   return (
     <div className="relative mx-auto max-w-6xl px-4 py-6">
@@ -76,6 +139,7 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
 
       <div className="mt-6 flex justify-center">
         <ActionsTabs
+<<<<<<< HEAD
           challengeId={challengeId}
           userId={userId}
           isAuthorized={isAuthorized}
@@ -84,6 +148,11 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
             (data.getChallenge
               ?.userActionChallengeScores as UserActionChallengeScore[]) || []
           }
+=======
+          actions={data?.getChallenge.actions || []}
+          onToggleStatus={onToggleStatus}
+          userActionChallenges={data?.getChallenge.userActionChallenges || []}
+>>>>>>> 71aee31 (add the base logic to complete an action of a challenge)
         />
       </div>
 
