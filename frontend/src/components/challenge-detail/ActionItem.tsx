@@ -3,6 +3,7 @@ import { Pill } from '@/components';
 import { CustomInfoDialog } from './CustomInfoDialog';
 import AvatarGroupDemo from './avatar-group';
 import { ValidateActionDialog } from '../ValidateActionDialog';
+import { useParams } from 'react-router-dom';
 
 type Props = {
   id: string;
@@ -11,24 +12,30 @@ type Props = {
   status: 'done' | 'pending';
   tags?: { name: string }[] | null;
   onToggleStatus: (id: string) => void;
+  userId?: string;
 };
-
 export const ActionItem = ({
   id,
   title,
   description,
   tags,
   status,
+  userId,
   onToggleStatus,
 }: Props) => {
+  const { challengeId } = useParams<{ challengeId: string }>();
   const isChecked = status === 'done';
+  console.log('userId', userId);
+
   const action = {
     id,
     title,
     description,
     tags,
     status,
+    challengeId: challengeId || '',
   };
+
   return (
     <li className="flex items-center justify-between gap-2 rounded-xl p-4 shadow-sm">
       <div className="flex flex-col items-start gap-2">
@@ -58,7 +65,11 @@ export const ActionItem = ({
             onCheckedChange={() => onToggleStatus(id)}
           />
         ) : (
-          <ValidateActionDialog isChecked={isChecked} action={action} />
+          <ValidateActionDialog
+            isChecked={isChecked}
+            action={action}
+            userIdChallenge={userId}
+          />
         )}
       </div>
     </li>
