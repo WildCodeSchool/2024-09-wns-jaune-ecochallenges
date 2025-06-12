@@ -65,6 +65,10 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   description!: string;
 
+  @Field({ nullable: true })
+  @Column({ nullable: true, length: 255 })
+  avatarUrl?: string;
+
   @BeforeInsert()
   async hashPassword() {
     this.hashedPassword = await argon2.hash(this.hashedPassword);

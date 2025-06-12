@@ -4,7 +4,6 @@ import {
   Save,
   Quote,
   Mail,
-  User,
   BarChart2,
   ClipboardList,
 } from 'lucide-react';
@@ -12,7 +11,6 @@ import { Card } from '@/components/ui';
 import { useEffect, useState } from 'react';
 import { GET_USER_BY_ID, UPDATE_USER } from '@/lib/graphql/operations';
 import { Logout } from '@/components/forms/auth';
-import { cn } from '@/lib/utils';
 
 export const UserAccount = () => {
   const { data, loading, error, refetch } = useQuery(GET_USER_BY_ID);
@@ -25,16 +23,20 @@ export const UserAccount = () => {
     lastname: '',
     email: '',
     description: '',
+    avatarUrl: '',
   });
 
   useEffect(() => {
     if (data?.getCurrentUser) {
-      const { firstname, lastname, email, description } = data.getCurrentUser;
+      const { firstname, lastname, email, description, avatarUrl } =
+        data.getCurrentUser;
+
       setForm({
         firstname: firstname || '',
         lastname: lastname || '',
         email: email || '',
         description: description || 'Description à venir...',
+        avatarUrl: avatarUrl || '',
       });
     }
   }, [data]);
@@ -56,6 +58,7 @@ export const UserAccount = () => {
             firstname: form.firstname,
             lastname: form.lastname,
             description: form.description,
+            avatarUrl: form.avatarUrl,
           },
         },
       });
@@ -75,33 +78,35 @@ export const UserAccount = () => {
   const user = data?.getCurrentUser;
   if (!user) return <p>Aucun utilisateur trouvé</p>;
 
+  const challengesCount = data.getCurrentUser.participatedChallenges.length;
+
   return (
     <>
       <h1 className="text-left text-2xl font-bold">Mon profil</h1>
 
-      <div className="relative mx-auto mt-4 mb-1 flex h-32 w-32 items-center justify-center rounded-full border-4 border-green-600 bg-white">
+      <div className="relative mx-auto mt-4 mb-1 flex h-48 w-48 items-center justify-center rounded-full border-4 border-green-600 bg-white">
         <img
-          src="https://github.com/shadcn.png"
+          src={form.avatarUrl || '/public/icons/leaf.png'}
           alt="Avatar utilisateur"
-          className="h-28 w-28 rounded-full object-cover"
+          className="h-44 w-44 rounded-full object-cover"
         />
         <button
           onClick={() => {
             if (isEditing) handleSave();
             else setIsEditing(true);
           }}
-          className="absolute right-1 bottom-1 flex h-8 w-8 items-center justify-center rounded-full bg-green-600 text-white hover:bg-green-700"
+          className="absolute right-2 bottom-2 flex h-9 w-9 items-center justify-center rounded-full bg-green-600 text-white hover:bg-green-700"
           aria-label={isEditing ? 'Enregistrer' : 'Modifier profil'}
         >
-          {isEditing ? <Save size={16} /> : <Pencil size={16} />}
+          {isEditing ? <Save size={18} /> : <Pencil size={18} />}
         </button>
       </div>
       <div className="mx-auto mb-1 flex items-center gap-2 text-gray-600">
         <Mail size={18} />
         <span>{form.email}</span>
       </div>
+
       <Card className="mt-4 p-3">
-        {' '}
         {isEditing ? (
           <>
             <input
@@ -115,8 +120,15 @@ export const UserAccount = () => {
               type="text"
               value={form.lastname}
               onChange={(e) => handleInputChange('lastname', e.target.value)}
-              className="w-full border-b border-gray-300 bg-transparent text-lg font-semibold focus:outline-none"
+              className="mb-1 w-full border-b border-gray-300 bg-transparent text-lg font-semibold focus:outline-none"
               placeholder="Nom"
+            />
+            <input
+              type="text"
+              value={form.avatarUrl}
+              onChange={(e) => handleInputChange('avatarUrl', e.target.value)}
+              className="w-full border-b border-gray-300 bg-transparent text-sm italic focus:outline-none"
+              placeholder="URL de l'image de profil"
             />
           </>
         ) : (
@@ -127,8 +139,8 @@ export const UserAccount = () => {
           </>
         )}
       </Card>
+
       <Card className="mt-4 p-3">
-        {' '}
         <h3 className="text-muted-foreground mb-1 flex items-center gap-2 text-lg font-semibold">
           <Quote size={16} />À propos
         </h3>
@@ -145,27 +157,34 @@ export const UserAccount = () => {
           </p>
         )}
       </Card>
+
       <Card className="mt-4 p-3">
-        {' '}
         <h3 className="mb-1 flex items-center gap-2 text-lg font-semibold">
           <BarChart2 size={18} />
           Statistiques
         </h3>
-        <p>Nombre de défis réalisés : 12</p>
+        <p>Nombre de challenges : {challengesCount}</p>
         <p>Points accumulés : 320</p>
       </Card>
+
       <Card className="mt-4 mb-4 p-3">
-        {' '}
         <h3 className="mb-1 flex items-center gap-2 text-lg font-semibold">
           <ClipboardList size={18} />
           Challenges en cours
         </h3>
-        <ul className="list-inside list-disc text-sm">
-          <li>Challenge zéro déchet</li>
-          <li>Challenge alimentation bio</li>
-          <li>Challenge économie d’énergie</li>
-        </ul>
+        {data.getCurrentUser.participatedChallenges.length > 0 ? (
+          <ul className="list-inside list-disc text-sm">
+            {data.getCurrentUser.participatedChallenges.map(
+              (challenge: any) => (
+                <li key={challenge.id}>{challenge.title}</li>
+              )
+            )}
+          </ul>
+        ) : (
+          <p>Aucun challenge en cours.</p>
+        )}
       </Card>
+
       <Logout />
     </>
   );

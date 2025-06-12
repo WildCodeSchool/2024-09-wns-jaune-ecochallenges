@@ -61,6 +61,9 @@ class UpdateUserInput {
 
   @Field({ nullable: true })
   description?: string;
+
+  @Field({ nullable: true })
+  avatarUrl?: string;
 }
 
 const getProfil = (user: User) => {
@@ -110,7 +113,11 @@ export class UserResolver {
 
   @Query(() => User)
   async getCurrentUser(@Ctx() { user }: { user: User }) {
-    const currentUser = await User.findOneByOrFail({ id: user.id });
+    const currentUser = await User.findOne({
+      where: { id: user.id },
+      relations: ['participatedChallenges'],
+    });
+    if (!currentUser) throw new Error('Utilisateur non trouvé');
     return currentUser;
   }
 
@@ -133,6 +140,7 @@ export class UserResolver {
     userToUpdate.firstname = userData.firstname ?? userToUpdate.firstname;
     userToUpdate.lastname = userData.lastname ?? userToUpdate.lastname;
     userToUpdate.description = userData.description ?? userToUpdate.description;
+    userToUpdate.avatarUrl = userData.avatarUrl ?? userToUpdate.avatarUrl;
 
     const updatedUser = await User.save(userToUpdate);
 

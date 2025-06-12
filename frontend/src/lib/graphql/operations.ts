@@ -149,6 +149,13 @@ export const GET_USER_BY_ID = gql`
       email
       role
       description
+      avatarUrl
+      participatedChallenges {
+        id
+        label
+        startDate
+        endDate
+      }
     }
   }
 `;
@@ -160,6 +167,7 @@ export const UPDATE_USER = gql`
       firstname
       lastname
       description
+      avatarUrl
     }
   }
 `;

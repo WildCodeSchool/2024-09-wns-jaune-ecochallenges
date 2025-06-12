@@ -22,6 +22,8 @@ import { Laptop, LogOutIcon, Moon, Sun, UserRound } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLogOutMutation } from '@/lib/graphql/generated/graphql-types';
 import { useTheme } from './theme-provider';
+import { GET_USER_BY_ID } from '@/lib/graphql/operations';
+import { useQuery } from '@apollo/client';
 
 export const AccountDropdown = () => {
   const isAuth = useUserStore((state) => !!state.user);
@@ -34,6 +36,9 @@ export const AccountDropdown = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  const { data } = useQuery(GET_USER_BY_ID);
+  const currentUser = data?.getCurrentUser;
+
   const handleLogout = () => {
     setDropdownOpen(false);
     setIsDialogOpen(false);
@@ -41,7 +46,7 @@ export const AccountDropdown = () => {
     logout();
     navigate('/user');
   };
-  //keyboard accessibility
+
   const handleKeyDown = (e: React.KeyboardEvent, action: () => void) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
@@ -59,15 +64,16 @@ export const AccountDropdown = () => {
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
         <DropdownMenuTrigger className="flex items-center gap-2 rounded-full">
-          {/* // ADD USER STORE WITH USER INFO */}
-          {isAuth ? (
+          {isAuth && currentUser ? (
             <Avatar className="h-10 w-10 cursor-pointer transition-all duration-100 hover:scale-115">
               <AvatarImage
-                src="https://github.com/shadcn.png"
+                src={currentUser.avatarUrl || '/public/icons/leaf.png'}
                 alt="Photo de profil"
                 data-testid="card-image"
               />
-              <AvatarFallback delayMs={600}>PA</AvatarFallback>
+              <AvatarFallback delayMs={600}>
+                {currentUser.name?.slice(0, 2).toUpperCase() || '??'}
+              </AvatarFallback>
             </Avatar>
           ) : (
             <UserRound
@@ -76,6 +82,7 @@ export const AccountDropdown = () => {
             />
           )}
         </DropdownMenuTrigger>
+
         <DropdownMenuContent
           className="w-56"
           role="menu"
@@ -97,11 +104,8 @@ export const AccountDropdown = () => {
                   mon espace
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={(e) => {
-                  e.preventDefault();
-                }}
-              >
+
+              <DropdownMenuItem>
                 <DialogTrigger className="flex gap-2">
                   <LogOutIcon className="size-4" aria-hidden="true" /> Se
                   déconnecter
@@ -111,7 +115,6 @@ export const AccountDropdown = () => {
                     <DialogTitle>
                       Êtes-vous sûr de vouloir vous déconnecter ?
                     </DialogTitle>
-
                     <DialogFooter className="mt-4">
                       <Button
                         onClick={() => {
@@ -131,15 +134,11 @@ export const AccountDropdown = () => {
                         Annuler
                       </Button>
                       <Button
-                        onClick={() => {
-                          handleLogout();
-                        }}
-                        onKeyDown={(e) =>
-                          handleKeyDown(e, () => handleLogout())
-                        }
+                        onClick={handleLogout}
+                        onKeyDown={(e) => handleKeyDown(e, handleLogout)}
                         type="button"
                         variant="destructive"
-                        aria-label="Annuler"
+                        aria-label="Se déconnecter"
                       >
                         Se déconnecter
                       </Button>
@@ -149,58 +148,40 @@ export const AccountDropdown = () => {
               </DropdownMenuItem>
             </>
           ) : (
-            <>
-              <DropdownMenuItem asChild>
-                <Link
-                  to="/user"
-                  className="w-full"
-                  role="menuitem"
-                  aria-label="Inscription / Connexion"
-                >
-                  Inscription / Connexion
-                </Link>
-              </DropdownMenuItem>
-            </>
+            <DropdownMenuItem asChild>
+              <Link
+                to="/user"
+                className="w-full"
+                role="menuitem"
+                aria-label="Inscription / Connexion"
+              >
+                Inscription / Connexion
+              </Link>
+            </DropdownMenuItem>
           )}
           <DropdownMenuSeparator />
           <DropdownMenuLabel className="flex items-center gap-2">
             Thème actuel: {themeIcon[theme]}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={(e) => {
-              setTheme('light');
-              e.preventDefault();
-            }}
-            onKeyDown={(e) => handleKeyDown(e, () => setTheme('light'))}
-            role="menuitem"
-            aria-label="Changer pour le thème clair"
-          >
-            {themeIcon['light']} Thème clair
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={(e) => {
-              setTheme('dark');
-              e.preventDefault();
-            }}
-            onKeyDown={(e) => handleKeyDown(e, () => setTheme('dark'))}
-            role="menuitem"
-            aria-label="Changer pour le thème sombre"
-          >
-            {themeIcon['dark']} Thème sombre
-          </DropdownMenuItem>
-
-          <DropdownMenuItem
-            onClick={(e) => {
-              setTheme('system');
-              e.preventDefault();
-            }}
-            onKeyDown={(e) => handleKeyDown(e, () => setTheme('system'))}
-            role="menuitem"
-            aria-label="Changer pour la préférence système"
-          >
-            {themeIcon['system']} Préférence système
-          </DropdownMenuItem>
+          {['light', 'dark', 'system'].map((mode) => (
+            <DropdownMenuItem
+              key={mode}
+              onClick={(e) => {
+                setTheme(mode as 'light' | 'dark' | 'system');
+                e.preventDefault();
+              }}
+              onKeyDown={(e) =>
+                handleKeyDown(e, () =>
+                  setTheme(mode as 'light' | 'dark' | 'system')
+                )
+              }
+              role="menuitem"
+              aria-label={`Changer pour le thème ${mode}`}
+            >
+              {themeIcon[mode]} Thème {mode}
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuContent>
       </DropdownMenu>
     </Dialog>

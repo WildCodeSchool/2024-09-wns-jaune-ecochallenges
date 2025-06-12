@@ -163,6 +163,7 @@ export type Tag = {
 };
 
 export type UpdateUserInput = {
+  avatarUrl?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   firstname?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['String']['input'];
@@ -171,6 +172,7 @@ export type UpdateUserInput = {
 
 export type User = {
   __typename?: 'User';
+  avatarUrl?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTimeISO']['output'];
   createdChallenges: Array<Challenge>;
   description: Scalars['String']['output'];
@@ -351,6 +353,14 @@ export type GetCurrentUserQuery = {
     email: string;
     role: string;
     description: string;
+    avatarUrl?: string | null;
+    participatedChallenges: Array<{
+      __typename?: 'Challenge';
+      id: string;
+      label: string;
+      startDate: any;
+      endDate: any;
+    }>;
   };
 };
 
@@ -366,6 +376,7 @@ export type UpdateUserMutation = {
     firstname: string;
     lastname: string;
     description: string;
+    avatarUrl?: string | null;
   };
 };
 
@@ -1102,6 +1113,13 @@ export const GetCurrentUserDocument = gql`
       email
       role
       description
+      avatarUrl
+      participatedChallenges {
+        id
+        label
+        startDate
+        endDate
+      }
     }
   }
 `;
@@ -1182,6 +1200,7 @@ export const UpdateUserDocument = gql`
       firstname
       lastname
       description
+      avatarUrl
     }
   }
 `;
