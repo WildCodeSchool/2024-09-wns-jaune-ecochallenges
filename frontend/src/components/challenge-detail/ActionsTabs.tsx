@@ -52,16 +52,19 @@ export const ActionsTabs = ({
             userActionChallenges={userActionChallenges}
           />
         </TabsContent>
+
         <TabsContent value="fil">
           <ChallengeActionsList
             actions={gestes}
             onToggleStatus={onToggleStatus}
+            userActionChallenges={userActionChallenges}
           />
         </TabsContent>
         <TabsContent value="tocheck">
           <ChallengeActionsList
             actions={gestes}
             onToggleStatus={onToggleStatus}
+            userActionChallenges={userActionChallenges}
           />
         </TabsContent>
       </div>
