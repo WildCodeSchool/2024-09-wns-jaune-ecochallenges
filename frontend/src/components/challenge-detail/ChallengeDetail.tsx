@@ -1,63 +1,32 @@
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Pencil } from 'lucide-react';
 import { ChallengeBanner } from './ChallengeBanner';
-import { ActionsTabs, ActionLite } from './ActionsTabs';
+import { ActionsTabs } from './ActionsTabs';
 import { Button } from '@/components/ui/button';
 import {
   Action,
   useActionByChallengeWithStatusQuery,
   useGetActionsByChallengeIdQuery,
+  UserActionChallenge,
 } from '@/lib/graphql/generated/graphql-types';
 
 type ChallengeDetailProps = {
   challengeId: string;
 };
 
-/* const initialActions: ActionLite[] = [
-  {
-    id: '1',
-    name: 'Éteindre les lumières inutiles',
-    description: "Réduire la consommation d'énergie à la maison.",
-    status: 'done',
-    tags: [{ name: 'Énergie' }],
-    icon: 'lightbulb',
-  },
-  {
-    id: '2',
-    name: 'Prendre le vélo',
-    description: 'Utiliser le vélo pour les trajets courts.',
-    status: 'pending',
-    tags: [{ name: 'Transport' }],
-    icon: 'bike',
-  },
-  {
-    id: '3',
-    name: 'Recycler les déchets',
-    description: 'Trier les emballages, papiers, et déchets organiques.',
-    status: 'done',
-    tags: [{ name: 'Recyclage' }],
-    icon: 'recycle',
-  },
-  {
-    id: '4',
-    name: 'Installer un mousseur de robinet',
-    description: 'Économiser l’eau facilement.',
-    status: 'pending',
-    tags: [{ name: 'Eau' }],
-    icon: 'droplet',
-  },
-]; */
-
 export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
   const navigate = useNavigate();
-  //  const [actions, setActions] = useState<ActionLite[]>(initialActions);
   // get all actions
   const { data, loading, error } = useActionByChallengeWithStatusQuery({
     variables: { getChallengeId: challengeId },
   });
-  console.log('data', data?.getChallenge);
+
+  if (loading) console.log('Chargement des données...');
+  if (error) console.error('Erreur chargement challenge:', error);
+  if (!data?.getChallenge) console.warn('Aucune donnée de challenge récupérée');
+
   const onToggleStatus = (id: string) => {
+    console.log('id', id);
     console.log('toggle status');
     /*  setActions((prev) =>
       prev.map((action) =>
@@ -68,6 +37,21 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
     ); */
   };
 
+  const normalizeUAC = (uacs?: UserActionChallenge[]) =>
+    uacs?.map((uac) => ({
+      ...uac,
+      // comment: uac.comment ?? '',
+      action: {
+        ...uac.action,
+        name: uac.action.name ?? '',
+        description: uac.action.description ?? '',
+        createdAt: uac.action.createdAt ?? '',
+        icon: uac.action.icon ?? '',
+        tags: uac.action.tags ?? [],
+        challenges: uac.action.challenges ?? [],
+      },
+    })) || [];
+
   return (
     <div className="relative mx-auto max-w-6xl px-4 py-6">
       <ChallengeBanner challengeId={challengeId} />
@@ -76,7 +60,10 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
         <ActionsTabs
           actions={data?.getChallenge.actions || []}
           onToggleStatus={onToggleStatus}
-          userActionChallenges={data?.getChallenge.userActionChallenges || []}
+          //userActionChallenges={data?.getChallenge.userActionChallenges || []}
+          userActionChallenges={normalizeUAC(
+            data?.getChallenge.userActionChallenges
+          )}
         />
       </div>
 

@@ -15,32 +15,38 @@ import { ActionItem } from './ActionItem';
 type Props = {
   actions: Partial<Action>[];
   onToggleStatus: (id: string) => void;
-  userActionChallenges: UserActionChallenge[];
+  userActionChallenges: Partial<UserActionChallenge>[]; // <--- ici
 };
 
 export const ChallengeActionsList = ({
   actions,
   onToggleStatus,
   userActionChallenges,
-}: Props) => (
-  <ul className="space-y-4 bg-amber-200">
-    {actions.map((action) => {
-      const userAction = userActionChallenges.find(
-        (userAction) => userAction.action.id === action.id
-      );
-      console.log('userAction', userAction);
+}: Props) => {
+  const totoId = userActionChallenges[0].user.id;
 
-      return (
-        <ActionItem
-          key={action.id}
-          id={action.id || ''}
-          title={action.name || ''}
-          description={action.description || ''}
-          tags={action.tags}
-          status={userAction?.status === 'completed' ? 'done' : 'pending'}
-          onToggleStatus={onToggleStatus}
-        />
-      );
-    })}
-  </ul>
-);
+  return (
+    <ul className="space-y-4 bg-amber-200">
+      {actions.map((action) => {
+        const userAction = userActionChallenges.find(
+          (userAction) => userAction.action.id === action.id
+        );
+
+        const status = userAction?.status === 'completed' ? 'done' : 'pending';
+
+        return (
+          <ActionItem
+            key={action.id}
+            id={action.id || ''}
+            title={action.name || ''}
+            description={action.description || ''}
+            tags={action.tags}
+            status={status}
+            userId={totoId}
+            onToggleStatus={onToggleStatus}
+          />
+        );
+      })}
+    </ul>
+  );
+};

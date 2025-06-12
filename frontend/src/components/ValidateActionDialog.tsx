@@ -20,11 +20,13 @@ import { GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS } from '@/lib/graphql/operation
 type ValidateActionDialogProps = {
   isChecked: boolean;
   action: Omit<Action, 'challenges'>;
+  userIdChallenge: string;
 };
 
 export const ValidateActionDialog = ({
   isChecked,
   action,
+  userIdChallenge,
 }: ValidateActionDialogProps) => {
   const { challengeId } = useParams();
 
@@ -45,8 +47,12 @@ export const ValidateActionDialog = ({
     });
 
   const validateAction = async (action: Omit<Action, 'challenges'>) => {
+    if (!userIdChallenge) {
+      toast.error('Utilisateur non authentifié');
+      return;
+    }
     const currentAction = {
-      userId: '9c9681fa-c9c3-44cb-b243-52db3223ede2',
+      userId: userIdChallenge,
       actionId: action.id,
       challengeId: challengeId!,
       status: 'completed',
