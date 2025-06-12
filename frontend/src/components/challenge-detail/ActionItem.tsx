@@ -2,6 +2,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Pill } from '@/components';
 import { CustomInfoDialog } from './CustomInfoDialog';
 import AvatarGroupDemo from './avatar-group';
+import { ValidateActionDialog } from '../ValidateActionDialog';
 
 type Props = {
   id: string;
@@ -21,7 +22,13 @@ export const ActionItem = ({
   onToggleStatus,
 }: Props) => {
   const isChecked = status === 'done';
-
+  const action = {
+    id,
+    title,
+    description,
+    tags,
+    status,
+  };
   return (
     <li className="flex items-center justify-between gap-2 rounded-xl p-4 shadow-sm">
       <div className="flex flex-col items-start gap-2">
@@ -44,11 +51,15 @@ export const ActionItem = ({
       </div>
 
       <div className="flex flex-col items-center gap-2">
-        <Checkbox
-          className="h-8 w-8 rounded-full border-3"
-          checked={isChecked}
-          onCheckedChange={() => onToggleStatus(id)}
-        />
+        {status === 'done' ? (
+          <Checkbox
+            className="h-8 w-8 rounded-full border-3"
+            checked={isChecked}
+            onCheckedChange={() => onToggleStatus(id)}
+          />
+        ) : (
+          <ValidateActionDialog isChecked={isChecked} action={action} />
+        )}
       </div>
     </li>
   );

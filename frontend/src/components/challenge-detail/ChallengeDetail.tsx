@@ -4,12 +4,17 @@ import { ArrowLeft, Pencil } from 'lucide-react';
 import { ChallengeBanner } from './ChallengeBanner';
 import { ActionsTabs, ActionLite } from './ActionsTabs';
 import { Button } from '@/components/ui/button';
+import {
+  Action,
+  useActionByChallengeWithStatusQuery,
+  useGetActionsByChallengeIdQuery,
+} from '@/lib/graphql/generated/graphql-types';
 
 type ChallengeDetailProps = {
   challengeId: string;
 };
 
-const initialActions: ActionLite[] = [
+/* const initialActions: ActionLite[] = [
   {
     id: '1',
     name: 'Éteindre les lumières inutiles',
@@ -42,20 +47,25 @@ const initialActions: ActionLite[] = [
     tags: [{ name: 'Eau' }],
     icon: 'droplet',
   },
-];
+]; */
 
 export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
   const navigate = useNavigate();
-  const [actions, setActions] = useState<ActionLite[]>(initialActions);
-
+  //  const [actions, setActions] = useState<ActionLite[]>(initialActions);
+  // get all actions
+  const { data, loading, error } = useActionByChallengeWithStatusQuery({
+    variables: { getChallengeId: challengeId },
+  });
+  console.log('data', data?.getChallenge);
   const onToggleStatus = (id: string) => {
-    setActions(prev =>
+    console.log('toggle status');
+    /*  setActions(prev =>
       prev.map(action =>
         action.id === id
           ? { ...action, status: action.status === 'done' ? 'pending' : 'done' }
           : action
       )
-    );
+    ); */
   };
 
   return (
@@ -63,7 +73,11 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
       <ChallengeBanner challengeId={challengeId} />
 
       <div className="mt-6 flex justify-center">
-        <ActionsTabs actions={actions} onToggleStatus={onToggleStatus} />
+        <ActionsTabs
+          actions={data?.getChallenge.actions || []}
+          onToggleStatus={onToggleStatus}
+          userActionChallenges={data?.getChallenge.userActionChallenges || []}
+        />
       </div>
 
       {/* Retour à la page précedente */}
@@ -79,7 +93,7 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
       {/* TODO >>> Modifier le challenge si user est l'owner du */}
       <Link
         to={`/challenge/${challengeId}/edit`}
-        className="absolute bottom-4 right-4 z-50 flex size-10 items-center justify-center rounded-full bg-green-600 text-white shadow-md shadow-black/50 hover:bg-green-700"
+        className="absolute right-4 bottom-4 z-50 flex size-10 items-center justify-center rounded-full bg-green-600 text-white shadow-md shadow-black/50 hover:bg-green-700"
         aria-label="Modifier le challenge"
         title="Modifier le challenge"
       >

@@ -58,7 +58,15 @@ export class ChallengeResolver {
   async getChallenge(@Arg('id', () => ID) id: string): Promise<Challenge> {
     const challenge = await Challenge.findOneOrFail({
       where: { id },
-      relations: ['actions', 'members', 'owner'],
+      relations: [
+        'actions',
+        'members',
+        'owner',
+        'userActionChallenges',
+        'userActionChallenges.user',
+        'userActionChallenges.action',
+        'userActionChallenges.challenge',
+      ],
     });
     return challenge;
   }
