@@ -88,7 +88,6 @@ export const Home = () => {
           nbChallenges={user.participatedChallenges?.length || 0}
           picture={user.avatarUrl || '/public/icons/leaf.png'}
           pictureName={`${user.firstname} ${user.lastname}`}
-          initial={''}
         />
       )}
 

@@ -13,10 +13,10 @@ import {
   ChallengeEdition,
   UserPortal,
   NotFoundRedirect,
+  UserAccount,
 } from '@/pages';
 
 import './index.css';
-import UserAccount from './pages/UserAccount.tsx';
 
 export const router = createBrowserRouter([
   {

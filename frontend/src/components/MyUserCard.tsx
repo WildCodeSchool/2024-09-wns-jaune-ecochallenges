@@ -7,7 +7,6 @@ type MyUserCardProps = {
   nbChallenges: number;
   picture?: string;
   pictureName?: string;
-  initial: string;
 };
 
 export const MyUserCard = ({
@@ -17,7 +16,6 @@ export const MyUserCard = ({
   nbChallenges = 0,
   picture,
   pictureName,
-  initial,
 }: MyUserCardProps) => {
   return (
     <article className="m-4 mx-auto max-w-xl">
@@ -28,7 +26,7 @@ export const MyUserCard = ({
             alt={pictureName}
             data-testid="card-image"
           ></AvatarImage>
-          <AvatarFallback delayMs={600}>{initial}</AvatarFallback>
+          <AvatarFallback delayMs={600}>{picture}</AvatarFallback>
         </Avatar>
         <div>
           <h3 className="text-xl font-bold">Tes stats:</h3>

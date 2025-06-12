@@ -12,14 +12,6 @@ import { User } from '@/entities';
 import * as argon from 'argon2';
 import * as jwt from 'jsonwebtoken';
 import { Response } from 'express';
-import { log } from 'console';
-
-type Test = {
-  id: any;
-  firstname: any;
-  lastname: any;
-  description: any;
-};
 
 @InputType()
 export class SignUpUserInput {
@@ -126,9 +118,6 @@ export class UserResolver {
     @Arg('user') userData: UpdateUserInput,
     @Ctx() { user }: { user: User }
   ) {
-    console.log('userData', userData);
-    console.log('user', user);
-
     if (user.id !== userData.id) {
       throw new GraphQLError(
         "Vous ne pouvez pas éditer le profile d'un autre utilisateur"
@@ -155,7 +144,6 @@ export class UserResolver {
     if (!process.env.JWT_SECRET) {
       throw new GraphQLError('Missing JWT_SECRET environment variable');
     }
-
     try {
       const existingUser = await User.findOne({
         where: { email: userInfos.email },
@@ -195,11 +183,7 @@ export class UserResolver {
     }
 
     try {
-      console.log(userLogInData);
-
       const user = await User.findOneByOrFail({ email: userLogInData.email });
-      console.log(user);
-
       const isValid = await argon.verify(
         user.hashedPassword,
         userLogInData.hashedPassword

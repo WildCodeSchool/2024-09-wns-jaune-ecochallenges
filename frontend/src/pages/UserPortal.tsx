@@ -4,7 +4,6 @@ import { Login } from '@/components/forms/auth/Login';
 import { Signup } from '@/components/forms/auth/Signup';
 import { useUserStore } from '@/lib/zustand/userStore';
 import UserAccount from './UserAccount';
-import { UserAcount } from '@/components/UserAcount';
 
 export const UserPortal = () => {
   const [isLoginMode, setIsLoginMode] = useState(false);
