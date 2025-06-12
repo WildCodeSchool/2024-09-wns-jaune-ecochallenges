@@ -1,4 +1,7 @@
-import { Action, User } from '@/lib/graphql/generated/graphql-types';
+import {
+  GetUserActionsQuery,
+  User,
+} from '@/lib/graphql/generated/graphql-types';
 import {
   Button,
   Card,
@@ -26,7 +29,7 @@ import {
 import { Link } from 'react-router-dom';
 
 type ActionCardProps = {
-  action: Omit<Action, 'challenges'>;
+  action: GetUserActionsQuery['getUserActions'][number];
   isSelected?: boolean;
   onClick?: () => void;
   onDelete?: () => void;
