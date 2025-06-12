@@ -1,5 +1,6 @@
 export * from './ActionList';
 export * from './ActionCreation';
+export * from './ActionEdition';
 export * from './ChallengeList';
 export * from './ChallengeCreation';
 export * from './ChallengeEdition';

@@ -14,6 +14,7 @@ import {
   UserPortal,
   NotFoundRedirect,
   ActionCreation,
+  ActionEdition,
 } from '@/pages';
 
 import './index.css';
@@ -54,6 +55,10 @@ export const router = createBrowserRouter([
       {
         path: '/action/new',
         element: <ActionCreation />,
+      },
+      {
+        path: '/action/:actionId/edit',
+        element: <ActionEdition />,
       },
       {
         path: '/user',

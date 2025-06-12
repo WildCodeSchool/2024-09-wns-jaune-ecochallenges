@@ -1,14 +1,6 @@
 import { z } from 'zod';
 import {
   Button,
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
   Form,
   Tabs,
   TabsContent,
@@ -19,10 +11,15 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Step1Init, Step2Tags } from '@/components/forms/action';
 import { useState } from 'react';
-import { Check, Trash } from 'lucide-react';
-import { useCreateActionMutation } from '@/lib/graphql/generated/graphql-types';
+import { Check } from 'lucide-react';
+import {
+  useCreateActionMutation,
+  useGetActionQuery,
+  useUpdateActionMutation,
+} from '@/lib/graphql/generated/graphql-types';
 import { GET_ACTIONS } from '@/lib/graphql/operations';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const formSchema = z.object({
   name: z
@@ -62,9 +59,23 @@ const formSchema = z.object({
 
 type FormType = z.infer<typeof formSchema>;
 
-export const ActionForm = () => {
+export const ActionForm = ({ actionId }: { actionId?: string }) => {
+  const { data, loading, error } = useGetActionQuery({
+    skip: !actionId,
+    variables: { id: actionId! },
+  });
+
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
+    values: data?.getAction && {
+      name: data.getAction.name,
+      description: data.getAction.description,
+      requires_view: data.getAction.requires_view,
+      level: data.getAction.level,
+      icon: data.getAction.icon,
+      time: data.getAction.time,
+      tags: data.getAction.tags?.map((tag) => tag.id) || [],
+    },
     defaultValues: {
       name: '',
       description: '',
@@ -97,6 +108,7 @@ export const ActionForm = () => {
     const errorTab = getTabWithErrors(errors);
     if (!errorTab) return;
     setActiveTab(errorTab);
+    toast.error('Veuillez corriger les erreurs avant de continuer');
   };
 
   const onSubmit = async (formData: FormType) => {
@@ -115,12 +127,18 @@ export const ActionForm = () => {
         tags: formData.tags,
       };
 
-      const response = await createAction({
-        variables: {
-          data: actionData,
-        },
-      });
-
+      const response = actionId
+        ? await updateAction({
+            variables: {
+              id: actionId,
+              data: actionData,
+            },
+          })
+        : await createAction({
+            variables: {
+              data: actionData,
+            },
+          });
       if (response.errors) throw new Error(response.errors[0].message);
     } catch (error) {
       console.error('Error creating action:', error);
@@ -134,10 +152,31 @@ export const ActionForm = () => {
       },
     ],
     onCompleted: () => {
-      //! TODO: redirect to the action page
+      toast.success('Eco-geste créé avec succès');
       navigate(`/actions`);
     },
+    onError: () => {
+      toast.error("Erreur lors de la création de l'éco-geste");
+    },
   });
+
+  const [updateAction] = useUpdateActionMutation({
+    refetchQueries: [
+      {
+        query: GET_ACTIONS,
+      },
+    ],
+    onCompleted: () => {
+      toast.success('Eco-geste modifié avec succès');
+      navigate(`/actions`);
+    },
+    onError: () => {
+      toast.error("Erreur lors de la modification de l'éco-geste");
+    },
+  });
+
+  if (loading) return <div>Chargement...</div>;
+  if (error) return <div>Une erreur est survenue : {error.message}</div>;
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit, onError)}>
@@ -155,32 +194,6 @@ export const ActionForm = () => {
           </TabsContent>
         </Tabs>
         <div className="fixed right-4 bottom-20 z-50 flex flex-col gap-4">
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button
-                variant="destructive"
-                className="size-14 rounded-full shadow-md shadow-black/50"
-              >
-                <Trash className="size-10" strokeWidth={1.4} />
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Supprimer l'eco-geste</DialogTitle>
-                <DialogDescription>
-                  Êtes-vous sûr de vouloir supprimer cet eco-geste ? Cette
-                  action est irréversible.
-                </DialogDescription>
-              </DialogHeader>
-              <DialogFooter>
-                <Button type="button">Confirmer</Button>
-                <DialogClose asChild>
-                  <Button>Annuler</Button>
-                </DialogClose>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-
           <Button
             type="submit"
             variant="default"

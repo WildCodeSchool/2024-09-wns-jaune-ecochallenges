@@ -1,6 +1,7 @@
 import {
   Action,
   useGetActionsQuery,
+  useDeleteActionMutation,
 } from '@/lib/graphql/generated/graphql-types';
 import { ActionCard, Filterbar, Filters } from '@/components';
 import { useEffect, useState } from 'react';
@@ -11,11 +12,15 @@ import {
   AccordionTrigger,
   Button,
 } from '@/components/ui';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import { useUserStore } from '@/lib/zustand/userStore';
+import { GET_ACTIONS } from '@/lib/graphql/operations';
+import { toast } from 'sonner';
 
 export const ActionList = () => {
+  const navigate = useNavigate();
+
   const { data, loading, error } = useGetActionsQuery();
 
   const [filteredActions, setFilteredActions] = useState<
@@ -28,6 +33,26 @@ export const ActionList = () => {
     durations: new Set<number>(),
     difficulties: new Set<number>(),
   });
+
+  const [deleteAction] = useDeleteActionMutation({
+    refetchQueries: [
+      {
+        query: GET_ACTIONS,
+      },
+    ],
+    onCompleted: () => {
+      navigate(`/actions`);
+    },
+  });
+
+  const handleDeleteAction = async (id: string) => {
+    try {
+      await deleteAction({ variables: { id } });
+      toast.success('Eco-geste supprimé avec succès');
+    } catch (error) {
+      toast.error("Erreur lors de la suppression de l'éco-geste");
+    }
+  };
 
   const user = useUserStore((state) => state.user);
 
@@ -81,7 +106,11 @@ export const ActionList = () => {
               <ul className="flex flex-col gap-1 sm:grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-3 xl:grid-cols-4 xl:gap-4">
                 {publicActions.map((action) => (
                   <li key={action.id}>
-                    <ActionCard action={action} />
+                    <ActionCard
+                      action={action}
+                      onDelete={() => handleDeleteAction(action.id)}
+                      user={user ?? undefined}
+                    />
                   </li>
                 ))}
               </ul>
@@ -89,7 +118,7 @@ export const ActionList = () => {
           )}
           {publicActions.length === 0 && (
             <AccordionContent>
-              <li>Aucun éco-geste public trouvé avec ces filtres</li>
+              <p>Aucun éco-geste public trouvé</p>
             </AccordionContent>
           )}
         </AccordionItem>
@@ -103,7 +132,11 @@ export const ActionList = () => {
               <ul className="flex flex-col gap-1 sm:grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-3 xl:grid-cols-4 xl:gap-4">
                 {privateActions.map((action) => (
                   <li key={action.id}>
-                    <ActionCard action={action} />
+                    <ActionCard
+                      action={action}
+                      onDelete={() => handleDeleteAction(action.id)}
+                      user={user ?? undefined}
+                    />
                   </li>
                 ))}
               </ul>
@@ -111,21 +144,23 @@ export const ActionList = () => {
           )}
           {privateActions.length === 0 && (
             <AccordionContent>
-              <li>Aucun éco-geste personnel trouvé avec ces filtres</li>
+              <p>Aucun éco-geste personnel trouvé</p>
             </AccordionContent>
           )}
         </AccordionItem>
       </Accordion>
 
-      <Button
-        asChild
-        variant="default"
-        className="fixed right-4 bottom-20 z-50 size-14 rounded-full shadow-md shadow-black/50"
-      >
-        <Link to="/action/new">
-          <Plus className="size-10" strokeWidth={1.4} />
-        </Link>
-      </Button>
+      {user && (
+        <Button
+          asChild
+          variant="default"
+          className="fixed right-4 bottom-20 z-50 size-14 rounded-full shadow-md shadow-black/50"
+        >
+          <Link to="/action/new">
+            <Plus className="size-10" strokeWidth={1.4} />
+          </Link>
+        </Button>
+      )}
     </>
   );
 };

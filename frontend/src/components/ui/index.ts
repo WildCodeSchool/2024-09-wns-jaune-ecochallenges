@@ -16,3 +16,4 @@ export * from './sonner';
 export * from './tabs';
 export * from './switch';
 export * from './slider';
+export * from './dropdown-menu';

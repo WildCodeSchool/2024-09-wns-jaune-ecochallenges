@@ -1,4 +1,4 @@
-import { Action } from '@/lib/graphql/generated/graphql-types';
+import { Action, User } from '@/lib/graphql/generated/graphql-types';
 import {
   Button,
   Card,
@@ -7,6 +7,17 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
 } from '@/components/ui';
 import { Pill } from '@/components';
 import {
@@ -19,11 +30,15 @@ import {
   Sprout,
   TreePalm,
 } from 'lucide-react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 type ActionCardProps = {
-  action: Omit<Action, 'challenges' | 'createdBy'>;
+  action: Omit<Action, 'challenges'>;
   isSelected?: boolean;
   onClick?: () => void;
+  onDelete?: () => void;
+  user?: Pick<User, 'id' | 'role'>;
 };
 
 type dfficultyProps = {
@@ -70,7 +85,13 @@ export const ActionCard = ({
   action,
   isSelected = false,
   onClick,
+  onDelete,
+  user,
 }: ActionCardProps) => {
+  const [open, setOpen] = useState(false);
+  const canEditOrDelete =
+    user?.role === 'admin' ||
+    (user?.role === 'user' && action.createdBy?.id === user.id);
   return (
     <article className="h-full">
       <Card
@@ -108,13 +129,61 @@ export const ActionCard = ({
               <ImagePlus className="size-6" />
             </Button>
 
-            <Button
-              type="button"
-              variant="ghost"
-              className="m-0 p-0 hover:bg-transparent hover:opacity-100"
-            >
-              <Ellipsis className="size-6" />
-            </Button>
+            {canEditOrDelete && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    className="m-0 p-0 hover:bg-transparent hover:opacity-100"
+                  >
+                    <Ellipsis className="size-6" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <Link to={`/action/${action.id}/edit`}>
+                    <DropdownMenuItem>Editer</DropdownMenuItem>
+                  </Link>
+                  <DropdownMenuItem
+                    onSelect={(e) => {
+                      e.preventDefault();
+                      setOpen(true);
+                    }}
+                    className="text-destructive"
+                  >
+                    Supprimer
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Supprimer l'éco-geste</DialogTitle>
+                  <DialogDescription>
+                    Êtes-vous sûr de vouloir supprimer cet éco-geste ? Cette
+                    action est irréversible.
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={() => {
+                      setOpen(false);
+                      onDelete?.();
+                    }}
+                  >
+                    Confirmer
+                  </Button>
+                  <DialogClose asChild>
+                    <Button type="button" variant="secondary">
+                      Annuler
+                    </Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
             <Button
               size="icon"
               type="button"
