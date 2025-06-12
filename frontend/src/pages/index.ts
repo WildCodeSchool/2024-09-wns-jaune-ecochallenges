@@ -1,7 +1,6 @@
 export * from './ActionList';
 export * from './ActionCreation';
 export * from './ActionEdition';
-export * from '../components/challenge-detail/ChallengeActionList';
 export * from './ChallengeList';
 export * from './ChallengeCreation';
 export * from './ChallengeEdition';
