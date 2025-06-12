@@ -1,5 +1,4 @@
 export * from './ActionList';
-export * from '../components/challenge-detail/ChallengeActionList';
 export * from './ChallengeList';
 export * from './ChallengeCreation';
 export * from './ChallengeEdition';
