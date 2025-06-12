@@ -43,6 +43,7 @@ export type Action = {
   requires_view: Scalars['Boolean']['output'];
   tags?: Maybe<Array<Tag>>;
   time: Scalars['Float']['output'];
+  userActionChallenges: Array<UserActionChallenge>;
 };
 
 export type ActionInput = {
@@ -68,6 +69,7 @@ export type Challenge = {
   members: Array<User>;
   owner: User;
   startDate: Scalars['DateTimeISO']['output'];
+  userActionChallenges: Array<UserActionChallenge>;
 };
 
 export type ChallengeInput = {
@@ -399,6 +401,57 @@ export type CreateUserActionChallengeMutation = {
     user: { __typename?: 'User'; firstname: string };
     challenge: { __typename?: 'Challenge'; id: string };
     action: { __typename?: 'Action'; id: string };
+  };
+};
+
+export type ActionByChallengeWithStatusQueryVariables = Exact<{
+  getChallengeId: Scalars['ID']['input'];
+}>;
+
+export type ActionByChallengeWithStatusQuery = {
+  __typename?: 'Query';
+  getChallenge: {
+    __typename?: 'Challenge';
+    startDate: any;
+    label: string;
+    isPublic: boolean;
+    id: string;
+    endDate: any;
+    description?: string | null;
+    createdAt: any;
+    bannerUrl?: string | null;
+    owner: { __typename?: 'User'; id: string };
+    members: Array<{
+      __typename?: 'User';
+      id: string;
+      lastname: string;
+      firstname: string;
+      role: string;
+    }>;
+    actions: Array<{
+      __typename?: 'Action';
+      id: string;
+      name: string;
+      description: string;
+      requires_view: boolean;
+      level: number;
+      icon: string;
+      time: number;
+      createdAt: any;
+      tags?: Array<{
+        __typename?: 'Tag';
+        id: string;
+        name: string;
+        icon: string;
+      }> | null;
+    }>;
+    userActionChallenges: Array<{
+      __typename?: 'UserActionChallenge';
+      status: string;
+      user: { __typename?: 'User'; id: string };
+      challenge: { __typename?: 'Challenge'; id: string };
+      action: { __typename?: 'Action'; id: string };
+    }>;
   };
 };
 
@@ -1279,3 +1332,128 @@ export type CreateUserActionChallengeMutationOptions =
     CreateUserActionChallengeMutation,
     CreateUserActionChallengeMutationVariables
   >;
+export const ActionByChallengeWithStatusDocument = gql`
+  query actionByChallengeWithStatus($getChallengeId: ID!) {
+    getChallenge(id: $getChallengeId) {
+      startDate
+      owner {
+        id
+      }
+      members {
+        id
+        lastname
+        firstname
+        role
+      }
+      label
+      isPublic
+      id
+      endDate
+      description
+      createdAt
+      bannerUrl
+      actions {
+        id
+        name
+        description
+        requires_view
+        level
+        icon
+        time
+        createdAt
+        tags {
+          id
+          name
+          icon
+        }
+      }
+      userActionChallenges {
+        user {
+          id
+        }
+        status
+        challenge {
+          id
+        }
+        action {
+          id
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useActionByChallengeWithStatusQuery__
+ *
+ * To run a query within a React component, call `useActionByChallengeWithStatusQuery` and pass it any options that fit your needs.
+ * When your component renders, `useActionByChallengeWithStatusQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useActionByChallengeWithStatusQuery({
+ *   variables: {
+ *      getChallengeId: // value for 'getChallengeId'
+ *   },
+ * });
+ */
+export function useActionByChallengeWithStatusQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    ActionByChallengeWithStatusQuery,
+    ActionByChallengeWithStatusQueryVariables
+  > &
+    (
+      | { variables: ActionByChallengeWithStatusQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    )
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    ActionByChallengeWithStatusQuery,
+    ActionByChallengeWithStatusQueryVariables
+  >(ActionByChallengeWithStatusDocument, options);
+}
+export function useActionByChallengeWithStatusLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ActionByChallengeWithStatusQuery,
+    ActionByChallengeWithStatusQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    ActionByChallengeWithStatusQuery,
+    ActionByChallengeWithStatusQueryVariables
+  >(ActionByChallengeWithStatusDocument, options);
+}
+export function useActionByChallengeWithStatusSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        ActionByChallengeWithStatusQuery,
+        ActionByChallengeWithStatusQueryVariables
+      >
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    ActionByChallengeWithStatusQuery,
+    ActionByChallengeWithStatusQueryVariables
+  >(ActionByChallengeWithStatusDocument, options);
+}
+export type ActionByChallengeWithStatusQueryHookResult = ReturnType<
+  typeof useActionByChallengeWithStatusQuery
+>;
+export type ActionByChallengeWithStatusLazyQueryHookResult = ReturnType<
+  typeof useActionByChallengeWithStatusLazyQuery
+>;
+export type ActionByChallengeWithStatusSuspenseQueryHookResult = ReturnType<
+  typeof useActionByChallengeWithStatusSuspenseQuery
+>;
+export type ActionByChallengeWithStatusQueryResult = Apollo.QueryResult<
+  ActionByChallengeWithStatusQuery,
+  ActionByChallengeWithStatusQueryVariables
+>;

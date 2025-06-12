@@ -175,3 +175,54 @@ export const MUTATION_VALIDATE_ACTION = gql`
     }
   }
 `;
+
+export const GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS = gql`
+  query actionByChallengeWithStatus($getChallengeId: ID!) {
+    getChallenge(id: $getChallengeId) {
+      startDate
+      owner {
+        id
+      }
+      members {
+        id
+        lastname
+        firstname
+        role
+      }
+      label
+      isPublic
+      id
+      endDate
+      description
+      createdAt
+      bannerUrl
+      actions {
+        id
+        name
+        description
+        requires_view
+        level
+        icon
+        time
+        createdAt
+        tags {
+          id
+          name
+          icon
+        }
+      }
+      userActionChallenges {
+        user {
+          id
+        }
+        status
+        challenge {
+          id
+        }
+        action {
+          id
+        }
+      }
+    }
+  }
+`;

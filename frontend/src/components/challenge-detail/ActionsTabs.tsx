@@ -1,24 +1,34 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ChallengeActionsList } from './ChallengeActionsList';
+import {
+  Action,
+  UserActionChallenge,
+} from '@/lib/graphql/generated/graphql-types';
 
-export type ActionLite = {
+/* export type ActionLite = {
   id: string;
   name: string;
   description: string;
   status: 'done' | 'pending';
   tags?: { name: string }[] | null;
   icon: string;
-};
+}; */
 
 type Props = {
-  actions: ActionLite[];
+  actions: Partial<Action>[];
   onToggleStatus: (id: string) => void;
+  userActionChallenges: Partial<UserActionChallenge>[];
 };
 
-export const ActionsTabs = ({ actions, onToggleStatus }: Props) => {
+export const ActionsTabs = ({
+  actions,
+  onToggleStatus,
+  userActionChallenges,
+}: Props) => {
   const gestes = actions;
-  const fil = actions.filter((action) => action.status === 'done');
-  const tocheck = actions.filter((action) => action.status === 'pending');
+  console.log('gestes', gestes);
+  /*   const fil = actions.filter((action) => action.status === 'done');
+  const tocheck = actions.filter((action) => action.status === 'pending'); */
 
   return (
     <Tabs defaultValue="gestes" className="w-full md:max-w-4xl lg:max-w-5xl">
@@ -39,14 +49,18 @@ export const ActionsTabs = ({ actions, onToggleStatus }: Props) => {
           <ChallengeActionsList
             actions={gestes}
             onToggleStatus={onToggleStatus}
+            userActionChallenges={userActionChallenges}
           />
         </TabsContent>
         <TabsContent value="fil">
-          <ChallengeActionsList actions={fil} onToggleStatus={onToggleStatus} />
+          <ChallengeActionsList
+            actions={gestes}
+            onToggleStatus={onToggleStatus}
+          />
         </TabsContent>
         <TabsContent value="tocheck">
           <ChallengeActionsList
-            actions={tocheck}
+            actions={gestes}
             onToggleStatus={onToggleStatus}
           />
         </TabsContent>
