@@ -14,6 +14,8 @@ import {
   useCreateUserActionChallengeMutation,
 } from '@/lib/graphql/generated/graphql-types';
 import { toast } from 'sonner';
+import { useParams } from 'react-router-dom';
+import { GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS } from '@/lib/graphql/operations';
 
 type ValidateActionDialogProps = {
   isChecked: boolean;
@@ -24,28 +26,36 @@ export const ValidateActionDialog = ({
   isChecked,
   action,
 }: ValidateActionDialogProps) => {
+  const { challengeId } = useParams();
+
   const [createUserActionChallengeMutation] =
-    useCreateUserActionChallengeMutation();
+    useCreateUserActionChallengeMutation({
+      refetchQueries: [
+        {
+          query: GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS,
+          variables: { getChallengeId: challengeId },
+        },
+      ],
+      onCompleted: () => {
+        toast.success('Eco-geste validé !');
+      },
+      onError: () => {
+        toast.error("Erreur lors de la validation de l'action");
+      },
+    });
 
   const validateAction = async (action: Omit<Action, 'challenges'>) => {
-    console.log(action);
-    try {
-      const currentAction = {
-        userId: '9c9681fa-c9c3-44cb-b243-52db3223ede2',
-        actionId: '2',
-        challengeId: '11',
-        status: 'completed',
-      };
-      const { data } = await createUserActionChallengeMutation({
-        variables: { data: currentAction },
-      });
-      if (!data?.createUserActionChallenge) {
-        throw new Error('Failed to validate action');
-      }
-      toast.success('Eco-geste validé !');
-    } catch (error) {
-      console.error(error);
-      toast.error("Erreur lors de la validation de l'action");
+    const currentAction = {
+      userId: '9c9681fa-c9c3-44cb-b243-52db3223ede2',
+      actionId: action.id,
+      challengeId: challengeId!,
+      status: 'completed',
+    };
+    const { data } = await createUserActionChallengeMutation({
+      variables: { data: currentAction },
+    });
+    if (!data?.createUserActionChallenge) {
+      throw new Error('Failed to validate action');
     }
   };
 
