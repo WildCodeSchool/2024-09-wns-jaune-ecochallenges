@@ -21,7 +21,7 @@ export const ChallengeCard = ({
 
   return (
     <article className="h-full">
-      <Link to={`/challenge/${challenge.id}`}>
+      <Link to={`/challenges/${challenge.id}`}>
         <Card className={cn('relative h-full justify-between')}>
           <CardHeader className="overflow-hidden">
             <img
