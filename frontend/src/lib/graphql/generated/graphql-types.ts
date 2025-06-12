@@ -43,6 +43,7 @@ export type Action = {
   requires_view: Scalars['Boolean']['output'];
   tags?: Maybe<Array<Tag>>;
   time: Scalars['Float']['output'];
+  userActionChallenges: Array<UserActionChallenge>;
 };
 
 export type ActionInput = {
@@ -68,6 +69,7 @@ export type Challenge = {
   members: Array<User>;
   owner: User;
   startDate: Scalars['DateTimeISO']['output'];
+  userActionChallenges: Array<UserActionChallenge>;
 };
 
 export type ChallengeInput = {
@@ -89,16 +91,22 @@ export type LoginUserInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createChallenge: Challenge;
+  createUserActionChallenge: UserActionChallenge;
   createdAction: Action;
   deleteChallenge: Scalars['Boolean']['output'];
   logIn: Scalars['String']['output'];
   logOut: Scalars['Boolean']['output'];
   signUp: Scalars['String']['output'];
   updateChallenge: Challenge;
+  updateUserActionChallenge: UserActionChallenge;
 };
 
 export type MutationCreateChallengeArgs = {
   data: ChallengeInput;
+};
+
+export type MutationCreateUserActionChallengeArgs = {
+  data: UserActionChallengeInput;
 };
 
 export type MutationCreatedActionArgs = {
@@ -122,6 +130,10 @@ export type MutationUpdateChallengeArgs = {
   id: Scalars['ID']['input'];
 };
 
+export type MutationUpdateUserActionChallengeArgs = {
+  data: UserActionChallengeInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   getActionById: Action;
@@ -130,6 +142,9 @@ export type Query = {
   getAllTags: Array<Tag>;
   getChallenge: Challenge;
   getChallenges: Array<Challenge>;
+  getUserActionChallengeByChallenge: Array<UserActionChallenge>;
+  getUserActionChallengeByUser: UserActionChallenge;
+  getUserActionChallenges: Array<UserActionChallenge>;
   getUsersAsUser: Array<User>;
 };
 
@@ -143,6 +158,14 @@ export type QueryGetActionsByChallengeIdArgs = {
 
 export type QueryGetChallengeArgs = {
   id: Scalars['ID']['input'];
+};
+
+export type QueryGetUserActionChallengeByChallengeArgs = {
+  id: Scalars['String']['input'];
+};
+
+export type QueryGetUserActionChallengeByUserArgs = {
+  id: Scalars['String']['input'];
 };
 
 export type SignUpUserInput = {
@@ -171,6 +194,24 @@ export type User = {
   lastname: Scalars['String']['output'];
   participatedChallenges: Array<Challenge>;
   role: Scalars['String']['output'];
+  userActionChallenges: Array<UserActionChallenge>;
+};
+
+export type UserActionChallenge = {
+  __typename?: 'UserActionChallenge';
+  action: Action;
+  challenge: Challenge;
+  comment: Scalars['String']['output'];
+  status: Scalars['String']['output'];
+  user: User;
+};
+
+export type UserActionChallengeInput = {
+  actionId: Scalars['ID']['input'];
+  challengeId: Scalars['ID']['input'];
+  comment?: InputMaybe<Scalars['String']['input']>;
+  status: Scalars['String']['input'];
+  userId: Scalars['ID']['input'];
 };
 
 export type GetUsersAsUserQueryVariables = Exact<{ [key: string]: never }>;
@@ -266,11 +307,7 @@ export type UpdateChallengeMutationVariables = Exact<{
 
 export type UpdateChallengeMutation = {
   __typename?: 'Mutation';
-  updateChallenge: {
-    __typename?: 'Challenge';
-    id: string;
-    description?: string | null;
-  };
+  updateChallenge: { __typename?: 'Challenge'; id: string };
 };
 
 export type DeleteChallengeMutationVariables = Exact<{
@@ -355,6 +392,22 @@ export type GetActionsByChallengeIdQuery = {
       name: string;
       icon: string;
     }> | null;
+  }>;
+};
+
+export type GetUserActionChallengeByChallengeQueryVariables = Exact<{
+  getUserActionChallengeByChallengeId: Scalars['String']['input'];
+}>;
+
+export type GetUserActionChallengeByChallengeQuery = {
+  __typename?: 'Query';
+  getUserActionChallengeByChallenge: Array<{
+    __typename?: 'UserActionChallenge';
+    status: string;
+    comment: string;
+    user: { __typename?: 'User'; id: string };
+    action: { __typename?: 'Action'; id: string };
+    challenge: { __typename?: 'Challenge'; id: string };
   }>;
 };
 
@@ -695,7 +748,6 @@ export const UpdateChallengeDocument = gql`
   mutation UpdateChallenge($id: ID!, $data: ChallengeInput!) {
     updateChallenge(id: $id, data: $data) {
       id
-      description
     }
   }
 `;
@@ -1176,4 +1228,102 @@ export type GetActionsByChallengeIdSuspenseQueryHookResult = ReturnType<
 export type GetActionsByChallengeIdQueryResult = Apollo.QueryResult<
   GetActionsByChallengeIdQuery,
   GetActionsByChallengeIdQueryVariables
+>;
+export const GetUserActionChallengeByChallengeDocument = gql`
+  query GetUserActionChallengeByChallenge(
+    $getUserActionChallengeByChallengeId: String!
+  ) {
+    getUserActionChallengeByChallenge(
+      id: $getUserActionChallengeByChallengeId
+    ) {
+      user {
+        id
+      }
+      action {
+        id
+      }
+      challenge {
+        id
+      }
+      status
+      comment
+    }
+  }
+`;
+
+/**
+ * __useGetUserActionChallengeByChallengeQuery__
+ *
+ * To run a query within a React component, call `useGetUserActionChallengeByChallengeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserActionChallengeByChallengeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserActionChallengeByChallengeQuery({
+ *   variables: {
+ *      getUserActionChallengeByChallengeId: // value for 'getUserActionChallengeByChallengeId'
+ *   },
+ * });
+ */
+export function useGetUserActionChallengeByChallengeQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetUserActionChallengeByChallengeQuery,
+    GetUserActionChallengeByChallengeQueryVariables
+  > &
+    (
+      | {
+          variables: GetUserActionChallengeByChallengeQueryVariables;
+          skip?: boolean;
+        }
+      | { skip: boolean }
+    )
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetUserActionChallengeByChallengeQuery,
+    GetUserActionChallengeByChallengeQueryVariables
+  >(GetUserActionChallengeByChallengeDocument, options);
+}
+export function useGetUserActionChallengeByChallengeLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetUserActionChallengeByChallengeQuery,
+    GetUserActionChallengeByChallengeQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetUserActionChallengeByChallengeQuery,
+    GetUserActionChallengeByChallengeQueryVariables
+  >(GetUserActionChallengeByChallengeDocument, options);
+}
+export function useGetUserActionChallengeByChallengeSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetUserActionChallengeByChallengeQuery,
+        GetUserActionChallengeByChallengeQueryVariables
+      >
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetUserActionChallengeByChallengeQuery,
+    GetUserActionChallengeByChallengeQueryVariables
+  >(GetUserActionChallengeByChallengeDocument, options);
+}
+export type GetUserActionChallengeByChallengeQueryHookResult = ReturnType<
+  typeof useGetUserActionChallengeByChallengeQuery
+>;
+export type GetUserActionChallengeByChallengeLazyQueryHookResult = ReturnType<
+  typeof useGetUserActionChallengeByChallengeLazyQuery
+>;
+export type GetUserActionChallengeByChallengeSuspenseQueryHookResult =
+  ReturnType<typeof useGetUserActionChallengeByChallengeSuspenseQuery>;
+export type GetUserActionChallengeByChallengeQueryResult = Apollo.QueryResult<
+  GetUserActionChallengeByChallengeQuery,
+  GetUserActionChallengeByChallengeQueryVariables
 >;

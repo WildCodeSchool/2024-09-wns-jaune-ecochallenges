@@ -4,7 +4,6 @@ type TabProps = {
 };
 
 export const ChallengeDetailTab = ({ active, setActive }: TabProps) => {
-    console.log('active', active)
   const tabs = [
     { id: 'all', label: 'All' },
     { id: 'done', label: 'Done' },

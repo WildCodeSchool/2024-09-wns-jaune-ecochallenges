@@ -159,3 +159,25 @@ export const GET_ACTIONS_BY_CHALLENGE_ID = gql`
     }
   }
 `;
+
+export const GET_USER_ACTION_CHALLENGE_BY_CHALLENGE_ID = gql`
+  query GetUserActionChallengeByChallenge(
+    $getUserActionChallengeByChallengeId: String!
+  ) {
+    getUserActionChallengeByChallenge(
+      id: $getUserActionChallengeByChallengeId
+    ) {
+      user {
+        id
+      }
+      action {
+        id
+      }
+      challenge {
+        id
+      }
+      status
+      comment
+    }
+  }
+`;

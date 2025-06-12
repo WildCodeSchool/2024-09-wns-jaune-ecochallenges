@@ -23,7 +23,7 @@ export const DesktopNavbarComponent = () => {
         <img
           data-testid="card-image"
           className="aspect-square w-14 rounded-full"
-          src="./images/sample.jpg"
+          src="./images/bernard.png"
           alt="Logo Eco-challenges"
           role="img"
         />

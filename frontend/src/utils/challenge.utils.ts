@@ -1,4 +1,9 @@
-import { Action } from '@/lib/graphql/generated/graphql-types';
+import {
+  Action,
+  Challenge,
+  UserActionChallenge,
+  UserActionChallengeInput,
+} from '@/lib/graphql/generated/graphql-types';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
@@ -19,4 +24,16 @@ export const formatChallengeDates = (startDate: string, endDate: string) => {
       (new Date(endDate).getTime() - new Date().getTime()) / 1000 / 60 / 60 / 24
     ),
   };
+};
+
+export const getProgressPercentageInChallenge = (
+  challenge: Challenge,
+  userActionChallenge: UserActionChallenge[]
+): number => {
+  const totalAction = challenge.actions.length;
+  if (totalAction === 0) return 0;
+  const toalActionDone = userActionChallenge.filter(
+    (el) => el.status === 'completed'
+  ).length;
+  return Math.round((toalActionDone / totalAction) * 100);
 };

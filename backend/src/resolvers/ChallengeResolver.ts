@@ -69,6 +69,7 @@ export class ChallengeResolver {
     @Ctx() { user }: { user: User }
   ) {
     try {
+      console.log('🚀 ~ ChallengeResolver ~ data:', data);
       let challenge = new Challenge();
       challenge = Object.assign(challenge, data);
       challenge.owner = user;

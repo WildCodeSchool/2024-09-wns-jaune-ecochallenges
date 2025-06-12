@@ -26,14 +26,14 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
 
       <Button
         onClick={() => navigate(-1)}
-        className="absolute bottom-0 left-0 z-50 size-10 rounded-full shadow-md shadow-black/50"
+        className="absolute bottom-0 left-0 z-50 m-2 size-10 rounded-full shadow-md shadow-black/50"
       >
         <ArrowLeft className="size-5" />
       </Button>
 
       <Link
         to={`/challenge/${challengeId}/edit`}
-        className="absolute bottom-0 right-0 z-50 flex size-10 items-center justify-center rounded-full bg-green-600 text-white shadow-md shadow-black/50 hover:bg-green-700"
+        className="absolute right-0 bottom-0 z-50 m-2 flex size-10 items-center justify-center rounded-full bg-green-600 text-white shadow-md shadow-black/50 hover:bg-green-700"
         title="Modifier le challenge"
         aria-label="Modifier le challenge"
       >
