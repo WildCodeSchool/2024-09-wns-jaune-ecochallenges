@@ -439,3 +439,19 @@ export const UPDATE_USER_ACTION_CHALLENGE = gql`
     }
   }
 `;
+
+export const MUTATION_VALIDATE_ACTION = gql`
+  mutation CreateUserActionChallenge($data: UserActionChallengeInput!) {
+    createUserActionChallenge(data: $data) {
+      user {
+        firstname
+      }
+      challenge {
+        id
+      }
+      action {
+        id
+      }
+    }
+  }
+`;
