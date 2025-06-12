@@ -26,9 +26,9 @@ export const ActionItem = ({
       <div className="flex items-center gap-4">
         <div className="bg-zinc-200">
           <h3 className="block text-sm font-semibold">{title}</h3>
-          <p className="text-muted-foreground flex items-center gap-2 text-xs">
+          {/* <p className="text-muted-foreground flex items-center gap-2 text-xs">
             {description}
-          </p>
+          </p> */}
           <div className="mt-1 flex items-center gap-2">
             <Pill>{tags?.[0]?.name || 'Sans tag'}</Pill>
 
