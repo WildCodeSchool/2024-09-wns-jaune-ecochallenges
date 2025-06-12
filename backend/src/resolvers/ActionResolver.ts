@@ -43,6 +43,20 @@ export class ActionResolver {
     return actions;
   }
 
+  @Query(() => [Action])
+  async getUserActions(@Ctx() { user }: { user: User }): Promise<Action[]> {
+    const whereConditions = user
+      ? [
+          { createdBy: { id: user.id } },
+          { createdBy: { role: UserRole.ADMIN } },
+        ]
+      : [{ createdBy: { role: UserRole.ADMIN } }];
+    return await Action.find({
+      where: whereConditions,
+      relations: ['tags', 'createdBy'],
+    });
+  }
+
   @Query(() => Action)
   async getAction(@Arg('id', () => ID) id: string): Promise<Action> {
     const action = await Action.findOneOrFail({

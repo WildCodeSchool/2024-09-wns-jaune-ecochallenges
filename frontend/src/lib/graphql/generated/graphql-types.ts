@@ -141,6 +141,7 @@ export type Query = {
   getAllTags: Array<Tag>;
   getChallenge: Challenge;
   getChallenges: Array<Challenge>;
+  getUserActions: Array<Action>;
   getUsersAsUser: Array<User>;
 };
 
@@ -291,6 +292,30 @@ export type GetActionsQueryVariables = Exact<{ [key: string]: never }>;
 export type GetActionsQuery = {
   __typename?: 'Query';
   getActions: Array<{
+    __typename?: 'Action';
+    id: string;
+    name: string;
+    description: string;
+    requires_view: boolean;
+    createdAt: any;
+    icon: string;
+    level: number;
+    time: number;
+    createdBy: { __typename?: 'User'; id: string; role: string };
+    tags?: Array<{
+      __typename?: 'Tag';
+      id: string;
+      name: string;
+      icon: string;
+    }> | null;
+  }>;
+};
+
+export type GetUserActionsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetUserActionsQuery = {
+  __typename?: 'Query';
+  getUserActions: Array<{
     __typename?: 'Action';
     id: string;
     name: string;
@@ -911,6 +936,99 @@ export type GetActionsSuspenseQueryHookResult = ReturnType<
 export type GetActionsQueryResult = Apollo.QueryResult<
   GetActionsQuery,
   GetActionsQueryVariables
+>;
+export const GetUserActionsDocument = gql`
+  query GetUserActions {
+    getUserActions {
+      id
+      name
+      description
+      requires_view
+      createdAt
+      createdBy {
+        id
+        role
+      }
+      icon
+      level
+      time
+      tags {
+        id
+        name
+        icon
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetUserActionsQuery__
+ *
+ * To run a query within a React component, call `useGetUserActionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserActionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserActionsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetUserActionsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetUserActionsQuery,
+    GetUserActionsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetUserActionsQuery, GetUserActionsQueryVariables>(
+    GetUserActionsDocument,
+    options
+  );
+}
+export function useGetUserActionsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetUserActionsQuery,
+    GetUserActionsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetUserActionsQuery, GetUserActionsQueryVariables>(
+    GetUserActionsDocument,
+    options
+  );
+}
+export function useGetUserActionsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetUserActionsQuery,
+        GetUserActionsQueryVariables
+      >
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetUserActionsQuery,
+    GetUserActionsQueryVariables
+  >(GetUserActionsDocument, options);
+}
+export type GetUserActionsQueryHookResult = ReturnType<
+  typeof useGetUserActionsQuery
+>;
+export type GetUserActionsLazyQueryHookResult = ReturnType<
+  typeof useGetUserActionsLazyQuery
+>;
+export type GetUserActionsSuspenseQueryHookResult = ReturnType<
+  typeof useGetUserActionsSuspenseQuery
+>;
+export type GetUserActionsQueryResult = Apollo.QueryResult<
+  GetUserActionsQuery,
+  GetUserActionsQueryVariables
 >;
 export const GetActionDocument = gql`
   query GetAction($id: ID!) {

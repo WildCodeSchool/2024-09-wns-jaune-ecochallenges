@@ -117,6 +117,30 @@ export const GET_ACTIONS = gql`
   }
 `;
 
+export const GET_USER_ACTIONS = gql`
+  query GetUserActions {
+    getUserActions {
+      id
+      name
+      description
+      requires_view
+      createdAt
+      createdBy {
+        id
+        role
+      }
+      icon
+      level
+      time
+      tags {
+        id
+        name
+        icon
+      }
+    }
+  }
+`;
+
 export const GET_ACTION = gql`
   query GetAction($id: ID!) {
     getAction(id: $id) {

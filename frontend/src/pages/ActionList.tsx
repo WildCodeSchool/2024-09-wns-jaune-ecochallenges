@@ -1,7 +1,7 @@
 import {
   Action,
-  useGetActionsQuery,
   useDeleteActionMutation,
+  useGetUserActionsQuery,
 } from '@/lib/graphql/generated/graphql-types';
 import { ActionCard, Filterbar, Filters } from '@/components';
 import { useEffect, useState } from 'react';
@@ -21,7 +21,7 @@ import { toast } from 'sonner';
 export const ActionList = () => {
   const navigate = useNavigate();
 
-  const { data, loading, error } = useGetActionsQuery();
+  const { data, loading, error } = useGetUserActionsQuery();
 
   const [filteredActions, setFilteredActions] = useState<
     Omit<Action, 'challenges'>[]
@@ -57,9 +57,9 @@ export const ActionList = () => {
   const user = useUserStore((state) => state.user);
 
   useEffect(() => {
-    if (!data?.getActions) return;
+    if (!data?.getUserActions) return;
 
-    const result = data.getActions.filter((action) => {
+    const result = data.getUserActions.filter((action) => {
       const hasMatchingTag =
         filters.tags.size === 0 ||
         action.tags?.some((tag) => filters.tags.has(tag.name));
@@ -80,9 +80,9 @@ export const ActionList = () => {
         action.name.toLowerCase().includes(filters.search.toLowerCase())
       ) as Omit<Action, 'challenges'>[]
     );
-  }, [data?.getActions, filters]);
+  }, [data?.getUserActions, filters]);
 
-  if (!data?.getActions) return <p>Aucun eco-geste trouvé</p>;
+  if (!data?.getUserActions) return <p>Aucun eco-geste trouvé</p>;
   if (loading) return <div>Chargement...</div>;
   if (error) return <div>Erreur: {error.message}</div>;
 
@@ -90,7 +90,7 @@ export const ActionList = () => {
     (action) => action.createdBy?.role === 'admin'
   );
   const privateActions = filteredActions.filter(
-    (action) => action.createdBy?.id === user?.id
+    (action) => action.createdBy?.role !== 'admin'
   );
   return (
     <>
