@@ -1,4 +1,4 @@
-import { ActionItem } from "./ActionItem";
+import { ActionItem } from './ActionItem';
 
 type ActionLite = {
   id: string;
@@ -14,7 +14,7 @@ type Props = {
 };
 
 export const ChallengeActionsList = ({ actions, onToggleStatus }: Props) => (
-  <div className="space-y-4">
+  <ul className="space-y-4 bg-amber-200">
     {actions.map((action) => {
       return (
         <ActionItem
@@ -28,6 +28,5 @@ export const ChallengeActionsList = ({ actions, onToggleStatus }: Props) => (
         />
       );
     })}
-  </div>
+  </ul>
 );
-
