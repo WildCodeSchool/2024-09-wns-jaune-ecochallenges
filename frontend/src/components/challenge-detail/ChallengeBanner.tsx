@@ -30,21 +30,19 @@ const { data, loading, error } = useGetChallengesAsChallengeQuery();
 
   const tags = getUniqueTagsFromActions(challenge.actions)
 
-console.log('tags', tags)
 
   return (
     <Card className="relative w-full overflow-hidden rounded-xl shadow-lg p-0">
   
     <CardHeader
-      className="relative flex h-48 w-full flex-col justify-between bg-cover bg-center bg-[url(https://picsum.photos/1200/300)] p-4 "
+      className="relative flex h-48 md:h-64 lg:h-72 w-full flex-col justify-between bg-cover bg-center bg-[url(https://picsum.photos/1200/300)] p-4 "
     >
       <div className="absolute inset-0 z-0 bg-black/40 rounded-t-xl" />
 
         <CardTitle className="relative z-10 text-xl font-bold text-white">
           {challenge.label}
         </CardTitle>
-
-        <div className="absolute  flex flex-col items-center top-4 right-4 z-10">
+        <div className="absolute top-4 right-4 z-10 flex flex-col items-center md:items-end md:gap-4 bg-green-300">
             <Avatar>
               <AvatarImage src="/public/images/ElieB.png" alt="Elie B" />
               <AvatarFallback>EB</AvatarFallback>
@@ -54,7 +52,7 @@ console.log('tags', tags)
                 <Pill className="bg-white/80 font-medium text-black">Rank</Pill>
               </li>
 
-              <li className="w-12 bg-white/80 rounded-full px-2 py-1">
+              <li className=" bg-white/80 rounded-full px-2 py-1 w-full">
                   <Progress value={33} />
               </li>
             </ul>
@@ -62,7 +60,7 @@ console.log('tags', tags)
 
         </CardHeader>
         
-      <div className="absolute flex flex-col gap-2  bottom-2 left-0 z-10 px-2">
+      <div className="absolute flex flex-col gap-2 bottom-2 left-0 z-10 px-2 bg-amber-500">
 
         <ul className="flex w-full flex-wrap gap-2">
           {tags.map((tag) => (
