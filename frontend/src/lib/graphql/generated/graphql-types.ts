@@ -40,6 +40,7 @@ export type Action = {
   id: Scalars['ID']['output'];
   level: Scalars['Float']['output'];
   name: Scalars['String']['output'];
+  points: Scalars['Float']['output'];
   requires_view: Scalars['Boolean']['output'];
   tags?: Maybe<Array<Tag>>;
   time: Scalars['Float']['output'];
@@ -304,6 +305,7 @@ export type GetActionsQuery = {
     icon: string;
     level: number;
     time: number;
+    points: number;
     tags?: Array<{
       __typename?: 'Tag';
       id: string;
@@ -823,6 +825,7 @@ export const GetActionsDocument = gql`
       icon
       level
       time
+      points
       tags {
         id
         name

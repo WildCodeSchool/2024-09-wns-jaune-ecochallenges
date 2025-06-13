@@ -12,6 +12,7 @@ import {
 import { Field, ObjectType } from 'type-graphql';
 import argon2 from 'argon2';
 import { Challenge } from '@/entities';
+import { Score } from './Score';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -61,6 +62,7 @@ export class User extends BaseEntity {
   @OneToMany(() => Challenge, (challenge) => challenge.owner)
   createdChallenges?: Challenge[];
 
+
   @Field()
   @Column({ nullable: true })
   description!: string;
@@ -68,6 +70,10 @@ export class User extends BaseEntity {
   @Field({ nullable: true })
   @Column({ nullable: true, length: 255 })
   avatarUrl?: string;
+
+  @Field(() => Score)
+  @OneToMany(() => Score, (score) => score.user)
+  score?: Score;
 
   @BeforeInsert()
   async hashPassword() {
