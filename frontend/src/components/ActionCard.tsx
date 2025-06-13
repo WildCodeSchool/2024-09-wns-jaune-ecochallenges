@@ -7,13 +7,6 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -30,7 +23,6 @@ import {
   Sprout,
   TreePalm,
 } from 'lucide-react';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 type ActionCardProps = {
@@ -88,7 +80,6 @@ export const ActionCard = ({
   onDelete,
   user,
 }: ActionCardProps) => {
-  const [open, setOpen] = useState(false);
   const canEditOrDelete =
     user?.role === 'admin' ||
     (user?.role === 'user' && action.createdBy?.id === user.id);
@@ -128,7 +119,6 @@ export const ActionCard = ({
             >
               <ImagePlus className="size-6" />
             </Button>
-
             {canEditOrDelete && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -145,45 +135,17 @@ export const ActionCard = ({
                     <DropdownMenuItem>Editer</DropdownMenuItem>
                   </Link>
                   <DropdownMenuItem
-                    onSelect={(e) => {
-                      e.preventDefault();
-                      setOpen(true);
-                    }}
                     className="text-destructive"
+                    onClick={() => {
+                      onDelete?.();
+                    }}
                   >
                     Supprimer
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             )}
-            <Dialog open={open} onOpenChange={setOpen}>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Supprimer l'éco-geste</DialogTitle>
-                  <DialogDescription>
-                    Êtes-vous sûr de vouloir supprimer cet éco-geste ? Cette
-                    action est irréversible.
-                  </DialogDescription>
-                </DialogHeader>
-                <DialogFooter>
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    onClick={() => {
-                      setOpen(false);
-                      onDelete?.();
-                    }}
-                  >
-                    Confirmer
-                  </Button>
-                  <DialogClose asChild>
-                    <Button type="button" variant="secondary">
-                      Annuler
-                    </Button>
-                  </DialogClose>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+
             <Button
               size="icon"
               type="button"

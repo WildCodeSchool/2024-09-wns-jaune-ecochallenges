@@ -41,7 +41,7 @@ export const ActionList = () => {
       },
     ],
     onCompleted: () => {
-      navigate(`/actions`);
+      window.location.reload();
     },
   });
 
