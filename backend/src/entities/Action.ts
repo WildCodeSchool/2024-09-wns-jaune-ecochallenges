@@ -51,6 +51,10 @@ export class Action extends BaseEntity {
   time!: number;
 
   @Field()
+  @Column({ nullable: true })
+  points!: number;
+
+  @Field()
   @Column({ nullable: false })
   createdAt!: Date;
 
@@ -66,6 +70,11 @@ export class Action extends BaseEntity {
   @BeforeInsert()
   updateDates() {
     this.createdAt = new Date();
+  }
+
+  @BeforeInsert()
+  insertPoints() {
+    this.points = this.level * 4 + this.time * 2;
   }
 
   @Field(() => [Challenge])
