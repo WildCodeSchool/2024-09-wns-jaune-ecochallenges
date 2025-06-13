@@ -129,7 +129,21 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
       )
     ); */
   };
->>>>>>> 71aee31 (add the base logic to complete an action of a challenge)
+
+  const normalizeUAC = (uacs?: UserActionChallenge[]) =>
+    uacs?.map((uac) => ({
+      ...uac,
+      comment: uac.comment ?? '',
+      action: {
+        ...uac.action,
+        name: uac.action.name ?? '',
+        description: uac.action.description ?? '',
+        createdAt: uac.action.createdAt ?? '',
+        icon: uac.action.icon ?? '',
+        tags: uac.action.tags ?? [],
+        challenges: uac.action.challenges ?? [],
+      },
+    })) || [];
 
   return (
     <div className="relative mx-auto max-w-6xl px-4 py-6">
