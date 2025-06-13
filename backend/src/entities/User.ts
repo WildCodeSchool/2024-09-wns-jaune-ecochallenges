@@ -66,8 +66,15 @@ export class User extends BaseEntity {
   @OneToMany(() => Score, (score) => score.user)
   score?: Score;
 
+  @Field()
+  @Column({ nullable: true })
+  description!: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true, length: 255 })
+  avatarUrl?: string;
+
   @BeforeInsert()
-  @BeforeUpdate()
   async hashPassword() {
     this.hashedPassword = await argon2.hash(this.hashedPassword);
   }

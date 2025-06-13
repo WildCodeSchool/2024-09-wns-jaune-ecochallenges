@@ -16,10 +16,9 @@ export const Logout = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <h2 className="text-xl font-semibold">
-        Êtes-vous sûr de vouloir vous déconnecter ?
-      </h2>
-      <Button onClick={handleLogout}>Se déconnecter</Button>
+      <Button variant="outline" onClick={handleLogout}>
+        Se déconnecter
+      </Button>
     </div>
   );
 };

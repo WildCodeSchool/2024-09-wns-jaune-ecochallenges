@@ -7,8 +7,8 @@ export const GET_USERS = gql`
       firstname
       lastname
       email
-      hashedPassword
       role
+      description
     }
   }
 `;
@@ -138,5 +138,37 @@ export const MUTATION_LOG_IN = gql`
 export const MUTATION_LOG_OUT = gql`
   mutation LogOut {
     logOut
+  }
+`;
+
+export const GET_USER_BY_ID = gql`
+  query GetCurrentUser {
+    getCurrentUser {
+      id
+      firstname
+      lastname
+      email
+      role
+      description
+      avatarUrl
+      participatedChallenges {
+        id
+        label
+        startDate
+        endDate
+      }
+    }
+  }
+`;
+
+export const UPDATE_USER = gql`
+  mutation UpdateUser($user: UpdateUserInput!) {
+    updateUser(user: $user) {
+      id
+      firstname
+      lastname
+      description
+      avatarUrl
+    }
   }
 `;

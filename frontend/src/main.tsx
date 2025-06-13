@@ -13,6 +13,7 @@ import {
   ChallengeEdition,
   UserPortal,
   NotFoundRedirect,
+  UserAccount,
 } from '@/pages';
 
 import './index.css';
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
       {
         path: '/user',
         element: <UserPortal />,
+      },
+      {
+        path: '/user-account',
+        element: <UserAccount />,
       },
     ],
   },

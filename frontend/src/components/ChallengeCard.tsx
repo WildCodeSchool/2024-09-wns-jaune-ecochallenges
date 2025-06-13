@@ -26,7 +26,7 @@ export const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
               className="absolute top-0 left-0 z-0 h-16 w-full rounded-t-lg"
             />
 
-            <CardTitle className="text-primary-foreground absolute top-0 left-0 z-10 flex h-16 w-full items-center justify-center rounded-t-lg backdrop-blur-[4px] text-shadow-black/30 text-shadow-lg">
+            <CardTitle className="text-primary-foreground text-shadow-black/30 text-shadow-lg absolute top-0 left-0 z-10 flex h-16 w-full items-center justify-center rounded-t-lg backdrop-blur-[4px]">
               <h2>{challenge.label}</h2>
             </CardTitle>
           </CardHeader>
