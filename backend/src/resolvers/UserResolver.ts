@@ -26,6 +26,9 @@ export class SignUpUserInput {
 
   @Field()
   hashedPassword!: string;
+
+  @Field({ nullable: true })
+  description?: string;
 }
 
 @InputType()
@@ -37,6 +40,24 @@ export class LoginUserInput {
   hashedPassword!: string;
 }
 
+@InputType()
+class UpdateUserInput {
+  @Field()
+  id!: string;
+
+  @Field({ nullable: true })
+  firstname?: string;
+
+  @Field({ nullable: true })
+  lastname?: string;
+
+  @Field({ nullable: true })
+  description?: string;
+
+  @Field({ nullable: true })
+  avatarUrl?: string;
+}
+
 const getProfil = (user: User) => {
   const profile = {
     id: user.id,
@@ -44,6 +65,7 @@ const getProfil = (user: User) => {
     firstname: user.firstname,
     lastname: user.lastname,
     role: user.role,
+    description: user.description,
   };
 
   return profile;
@@ -81,30 +103,63 @@ export class UserResolver {
     return users;
   }
 
+  @Query(() => User)
+  async getCurrentUser(@Ctx() { user }: { user: User }) {
+    const currentUser = await User.findOne({
+      where: { id: user.id },
+      relations: ['participatedChallenges'],
+    });
+    if (!currentUser) throw new Error('Utilisateur non trouvé');
+    return currentUser;
+  }
+
+  @Mutation(() => User)
+  async updateUser(
+    @Arg('user') userData: UpdateUserInput,
+    @Ctx() { user }: { user: User }
+  ) {
+    if (user.id !== userData.id) {
+      throw new GraphQLError(
+        "Vous ne pouvez pas éditer le profile d'un autre utilisateur"
+      );
+    }
+
+    const userToUpdate = await User.findOneByOrFail({ id: userData.id });
+
+    userToUpdate.firstname = userData.firstname ?? userToUpdate.firstname;
+    userToUpdate.lastname = userData.lastname ?? userToUpdate.lastname;
+    userToUpdate.description = userData.description ?? userToUpdate.description;
+    userToUpdate.avatarUrl = userData.avatarUrl ?? userToUpdate.avatarUrl;
+
+    const updatedUser = await User.save(userToUpdate);
+
+    return updatedUser;
+  }
+
   @Mutation(() => String)
   async signUp(
-    @Arg('data') userSignUpData: SignUpUserInput,
+    @Arg('data') userInfos: SignUpUserInput,
     @Ctx() { res }: { res: Response }
   ) {
     if (!process.env.JWT_SECRET) {
       throw new GraphQLError('Missing JWT_SECRET environment variable');
     }
-
     try {
       const existingUser = await User.findOne({
-        where: { email: userSignUpData.email },
+        where: { email: userInfos.email },
       });
       if (existingUser) {
         throw new GraphQLError('Un compte avec cet email existe déjà');
       }
 
-      const hashedPassword = await argon.hash(userSignUpData.hashedPassword);
+      const hashedPassword = await argon.hash(userInfos.hashedPassword);
 
       const user = await User.save({
-        email: userSignUpData.email,
+        email: userInfos.email,
         hashedPassword: hashedPassword,
-        firstname: userSignUpData.firstname,
-        lastname: userSignUpData.lastname,
+        firstname: userInfos.firstname,
+        lastname: userInfos.lastname,
+        description: userInfos.description || '',
       });
 
       const access_token = verifyToken(user, process.env.JWT_SECRET);
@@ -129,7 +184,6 @@ export class UserResolver {
 
     try {
       const user = await User.findOneByOrFail({ email: userLogInData.email });
-
       const isValid = await argon.verify(
         user.hashedPassword,
         userLogInData.hashedPassword

@@ -88,11 +88,12 @@ export class ChallengeResolver {
       }
 
       await challenge.save();
-      email.challengeCreatedEmail.send('nigont@gmail.com', {
+      email.challengeCreatedEmail.send(user.email, {
         ecochallengeName: challenge.label,
-        startDate: challenge.startDate.toISOString(),
-        endDate: challenge.endDate.toISOString(),
+        startDate: challenge.startDate,
+        endDate: challenge.endDate,
       });
+
       return challenge;
     } catch (err) {
       throw new Error(`Echec lors de la création de ce challenge: ${err}`);

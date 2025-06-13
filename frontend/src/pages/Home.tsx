@@ -3,10 +3,18 @@ import {
   CarouselComponent,
   MyUserCard,
 } from '@/components';
+import { GET_USER_BY_ID } from '@/lib/graphql/operations';
 import { useUserStore } from '@/lib/zustand/userStore';
+import { useQuery } from '@apollo/client';
 
 export const Home = () => {
   const isAuth = useUserStore((state) => !!state.user);
+  const userId = useUserStore((state) => state.user?.id);
+
+  const { data, loading, error } = useQuery(GET_USER_BY_ID, {
+    variables: { id: userId },
+    skip: !userId,
+  });
 
   const ecoChallenges = [
     {
@@ -61,16 +69,10 @@ export const Home = () => {
     },
   ];
 
-  //! TODO: put the real data user
-  const fakeDataUser = {
-    id: 1,
-    bernardPoints: 3444,
-    nbActions: 432,
-    nbChallenges: 2,
-    role: 'user',
-    initial: 'PA',
-    picture: 'https://github.com/shadcn.png',
-  };
+  if (loading) return <p>Chargement...</p>;
+  if (error) return <p>Erreur : {error.message}</p>;
+
+  const user = data?.getCurrentUser;
 
   return (
     <>
@@ -78,7 +80,16 @@ export const Home = () => {
         🌱 Bienvenue sur Eco-challenges 🌱
       </h1>
 
-      {isAuth && <MyUserCard {...fakeDataUser}></MyUserCard>}
+      {isAuth && (
+        <MyUserCard
+          id={user.id}
+          bernardPoints={0}
+          nbActions={0}
+          nbChallenges={user.participatedChallenges?.length || 0}
+          picture={user.avatarUrl || '/public/icons/leaf.png'}
+          pictureName={`${user.firstname} ${user.lastname}`}
+        />
+      )}
 
       <CarouselComponent
         data={ecoChallenges}

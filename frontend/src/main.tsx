@@ -13,6 +13,7 @@ import {
   ChallengeEdition,
   UserPortal,
   NotFoundRedirect,
+  UserAccount,
   ActionCreation,
   ActionEdition,
 } from '@/pages';
@@ -63,6 +64,10 @@ export const router = createBrowserRouter([
       {
         path: '/user',
         element: <UserPortal />,
+      },
+      {
+        path: '/user-account',
+        element: <UserAccount />,
       },
     ],
   },

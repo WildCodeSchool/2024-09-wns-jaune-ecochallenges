@@ -75,6 +75,8 @@ export const ${NAME_CAPITALIZED}Email = (props: ${NAME_CAPITALIZED}EmailProps) =
 }
 EOL
 
+read -p "📁 Entrez le sujet du mail : " SUBJECT
+
 
 # Crée le fichier sender qui permettra d'envoyer le mail avec les props
 cat > "$DIR/"$NAME"EmailSender.ts" <<EOL
@@ -84,7 +86,7 @@ import { ${NAME_CAPITALIZED}Email, ${NAME_CAPITALIZED}EmailProps } from './${NAM
 export class ${NAME_CAPITALIZED}EmailSender extends BaseEmailT<${NAME_CAPITALIZED}EmailProps> {
   constructor() {
     super({
-      subject: "Ton challenge vient d'être créé !",
+      subject: "${SUBJECT}",
       emailComponent: ${NAME_CAPITALIZED}Email,
     });
   }

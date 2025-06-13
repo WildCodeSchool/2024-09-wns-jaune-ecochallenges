@@ -8,3 +8,4 @@ export * from './Home';
 export * from './UserPortal';
 export * from './NotFoundRedirect';
 export * from './ChallengePage';
+export * from './UserAccount';
