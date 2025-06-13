@@ -6,8 +6,9 @@
     "build": "npx tsc",
     "start": "ts-node -r tsconfig-paths/register src/index.ts",
     "dev": "nodemon --exec 'ts-node -r tsconfig-paths/register' src/index.ts",
+    "seed": "ts-node -r tsconfig-paths/register src/seeding/index.ts",
     "test": "echo \"No tests defined for backend.\"",
-    "seed": "ts-node -r tsconfig-paths/register src/seeding/index.ts"
+    "email": "src/services/email/createTemplate.sh"
   },
   "keywords": [],
   "author": "eco-challenge team",
@@ -15,12 +16,14 @@
   "description": "",
   "dependencies": {
     "@apollo/server": "^4.11.3",
+    "@react-email/components": "^0.0.41",
     "argon2": "^0.41.1",
     "chalk": "^5.4.1",
     "class-validator": "^0.14.1",
     "graphql": "^16.10.0",
     "graphql-scalars": "^1.24.1",
     "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^7.0.3",
     "pg": "^8.13.3",
     "reflect-metadata": "^0.2.2",
     "type-graphql": "^2.0.0-rc.2",
@@ -29,6 +32,8 @@
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.13.4",
+    "@types/nodemailer": "^6.4.17",
+    "@types/react": "^19.1.4",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",

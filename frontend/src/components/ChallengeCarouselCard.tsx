@@ -70,7 +70,10 @@ export const ChallengeCarouselCard = ({
           )}
         </CardHeader>
 
-        <CardDescription data-testid="card-description">
+        <CardDescription
+          data-testid="card-description"
+          className="text-textColor line-clamp-2"
+        >
           {description}
         </CardDescription>
         <CardFooter>

@@ -103,7 +103,7 @@ export const ActionList = () => {
           </AccordionTrigger>
           {publicActions.length > 0 && (
             <AccordionContent>
-              <ul className="flex flex-col gap-1 sm:grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-3 xl:grid-cols-4 xl:gap-4">
+              <ul className="flex flex-col gap-2 sm:grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-3 xl:grid-cols-4 xl:gap-4">
                 {publicActions.map((action) => (
                   <li key={action.id}>
                     <ActionCard

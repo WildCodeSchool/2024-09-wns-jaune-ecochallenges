@@ -3,6 +3,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
+html,
+body,
+:root {
+  pointer-events: auto !important;
+}
+
 :root {
   /* Page background and base text color */
   --background: oklch(0.98 0.01 244.25);

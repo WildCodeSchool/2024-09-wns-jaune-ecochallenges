@@ -10,6 +10,7 @@ import {
 } from 'type-graphql';
 import { Action, Challenge, User, UserRole } from '@/entities';
 import { In } from 'typeorm';
+import { email } from '@/services/email/emailService';
 
 @InputType()
 class ChallengeInput {
@@ -87,6 +88,11 @@ export class ChallengeResolver {
       }
 
       await challenge.save();
+      email.challengeCreatedEmail.send('nigont@gmail.com', {
+        ecochallengeName: challenge.label,
+        startDate: challenge.startDate.toISOString(),
+        endDate: challenge.endDate.toISOString(),
+      });
       return challenge;
     } catch (err) {
       throw new Error(`Echec lors de la création de ce challenge: ${err}`);
