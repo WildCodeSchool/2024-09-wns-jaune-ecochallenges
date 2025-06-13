@@ -65,7 +65,7 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
   const normalizeUAC = (uacs?: UserActionChallenge[]) =>
     uacs?.map((uac) => ({
       ...uac,
-      // comment: uac.comment ?? '',
+      comment: uac.comment ?? '',
       action: {
         ...uac.action,
         name: uac.action.name ?? '',
