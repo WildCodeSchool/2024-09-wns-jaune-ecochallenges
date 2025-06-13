@@ -90,11 +90,6 @@ export const UserAccount = () => {
       <h1 className="text-left text-2xl font-bold">Mon profil</h1>
 
       <div className="border-primary relative mx-auto mt-4 mb-1 flex h-48 w-48 items-center justify-center rounded-full border-4 bg-white">
-        {/* <img
-          src={form.avatarUrl}
-          alt="Avatar utilisateur"
-          className="h-44 w-44 rounded-full object-cover"
-        /> */}
         <Avatar className="h-44 w-44 cursor-pointer transition-all duration-100 hover:scale-115">
           <AvatarImage
             class="h-44 w-44 rounded-full object-cover"
