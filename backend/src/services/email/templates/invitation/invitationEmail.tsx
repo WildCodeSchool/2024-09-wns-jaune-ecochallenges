@@ -16,8 +16,8 @@ import * as React from 'react';
 
 export interface InvitationEmailProps {
   readonly ecochallengeName: string;
-  readonly startDate: string;
-  readonly endDate: string;
+  readonly startDate: Date;
+  readonly endDate: Date;
   readonly loginUrl: string;
 }
 
@@ -155,8 +155,15 @@ export const InvitationEmail = ({
                 éco-challenge par tes amis ou collègues de travail 🌿
                 <br />
                 Oui, tu as bien lu ! 🎉 Si tu acceptes le défi, toi et ton
-                équipe commencerez l’aventure du
-                <strong>{startDate}</strong> au <strong>{endDate}</strong>.
+                équipe commencerez l’aventure du{' '}
+                <strong>
+                  {startDate?.toLocaleDateString('fr', { timeZone: 'UTC' })}
+                </strong>{' '}
+                au{' '}
+                <strong>
+                  {endDate?.toLocaleDateString('fr', { timeZone: 'UTC' })}
+                </strong>
+                .
               </Text>
 
               <Text
@@ -184,7 +191,7 @@ export const InvitationEmail = ({
                 }}
               >
                 Alors, prêt(e) à relever le défi ? Inscris-toi dès maintenant en
-                cliquant sur ce lien :
+                cliquant sur ce lien juste ici ➡️
                 <Link
                   href={loginUrl}
                   style={{ color: 'rgb(70, 163, 73)', textDecoration: 'none' }}
@@ -216,7 +223,7 @@ export const InvitationEmail = ({
                 color: '#bdbdbd',
               }}
             >
-              Toute l’équipe d’éco-challenge -
+              Toute l’équipe d’éco-challenge <br />
               <Link
                 href="https://ecochallenge.fr"
                 style={{ color: 'rgb(70, 163, 73)' }}

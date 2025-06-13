@@ -15,8 +15,8 @@ import * as React from 'react';
 
 export interface ChallengeCreatedEmailProps {
   readonly ecochallengeName: string;
-  readonly startDate: string;
-  readonly endDate: string;
+  readonly startDate: Date;
+  readonly endDate: Date;
 }
 
 export default function ChallengeCreatedEmail({
@@ -84,7 +84,7 @@ export default function ChallengeCreatedEmail({
             />
           </Section>
 
-          <Section style={{ textAlign: 'start' }}>
+          <Section style={{ textAlign: 'center' }}>
             <Text
               style={{
                 fontWeight: 300,
@@ -136,9 +136,16 @@ export default function ChallengeCreatedEmail({
               }}
             >
               Bonne nouvelle ! Tu as réussi à créer ton challenge intitulé :{' '}
-              <strong>{ecochallengeName}</strong>. Félicitations !<br />
-              Il commencera le <strong>{startDate}</strong> et se terminera le{' '}
-              <strong>{endDate}</strong>.
+              <strong>{ecochallengeName}</strong>. <br />
+              Félicitations ! Il commencera le{' '}
+              <strong>
+                {startDate?.toLocaleDateString('fr', { timeZone: 'UTC' })}
+              </strong>{' '}
+              et se terminera le{' '}
+              <strong>
+                {endDate?.toLocaleDateString('fr', { timeZone: 'UTC' })}
+              </strong>
+              .
             </Text>
 
             <Text
@@ -195,7 +202,7 @@ export default function ChallengeCreatedEmail({
                 color: '#bdbdbd',
               }}
             >
-              Toute l’équipe d’éco-challenge -
+              Toute l’équipe d’éco-challenge <br />
               <Link
                 href="https://ecochallenge.fr"
                 style={{ color: 'rgb(70, 163, 73)' }}
