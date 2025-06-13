@@ -29,7 +29,7 @@ export const AccountDropdown = () => {
   const isAuth = useUserStore((state) => !!state.user);
   const { theme, setTheme } = useTheme();
 
-  const { logout } = useUserStore();
+  const { logout, user } = useUserStore();
   const [logOutMutation] = useLogOutMutation();
   const navigate = useNavigate();
 
@@ -67,12 +67,12 @@ export const AccountDropdown = () => {
           {isAuth && currentUser ? (
             <Avatar className="h-10 w-10 cursor-pointer transition-all duration-100 hover:scale-115">
               <AvatarImage
-                src={currentUser.avatarUrl || '/public/icons/leaf.png'}
+                src={currentUser.avatarUrl}
                 alt="Photo de profil"
                 data-testid="card-image"
               />
               <AvatarFallback delayMs={600}>
-                {currentUser.name?.slice(0, 2).toUpperCase() || '??'}
+                {user?.firstname?.slice(0, 2).toUpperCase()}
               </AvatarFallback>
             </Avatar>
           ) : (
