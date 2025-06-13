@@ -1,4 +1,7 @@
-import { Action, User } from '@/lib/graphql/generated/graphql-types';
+import {
+  GetUserActionsQuery,
+  User,
+} from '@/lib/graphql/generated/graphql-types';
 import {
   Button,
   Card,
@@ -26,7 +29,7 @@ import {
 import { Link } from 'react-router-dom';
 
 type ActionCardProps = {
-  action: Omit<Action, 'challenges'>;
+  action: GetUserActionsQuery['getUserActions'][number];
   isSelected?: boolean;
   onClick?: () => void;
   onDelete?: () => void;
@@ -92,7 +95,7 @@ export const ActionCard = ({
         <CardHeader className="flex w-full flex-col">
           <CardTitle className="text-lg font-bold">{action.name}</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex-1">
           <CardDescription>
             <p className="line-clamp-2 max-w-full">{action.description} </p>
             <div className="mt-4 flex w-full flex-row items-center justify-start gap-2">

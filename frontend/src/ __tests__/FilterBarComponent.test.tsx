@@ -1,12 +1,13 @@
 import '@testing-library/jest-dom';
 
 import { render, screen, within } from '@testing-library/react';
-import { Filterbar, Filters } from '@/components';
+import { Filterbar } from '@/components';
 import { describe, expect, it } from 'vitest';
 import { useState } from 'react';
 import { MockedProvider } from '@apollo/client/testing';
 import { GET_ALL_TAGS } from '@/lib/graphql/operations';
 import userEvent from '@testing-library/user-event';
+import { GetUserActionsQuery } from '@/lib/graphql/generated/graphql-types';
 
 const mockedTags = [
   {
@@ -25,18 +26,14 @@ const mockedTags = [
 ];
 
 describe('Filter bar component tests', () => {
-  const mockFilters: Filters = {
-    tags: new Set<string>(),
-    difficulties: new Set<number>(),
-    durations: new Set<number>(),
-    search: '',
-  };
   const Wrapper = () => {
-    const [filters, setFilters] = useState(mockFilters);
+    const data: GetUserActionsQuery['getUserActions'] = [];
+    const [, setFilteredData] =
+      useState<GetUserActionsQuery['getUserActions']>(data);
 
     return (
       <MockedProvider mocks={mockedTags} addTypename={false}>
-        <Filterbar filters={filters} setFilters={setFilters} />
+        <Filterbar data={data} setData={setFilteredData} />
       </MockedProvider>
     );
   };

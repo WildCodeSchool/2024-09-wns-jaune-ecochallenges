@@ -1,10 +1,10 @@
 import {
-  Action,
   useDeleteActionMutation,
   useGetUserActionsQuery,
+  GetUserActionsQuery,
 } from '@/lib/graphql/generated/graphql-types';
-import { ActionCard, Filterbar, Filters } from '@/components';
-import { useEffect, useState } from 'react';
+import { ActionCard, Filterbar } from '@/components';
+import { useState } from 'react';
 import {
   Accordion,
   AccordionContent,
@@ -19,19 +19,9 @@ import { GET_ACTIONS } from '@/lib/graphql/operations';
 import { toast } from 'sonner';
 
 export const ActionList = () => {
+  const user = useUserStore((state) => state.user);
+
   const { data, loading, error } = useGetUserActionsQuery();
-
-  const [filteredActions, setFilteredActions] = useState<
-    Omit<Action, 'challenges'>[]
-  >([]);
-
-  const [filters, setFilters] = useState<Filters>({
-    search: '',
-    tags: new Set<string>(),
-    durations: new Set<number>(),
-    difficulties: new Set<number>(),
-  });
-
   const [deleteAction] = useDeleteActionMutation({
     refetchQueries: [
       {
@@ -43,6 +33,10 @@ export const ActionList = () => {
     },
   });
 
+  const [filteredActions, setFilteredActions] = useState<
+    GetUserActionsQuery['getUserActions']
+  >([]);
+
   const handleDeleteAction = async (id: string) => {
     try {
       await deleteAction({ variables: { id } });
@@ -52,47 +46,20 @@ export const ActionList = () => {
     }
   };
 
-  const user = useUserStore((state) => state.user);
-
-  useEffect(() => {
-    if (!data?.getUserActions) return;
-
-    const result = data.getUserActions.filter((action) => {
-      const hasMatchingTag =
-        filters.tags.size === 0 ||
-        action.tags?.some((tag) => filters.tags.has(tag.name));
-
-      const hasMatchingLevel =
-        filters.difficulties.size === 0 ||
-        filters.difficulties.has(action.level);
-
-      const maxDuration = Math.max(...Array.from(filters.durations));
-      const hasMatchingDuration =
-        filters.durations.size === 0 || action.time <= maxDuration;
-
-      return hasMatchingTag && hasMatchingLevel && hasMatchingDuration;
-    });
-
-    setFilteredActions(
-      result.filter((action) =>
-        action.name.toLowerCase().includes(filters.search.toLowerCase())
-      ) as Omit<Action, 'challenges'>[]
-    );
-  }, [data?.getUserActions, filters]);
-
-  if (!data?.getUserActions) return <p>Aucun eco-geste trouvé</p>;
-  if (loading) return <div>Chargement...</div>;
-  if (error) return <div>Erreur: {error.message}</div>;
-
   const publicActions = filteredActions.filter(
     (action) => action.createdBy?.role === 'admin'
   );
   const privateActions = filteredActions.filter(
     (action) => action.createdBy?.role !== 'admin'
   );
+
+  if (!data?.getUserActions) return <p>Aucun eco-geste trouvé</p>;
+  if (loading) return <div>Chargement...</div>;
+  if (error) return <div>Erreur: {error.message}</div>;
+
   return (
     <>
-      <Filterbar filters={filters} setFilters={setFilters} />
+      <Filterbar data={data.getUserActions} setData={setFilteredActions} />
 
       <Accordion type="multiple" defaultValue={['public', 'private']}>
         <AccordionItem value="public">

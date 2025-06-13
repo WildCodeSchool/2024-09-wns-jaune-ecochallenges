@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Challenge } from '@/lib/graphql/generated/graphql-types';
+import { GetChallengeQuery } from '@/lib/graphql/generated/graphql-types';
 import {
   Card,
   CardContent,
@@ -12,7 +12,11 @@ import { Pill } from '@/components';
 import { cn } from '@/lib/utils';
 import { getUniqueTagsFromActions, formatChallengeDates } from '@/utils';
 
-export const ChallengeCard = ({ challenge }: { challenge: Challenge }) => {
+export const ChallengeCard = ({
+  challenge,
+}: {
+  challenge: GetChallengeQuery['getChallenge'];
+}) => {
   const dates = formatChallengeDates(challenge.startDate, challenge.endDate);
 
   return (
