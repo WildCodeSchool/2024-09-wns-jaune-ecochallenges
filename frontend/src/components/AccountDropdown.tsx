@@ -104,8 +104,11 @@ export const AccountDropdown = () => {
                   mon espace
                 </Link>
               </DropdownMenuItem>
-
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.preventDefault();
+                }}
+              >
                 <DialogTrigger className="flex gap-2">
                   <LogOutIcon className="size-4" aria-hidden="true" /> Se
                   déconnecter
