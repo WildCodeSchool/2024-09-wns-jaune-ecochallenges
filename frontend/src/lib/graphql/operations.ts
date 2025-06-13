@@ -101,6 +101,10 @@ export const GET_ACTIONS = gql`
       description
       requires_view
       createdAt
+      createdBy {
+        id
+        role
+      }
       icon
       level
       time
@@ -113,6 +117,77 @@ export const GET_ACTIONS = gql`
     }
   }
 `;
+
+export const GET_USER_ACTIONS = gql`
+  query GetUserActions {
+    getUserActions {
+      id
+      name
+      description
+      requires_view
+      createdAt
+      createdBy {
+        id
+        role
+      }
+      icon
+      level
+      time
+      tags {
+        id
+        name
+        icon
+      }
+    }
+  }
+`;
+
+export const GET_ACTION = gql`
+  query GetAction($id: ID!) {
+    getAction(id: $id) {
+      id
+      name
+      description
+      requires_view
+      createdAt
+      createdBy {
+        id
+        role
+      }
+      icon
+      level
+      time
+      tags {
+        id
+        name
+        icon
+      }
+    }
+  }
+`;
+
+export const CREATE_ACTION = gql`
+  mutation CreateAction($data: ActionInput!) {
+    createAction(data: $data) {
+      id
+    }
+  }
+`;
+
+export const DELETE_ACTION = gql`
+  mutation DeleteAction($id: ID!) {
+    deleteAction(id: $id)
+  }
+`;
+
+export const UPDATE_ACTION = gql`
+  mutation UpdateAction($id: ID!, $data: ActionInput!) {
+    updateAction(id: $id, data: $data) {
+      id
+    }
+  }
+`;
+
 export const GET_ALL_TAGS = gql`
   query GetAllTags {
     getAllTags {

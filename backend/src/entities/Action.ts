@@ -5,10 +5,11 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
-import { Tag, Challenge } from '@/entities';
+import { Tag, Challenge, User } from '@/entities';
 
 const levelType = {
   levelOne: 1,
@@ -56,6 +57,10 @@ export class Action extends BaseEntity {
   @Field()
   @Column({ nullable: false })
   createdAt!: Date;
+
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.createdActions)
+  createdBy!: User;
 
   @Field(() => [Tag], { nullable: true })
   @ManyToMany(() => Tag, (tag) => tag.actions)

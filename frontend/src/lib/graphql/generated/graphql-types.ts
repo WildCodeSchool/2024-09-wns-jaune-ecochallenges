@@ -35,6 +35,7 @@ export type Action = {
   __typename?: 'Action';
   challenges: Array<Challenge>;
   createdAt: Scalars['DateTimeISO']['output'];
+  createdBy: User;
   description: Scalars['String']['output'];
   icon: Scalars['String']['output'];
   id: Scalars['ID']['output'];
@@ -89,22 +90,28 @@ export type LoginUserInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createAction: Action;
   createChallenge: Challenge;
-  createdAction: Action;
+  deleteAction: Scalars['Boolean']['output'];
   deleteChallenge: Scalars['Boolean']['output'];
   logIn: Scalars['String']['output'];
   logOut: Scalars['Boolean']['output'];
   signUp: Scalars['String']['output'];
+  updateAction: Action;
   updateChallenge: Challenge;
   updateUser: User;
+};
+
+export type MutationCreateActionArgs = {
+  data: ActionInput;
 };
 
 export type MutationCreateChallengeArgs = {
   data: ChallengeInput;
 };
 
-export type MutationCreatedActionArgs = {
-  data: ActionInput;
+export type MutationDeleteActionArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type MutationDeleteChallengeArgs = {
@@ -119,6 +126,11 @@ export type MutationSignUpArgs = {
   data: SignUpUserInput;
 };
 
+export type MutationUpdateActionArgs = {
+  data: ActionInput;
+  id: Scalars['ID']['input'];
+};
+
 export type MutationUpdateChallengeArgs = {
   data: ChallengeInput;
   id: Scalars['ID']['input'];
@@ -130,17 +142,18 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  getActionById: Action;
+  getAction: Action;
   getActions: Array<Action>;
   getAllTags: Array<Tag>;
   getChallenge: Challenge;
   getChallenges: Array<Challenge>;
   getCurrentUser: User;
+  getUserActions: Array<Action>;
   getUsersAsUser: Array<User>;
 };
 
-export type QueryGetActionByIdArgs = {
-  id: Scalars['String']['input'];
+export type QueryGetActionArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type QueryGetChallengeArgs = {
@@ -174,6 +187,7 @@ export type UpdateUserInput = {
 export type User = {
   __typename?: 'User';
   avatarUrl?: Maybe<Scalars['String']['output']>;
+  createdActions: Array<Action>;
   createdAt: Scalars['DateTimeISO']['output'];
   createdChallenges: Array<Challenge>;
   description: Scalars['String']['output'];
@@ -306,6 +320,7 @@ export type GetActionsQuery = {
     level: number;
     time: number;
     points: number;
+    createdBy: { __typename?: 'User'; id: string; role: string };
     tags?: Array<{
       __typename?: 'Tag';
       id: string;
@@ -313,6 +328,84 @@ export type GetActionsQuery = {
       icon: string;
     }> | null;
   }>;
+};
+
+export type GetUserActionsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetUserActionsQuery = {
+  __typename?: 'Query';
+  getUserActions: Array<{
+    __typename?: 'Action';
+    id: string;
+    name: string;
+    description: string;
+    requires_view: boolean;
+    createdAt: any;
+    icon: string;
+    level: number;
+    time: number;
+    createdBy: { __typename?: 'User'; id: string; role: string };
+    tags?: Array<{
+      __typename?: 'Tag';
+      id: string;
+      name: string;
+      icon: string;
+    }> | null;
+  }>;
+};
+
+export type GetActionQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+export type GetActionQuery = {
+  __typename?: 'Query';
+  getAction: {
+    __typename?: 'Action';
+    id: string;
+    name: string;
+    description: string;
+    requires_view: boolean;
+    createdAt: any;
+    icon: string;
+    level: number;
+    time: number;
+    createdBy: { __typename?: 'User'; id: string; role: string };
+    tags?: Array<{
+      __typename?: 'Tag';
+      id: string;
+      name: string;
+      icon: string;
+    }> | null;
+  };
+};
+
+export type CreateActionMutationVariables = Exact<{
+  data: ActionInput;
+}>;
+
+export type CreateActionMutation = {
+  __typename?: 'Mutation';
+  createAction: { __typename?: 'Action'; id: string };
+};
+
+export type DeleteActionMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+export type DeleteActionMutation = {
+  __typename?: 'Mutation';
+  deleteAction: boolean;
+};
+
+export type UpdateActionMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  data: ActionInput;
+}>;
+
+export type UpdateActionMutation = {
+  __typename?: 'Mutation';
+  updateAction: { __typename?: 'Action'; id: string };
 };
 
 export type GetAllTagsQueryVariables = Exact<{ [key: string]: never }>;
@@ -822,6 +915,10 @@ export const GetActionsDocument = gql`
       description
       requires_view
       createdAt
+      createdBy {
+        id
+        role
+      }
       icon
       level
       time
@@ -898,6 +995,338 @@ export type GetActionsSuspenseQueryHookResult = ReturnType<
 export type GetActionsQueryResult = Apollo.QueryResult<
   GetActionsQuery,
   GetActionsQueryVariables
+>;
+export const GetUserActionsDocument = gql`
+  query GetUserActions {
+    getUserActions {
+      id
+      name
+      description
+      requires_view
+      createdAt
+      createdBy {
+        id
+        role
+      }
+      icon
+      level
+      time
+      tags {
+        id
+        name
+        icon
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetUserActionsQuery__
+ *
+ * To run a query within a React component, call `useGetUserActionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserActionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserActionsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetUserActionsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetUserActionsQuery,
+    GetUserActionsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetUserActionsQuery, GetUserActionsQueryVariables>(
+    GetUserActionsDocument,
+    options
+  );
+}
+export function useGetUserActionsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetUserActionsQuery,
+    GetUserActionsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetUserActionsQuery, GetUserActionsQueryVariables>(
+    GetUserActionsDocument,
+    options
+  );
+}
+export function useGetUserActionsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetUserActionsQuery,
+        GetUserActionsQueryVariables
+      >
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetUserActionsQuery,
+    GetUserActionsQueryVariables
+  >(GetUserActionsDocument, options);
+}
+export type GetUserActionsQueryHookResult = ReturnType<
+  typeof useGetUserActionsQuery
+>;
+export type GetUserActionsLazyQueryHookResult = ReturnType<
+  typeof useGetUserActionsLazyQuery
+>;
+export type GetUserActionsSuspenseQueryHookResult = ReturnType<
+  typeof useGetUserActionsSuspenseQuery
+>;
+export type GetUserActionsQueryResult = Apollo.QueryResult<
+  GetUserActionsQuery,
+  GetUserActionsQueryVariables
+>;
+export const GetActionDocument = gql`
+  query GetAction($id: ID!) {
+    getAction(id: $id) {
+      id
+      name
+      description
+      requires_view
+      createdAt
+      createdBy {
+        id
+        role
+      }
+      icon
+      level
+      time
+      tags {
+        id
+        name
+        icon
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetActionQuery__
+ *
+ * To run a query within a React component, call `useGetActionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetActionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetActionQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetActionQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetActionQuery,
+    GetActionQueryVariables
+  > &
+    ({ variables: GetActionQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetActionQuery, GetActionQueryVariables>(
+    GetActionDocument,
+    options
+  );
+}
+export function useGetActionLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetActionQuery,
+    GetActionQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetActionQuery, GetActionQueryVariables>(
+    GetActionDocument,
+    options
+  );
+}
+export function useGetActionSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<GetActionQuery, GetActionQueryVariables>
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetActionQuery, GetActionQueryVariables>(
+    GetActionDocument,
+    options
+  );
+}
+export type GetActionQueryHookResult = ReturnType<typeof useGetActionQuery>;
+export type GetActionLazyQueryHookResult = ReturnType<
+  typeof useGetActionLazyQuery
+>;
+export type GetActionSuspenseQueryHookResult = ReturnType<
+  typeof useGetActionSuspenseQuery
+>;
+export type GetActionQueryResult = Apollo.QueryResult<
+  GetActionQuery,
+  GetActionQueryVariables
+>;
+export const CreateActionDocument = gql`
+  mutation CreateAction($data: ActionInput!) {
+    createAction(data: $data) {
+      id
+    }
+  }
+`;
+export type CreateActionMutationFn = Apollo.MutationFunction<
+  CreateActionMutation,
+  CreateActionMutationVariables
+>;
+
+/**
+ * __useCreateActionMutation__
+ *
+ * To run a mutation, you first call `useCreateActionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateActionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createActionMutation, { data, loading, error }] = useCreateActionMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateActionMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateActionMutation,
+    CreateActionMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateActionMutation,
+    CreateActionMutationVariables
+  >(CreateActionDocument, options);
+}
+export type CreateActionMutationHookResult = ReturnType<
+  typeof useCreateActionMutation
+>;
+export type CreateActionMutationResult =
+  Apollo.MutationResult<CreateActionMutation>;
+export type CreateActionMutationOptions = Apollo.BaseMutationOptions<
+  CreateActionMutation,
+  CreateActionMutationVariables
+>;
+export const DeleteActionDocument = gql`
+  mutation DeleteAction($id: ID!) {
+    deleteAction(id: $id)
+  }
+`;
+export type DeleteActionMutationFn = Apollo.MutationFunction<
+  DeleteActionMutation,
+  DeleteActionMutationVariables
+>;
+
+/**
+ * __useDeleteActionMutation__
+ *
+ * To run a mutation, you first call `useDeleteActionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteActionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteActionMutation, { data, loading, error }] = useDeleteActionMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteActionMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteActionMutation,
+    DeleteActionMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteActionMutation,
+    DeleteActionMutationVariables
+  >(DeleteActionDocument, options);
+}
+export type DeleteActionMutationHookResult = ReturnType<
+  typeof useDeleteActionMutation
+>;
+export type DeleteActionMutationResult =
+  Apollo.MutationResult<DeleteActionMutation>;
+export type DeleteActionMutationOptions = Apollo.BaseMutationOptions<
+  DeleteActionMutation,
+  DeleteActionMutationVariables
+>;
+export const UpdateActionDocument = gql`
+  mutation UpdateAction($id: ID!, $data: ActionInput!) {
+    updateAction(id: $id, data: $data) {
+      id
+    }
+  }
+`;
+export type UpdateActionMutationFn = Apollo.MutationFunction<
+  UpdateActionMutation,
+  UpdateActionMutationVariables
+>;
+
+/**
+ * __useUpdateActionMutation__
+ *
+ * To run a mutation, you first call `useUpdateActionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateActionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateActionMutation, { data, loading, error }] = useUpdateActionMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateActionMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateActionMutation,
+    UpdateActionMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateActionMutation,
+    UpdateActionMutationVariables
+  >(UpdateActionDocument, options);
+}
+export type UpdateActionMutationHookResult = ReturnType<
+  typeof useUpdateActionMutation
+>;
+export type UpdateActionMutationResult =
+  Apollo.MutationResult<UpdateActionMutation>;
+export type UpdateActionMutationOptions = Apollo.BaseMutationOptions<
+  UpdateActionMutation,
+  UpdateActionMutationVariables
 >;
 export const GetAllTagsDocument = gql`
   query GetAllTags {

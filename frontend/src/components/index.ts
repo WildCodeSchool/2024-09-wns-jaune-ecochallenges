@@ -10,4 +10,5 @@ export * from './Filterbar';
 export * from './MyUserCard';
 export * from './PasswordInput';
 export * from './UserAcount';
+export * from './TagCard';
 export * from './UserCard';

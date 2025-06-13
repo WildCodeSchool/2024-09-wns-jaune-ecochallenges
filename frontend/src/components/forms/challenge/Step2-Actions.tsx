@@ -11,17 +11,17 @@ import {
 } from '@/components/ui';
 import {
   Action,
-  useGetActionsQuery,
+  useGetUserActionsQuery,
 } from '@/lib/graphql/generated/graphql-types';
 import { CircleCheck, CirclePlus, CircleX, Trash } from 'lucide-react';
 import { useFormContext } from 'react-hook-form';
 
 export const Step2Actions = () => {
   const form = useFormContext();
-  const { data, loading, error } = useGetActionsQuery();
+  const { data, loading, error } = useGetUserActionsQuery();
   const selectedActionIds = form.watch('actions') || [];
 
-  if (!data?.getActions) return <p role="alert">Aucun éco-gestes trouvé</p>;
+  if (!data?.getUserActions) return <p role="alert">Aucun éco-gestes trouvé</p>;
   if (loading)
     return (
       <p role="status" aria-busy="true">
@@ -35,11 +35,11 @@ export const Step2Actions = () => {
       </p>
     );
 
-  const selectedActions = data.getActions.filter((action) =>
+  const selectedActions = data.getUserActions.filter((action) =>
     selectedActionIds.includes(action.id)
   );
 
-  const availableActions = data.getActions.filter(
+  const availableActions = data.getUserActions.filter(
     (action) => !selectedActionIds.includes(action.id)
   );
 

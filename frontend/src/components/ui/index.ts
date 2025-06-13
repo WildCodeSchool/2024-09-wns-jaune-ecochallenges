@@ -16,3 +16,6 @@ export * from './separator';
 export * from './sonner';
 export * from './switch';
 export * from './tabs';
+export * from './switch';
+export * from './slider';
+export * from './dropdown-menu';
