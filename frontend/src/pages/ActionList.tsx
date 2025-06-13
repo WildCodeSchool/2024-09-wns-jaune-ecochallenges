@@ -12,15 +12,13 @@ import {
   AccordionTrigger,
   Button,
 } from '@/components/ui';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import { useUserStore } from '@/lib/zustand/userStore';
 import { GET_ACTIONS } from '@/lib/graphql/operations';
 import { toast } from 'sonner';
 
 export const ActionList = () => {
-  const navigate = useNavigate();
-
   const { data, loading, error } = useGetUserActionsQuery();
 
   const [filteredActions, setFilteredActions] = useState<
@@ -154,7 +152,7 @@ export const ActionList = () => {
         <Button
           asChild
           variant="default"
-          className="fixed right-4 bottom-20 z-50 size-14 rounded-full shadow-md shadow-black/50"
+          className="fixed right-4 bottom-8 z-50 size-14 rounded-full shadow-md shadow-black/50"
         >
           <Link to="/action/new">
             <Plus className="size-10" strokeWidth={1.4} />

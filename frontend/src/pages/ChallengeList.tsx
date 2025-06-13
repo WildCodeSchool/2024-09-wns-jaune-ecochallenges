@@ -119,7 +119,7 @@ export const ChallengeList = () => {
         <Button
           asChild
           variant="default"
-          className="fixed right-4 bottom-20 z-50 size-14 rounded-full shadow-md shadow-black/50"
+          className="fixed right-4 bottom-8 z-50 size-14 rounded-full shadow-md shadow-black/50"
         >
           <Link to="/challenge/new">
             <Plus className="size-10" strokeWidth={1.4} />
