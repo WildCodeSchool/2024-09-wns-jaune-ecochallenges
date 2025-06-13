@@ -86,11 +86,14 @@ export const ActionCard = ({
             <div className="mt-4 flex w-full flex-row items-center justify-start gap-2">
               {action.tags?.map((tag) => <Pill key={tag.id}>{tag.icon}</Pill>)}
               <Pill>
-                <span className="text-sm">{action.time}h</span>
+                <span className="text-md">{action.time} ⌛️</span>
+              </Pill>
+              <Pill>
+                <span className="text-md">{action.points} 🦀</span>
               </Pill>
               {getDifficulty(difficulties, action.level).map((difficulty) => (
                 <Pill className="flex" key={difficulty.value}>
-                  <span className="mr-1 text-xs">niveau:</span>
+                  <span className="text-md mr-1">niveau:</span>
                   <difficulty.icon className={difficulty.className} />
                 </Pill>
               ))}
