@@ -23,13 +23,13 @@ export const ChallengeActionsList = ({
   onToggleStatus,
   userActionChallenges,
 }: Props) => {
-  const totoId = userActionChallenges[0].user.id;
+  const totoId = userActionChallenges[0]?.user?.id;
 
   return (
     <ul className="space-y-4 bg-amber-200">
       {actions.map((action) => {
         const userAction = userActionChallenges.find(
-          (userAction) => userAction.action.id === action.id
+          (userAction) => userAction.action?.id === action.id
         );
 
         const status = userAction?.status === 'completed' ? 'done' : 'pending';
