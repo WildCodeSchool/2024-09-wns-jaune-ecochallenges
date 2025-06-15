@@ -29,7 +29,10 @@ export const ChallengeBanner = ({
     userActionChallengesScore
   );
 
-  const dates = formatChallengeDates(challenge.startDate, challenge.endDate);
+  const dates = formatChallengeDates(
+    challengeData?.getChallenge.startDate,
+    challengeData?.getChallenge.endDate
+  );
 
   const tags = getUniqueTagsFromActions(challenge.actions as Action[]);
 
