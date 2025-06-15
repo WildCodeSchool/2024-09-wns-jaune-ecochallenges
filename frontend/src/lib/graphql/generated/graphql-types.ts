@@ -142,7 +142,8 @@ export type Query = {
   getAllTags: Array<Tag>;
   getChallenge: Challenge;
   getChallenges: Array<Challenge>;
-  getUserActionChallenge: UserActionChallenge;
+  getUserActionChallengeByChallenge: Array<UserActionChallenge>;
+  getUserActionChallengeByUser: UserActionChallenge;
   getUserActionChallenges: Array<UserActionChallenge>;
   getUsersAsUser: Array<User>;
 };
@@ -159,7 +160,11 @@ export type QueryGetChallengeArgs = {
   id: Scalars['ID']['input'];
 };
 
-export type QueryGetUserActionChallengeArgs = {
+export type QueryGetUserActionChallengeByChallengeArgs = {
+  id: Scalars['String']['input'];
+};
+
+export type QueryGetUserActionChallengeByUserArgs = {
   id: Scalars['String']['input'];
 };
 
@@ -365,31 +370,6 @@ export type LogOutMutationVariables = Exact<{ [key: string]: never }>;
 
 export type LogOutMutation = { __typename?: 'Mutation'; logOut: boolean };
 
-export type GetActionsByChallengeIdQueryVariables = Exact<{
-  challengeId: Scalars['String']['input'];
-}>;
-
-export type GetActionsByChallengeIdQuery = {
-  __typename?: 'Query';
-  getActionsByChallengeId: Array<{
-    __typename?: 'Action';
-    id: string;
-    name: string;
-    description: string;
-    requires_view: boolean;
-    createdAt: any;
-    icon: string;
-    level: number;
-    time: number;
-    tags?: Array<{
-      __typename?: 'Tag';
-      id: string;
-      name: string;
-      icon: string;
-    }> | null;
-  }>;
-};
-
 export type CreateUserActionChallengeMutationVariables = Exact<{
   data: UserActionChallengeInput;
 }>;
@@ -453,6 +433,47 @@ export type ActionByChallengeWithStatusQuery = {
       action: { __typename?: 'Action'; id: string };
     }>;
   };
+};
+
+export type GetActionsByChallengeIdQueryVariables = Exact<{
+  challengeId: Scalars['String']['input'];
+}>;
+
+export type GetActionsByChallengeIdQuery = {
+  __typename?: 'Query';
+  getActionsByChallengeId: Array<{
+    __typename?: 'Action';
+    id: string;
+    name: string;
+    description: string;
+    requires_view: boolean;
+    createdAt: any;
+    icon: string;
+    level: number;
+    time: number;
+    tags?: Array<{
+      __typename?: 'Tag';
+      id: string;
+      name: string;
+      icon: string;
+    }> | null;
+  }>;
+};
+
+export type GetUserActionChallengeByChallengeQueryVariables = Exact<{
+  getUserActionChallengeByChallengeId: Scalars['String']['input'];
+}>;
+
+export type GetUserActionChallengeByChallengeQuery = {
+  __typename?: 'Query';
+  getUserActionChallengeByChallenge: Array<{
+    __typename?: 'UserActionChallenge';
+    status: string;
+    comment: string;
+    user: { __typename?: 'User'; id: string };
+    action: { __typename?: 'Action'; id: string };
+    challenge: { __typename?: 'Challenge'; id: string };
+  }>;
 };
 
 export const GetUsersAsUserDocument = gql`
@@ -1179,100 +1200,6 @@ export type LogOutMutationOptions = Apollo.BaseMutationOptions<
   LogOutMutation,
   LogOutMutationVariables
 >;
-export const GetActionsByChallengeIdDocument = gql`
-  query GetActionsByChallengeId($challengeId: String!) {
-    getActionsByChallengeId(challengeId: $challengeId) {
-      id
-      name
-      description
-      requires_view
-      createdAt
-      icon
-      level
-      time
-      tags {
-        id
-        name
-        icon
-      }
-    }
-  }
-`;
-
-/**
- * __useGetActionsByChallengeIdQuery__
- *
- * To run a query within a React component, call `useGetActionsByChallengeIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetActionsByChallengeIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetActionsByChallengeIdQuery({
- *   variables: {
- *      challengeId: // value for 'challengeId'
- *   },
- * });
- */
-export function useGetActionsByChallengeIdQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetActionsByChallengeIdQuery,
-    GetActionsByChallengeIdQueryVariables
-  > &
-    (
-      | { variables: GetActionsByChallengeIdQueryVariables; skip?: boolean }
-      | { skip: boolean }
-    )
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetActionsByChallengeIdQuery,
-    GetActionsByChallengeIdQueryVariables
-  >(GetActionsByChallengeIdDocument, options);
-}
-export function useGetActionsByChallengeIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetActionsByChallengeIdQuery,
-    GetActionsByChallengeIdQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetActionsByChallengeIdQuery,
-    GetActionsByChallengeIdQueryVariables
-  >(GetActionsByChallengeIdDocument, options);
-}
-export function useGetActionsByChallengeIdSuspenseQuery(
-  baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<
-        GetActionsByChallengeIdQuery,
-        GetActionsByChallengeIdQueryVariables
-      >
-) {
-  const options =
-    baseOptions === Apollo.skipToken
-      ? baseOptions
-      : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetActionsByChallengeIdQuery,
-    GetActionsByChallengeIdQueryVariables
-  >(GetActionsByChallengeIdDocument, options);
-}
-export type GetActionsByChallengeIdQueryHookResult = ReturnType<
-  typeof useGetActionsByChallengeIdQuery
->;
-export type GetActionsByChallengeIdLazyQueryHookResult = ReturnType<
-  typeof useGetActionsByChallengeIdLazyQuery
->;
-export type GetActionsByChallengeIdSuspenseQueryHookResult = ReturnType<
-  typeof useGetActionsByChallengeIdSuspenseQuery
->;
-export type GetActionsByChallengeIdQueryResult = Apollo.QueryResult<
-  GetActionsByChallengeIdQuery,
-  GetActionsByChallengeIdQueryVariables
->;
 export const CreateUserActionChallengeDocument = gql`
   mutation CreateUserActionChallenge($data: UserActionChallengeInput!) {
     createUserActionChallenge(data: $data) {
@@ -1456,4 +1383,196 @@ export type ActionByChallengeWithStatusSuspenseQueryHookResult = ReturnType<
 export type ActionByChallengeWithStatusQueryResult = Apollo.QueryResult<
   ActionByChallengeWithStatusQuery,
   ActionByChallengeWithStatusQueryVariables
+>;
+export const GetActionsByChallengeIdDocument = gql`
+  query GetActionsByChallengeId($challengeId: String!) {
+    getActionsByChallengeId(challengeId: $challengeId) {
+      id
+      name
+      description
+      requires_view
+      createdAt
+      icon
+      level
+      time
+      tags {
+        id
+        name
+        icon
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetActionsByChallengeIdQuery__
+ *
+ * To run a query within a React component, call `useGetActionsByChallengeIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetActionsByChallengeIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetActionsByChallengeIdQuery({
+ *   variables: {
+ *      challengeId: // value for 'challengeId'
+ *   },
+ * });
+ */
+export function useGetActionsByChallengeIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetActionsByChallengeIdQuery,
+    GetActionsByChallengeIdQueryVariables
+  > &
+    (
+      | { variables: GetActionsByChallengeIdQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    )
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetActionsByChallengeIdQuery,
+    GetActionsByChallengeIdQueryVariables
+  >(GetActionsByChallengeIdDocument, options);
+}
+export function useGetActionsByChallengeIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetActionsByChallengeIdQuery,
+    GetActionsByChallengeIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetActionsByChallengeIdQuery,
+    GetActionsByChallengeIdQueryVariables
+  >(GetActionsByChallengeIdDocument, options);
+}
+export function useGetActionsByChallengeIdSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetActionsByChallengeIdQuery,
+        GetActionsByChallengeIdQueryVariables
+      >
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetActionsByChallengeIdQuery,
+    GetActionsByChallengeIdQueryVariables
+  >(GetActionsByChallengeIdDocument, options);
+}
+export type GetActionsByChallengeIdQueryHookResult = ReturnType<
+  typeof useGetActionsByChallengeIdQuery
+>;
+export type GetActionsByChallengeIdLazyQueryHookResult = ReturnType<
+  typeof useGetActionsByChallengeIdLazyQuery
+>;
+export type GetActionsByChallengeIdSuspenseQueryHookResult = ReturnType<
+  typeof useGetActionsByChallengeIdSuspenseQuery
+>;
+export type GetActionsByChallengeIdQueryResult = Apollo.QueryResult<
+  GetActionsByChallengeIdQuery,
+  GetActionsByChallengeIdQueryVariables
+>;
+export const GetUserActionChallengeByChallengeDocument = gql`
+  query GetUserActionChallengeByChallenge(
+    $getUserActionChallengeByChallengeId: String!
+  ) {
+    getUserActionChallengeByChallenge(
+      id: $getUserActionChallengeByChallengeId
+    ) {
+      user {
+        id
+      }
+      action {
+        id
+      }
+      challenge {
+        id
+      }
+      status
+      comment
+    }
+  }
+`;
+
+/**
+ * __useGetUserActionChallengeByChallengeQuery__
+ *
+ * To run a query within a React component, call `useGetUserActionChallengeByChallengeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserActionChallengeByChallengeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserActionChallengeByChallengeQuery({
+ *   variables: {
+ *      getUserActionChallengeByChallengeId: // value for 'getUserActionChallengeByChallengeId'
+ *   },
+ * });
+ */
+export function useGetUserActionChallengeByChallengeQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetUserActionChallengeByChallengeQuery,
+    GetUserActionChallengeByChallengeQueryVariables
+  > &
+    (
+      | {
+          variables: GetUserActionChallengeByChallengeQueryVariables;
+          skip?: boolean;
+        }
+      | { skip: boolean }
+    )
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetUserActionChallengeByChallengeQuery,
+    GetUserActionChallengeByChallengeQueryVariables
+  >(GetUserActionChallengeByChallengeDocument, options);
+}
+export function useGetUserActionChallengeByChallengeLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetUserActionChallengeByChallengeQuery,
+    GetUserActionChallengeByChallengeQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetUserActionChallengeByChallengeQuery,
+    GetUserActionChallengeByChallengeQueryVariables
+  >(GetUserActionChallengeByChallengeDocument, options);
+}
+export function useGetUserActionChallengeByChallengeSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetUserActionChallengeByChallengeQuery,
+        GetUserActionChallengeByChallengeQueryVariables
+      >
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetUserActionChallengeByChallengeQuery,
+    GetUserActionChallengeByChallengeQueryVariables
+  >(GetUserActionChallengeByChallengeDocument, options);
+}
+export type GetUserActionChallengeByChallengeQueryHookResult = ReturnType<
+  typeof useGetUserActionChallengeByChallengeQuery
+>;
+export type GetUserActionChallengeByChallengeLazyQueryHookResult = ReturnType<
+  typeof useGetUserActionChallengeByChallengeLazyQuery
+>;
+export type GetUserActionChallengeByChallengeSuspenseQueryHookResult =
+  ReturnType<typeof useGetUserActionChallengeByChallengeSuspenseQuery>;
+export type GetUserActionChallengeByChallengeQueryResult = Apollo.QueryResult<
+  GetUserActionChallengeByChallengeQuery,
+  GetUserActionChallengeByChallengeQueryVariables
 >;

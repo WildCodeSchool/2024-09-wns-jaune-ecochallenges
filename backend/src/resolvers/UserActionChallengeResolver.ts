@@ -44,13 +44,40 @@ export class UserActionChallengeResolver {
    * @throws {GraphQLError} If no UserActionChallenge is found with the given ID.
    */
   @Query(() => UserActionChallenge)
-  async getUserActionChallenge(
+  async getUserActionChallengeByUser(
     @Arg('id') id: string
   ): Promise<UserActionChallenge> {
     const userActionChallenge = await UserActionChallenge.findOneOrFail({
       where: { userId: id },
     });
     if (!userActionChallenge) {
+      throw new GraphQLError('User action challenge not found');
+    }
+    return userActionChallenge;
+  }
+
+  /**
+   * Retrieves a single UserActionChallenge by challenge ID.
+   *
+   * This query attempts to find a UserActionChallenge where the `challengeId` matches the given `id`.
+   * It throws an error if no matching entry is found.
+   *
+   * Note: If you're intending to fetch by a composite key (userId + actionId + challengeId),
+   * you should update this query accordingly.
+   *
+   * @param {string} id - The ID of the challenge
+   * @returns {Promise<UserActionChallenge[]>} The matching UserActionChallenge entity.
+   * @throws {GraphQLError} If no UserActionChallenge is found with the given ID.
+   */
+  @Query(() => [UserActionChallenge])
+  async getUserActionChallengeByChallenge(
+    @Arg('id') id: string
+  ): Promise<UserActionChallenge[]> {
+    const userActionChallenge = await UserActionChallenge.find({
+      where: { challengeId: id },
+      relations: ['user', 'action', 'challenge'],
+    });
+    if (!userActionChallenge || userActionChallenge.length === 0) {
       throw new GraphQLError('User action challenge not found');
     }
     return userActionChallenge;

@@ -1,30 +1,75 @@
-import { useGetChallengesAsChallengeQuery } from '@/lib/graphql/generated/graphql-types';
+import {
+  Action,
+  Challenge,
+  useGetChallengeQuery,
+  useGetChallengesAsChallengeQuery,
+  useGetUserActionChallengeByChallengeQuery,
+  UserActionChallenge,
+} from '@/lib/graphql/generated/graphql-types';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
 import { Card, CardHeader, CardTitle } from '@/components/ui';
 
 import { Pill } from '@/components';
 
-import { getUniqueTagsFromActions, formatChallengeDates } from '@/utils';
+import {
+  getUniqueTagsFromActions,
+  formatChallengeDates,
+  getProgressPercentageInChallenge,
+} from '@/utils';
 
 type Props = {
   challengeId: string;
 };
 
 export const ChallengeBanner = ({ challengeId }: Props) => {
-  const { data, loading, error } = useGetChallengesAsChallengeQuery();
-  if (loading) return <p className="p-4">Chargement...</p>;
-  if (error)
-    return <p className="p-4 text-red-500">Erreur : {error.message}</p>;
+  const {
+    data: userActionChallengeByChallengeData,
+    loading: userActionChallengeByChallengeLoading,
+    error: userActionChallengeByChallengeError,
+  } = useGetUserActionChallengeByChallengeQuery({
+    variables: {
+      getUserActionChallengeByChallengeId: challengeId,
+    },
+  });
 
-  const challenge = data?.getChallenges.find((c) => c.id === challengeId);
+  const {
+    data: challengeData,
+    loading: challengeLoading,
+    error: challengeError,
+  } = useGetChallengeQuery({
+    variables: {
+      id: challengeId,
+    },
+  });
 
-  if (!challenge)
+  if (userActionChallengeByChallengeLoading || challengeLoading)
+    return <p className="p-4">Chargement...</p>;
+  if (userActionChallengeByChallengeError || challengeError)
+    return (
+      <p className="p-4 text-red-500">
+        Erreur :{' '}
+        {challengeError?.message ||
+          userActionChallengeByChallengeError?.message}
+      </p>
+    );
+
+  const getPercentageActionsDone = getProgressPercentageInChallenge(
+    challengeData?.getChallenge as Challenge,
+    userActionChallengeByChallengeData?.getUserActionChallengeByChallenge as UserActionChallenge[]
+  );
+
+  if (!challengeData?.getChallenge)
     return <p className="p-4 text-gray-500">Challenge non trouvé</p>;
 
-  const dates = formatChallengeDates(challenge.startDate, challenge.endDate);
+  const dates = formatChallengeDates(
+    challengeData?.getChallenge.startDate,
+    challengeData?.getChallenge.endDate
+  );
 
-  const tags = getUniqueTagsFromActions(challenge.actions);
+  const tags = getUniqueTagsFromActions(
+    challengeData?.getChallenge.actions as Action[]
+  );
 
   return (
     <Card className="relative w-full overflow-hidden rounded-xl p-0 shadow-lg">
@@ -32,7 +77,7 @@ export const ChallengeBanner = ({ challengeId }: Props) => {
         <div className="absolute inset-0 z-0 rounded-t-xl bg-black/40" />
 
         <CardTitle className="relative z-10 text-xl font-bold text-white">
-          {challenge.label}
+          {challengeData?.getChallenge.label}
         </CardTitle>
         <div className="absolute top-4 right-4 z-10 flex flex-col items-center bg-green-300 md:items-end md:gap-4">
           <Avatar>
@@ -45,7 +90,7 @@ export const ChallengeBanner = ({ challengeId }: Props) => {
             </li>
 
             <li className="w-full rounded-full bg-white/80 px-2 py-1">
-              <Progress value={33} />
+              <Progress value={getPercentageActionsDone} />
             </li>
           </ul>
         </div>
