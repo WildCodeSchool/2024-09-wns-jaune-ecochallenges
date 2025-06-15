@@ -248,26 +248,6 @@ export const UPDATE_USER = gql`
   }
 `;
 
-export const GET_ACTIONS_BY_CHALLENGE_ID = gql`
-  query GetActionsByChallengeId($challengeId: String!) {
-    getActionsByChallengeId(challengeId: $challengeId) {
-      id
-      name
-      description
-      requires_view
-      createdAt
-      icon
-      level
-      time
-      tags {
-        id
-        name
-        icon
-      }
-    }
-  }
-`;
-
 export const MUTATION_VALIDATE_ACTION = gql`
   mutation CreateUserActionChallenge($data: UserActionChallengeInput!) {
     createUserActionChallenge(data: $data) {
@@ -331,6 +311,48 @@ export const GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS = gql`
           id
         }
       }
+    }
+  }
+`;
+
+export const GET_ACTIONS_BY_CHALLENGE_ID = gql`
+  query GetActionsByChallengeId($challengeId: String!) {
+    getActionsByChallengeId(challengeId: $challengeId) {
+      id
+      name
+      description
+      requires_view
+      createdAt
+      icon
+      level
+      time
+      tags {
+        id
+        name
+        icon
+      }
+    }
+  }
+`;
+
+export const GET_USER_ACTION_CHALLENGE_BY_CHALLENGE_ID = gql`
+  query GetUserActionChallengeByChallenge(
+    $getUserActionChallengeByChallengeId: String!
+  ) {
+    getUserActionChallengeByChallenge(
+      id: $getUserActionChallengeByChallengeId
+    ) {
+      user {
+        id
+      }
+      action {
+        id
+      }
+      challenge {
+        id
+      }
+      status
+      comment
     }
   }
 `;
