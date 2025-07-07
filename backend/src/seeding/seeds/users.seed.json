@@ -5,119 +5,153 @@
       "lastname": "admin",
       "email": "admin@example.com",
       "hashedPassword": "admin1234",
-      "role": "admin"
+      "role": "admin",
+      "description": "Je suis l'admin du site",
+      "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=robohash&r=x"
     },
     {
       "firstname": "thomas",
       "lastname": "NIG",
       "email": "thomas@example.com",
       "hashedPassword": "Thomas123!",
-      "role": "user"
+      "role": "user",
+      "description": "Je suis un utilisateur du site",
+      "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=monsterid&r=x"
     },
     {
       "firstname": "marjorie",
       "lastname": "MARC",
       "email": "marjorie@example.com",
       "hashedPassword": "Marjorie123!",
-      "role": "user"
+      "role": "user",
+      "description": "Je suis un utilisateur du site",
+      "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=robohash&r=x"
     },
     {
       "firstname": "nicolas",
       "lastname": "ALIB",
       "email": "nicolas@example.com",
       "hashedPassword": "Nicolas123!",
-      "role": "user"
+      "role": "user",
+      "description": "Je suis un utilisateur du site",
+      "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=monsterid&r=x"
     },
     {
       "firstname": "ornella",
       "lastname": "BORG",
       "email": "ornella@example.com",
       "hashedPassword": "Ornella123!",
-      "role": "user"
+      "role": "user",
+      "description": "Je suis un utilisateur du site",
+      "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=robohash&r=x"
     },
     {
       "firstname": "pierreAdrien",
       "lastname": "PA",
       "email": "pierreAdrien@example.com",
       "hashedPassword": "PierreAdrien123!",
-      "role": "user"
+      "role": "user",
+      "description": "Je suis un utilisateur du site",
+      "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=robohash&r=x"
     },
     {
       "firstname": "elie",
       "lastname": "OEUF",
       "email": "elie@example.com",
       "hashedPassword": "Elie123!",
-      "role": "user"
+      "role": "user",
+      "description": "Je suis un utilisateur du site",
+      "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=monsterid&r=x"
     },
     {
       "firstname": "John",
       "lastname": "Doe",
       "email": "john@example.com",
       "hashedPassword": "abcd1234",
-      "role": "user"
+      "role": "user",
+      "description": "Je suis un utilisateur du site",
+      "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=robohash&r=x"
     },
     {
       "firstname": "Jane",
       "lastname": "Smith",
       "email": "jane@example.com",
       "hashedPassword": "abcd1234",
-      "role": "user"
+      "role": "user",
+      "description": "Je suis un utilisateur du site",
+      "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=monsterid&r=x"
     },
     {
       "firstname": "Michael",
       "lastname": "Johnson",
       "email": "michael@example.com",
       "hashedPassword": "abcd1234",
-      "role": "user"
+      "role": "user",
+      "description": "Je suis un utilisateur du site",
+      "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=robohash&r=x"
     },
     {
       "firstname": "Sarah",
       "lastname": "Williams",
       "email": "sarah@example.com",
       "hashedPassword": "abcd1234",
-      "role": "user"
+      "role": "user",
+      "description": "Je suis un utilisateur du site",
+      "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=robohash&r=x"
     },
     {
       "firstname": "David",
       "lastname": "Brown",
       "email": "david@example.com",
       "hashedPassword": "abcd1234",
-      "role": "user"
+      "role": "user",
+      "description": "Je suis un utilisateur du site",
+      "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=monsterid&r=x"
     },
     {
       "firstname": "Emily",
       "lastname": "Jones",
       "email": "emily@example.com",
       "hashedPassword": "abcd1234",
-      "role": "user"
+      "role": "user",
+      "description": "Je suis un utilisateur du site",
+      "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=robohash&r=x"
     },
     {
       "firstname": "James",
       "lastname": "Taylor",
       "email": "james@example.com",
       "hashedPassword": "abcd1234",
-      "role": "user"
+      "role": "user",
+      "description": "Je suis un utilisateur du site",
+      "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=robohash&r=x"
     },
     {
       "firstname": "Lisa",
       "lastname": "Anderson",
       "email": "lisa@example.com",
       "hashedPassword": "abcd1234",
-      "role": "user"
+      "role": "user",
+      "description": "Je suis un utilisateur du site",
+      "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=monsterid&r=x"
     },
     {
       "firstname": "Robert",
       "lastname": "Martin",
       "email": "robert@example.com",
       "hashedPassword": "abcd1234",
-      "role": "user"
+      "role": "user",
+      "description": "Je suis un utilisateur du site",
+      "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=robohash&r=x"
     },
     {
       "firstname": "Emma",
       "lastname": "Wilson",
       "email": "emma@example.com",
       "hashedPassword": "abcd1234",
-      "role": "user"
+      "role": "user",
+      "description": "Je suis un utilisateur du site",
+      "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=monsterid&r=x"
     }
   ]
 }
