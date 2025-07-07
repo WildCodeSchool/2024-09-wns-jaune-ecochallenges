@@ -4,53 +4,63 @@ import { ChallengeBanner } from './ChallengeBanner';
 import { ActionsTabs } from './ActionsTabs';
 import { Button } from '@/components/ui/button';
 import {
-  Action,
   useActionByChallengeWithStatusQuery,
-  useGetActionsByChallengeIdQuery,
   UserActionChallenge,
 } from '@/lib/graphql/generated/graphql-types';
+import { useUserStore } from '@/lib/zustand/userStore';
 
 type ChallengeDetailProps = {
   challengeId: string;
 };
 
 export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
+  const userId = useUserStore((state) => state.user?.id || undefined);
   const navigate = useNavigate();
-  // get all actions
   const { data, loading, error } = useActionByChallengeWithStatusQuery({
     variables: { getChallengeId: challengeId },
   });
 
-  if (loading) console.log('Chargement des données...');
-  if (error) console.error('Erreur chargement challenge:', error);
-  if (!data?.getChallenge) console.warn('Aucune donnée de challenge récupérée');
+  if (loading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="text-center">
+          <div className="text-muted-foreground mb-4 text-2xl font-semibold">
+            Chargement des données...
+          </div>
+          <div className="border-t-primary border-border mx-auto h-8 w-8 animate-spin rounded-full border-4"></div>
+        </div>
+      </div>
+    );
+  }
 
-  const onToggleStatus = (id: string) => {
-    console.log('id', id);
-    console.log('toggle status');
-    /*  setActions(prev =>
-      prev.map(action =>
-        action.id === id
-          ? { ...action, status: action.status === 'done' ? 'pending' : 'done' }
-          : action
-      )
-    ); */
-  };
+  if (error) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="text-center">
+          <div className="text-destructive mb-4 text-xl font-semibold">
+            Erreur lors du chargement
+          </div>
+          <div className="text-muted-foreground">{error.message}</div>
+        </div>
+      </div>
+    );
+  }
 
-  const normalizeUAC = (uacs?: UserActionChallenge[]) =>
-    uacs?.map((uac) => ({
-      ...uac,
-      comment: uac.comment ?? '',
-      action: {
-        ...uac.action,
-        name: uac.action.name ?? '',
-        description: uac.action.description ?? '',
-        createdAt: uac.action.createdAt ?? '',
-        icon: uac.action.icon ?? '',
-        tags: uac.action.tags ?? [],
-        challenges: uac.action.challenges ?? [],
-      },
-    })) || [];
+  if (!data?.getChallenge) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="text-center">
+          <div className="text-muted-foreground mb-4 text-xl font-semibold">
+            Aucune donnée de challenge récupérée
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const isAuthorized = data.getChallenge.members.some(
+    (member) => member.id === userId
+  );
 
   return (
     <div className="relative mx-auto max-w-6xl px-4 py-6">
@@ -58,12 +68,13 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
 
       <div className="mt-6 flex justify-center">
         <ActionsTabs
-          actions={data?.getChallenge.actions || []}
-          onToggleStatus={onToggleStatus}
-          //userActionChallenges={data?.getChallenge.userActionChallenges || []}
-          userActionChallenges={normalizeUAC(
-            data?.getChallenge.userActionChallenges
-          )}
+          userId={userId}
+          isAuthorized={isAuthorized}
+          actions={data.getChallenge.actions || []}
+          userActionChallenges={
+            (data.getChallenge
+              ?.userActionChallenges as Partial<UserActionChallenge>[]) || []
+          }
         />
       </div>
 
