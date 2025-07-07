@@ -4,18 +4,10 @@ import { ChallengeBanner } from './ChallengeBanner';
 import { ActionsTabs } from './ActionsTabs/ActionsTabs';
 import { Button } from '@/components/ui/button';
 import {
-<<<<<<< HEAD
   useActionByChallengeWithStatusQuery,
-  UserActionChallengeScore,
-} from '@/lib/graphql/generated/graphql-types';
-import { useUserStore } from '@/lib/zustand/userStore';
-=======
-  Action,
-  useActionByChallengeWithStatusQuery,
-  useGetActionsByChallengeIdQuery,
   UserActionChallenge,
 } from '@/lib/graphql/generated/graphql-types';
->>>>>>> 71aee31 (add the base logic to complete an action of a challenge)
+import { useUserStore } from '@/lib/zustand/userStore';
 
 type ChallengeDetailProps = {
   challengeId: string;
@@ -24,7 +16,6 @@ type ChallengeDetailProps = {
 <<<<<<< HEAD
 export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
   const userId = useUserStore((state) => state.user?.id || undefined);
-
   const navigate = useNavigate();
   const { data, loading, error } = useActionByChallengeWithStatusQuery({
     variables: { getChallengeId: challengeId },
@@ -71,79 +62,6 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
   const isAuthorized = data.getChallenge.members.some(
     (member) => member.id === userId
   );
-=======
-/* const initialActions: ActionLite[] = [
-  {
-    id: '1',
-    name: 'Éteindre les lumières inutiles',
-    description: "Réduire la consommation d'énergie à la maison.",
-    status: 'done',
-    tags: [{ name: 'Énergie' }],
-    icon: 'lightbulb',
-  },
-  {
-    id: '2',
-    name: 'Prendre le vélo',
-    description: 'Utiliser le vélo pour les trajets courts.',
-    status: 'pending',
-    tags: [{ name: 'Transport' }],
-    icon: 'bike',
-  },
-  {
-    id: '3',
-    name: 'Recycler les déchets',
-    description: 'Trier les emballages, papiers, et déchets organiques.',
-    status: 'done',
-    tags: [{ name: 'Recyclage' }],
-    icon: 'recycle',
-  },
-  {
-    id: '4',
-    name: 'Installer un mousseur de robinet',
-    description: 'Économiser l’eau facilement.',
-    status: 'pending',
-    tags: [{ name: 'Eau' }],
-    icon: 'droplet',
-  },
-]; */
-
-export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
-  const navigate = useNavigate();
-  // get all actions
-  const { data, loading, error } = useActionByChallengeWithStatusQuery({
-    variables: { getChallengeId: challengeId },
-  });
-
-  if (loading) console.log('Chargement des données...');
-  if (error) console.error('Erreur chargement challenge:', error);
-  if (!data?.getChallenge) console.warn('Aucune donnée de challenge récupérée');
-
-  const onToggleStatus = (id: string) => {
-    console.log('id', id);
-    console.log('toggle status');
-    /*  setActions((prev) =>
-      prev.map((action) =>
-        action.id === id
-          ? { ...action, status: action.status === 'done' ? 'pending' : 'done' }
-          : action
-      )
-    ); */
-  };
-
-  const normalizeUAC = (uacs?: UserActionChallenge[]) =>
-    uacs?.map((uac) => ({
-      ...uac,
-      comment: uac.comment ?? '',
-      action: {
-        ...uac.action,
-        name: uac.action.name ?? '',
-        description: uac.action.description ?? '',
-        createdAt: uac.action.createdAt ?? '',
-        icon: uac.action.icon ?? '',
-        tags: uac.action.tags ?? [],
-        challenges: uac.action.challenges ?? [],
-      },
-    })) || [];
 
   return (
     <div className="relative mx-auto max-w-6xl px-4 py-6">
@@ -158,20 +76,13 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
 
       <div className="mt-6 flex justify-center">
         <ActionsTabs
-<<<<<<< HEAD
-          challengeId={challengeId}
           userId={userId}
           isAuthorized={isAuthorized}
           actions={data.getChallenge.actions || []}
-          userActionChallengeScore={
+          userActionChallenges={
             (data.getChallenge
-              ?.userActionChallengeScores as UserActionChallengeScore[]) || []
+              ?.userActionChallenges as Partial<UserActionChallenge>[]) || []
           }
-=======
-          actions={data?.getChallenge.actions || []}
-          onToggleStatus={onToggleStatus}
-          userActionChallenges={data?.getChallenge.userActionChallenges || []}
->>>>>>> 71aee31 (add the base logic to complete an action of a challenge)
         />
       </div>
 

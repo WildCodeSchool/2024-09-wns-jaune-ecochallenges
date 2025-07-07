@@ -264,15 +264,6 @@ export type UserActionChallengeScoreInput = {
   comment?: InputMaybe<Scalars['String']['input']>;
   isValidated: Scalars['Boolean']['input'];
   status: Scalars['String']['input'];
-  validatedFor: Scalars['ID']['input'];
-};
-
-export type UserActionChallengeScoreUpdateInput = {
-  actionId: Scalars['ID']['input'];
-  challengeId: Scalars['ID']['input'];
-  comment?: InputMaybe<Scalars['String']['input']>;
-  status: Scalars['String']['input'];
-  validatedFor: Scalars['ID']['input'];
 };
 
 export type GetUsersAsUserQueryVariables = Exact<{ [key: string]: never }>;
@@ -812,7 +803,23 @@ export type ActionByChallengeWithStatusQuery = {
       status: string;
       user: { __typename?: 'User'; id: string };
       challenge: { __typename?: 'Challenge'; id: string };
-      action: { __typename?: 'Action'; id: string };
+      action: {
+        __typename?: 'Action';
+        id: string;
+        name: string;
+        description: string;
+        requires_view: boolean;
+        level: number;
+        icon: string;
+        time: number;
+        createdAt: any;
+        tags?: Array<{
+          __typename?: 'Tag';
+          id: string;
+          name: string;
+          icon: string;
+        }> | null;
+      };
     }>;
   };
 };
@@ -2569,6 +2576,18 @@ export const ActionByChallengeWithStatusDocument = gql`
         }
         action {
           id
+          name
+          description
+          requires_view
+          level
+          icon
+          time
+          createdAt
+          tags {
+            id
+            name
+            icon
+          }
         }
       }
     }
