@@ -1,6 +1,6 @@
 import { Button } from './ui/button';
 import { Dialog, DialogTrigger } from './ui/dialog';
-import { Checkbox } from './ui/checkbox';
+import { Circle } from 'lucide-react';
 import {
   DialogContent,
   DialogHeader,
@@ -19,12 +19,11 @@ import { GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS } from '@/lib/graphql/operation
 
 type ValidateActionDialogProps = {
   isChecked: boolean;
-  action: Omit<Action, 'challenges'>;
+  action: Partial<Action>;
   userIdChallenge: string;
 };
 
 export const ValidateActionDialog = ({
-  isChecked,
   action,
   userIdChallenge,
 }: ValidateActionDialogProps) => {
@@ -46,14 +45,13 @@ export const ValidateActionDialog = ({
       },
     });
 
-  const validateAction = async (action: Omit<Action, 'challenges'>) => {
+  const validateAction = async (action: Partial<Action>) => {
     if (!userIdChallenge) {
       toast.error('Utilisateur non authentifié');
       return;
     }
     const currentAction = {
-      userId: userIdChallenge,
-      actionId: action.id,
+      actionId: action.id || '',
       challengeId: challengeId!,
       status: 'completed',
     };
@@ -67,11 +65,18 @@ export const ValidateActionDialog = ({
 
   return (
     <Dialog>
-      <DialogTrigger>
-        <Checkbox
-          className="h-8 w-8 rounded-full border-3"
-          checked={isChecked}
-        />
+      <DialogTrigger asChild>
+        <div className="flex flex-col items-center">
+          🌱 Action réalisée ?
+          <Button
+            variant="ghost"
+            className="flex flex-row items-center gap-2 hover:bg-transparent"
+            aria-label="Valider l'eco-geste"
+          >
+            Je coche !
+            <Circle className="h-8 w-8" />
+          </Button>
+        </div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
