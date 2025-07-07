@@ -201,6 +201,18 @@ export const GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS = gql`
         }
         action {
           id
+          name
+          description
+          requires_view
+          level
+          icon
+          time
+          createdAt
+          tags {
+            id
+            name
+            icon
+          }
         }
       }
     }
