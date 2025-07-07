@@ -3,28 +3,21 @@ import {
   UserActionChallenge,
 } from '@/lib/graphql/generated/graphql-types';
 import { ActionItem } from './ActionItem';
-
-/* type ActionLite = {
-  id: string;
-  name: string;
-  description: string;
-  status: 'done' | 'pending';
-  tags?: { name: string }[] | null;
-}; */
+import { StatusEnum } from '@/lib/enums';
 
 type Props = {
   actions: Partial<Action>[];
-  onToggleStatus: (id: string) => void;
-  userActionChallenges: Partial<UserActionChallenge>[]; // <--- ici
+  userActionChallenges: Partial<UserActionChallenge>[];
+  userId: string | undefined;
+  isAuthorized: boolean | undefined;
 };
 
 export const ChallengeActionsList = ({
   actions,
-  onToggleStatus,
   userActionChallenges,
+  userId,
+  isAuthorized,
 }: Props) => {
-  const totoId = userActionChallenges[0]?.user?.id;
-
   return (
     <ul className="space-y-4 bg-amber-200">
       {actions.map((action) => {
@@ -32,18 +25,18 @@ export const ChallengeActionsList = ({
           (userAction) => userAction.action?.id === action.id
         );
 
-        const status = userAction?.status === 'completed' ? 'done' : 'pending';
+        const status =
+          userAction?.status === StatusEnum.COMPLETED
+            ? StatusEnum.COMPLETED
+            : StatusEnum.PENDING;
 
         return (
           <ActionItem
             key={action.id}
-            id={action.id || ''}
-            title={action.name || ''}
-            description={action.description || ''}
-            tags={action.tags}
             status={status}
-            userId={totoId}
-            onToggleStatus={onToggleStatus}
+            action={action}
+            userId={userId}
+            isAuthorized={isAuthorized}
           />
         );
       })}
