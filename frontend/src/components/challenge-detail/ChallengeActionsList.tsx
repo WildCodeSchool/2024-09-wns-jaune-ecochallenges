@@ -3,17 +3,18 @@ import {
   UserActionChallengeScore,
 } from '@/lib/graphql/generated/graphql-types';
 import { ActionItem } from './ActionItem';
+import { StatusEnum } from '@/lib/enums';
 
 type Props = {
   actions: Partial<Action>[];
-  userActionChallengeScore: UserActionChallengeScore[];
+  userActionChallenges: Partial<UserActionChallenge>[];
   userId: string | undefined;
   isAuthorized: boolean | undefined;
 };
 
 export const ChallengeActionsList = ({
   actions,
-  userActionChallengeScore,
+  userActionChallenges,
   userId,
   isAuthorized,
 }: Props) => {
@@ -24,13 +25,18 @@ export const ChallengeActionsList = ({
           (userAction) => userAction?.action?.id === action.id
         );
 
+        const status =
+          userAction?.status === StatusEnum.COMPLETED
+            ? StatusEnum.COMPLETED
+            : StatusEnum.PENDING;
+
         return (
           <ActionItem
             key={action.id}
+            status={status}
             action={action}
             userId={userId}
             isAuthorized={isAuthorized}
-            userActionChallengeScore={userAction as UserActionChallengeScore}
           />
         );
       })}
