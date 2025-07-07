@@ -7,14 +7,16 @@ import {
 
 type Props = {
   actions: Partial<Action>[];
-  onToggleStatus: (id: string) => void;
   userActionChallenges: Partial<UserActionChallenge>[];
+  isAuthorized: boolean | undefined;
+  userId: string | undefined;
 };
 
 export const ActionsTabs = ({
   actions,
-  onToggleStatus,
   userActionChallenges,
+  isAuthorized,
+  userId,
 }: Props) => {
   const gestes = actions;
   return (
@@ -34,23 +36,26 @@ export const ActionsTabs = ({
       <div className="mt-2">
         <TabsContent value="gestes">
           <ChallengeActionsList
+            isAuthorized={isAuthorized}
+            userId={userId}
             actions={gestes}
-            onToggleStatus={onToggleStatus}
             userActionChallenges={userActionChallenges}
           />
         </TabsContent>
 
         <TabsContent value="fil">
           <ChallengeActionsList
+            isAuthorized={isAuthorized}
+            userId={userId}
             actions={gestes}
-            onToggleStatus={onToggleStatus}
             userActionChallenges={userActionChallenges}
           />
         </TabsContent>
         <TabsContent value="tocheck">
           <ChallengeActionsList
+            isAuthorized={isAuthorized}
+            userId={userId}
             actions={gestes}
-            onToggleStatus={onToggleStatus}
             userActionChallenges={userActionChallenges}
           />
         </TabsContent>
