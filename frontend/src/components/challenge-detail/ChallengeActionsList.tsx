@@ -29,7 +29,7 @@ export const ChallengeActionsList = ({
     <ul className="space-y-4 bg-amber-200">
       {actions.map((action) => {
         const userAction = userActionChallenges.find(
-          (userAction) => userAction?.action?.id === action.id
+          (userAction) => userAction.action?.id === action.id
         );
 
         const status = userAction?.status === 'completed' ? 'done' : 'pending';
