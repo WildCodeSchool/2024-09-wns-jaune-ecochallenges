@@ -4,9 +4,13 @@ import {
 } from '@/lib/graphql/generated/graphql-types';
 import { ActionItem } from './ActionItem';
 import { StatusEnum } from '@/lib/enums';
+import { StatusEnum } from '@/lib/enums';
 
 type Props = {
   actions: Partial<Action>[];
+  userActionChallenges: Partial<UserActionChallenge>[];
+  userId: string | undefined;
+  isAuthorized: boolean | undefined;
   userActionChallenges: Partial<UserActionChallenge>[];
   userId: string | undefined;
   isAuthorized: boolean | undefined;
@@ -15,6 +19,8 @@ type Props = {
 export const ChallengeActionsList = ({
   actions,
   userActionChallenges,
+  userId,
+  isAuthorized,
   userId,
   isAuthorized,
 }: Props) => {
