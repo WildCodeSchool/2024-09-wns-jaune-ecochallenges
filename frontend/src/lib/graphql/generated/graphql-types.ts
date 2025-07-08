@@ -119,6 +119,10 @@ export type MutationCreateActionArgs = {
   data: ActionInput;
 };
 
+export type MutationCreateActionArgs = {
+  data: ActionInput;
+};
+
 export type MutationCreateChallengeArgs = {
   data: ChallengeInput;
 };
@@ -169,9 +173,11 @@ export type Query = {
   getAllTags: Array<Tag>;
   getChallenge: Challenge;
   getChallenges: Array<Challenge>;
+  getCurrentUser: User;
   getUserActionChallengeByChallenge: Array<UserActionChallenge>;
   getUserActionChallengeByUser: UserActionChallenge;
   getUserActionChallenges: Array<UserActionChallenge>;
+  getUserActions: Array<Action>;
   getUsersAsUser: Array<User>;
 };
 
@@ -608,7 +614,14 @@ export type ActionByChallengeWithStatusQuery = {
     userActionChallenges: Array<{
       __typename?: 'UserActionChallenge';
       status: string;
-      user: { __typename?: 'User'; id: string };
+      createdAt: any;
+      updatedAt: any;
+      user: {
+        __typename?: 'User';
+        id: string;
+        avatarUrl?: string | null;
+        firstname: string;
+      };
       challenge: { __typename?: 'Challenge'; id: string };
       action: {
         __typename?: 'Action';
@@ -1735,6 +1748,149 @@ export type LogOutMutationOptions = Apollo.BaseMutationOptions<
   LogOutMutation,
   LogOutMutationVariables
 >;
+export const GetCurrentUserDocument = gql`
+  query GetCurrentUser {
+    getCurrentUser {
+      id
+      firstname
+      lastname
+      email
+      role
+      description
+      avatarUrl
+      participatedChallenges {
+        id
+        label
+        startDate
+        endDate
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetCurrentUserQuery__
+ *
+ * To run a query within a React component, call `useGetCurrentUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCurrentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCurrentUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCurrentUserQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetCurrentUserQuery,
+    GetCurrentUserQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(
+    GetCurrentUserDocument,
+    options
+  );
+}
+export function useGetCurrentUserLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetCurrentUserQuery,
+    GetCurrentUserQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(
+    GetCurrentUserDocument,
+    options
+  );
+}
+export function useGetCurrentUserSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetCurrentUserQuery,
+        GetCurrentUserQueryVariables
+      >
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetCurrentUserQuery,
+    GetCurrentUserQueryVariables
+  >(GetCurrentUserDocument, options);
+}
+export type GetCurrentUserQueryHookResult = ReturnType<
+  typeof useGetCurrentUserQuery
+>;
+export type GetCurrentUserLazyQueryHookResult = ReturnType<
+  typeof useGetCurrentUserLazyQuery
+>;
+export type GetCurrentUserSuspenseQueryHookResult = ReturnType<
+  typeof useGetCurrentUserSuspenseQuery
+>;
+export type GetCurrentUserQueryResult = Apollo.QueryResult<
+  GetCurrentUserQuery,
+  GetCurrentUserQueryVariables
+>;
+export const UpdateUserDocument = gql`
+  mutation UpdateUser($user: UpdateUserInput!) {
+    updateUser(user: $user) {
+      id
+      firstname
+      lastname
+      description
+      avatarUrl
+    }
+  }
+`;
+export type UpdateUserMutationFn = Apollo.MutationFunction<
+  UpdateUserMutation,
+  UpdateUserMutationVariables
+>;
+
+/**
+ * __useUpdateUserMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserMutation, { data, loading, error }] = useUpdateUserMutation({
+ *   variables: {
+ *      user: // value for 'user'
+ *   },
+ * });
+ */
+export function useUpdateUserMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateUserMutation,
+    UpdateUserMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(
+    UpdateUserDocument,
+    options
+  );
+}
+export type UpdateUserMutationHookResult = ReturnType<
+  typeof useUpdateUserMutation
+>;
+export type UpdateUserMutationResult =
+  Apollo.MutationResult<UpdateUserMutation>;
+export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
+  UpdateUserMutation,
+  UpdateUserMutationVariables
+>;
 export const CreateUserActionChallengeDocument = gql`
   mutation CreateUserActionChallenge($data: UserActionChallengeInput!) {
     createUserActionChallenge(data: $data) {
@@ -1940,6 +2096,8 @@ export const ActionByChallengeWithStatusDocument = gql`
       userActionChallenges {
         user {
           id
+          avatarUrl
+          firstname
         }
         status
         challenge {
@@ -1960,6 +2118,8 @@ export const ActionByChallengeWithStatusDocument = gql`
             icon
           }
         }
+        createdAt
+        updatedAt
       }
     }
   }

@@ -16,6 +16,7 @@ type ChallengeDetailProps = {
 <<<<<<< HEAD
 export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
   const userId = useUserStore((state) => state.user?.id || undefined);
+
   const navigate = useNavigate();
   const { data, loading, error } = useActionByChallengeWithStatusQuery({
     variables: { getChallengeId: challengeId },

@@ -38,7 +38,7 @@ export const ActionsTabs = ({
           <ChallengeActionsList
             isAuthorized={isAuthorized}
             userId={userId}
-            actions={gestes}
+            actions={actions}
             userActionChallenges={userActionChallenges}
           />
         </TabsContent>
@@ -47,7 +47,7 @@ export const ActionsTabs = ({
           <ChallengeActionsList
             isAuthorized={isAuthorized}
             userId={userId}
-            actions={gestes}
+            actions={actions}
             userActionChallenges={userActionChallenges}
           />
         </TabsContent>
@@ -55,7 +55,7 @@ export const ActionsTabs = ({
           <ChallengeActionsList
             isAuthorized={isAuthorized}
             userId={userId}
-            actions={gestes}
+            actions={actions}
             userActionChallenges={userActionChallenges}
           />
         </TabsContent>

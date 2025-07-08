@@ -55,10 +55,11 @@ export const ChallengeBanner = ({
           <ul className="relative z-10 mt-2 flex flex-col gap-2">
             <li>
               <Pill className="bg-background font-medium">Rank</Pill>
+              <Pill className="bg-background font-medium">Rank</Pill>
             </li>
 
-            <li className="bg-background text-foreground w-full rounded-lg px-2 py-1 text-xs">
-              Complété à: <strong>{getPercentageActionsDone}%</strong>
+            <li className="bg-background text-foreground w-full rounded-lg px-2 py-1">
+              Complété à: {getPercentageActionsDone}%
               <Progress value={getPercentageActionsDone} />
             </li>
           </ul>

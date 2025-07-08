@@ -37,6 +37,7 @@ export const ChallengeActionsList = ({
             action={action}
             userId={userId}
             isAuthorized={isAuthorized}
+            completedBy={completedBy}
           />
         );
       })}
