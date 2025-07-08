@@ -7,17 +7,10 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
-import {
-  Tag,
-  Challenge,
-  User,
-  UserActionChallenge,
-  UserActionChallenge,
-} from '@/entities';
+import { Tag, Challenge, User, UserActionChallenge } from '@/entities';
 
 const levelType = {
   levelOne: 1,
