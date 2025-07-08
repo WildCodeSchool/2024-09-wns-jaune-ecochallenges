@@ -7,8 +7,6 @@ import {
   ManyToMany,
   ManyToOne,
   OneToMany,
-  OneToMany,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
