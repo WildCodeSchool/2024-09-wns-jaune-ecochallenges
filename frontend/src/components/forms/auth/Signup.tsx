@@ -1,4 +1,4 @@
-import { RegisterFormValues } from '@/schemas/auth/register.schema';
+import { RegisterFormValues } from '@/schemas';
 import { PasswordInput } from '@/components';
 import {
   Button,
