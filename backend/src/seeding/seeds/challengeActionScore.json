@@ -1,0 +1,154 @@
+{
+  "challengeActionScore": [
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 2,
+      "challenge": 1
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 6,
+      "challenge": 1
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 7,
+      "challenge": 1
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 6,
+      "challenge": 2
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 7,
+      "challenge": 2
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 10,
+      "challenge": 2
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 10,
+      "challenge": 3
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 5,
+      "challenge": 4
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 10,
+      "challenge": 4
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 1,
+      "challenge": 5
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 7,
+      "challenge": 5
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 10,
+      "challenge": 5
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 6,
+      "challenge": 6
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 7,
+      "challenge": 6
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 10,
+      "challenge": 6
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 4,
+      "challenge": 7
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 10,
+      "challenge": 7
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 6,
+      "challenge": 8
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 7,
+      "challenge": 8
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 10,
+      "challenge": 8
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 6,
+      "challenge": 9
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 10,
+      "challenge": 9
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 3,
+      "challenge": 10
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 4,
+      "challenge": 10
+    },
+    {
+      "isValidated": false,
+      "points": 0,
+      "action": 10,
+      "challenge": 10
+    }
+  ]
+}

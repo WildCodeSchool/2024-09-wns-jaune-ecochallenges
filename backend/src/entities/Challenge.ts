@@ -12,6 +12,7 @@ import {
 import { Field, ID, ObjectType } from 'type-graphql';
 import { Action, User } from '@/entities';
 import { Score } from './Score';
+import { ChallengeActionScore } from './ChallengeActionScore';
 
 @Entity()
 @ObjectType()
@@ -65,4 +66,11 @@ export class Challenge extends BaseEntity {
   @Field(() => Score)
   @OneToMany(() => Score, (score) => score.challenge)
   score?: Score;
+
+  @Field(() => [ChallengeActionScore])
+  @OneToMany(
+    () => ChallengeActionScore,
+    (challengeActionScore) => challengeActionScore.challenge
+  )
+  challengeActionScores?: ChallengeActionScore[];
 }

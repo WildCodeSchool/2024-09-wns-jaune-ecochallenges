@@ -6,10 +6,12 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
-import { Tag, Challenge, User } from '@/entities';
+import { Challenge, Tag, User } from '@/entities';
+import { ChallengeActionScore } from './ChallengeActionScore';
 
 const levelType = {
   levelOne: 1,
@@ -62,6 +64,10 @@ export class Action extends BaseEntity {
   @ManyToOne(() => User, (user) => user.createdActions)
   createdBy!: User;
 
+  @Field(() => [Challenge])
+  @ManyToMany(() => Challenge, (challenge) => challenge.actions)
+  challenges?: Challenge[];
+
   @Field(() => [Tag], { nullable: true })
   @ManyToMany(() => Tag, (tag) => tag.actions)
   @JoinTable()
@@ -77,7 +83,10 @@ export class Action extends BaseEntity {
     this.points = this.level * 4 + this.time * 2;
   }
 
-  @Field(() => [Challenge])
-  @ManyToMany(() => Challenge, (challenge) => challenge.actions)
-  challenges?: Challenge[];
+  @Field(() => [ChallengeActionScore])
+  @OneToMany(
+    () => ChallengeActionScore,
+    (challengeActionScore) => challengeActionScore.action
+  )
+  challengeActionScores?: ChallengeActionScore[];
 }
