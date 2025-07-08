@@ -5,8 +5,7 @@ import {
   Challenge,
   Action,
   Tag,
-  UserActionChallenge,
-  ChallengeActionScore,
+  UserActionChallengeScore,
 } from '@/entities';
 import { Score } from '@/entities/Score';
 
@@ -20,15 +19,7 @@ export const dataSource = new DataSource({
   password: DB_PASSWORD,
   database: DB_SCHEMA,
   port: Number(DB_PORT),
-  entities: [
-    User,
-    Challenge,
-    Action,
-    Tag,
-    Score,
-    UserActionChallenge,
-    ChallengeActionScore,
-  ],
+  entities: [User, Challenge, Action, Tag, Score, UserActionChallengeScore],
   synchronize: true,
   // migrations: ["./bdd/migrations/*.ts"],
   // migrationsTableName: "migrations",

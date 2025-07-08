@@ -10,8 +10,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
-import { Challenge, Tag, User, UserActionChallenge } from '@/entities';
-import { ChallengeActionScore } from './ChallengeActionScore';
+import { Challenge, Tag, User, UserActionChallengeScore } from '@/entities';
 
 const levelType = {
   levelOne: 1,
@@ -83,17 +82,10 @@ export class Action extends BaseEntity {
     this.points = this.level * 4 + this.time * 2;
   }
 
-  @Field(() => [ChallengeActionScore])
+  @Field(() => [UserActionChallengeScore])
   @OneToMany(
-    () => ChallengeActionScore,
-    (challengeActionScore) => challengeActionScore.action
+    () => UserActionChallengeScore,
+    (userActionChallengeScore) => userActionChallengeScore.action
   )
-  challengeActionScores?: ChallengeActionScore[];
-
-  @Field(() => [UserActionChallenge])
-  @OneToMany(
-    () => UserActionChallenge,
-    (userActionChallenge) => userActionChallenge.action
-  )
-  userActionChallenges?: UserActionChallenge[];
+  userActionChallengeScores?: UserActionChallengeScore[];
 }
