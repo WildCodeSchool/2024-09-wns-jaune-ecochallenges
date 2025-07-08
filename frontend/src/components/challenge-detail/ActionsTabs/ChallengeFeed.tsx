@@ -1,14 +1,14 @@
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { UserActionChallenge } from '@/lib/graphql/generated/graphql-types';
+import { UserActionChallengeScore } from '@/lib/graphql/generated/graphql-types';
 import { StatusEnum } from '@/lib/enums';
 
 type Props = {
-  userActionChallenges: Partial<UserActionChallenge>[];
+  userActionChallengeScore: Partial<UserActionChallengeScore>[];
 };
 
-export const ChallengeFeed = ({ userActionChallenges }: Props) => {
-  const validatedActions = userActionChallenges.filter(
+export const ChallengeFeed = ({ userActionChallengeScore }: Props) => {
+  const validatedActions = userActionChallengeScore.filter(
     (uac) => uac.status === StatusEnum.COMPLETED
   );
 
@@ -18,13 +18,11 @@ export const ChallengeFeed = ({ userActionChallenges }: Props) => {
         <li key={index} className="rounded-md border p-4 shadow-sm">
           <div className="text-sm">
             <strong>
-              {uac.user?.firstname} {uac.user?.lastname}
+              {uac.validatedFor?.firstname} {uac.validatedFor?.lastname}
             </strong>{' '}
             a validé l’action <strong>{uac.action?.name}</strong> le{' '}
-            {uac.updatedAt &&
-              format(new Date(uac.updatedAt), "d MMMM yyyy 'à' HH:mm", {
-                locale: fr,
-              })}
+            {uac.createdAt &&
+              format(new Date(uac.createdAt), 'PPP', { locale: fr })}
           </div>
         </li>
       ))}

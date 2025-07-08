@@ -60,13 +60,13 @@ export class ChallengeResolver {
       where: { id },
       relations: [
         'actions',
-        'actions.tags',
         'members',
         'owner',
-        'userActionChallenges',
-        'userActionChallenges.user',
-        'userActionChallenges.action',
-        'userActionChallenges.challenge',
+        'userActionChallengeScores',
+        'userActionChallengeScores.validatedBy',
+        'userActionChallengeScores.validatedFor',
+        'userActionChallengeScores.action',
+        'userActionChallengeScores.challenge',
       ],
     });
     return challenge;

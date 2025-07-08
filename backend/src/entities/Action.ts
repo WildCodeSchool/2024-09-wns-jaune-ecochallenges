@@ -2,6 +2,7 @@ import {
   BaseEntity,
   BeforeInsert,
   Column,
+  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
@@ -56,7 +57,7 @@ export class Action extends BaseEntity {
   points!: number;
 
   @Field()
-  @Column({ nullable: false })
+  @CreateDateColumn()
   createdAt!: Date;
 
   @Field(() => User)
@@ -71,11 +72,6 @@ export class Action extends BaseEntity {
   @ManyToMany(() => Tag, (tag) => tag.actions, { eager: true })
   @JoinTable()
   tags?: Tag[];
-
-  @BeforeInsert()
-  updateDates() {
-    this.createdAt = new Date();
-  }
 
   @BeforeInsert()
   insertPoints() {

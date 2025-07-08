@@ -2,6 +2,7 @@ import { Field, ObjectType } from 'type-graphql';
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -24,7 +25,7 @@ export enum StatusEnum {
 @Unique(['validatedForId', 'actionId', 'challengeId'])
 export class UserActionChallengeScore extends BaseEntity {
   //validatedById is the user or admin or owner of challenge who validated the action
-  @PrimaryColumn()
+  @Column({ nullable: true })
   validatedById!: string;
 
   //validatedForId is the user belongs this action validated by the user himself or admin or owner of challenge
@@ -53,11 +54,19 @@ export class UserActionChallengeScore extends BaseEntity {
   @Column({ nullable: true })
   comment!: string;
 
+  @Field()
+  @CreateDateColumn()
+  createdAt!: Date;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  updatedAt!: Date;
+
   // validatedBy is the user or admin or owner of challenge who validated the action
-  @Field(() => User, { nullable: false })
+  @Field(() => User, { nullable: true })
   @ManyToOne(() => User, (user) => user.validatedActions)
   @JoinColumn({ name: 'validatedById' })
-  validatedBy!: User;
+  validatedBy?: User;
 
   // validatedFor is the user that belongs this action validated by the user himself or admin or owner of challenge
   @Field(() => User, { nullable: false })
@@ -71,10 +80,10 @@ export class UserActionChallengeScore extends BaseEntity {
   action!: Action;
 
   @Field(() => Challenge, { nullable: false })
+  @JoinColumn({ name: 'challengeId' })
   @ManyToOne(
     () => Challenge,
     (challenge) => challenge.userActionChallengeScores
   )
-  @JoinColumn({ name: 'challengeId' })
   challenge!: Challenge;
 }

@@ -11,8 +11,8 @@ import {
 import { Field, ObjectType } from 'type-graphql';
 import argon2 from 'argon2';
 import { Challenge, Action, UserActionChallengeScore } from '@/entities';
+import { Challenge, Action, UserActionChallengeScore } from '@/entities';
 import { Score } from './Score';
-import { ChallengeActionScore } from './ChallengeActionScore';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -70,13 +70,6 @@ export class User extends BaseEntity {
   @OneToMany(() => Score, (score) => score.user)
   score?: Score;
 
-  @Field(() => [ChallengeActionScore])
-  @OneToMany(
-    () => ChallengeActionScore,
-    (challengeActionScore) => challengeActionScore.validatedBy
-  )
-  challengeActionScores?: ChallengeActionScore[];
-
   @Field()
   @Column({ nullable: true })
   description!: string;
@@ -93,12 +86,15 @@ export class User extends BaseEntity {
   )
   validatedActions?: UserActionChallengeScore[];
 
-  // belongsOwned is the actions that belongs to the action validated by the user himself or admin or owner of challenge
+  // belongsOwned is the actions that belongs to the user that is validated by the user himself or admin or owner of challenge
   @Field(() => [UserActionChallengeScore])
   @OneToMany(
     () => UserActionChallengeScore,
     (userActionChallengeScore) => userActionChallengeScore.validatedFor
+    () => UserActionChallengeScore,
+    (userActionChallengeScore) => userActionChallengeScore.validatedFor
   )
+  belongsOwned?: UserActionChallengeScore[];
   belongsOwned?: UserActionChallengeScore[];
 
   @BeforeInsert()

@@ -24,11 +24,8 @@ async function start() {
   const schema = await buildSchema({
     resolvers: [
       UserResolver,
-
       ChallengeResolver,
-
       ActionResolver,
-
       TagResolver,
       UserActionChallengeScoreResolver,
     ],

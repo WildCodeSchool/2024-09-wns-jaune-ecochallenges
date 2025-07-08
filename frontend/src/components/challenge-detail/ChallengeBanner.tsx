@@ -1,7 +1,7 @@
 import {
   Action,
   GetChallengeQuery,
-  UserActionChallenge,
+  UserActionChallengeScore,
 } from '@/lib/graphql/generated/graphql-types';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
@@ -17,13 +17,16 @@ import {
 
 type Props = {
   challenge: GetChallengeQuery['getChallenge'];
-  userActionChallenges: Partial<UserActionChallenge>[];
+  userActionChallengesScore: Partial<UserActionChallengeScore>[];
 };
 
-export const ChallengeBanner = ({ challenge, userActionChallenges }: Props) => {
+export const ChallengeBanner = ({
+  challenge,
+  userActionChallengesScore,
+}: Props) => {
   const getPercentageActionsDone = getProgressPercentageInChallenge(
     challenge,
-    userActionChallenges
+    userActionChallengesScore
   );
 
   const dates = formatChallengeDates(challenge.startDate, challenge.endDate);
@@ -41,15 +44,18 @@ export const ChallengeBanner = ({ challenge, userActionChallenges }: Props) => {
         <div className="absolute top-4 right-4 z-10 flex flex-col items-center md:items-end md:gap-4">
           <Avatar>
             <AvatarImage src="/public/images/ElieB.png" alt="Elie B" />
-            <AvatarFallback>EB</AvatarFallback>
+            <AvatarFallback>
+              {challenge.owner.lastname.charAt(0).toUpperCase()}{' '}
+              {challenge.owner.firstname.charAt(0).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
           <ul className="relative z-10 mt-2 flex flex-col gap-2">
             <li>
               <Pill className="bg-background font-medium">Rank</Pill>
             </li>
 
-            <li className="bg-background text-foreground w-full rounded-lg px-2 py-1">
-              Complété à: {getPercentageActionsDone}%
+            <li className="bg-background text-foreground w-full rounded-lg px-2 py-1 text-xs">
+              Complété à: <strong>{getPercentageActionsDone}%</strong>
               <Progress value={getPercentageActionsDone} />
             </li>
           </ul>

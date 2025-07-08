@@ -74,7 +74,22 @@ export class ActionResolver {
       where: { id: challengeId },
       relations: ['actions', 'actions.tags'],
     });
-    return challenge.actions || [];
+
+    const actionIds = challenge.actions?.map((action) => action.id) || [];
+
+    const actions = await Action.find({
+      where: { id: In(actionIds) },
+      relations: [
+        'tags',
+        'userActionChallengeScores',
+        'userActionChallengeScores.validatedBy',
+        'userActionChallengeScores.validatedFor',
+        'userActionChallengeScores.action',
+        'userActionChallengeScores.challenge',
+      ],
+    });
+
+    return actions;
   }
 
   /*   @Query(() => Action)

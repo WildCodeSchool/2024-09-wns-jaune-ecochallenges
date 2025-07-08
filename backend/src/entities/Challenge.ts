@@ -12,7 +12,6 @@ import {
 import { Field, ID, ObjectType } from 'type-graphql';
 import { Action, User, UserActionChallengeScore } from '@/entities';
 import { Score } from './Score';
-import { ChallengeActionScore } from './ChallengeActionScore';
 
 @Entity()
 @ObjectType()

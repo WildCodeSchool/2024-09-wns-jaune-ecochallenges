@@ -1,11 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Pencil } from 'lucide-react';
 import { ChallengeBanner } from './ChallengeBanner';
-import { ActionsTabs } from './ActionsTabs';
+import { ActionsTabs } from './ActionsTabs/ActionsTabs';
 import { Button } from '@/components/ui/button';
 import {
   useActionByChallengeWithStatusQuery,
-  UserActionChallenge,
+  UserActionChallengeScore,
 } from '@/lib/graphql/generated/graphql-types';
 import { useUserStore } from '@/lib/zustand/userStore';
 
@@ -67,9 +67,10 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
     <div className="relative mx-auto max-w-6xl px-4 py-6">
       <ChallengeBanner
         challenge={data.getChallenge}
-        userActionChallenges={
+        userActionChallengesScore={
           (data.getChallenge
-            ?.userActionChallenges as Partial<UserActionChallenge>[]) || []
+            ?.userActionChallengeScores as Partial<UserActionChallengeScore>[]) ||
+          []
         }
       />
 
@@ -79,9 +80,9 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
           userId={userId}
           isAuthorized={isAuthorized}
           actions={data.getChallenge.actions || []}
-          userActionChallenges={
+          userActionChallengeScore={
             (data.getChallenge
-              ?.userActionChallenges as Partial<UserActionChallenge>[]) || []
+              ?.userActionChallengeScores as UserActionChallengeScore[]) || []
           }
         />
       </div>

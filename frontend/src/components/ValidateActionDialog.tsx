@@ -11,7 +11,7 @@ import {
 } from './ui/dialog';
 import {
   Action,
-  useCreateUserActionChallengeMutation,
+  useCreateUserActionChallengeScoreMutation,
 } from '@/lib/graphql/generated/graphql-types';
 import { toast } from 'sonner';
 import { useParams } from 'react-router-dom';
@@ -27,11 +27,10 @@ type ValidateActionDialogProps = {
 export const ValidateActionDialog = ({
   action,
   userIdChallenge,
-}: ValidateActionDialogProps) => {
+}: Partial<ValidateActionDialogProps>) => {
   const { challengeId } = useParams();
-
   const [createUserActionChallengeMutation] =
-    useCreateUserActionChallengeMutation({
+    useCreateUserActionChallengeScoreMutation({
       refetchQueries: [
         {
           query: GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS,
@@ -55,11 +54,15 @@ export const ValidateActionDialog = ({
       actionId: action.id || '',
       challengeId: challengeId!,
       status: action.requires_view ? StatusEnum.PENDING : StatusEnum.COMPLETED,
+      isValidated: true,
+      validatedFor: userIdChallenge,
     };
+
     const { data } = await createUserActionChallengeMutation({
       variables: { data: currentAction },
     });
-    if (!data?.createUserActionChallenge) {
+
+    if (!data?.createUserActionChallengeScore) {
       throw new Error('Failed to validate action');
     }
   };
@@ -96,7 +99,7 @@ export const ValidateActionDialog = ({
           </DialogClose>
           <DialogClose asChild>
             <Button
-              onClick={() => validateAction(action)}
+              onClick={() => validateAction(action as Partial<Action>)}
               type="button"
               aria-label="Valider l'eco-geste"
             >

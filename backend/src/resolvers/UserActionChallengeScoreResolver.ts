@@ -40,6 +40,24 @@ export class UserActionChallengeScoreInput {
   validatedFor!: string;
 }
 
+@InputType()
+export class UserActionChallengeScoreUpdateInput {
+  @Field()
+  status!: StatusEnum;
+
+  @Field(() => String, { nullable: true })
+  comment!: string;
+
+  @Field(() => ID)
+  actionId!: string;
+
+  @Field(() => ID)
+  challengeId!: string;
+
+  @Field(() => ID)
+  validatedFor!: string;
+}
+
 @Resolver(UserActionChallengeScore)
 export class UserActionChallengeScoreResolver {
   /**
@@ -88,7 +106,7 @@ export class UserActionChallengeScoreResolver {
   ): Promise<UserActionChallengeScore[]> {
     const userActionChallengeScore = await UserActionChallengeScore.find({
       where: { challenge: { id } },
-      relations: ['user', 'action', 'challenge'],
+      relations: ['action', 'challenge', 'validatedBy', 'validatedFor'],
     });
     if (!userActionChallengeScore || userActionChallengeScore.length === 0) {
       throw new GraphQLError('User action challenge not found');
@@ -106,14 +124,14 @@ export class UserActionChallengeScoreResolver {
    * @throws {GraphQLError} If the retrieval fails or no entries are found.
    */
   @Query(() => [UserActionChallengeScore])
-  async getUserActionChallengeScores(): Promise<UserActionChallengeScore[]> {
-    const userActionChallengeScores = await UserActionChallengeScore.find({
-      relations: ['user', 'action', 'challenge'],
+  async getUserActionChallengeScore(): Promise<UserActionChallengeScore[]> {
+    const userActionChallengeScore = await UserActionChallengeScore.find({
+      relations: ['action', 'challenge', 'validatedBy', 'validatedFor'],
     });
-    if (!userActionChallengeScores) {
+    if (!userActionChallengeScore) {
       throw new GraphQLError('User action challenges not found');
     }
-    return userActionChallengeScores;
+    return userActionChallengeScore;
   }
 
   /**
@@ -136,11 +154,10 @@ export class UserActionChallengeScoreResolver {
     @Arg('data') data: UserActionChallengeScoreInput,
     @Ctx() { user }: { user: User }
   ): Promise<UserActionChallengeScore> {
-    console.log('🚀 ~ UserActionChallengeScoreResolver ~ data:', data);
     try {
       if (!data.actionId || !data.challengeId || !user?.id) {
         throw new GraphQLError(
-          'Missing required fields: user, action, or challenge'
+          'Enable to update user action challenge: missing required fields: user, action, or challenge'
         );
       }
       const challenge = await Challenge.findOneOrFail({
@@ -158,29 +175,32 @@ export class UserActionChallengeScoreResolver {
         where: { id: data.actionId },
       });
 
-      // Check the permission
+      // Check if the user exist
       const validatedUser = await User.findOneOrFail({
         where: { id: data.validatedFor },
       });
-
-      await this.validateUserPermissions(user, challenge, data.validatedFor);
-
-      // Check if action is completed
-      if (data.status !== StatusEnum.COMPLETED) {
-        throw new GraphQLError(
-          'Seules les actions terminées peuvent être validées'
-        );
-      }
-
       const userActionChallengeScore = new UserActionChallengeScore();
-      userActionChallengeScore.validatedBy = user;
+
+      await this.validateUserPermissionsToValidateAllActions(
+        user,
+        challenge,
+        data.validatedFor
+      );
+
+      userActionChallengeScore.validatedBy = undefined;
       userActionChallengeScore.validatedFor = validatedUser;
+      userActionChallengeScore.validatedBy = user;
       userActionChallengeScore.action = action;
       userActionChallengeScore.challenge = challenge;
       userActionChallengeScore.status = data.status;
       userActionChallengeScore.comment = data.comment || '';
       userActionChallengeScore.points = action.points;
-      userActionChallengeScore.isValidated = true;
+      userActionChallengeScore.isValidated = false;
+
+      if (action.requires_view) {
+        userActionChallengeScore.validatedBy = undefined;
+        userActionChallengeScore.isValidated = true;
+      }
 
       await userActionChallengeScore.save();
       return userActionChallengeScore;
@@ -209,7 +229,7 @@ export class UserActionChallengeScoreResolver {
    */
   @Mutation(() => UserActionChallengeScore)
   async updateUserActionChallengeScore(
-    @Arg('data') data: UserActionChallengeScoreInput,
+    @Arg('data') data: UserActionChallengeScoreUpdateInput,
     @Ctx() { user }: { user: User }
   ): Promise<UserActionChallengeScore> {
     try {
@@ -219,19 +239,48 @@ export class UserActionChallengeScoreResolver {
         );
       }
 
-      let userActionChallenge = await UserActionChallengeScore.findOneOrFail({
+      const userActionChallenge = await UserActionChallengeScore.findOneOrFail({
         where: {
-          validatedBy: { id: user.id },
+          validatedFor: { id: data.validatedFor },
           action: { id: data.actionId },
           challenge: { id: data.challengeId },
         },
-        relations: ['user', 'action', 'challenge'],
+        relations: ['action', 'challenge', 'validatedFor'],
       });
 
-      userActionChallenge = Object.assign(userActionChallenge, {
-        status: data.status,
-        comment: data.comment,
+      const challenge = await Challenge.findOneOrFail({
+        where: { id: data.challengeId },
+        relations: ['actions', 'members', 'owner'],
       });
+
+      const action = await Action.findOneOrFail({
+        where: { id: data.actionId },
+      });
+
+      await this.validateUserPermissionsToValidateAllActions(
+        user,
+        challenge,
+        data.validatedFor
+      );
+
+      if (action.requires_view) {
+        await this.validateUserPermissionsToValidateOnlyPendingActions(
+          user,
+          challenge,
+          data.validatedFor
+        );
+
+        userActionChallenge.validatedBy = user;
+        userActionChallenge.isValidated = true;
+        userActionChallenge.status = data.status;
+        userActionChallenge.comment = data.comment || '';
+        await userActionChallenge.save();
+        return userActionChallenge;
+      }
+
+      userActionChallenge.status = data.status;
+      userActionChallenge.comment = data.comment || '';
+      userActionChallenge.validatedBy = undefined;
 
       await userActionChallenge.save();
       return userActionChallenge;
@@ -240,7 +289,7 @@ export class UserActionChallengeScoreResolver {
     }
   }
 
-  private async validateUserPermissions(
+  private async validateUserPermissionsToValidateAllActions(
     user: User,
     challenge: Challenge,
     validatedForId: string
@@ -260,6 +309,29 @@ export class UserActionChallengeScoreResolver {
 
     // Only members, owners or admins can validate
     if (!isUserMember && !isUserOwner && !isUserAdmin) {
+      throw new GraphQLError("Vous n'êtes pas autorisé à valider cette action");
+    }
+  }
+
+  private async validateUserPermissionsToValidateOnlyPendingActions(
+    user: User,
+    challenge: Challenge,
+    validatedForId: string
+  ): Promise<void> {
+    const memberIds = challenge.members?.map((member) => member.id) || [];
+    const isValidatedForMember = memberIds.includes(validatedForId);
+    const isUserOwner = challenge.owner?.id === user.id;
+    const isUserAdmin = user.role === UserRole.ADMIN;
+
+    // User must be a member of the challenge
+    if (!isValidatedForMember) {
+      throw new GraphQLError(
+        "L'utilisateur validé ne fait pas partie de ce challenge"
+      );
+    }
+
+    // Only members, owners or admins can validate
+    if (!isUserOwner && !isUserAdmin) {
       throw new GraphQLError("Vous n'êtes pas autorisé à valider cette action");
     }
   }
