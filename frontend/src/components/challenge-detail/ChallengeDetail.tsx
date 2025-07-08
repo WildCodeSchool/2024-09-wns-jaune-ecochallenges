@@ -32,7 +32,7 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
       </div>
     );
   }
-
+  console.log('data', data?.getChallenge);
   if (error) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -79,7 +79,13 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
 
   return (
     <div className="relative mx-auto max-w-6xl px-4 py-6">
-      <ChallengeBanner challengeId={challengeId} />
+      <ChallengeBanner
+        challenge={data.getChallenge}
+        userActionChallenges={
+          (data.getChallenge
+            ?.userActionChallenges as Partial<UserActionChallenge>[]) || []
+        }
+      />
 
       <div className="mt-6 flex justify-center">
         <ActionsTabs
