@@ -8,17 +8,23 @@ export const ActionCompletedBy = ({
   maxLength: number;
   completedBy: Partial<UserActionChallenge>[];
 }) => {
+  const sortedCompletedBy = completedBy.sort((a, b) =>
+    a?.createdAt.localeCompare(b?.createdAt)
+  );
+
   return (
     <div className="flex">
-      {completedBy.slice(0, maxLength).map((user) => (
+      {sortedCompletedBy.slice(0, maxLength).map((user) => (
         <Avatar key={user.user?.id} className="-mr-2">
           <AvatarImage src={user.user?.avatarUrl || ''} alt="user avatar" />
           <AvatarFallback>{user.user?.firstname.slice(0, 1)}</AvatarFallback>
         </Avatar>
       ))}
-      {completedBy.length > maxLength && (
+      {sortedCompletedBy.length > maxLength && (
         <Avatar>
-          <AvatarFallback>+{completedBy.length - maxLength}</AvatarFallback>
+          <AvatarFallback>
+            +{sortedCompletedBy.length - maxLength}
+          </AvatarFallback>
         </Avatar>
       )}
     </div>
