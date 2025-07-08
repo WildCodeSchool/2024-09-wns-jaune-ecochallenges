@@ -5,6 +5,15 @@ import {
   UserActionChallenge,
 } from '@/lib/graphql/generated/graphql-types';
 
+/* export type ActionLite = {
+  id: string;
+  name: string;
+  description: string;
+  status: 'done' | 'pending';
+  tags?: { name: string }[] | null;
+  icon:string;
+}; */
+
 type Props = {
   actions: Partial<Action>[];
   userActionChallenges: Partial<UserActionChallenge>[];
@@ -19,6 +28,10 @@ export const ActionsTabs = ({
   userId,
 }: Props) => {
   const gestes = actions;
+  console.log('gestes', gestes);
+  /*   const fil = actions.filter(action => action.status === 'done');
+  const tocheck = actions.filter(action => action.status === 'pending'); */
+
   return (
     <Tabs defaultValue="gestes" className="w-full md:max-w-4xl lg:max-w-5xl">
       <TabsList className="grid w-full grid-cols-3 gap-2 bg-zinc-400">

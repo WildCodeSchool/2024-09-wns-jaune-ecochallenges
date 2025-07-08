@@ -4,7 +4,7 @@ import { InvitationEmail, InvitationEmailProps } from './invitationEmail';
 export class InvitationEmailSender extends BaseEmailT<InvitationEmailProps> {
   constructor() {
     super({
-      subject: 'Welcome à toi !',
+      subject: 'Bienvenue à toi !',
       emailComponent: InvitationEmail,
     });
   }

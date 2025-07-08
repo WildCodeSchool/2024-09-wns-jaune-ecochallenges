@@ -1,7 +1,6 @@
 import {
   BaseEntity,
   BeforeInsert,
-  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -11,7 +10,8 @@ import {
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import argon2 from 'argon2';
-import { Challenge, UserActionChallenge } from '@/entities';
+import { Challenge, Action, UserActionChallenge } from '@/entities';
+import { Score } from './Score';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -45,6 +45,10 @@ export class User extends BaseEntity {
   @Column({ nullable: false })
   hashedPassword!: string;
 
+  @Field(() => [Action])
+  @OneToMany(() => Action, (action) => action.createdBy)
+  createdActions?: Action[];
+
   @Field()
   @Column({
     type: 'enum',
@@ -61,6 +65,18 @@ export class User extends BaseEntity {
   @OneToMany(() => Challenge, (challenge) => challenge.owner)
   createdChallenges?: Challenge[];
 
+  @Field(() => Score)
+  @OneToMany(() => Score, (score) => score.user)
+  score?: Score;
+
+  @Field()
+  @Column({ nullable: true })
+  description!: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true, length: 255 })
+  avatarUrl?: string;
+
   @Field(() => [UserActionChallenge])
   @OneToMany(
     () => UserActionChallenge,
@@ -69,7 +85,6 @@ export class User extends BaseEntity {
   userActionChallenges?: UserActionChallenge[];
 
   @BeforeInsert()
-  @BeforeUpdate()
   async hashPassword() {
     this.hashedPassword = await argon2.hash(this.hashedPassword);
   }

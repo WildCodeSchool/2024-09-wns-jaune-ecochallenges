@@ -13,6 +13,9 @@ import {
   ChallengeEdition,
   UserPortal,
   NotFoundRedirect,
+  UserAccount,
+  ActionCreation,
+  ActionEdition,
   ChallengeDetailPage,
 } from '@/pages';
 
@@ -56,8 +59,20 @@ export const router = createBrowserRouter([
         element: <ActionList />,
       },
       {
+        path: '/action/new',
+        element: <ActionCreation />,
+      },
+      {
+        path: '/action/:actionId/edit',
+        element: <ActionEdition />,
+      },
+      {
         path: '/user',
         element: <UserPortal />,
+      },
+      {
+        path: '/user-account',
+        element: <UserAccount />,
       },
     ],
   },

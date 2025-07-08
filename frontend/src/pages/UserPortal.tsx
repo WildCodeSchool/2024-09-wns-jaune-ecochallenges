@@ -3,7 +3,7 @@ import { FormCard } from '@/components/forms/auth';
 import { Login } from '@/components/forms/auth/Login';
 import { Signup } from '@/components/forms/auth/Signup';
 import { useUserStore } from '@/lib/zustand/userStore';
-import { UserAcount } from '@/components/UserAcount';
+import UserAccount from './UserAccount';
 
 export const UserPortal = () => {
   const [isLoginMode, setIsLoginMode] = useState(false);
@@ -24,7 +24,9 @@ export const UserPortal = () => {
           {isLoginMode ? <Login /> : <Signup onToggleForm={setIsLoginMode} />}
         </FormCard>
       ) : (
-        <UserAcount />
+        <>
+          <UserAccount />
+        </>
       )}
     </>
   );

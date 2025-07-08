@@ -1,6 +1,9 @@
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
+import { Check, Trash } from 'lucide-react';
 import {
   Form,
   Button,
@@ -23,52 +26,28 @@ import {
   Step3Members,
 } from '@/components/forms/challenge';
 import { GET_CHALLENGE, GET_CHALLENGES } from '@/lib/graphql/operations';
+import { challengeSchema, ChallengeFormValues } from '@/schemas';
 import {
   useCreateChallengeMutation,
   useGetChallengeQuery,
   useUpdateChallengeMutation,
   useDeleteChallengeMutation,
 } from '@/lib/graphql/generated/graphql-types';
-import { toast } from 'sonner';
-import { Check, Trash } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 
-const formSchema = z
-  .object({
-    label: z
-      .string()
-      .min(1, {
-        message:
-          'Vous devez obligatoirement donner un nom à votre challenge pour le créer',
-      })
-      .max(100, {
-        message:
-          'Le nom de votre challenge ne doit pas dépasser 100 caractères',
-      }),
-    description: z.string().optional(),
-    bannerURL: z.string().optional(),
-    dateRange: z.object({
-      from: z.date({
-        required_error: 'Votre challenge doit avoir une date de début',
-      }),
-      to: z.date({
-        required_error: 'Votre challenge doit avoir une date de fin',
-      }),
-    }),
-    actions: z.array(z.string()),
-    members: z.array(z.string()),
-  })
-  .refine((data) => data.dateRange.to > data.dateRange.from, {
-    message: 'La date de fin doit être postérieure à la date de début',
-    path: ['dateRange.to'],
-  });
+const CHALLENGE_FORM_STEPS = {
+  init: 'step1-init',
+  actions: 'step2-actions',
+  members: 'step3-members',
+} as const;
 
-type FormType = z.infer<typeof formSchema>;
+type TCHALLENGE_FORM_STEPS =
+  (typeof CHALLENGE_FORM_STEPS)[keyof typeof CHALLENGE_FORM_STEPS];
 
 export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('step1');
+  const [activeTab, setActiveTab] = useState<TCHALLENGE_FORM_STEPS>(
+    CHALLENGE_FORM_STEPS.init
+  );
   const [createChallenge] = useCreateChallengeMutation({
     refetchQueries: [
       {
@@ -113,8 +92,8 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
     variables: { id: challengeId! },
   });
 
-  const form = useForm<FormType>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<ChallengeFormValues>({
+    resolver: zodResolver(challengeSchema),
     values: data?.getChallenge && {
       label: data.getChallenge.label,
       description: data.getChallenge.description || '',
@@ -139,7 +118,7 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
     },
   });
 
-  const onSubmit = async (formData: FormType) => {
+  const onSubmit = async (formData: ChallengeFormValues) => {
     const challengeData = {
       label: formData.label,
       ...(formData.description && { description: formData.description }),
@@ -171,16 +150,19 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
     toast.error('Veuillez corriger les erreurs avant de continuer');
   };
 
-  const getTabWithErrors = (errors: typeof form.formState.errors) => {
+  const getTabWithErrors = (
+    errors: typeof form.formState.errors
+  ): TCHALLENGE_FORM_STEPS | null => {
     if (
       errors.label ||
       errors.description ||
       errors.bannerURL ||
       errors.dateRange
     ) {
-      return 'step1';
+      return CHALLENGE_FORM_STEPS.init;
     }
-    if (errors.actions) return 'step2';
+    if (errors.actions) return CHALLENGE_FORM_STEPS.actions;
+    if (errors.members) return CHALLENGE_FORM_STEPS.members;
     return null;
   };
 
@@ -207,20 +189,29 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
         onSubmit={form.handleSubmit(onSubmit, onError)}
         className="relative"
       >
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <Tabs
+          value={activeTab}
+          onValueChange={(value) =>
+            setActiveTab(value as TCHALLENGE_FORM_STEPS)
+          }
+        >
           <TabsList className="w-full">
-            <TabsTrigger value="step1">Infos</TabsTrigger>
-            <TabsTrigger value="step2">Éco-gestes</TabsTrigger>
-            <TabsTrigger value="step3">Participants</TabsTrigger>
+            <TabsTrigger value={CHALLENGE_FORM_STEPS.init}>Infos</TabsTrigger>
+            <TabsTrigger value={CHALLENGE_FORM_STEPS.actions}>
+              Éco-gestes
+            </TabsTrigger>
+            <TabsTrigger value={CHALLENGE_FORM_STEPS.members}>
+              Participants
+            </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="step1" className="space-y-4">
+          <TabsContent value={CHALLENGE_FORM_STEPS.init} className="space-y-4">
             <Step1Init />
           </TabsContent>
-          <TabsContent value="step2" className="">
+          <TabsContent value={CHALLENGE_FORM_STEPS.actions} className="">
             <Step2Actions />
           </TabsContent>
-          <TabsContent value="step3">
+          <TabsContent value={CHALLENGE_FORM_STEPS.members}>
             <Step3Members />
           </TabsContent>
         </Tabs>
