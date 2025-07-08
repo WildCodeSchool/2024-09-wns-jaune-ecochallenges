@@ -92,8 +92,8 @@ export const UserAccount = () => {
       <div className="border-primary relative mx-auto mt-4 mb-1 flex h-48 w-48 items-center justify-center rounded-full border-4 bg-white">
         <Avatar className="h-44 w-44 cursor-pointer transition-all duration-100 hover:scale-115">
           <AvatarImage
-            class="h-44 w-44 rounded-full object-cover"
-            src={form.avatarUrl}
+            className="h-44 w-44 rounded-full object-cover"
+            src={form.avatarUrl || '/public/icons/leaf.png'}
             alt="Photo de profil"
             data-testid="card-image"
           />
@@ -167,7 +167,7 @@ export const UserAccount = () => {
           />
         ) : (
           <p className="text-foreground whitespace-pre-line">
-            {user.description}
+            {user?.description || 'Description à venir...'}
           </p>
         )}
       </Card>
