@@ -1,9 +1,14 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Pill } from '@/components';
-import { CustomInfoDialog } from './CustomInfoDialog';
-import AvatarGroupDemo from './avatar-group';
+import {
+  CustomInfoDialog,
+  ActionCompletedBy,
+} from '@/components/challenge-detail';
 import { ValidateActionDialog } from '../ValidateActionDialog';
-import { Action } from '@/lib/graphql/generated/graphql-types';
+import {
+  Action,
+  UserActionChallenge,
+} from '@/lib/graphql/generated/graphql-types';
 import { StatusEnum } from '@/lib/enums';
 
 type Props = {
@@ -11,8 +16,15 @@ type Props = {
   isAuthorized: boolean | undefined;
   action: Partial<Action>;
   status: StatusEnum;
+  completedBy: Partial<UserActionChallenge>[];
 };
-export const ActionItem = ({ action, userId, isAuthorized, status }: Props) => {
+export const ActionItem = ({
+  action,
+  userId,
+  isAuthorized,
+  status,
+  completedBy,
+}: Props) => {
   const isChecked = status === StatusEnum.COMPLETED;
 
   return (
@@ -25,19 +37,18 @@ export const ActionItem = ({ action, userId, isAuthorized, status }: Props) => {
             description={action.description || ''}
           />
         </div>
-        {action.tags && (
-          <div className="mt-1 flex items-center gap-2">
-            <Pill>{action.tags?.[0]?.name || 'Sans tag'}</Pill>
 
-            <div className="text-muted-foreground flex items-center gap-x-2 text-xs">
-              <span>Complété par :</span>
-              <div className="origin-left scale-75">
-                <AvatarGroupDemo size="small" />
-              </div>
-              <span>4/10</span>
+        <div className="mt-1 flex items-center gap-2">
+          <Pill>{action.tags?.[0]?.name || 'Sans tag'}</Pill>
+
+          <div className="text-muted-foreground flex items-center gap-x-2 text-xs">
+            <span>Complété par :</span>
+            <div className="origin-left scale-75">
+              <ActionCompletedBy completedBy={completedBy} maxLength={2} />
             </div>
+            <span>{completedBy.length} personne(s)</span>
           </div>
-        )}
+        </div>
       </div>
 
       {userId && isAuthorized && (

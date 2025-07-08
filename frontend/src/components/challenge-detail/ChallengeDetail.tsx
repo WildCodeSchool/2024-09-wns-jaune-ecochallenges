@@ -15,6 +15,7 @@ type ChallengeDetailProps = {
 
 export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
   const userId = useUserStore((state) => state.user?.id || undefined);
+
   const navigate = useNavigate();
   const { data, loading, error } = useActionByChallengeWithStatusQuery({
     variables: { getChallengeId: challengeId },
@@ -32,7 +33,7 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
       </div>
     );
   }
-  console.log('data', data?.getChallenge);
+
   if (error) {
     return (
       <div className="flex h-screen items-center justify-center">

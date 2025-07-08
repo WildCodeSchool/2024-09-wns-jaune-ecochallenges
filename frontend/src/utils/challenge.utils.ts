@@ -31,7 +31,7 @@ export const getProgressPercentageInChallenge = (
   challenge: GetChallengeQuery['getChallenge'],
   userActionChallenge: Partial<UserActionChallenge>[]
 ): number => {
-  const totalAction = challenge.actions.length;
+  const totalAction = challenge.actions.length * challenge.members.length;
   if (totalAction === 0) return 0;
   const toalActionDone = userActionChallenge.filter(
     (el) => el.status === 'completed'

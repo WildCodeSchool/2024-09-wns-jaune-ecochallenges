@@ -18,8 +18,6 @@ export const ActionsTabs = ({
   isAuthorized,
   userId,
 }: Props) => {
-  const gestes = actions;
-
   return (
     <Tabs defaultValue="gestes" className="w-full md:max-w-4xl lg:max-w-5xl">
       <TabsList className="grid w-full grid-cols-3 gap-2 bg-zinc-400">
@@ -39,7 +37,7 @@ export const ActionsTabs = ({
           <ChallengeActionsList
             isAuthorized={isAuthorized}
             userId={userId}
-            actions={gestes}
+            actions={actions}
             userActionChallenges={userActionChallenges}
           />
         </TabsContent>
@@ -48,7 +46,7 @@ export const ActionsTabs = ({
           <ChallengeActionsList
             isAuthorized={isAuthorized}
             userId={userId}
-            actions={gestes}
+            actions={actions}
             userActionChallenges={userActionChallenges}
           />
         </TabsContent>
@@ -56,7 +54,7 @@ export const ActionsTabs = ({
           <ChallengeActionsList
             isAuthorized={isAuthorized}
             userId={userId}
-            actions={gestes}
+            actions={actions}
             userActionChallenges={userActionChallenges}
           />
         </TabsContent>
