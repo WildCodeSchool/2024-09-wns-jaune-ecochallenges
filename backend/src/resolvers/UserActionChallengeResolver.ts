@@ -180,6 +180,8 @@ export class UserActionChallengeResolver {
       });
       newEntry.status = data.status;
       newEntry.comment = data.comment || '';
+      newEntry.createdAt = new Date();
+      newEntry.updatedAt = new Date();
 
       const savedEntry = await newEntry.save();
 
@@ -252,6 +254,7 @@ export class UserActionChallengeResolver {
       userActionChallenge = Object.assign(userActionChallenge, {
         status: data.status,
         comment: data.comment,
+        updatedAt: new Date(),
       });
 
       await userActionChallenge.save();

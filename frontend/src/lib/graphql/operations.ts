@@ -302,6 +302,8 @@ export const GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS = gql`
       userActionChallenges {
         user {
           id
+          avatarUrl
+          firstname
         }
         status
         challenge {
@@ -322,6 +324,8 @@ export const GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS = gql`
             icon
           }
         }
+        createdAt
+        updatedAt
       }
     }
   }

@@ -52,4 +52,12 @@ export class UserActionChallenge extends BaseEntity {
   @Field()
   @Column({ nullable: true })
   comment!: string;
+
+  @Field()
+  @Column({ nullable: true })
+  createdAt!: Date;
+
+  @Field()
+  @Column({ nullable: true })
+  updatedAt!: Date;
 }
