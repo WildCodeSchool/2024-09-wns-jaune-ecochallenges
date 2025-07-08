@@ -1,7 +1,7 @@
 import {
   GetActionsQuery,
-  Challenge,
   UserActionChallenge,
+  GetChallengeQuery,
 } from '@/lib/graphql/generated/graphql-types';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
@@ -28,8 +28,8 @@ export const formatChallengeDates = (startDate: string, endDate: string) => {
 };
 
 export const getProgressPercentageInChallenge = (
-  challenge: Challenge,
-  userActionChallenge: UserActionChallenge[]
+  challenge: GetChallengeQuery['getChallenge'],
+  userActionChallenge: Partial<UserActionChallenge>[]
 ): number => {
   const totalAction = challenge.actions.length;
   if (totalAction === 0) return 0;
