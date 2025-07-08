@@ -21,8 +21,6 @@ type Props = {
 };
 
 export const ChallengeBanner = ({ challenge, userActionChallenges }: Props) => {
-  console.log(challenge);
-
   const getPercentageActionsDone = getProgressPercentageInChallenge(
     challenge,
     userActionChallenges
@@ -35,29 +33,31 @@ export const ChallengeBanner = ({ challenge, userActionChallenges }: Props) => {
   return (
     <Card className="relative w-full overflow-hidden rounded-xl p-0 shadow-lg">
       <CardHeader className="relative flex h-48 w-full flex-col justify-between bg-[url(https://picsum.photos/1200/300)] bg-cover bg-center p-4 md:h-64 lg:h-72">
-        <div className="absolute inset-0 z-0 rounded-t-xl bg-black/40" />
+        <div className="bg-foreground/30 absolute inset-0 z-0 rounded-t-xl" />
 
-        <CardTitle className="relative z-10 text-xl font-bold text-white">
+        <CardTitle className="text-background relative z-10 text-xl font-bold">
           {challenge.label}
         </CardTitle>
-        <div className="absolute top-4 right-4 z-10 flex flex-col items-center bg-green-300 md:items-end md:gap-4">
+        <div className="absolute top-4 right-4 z-10 flex flex-col items-center md:items-end md:gap-4">
           <Avatar>
             <AvatarImage src="/public/images/ElieB.png" alt="Elie B" />
             <AvatarFallback>EB</AvatarFallback>
           </Avatar>
           <ul className="relative z-10 mt-2 flex flex-col gap-2">
             <li>
-              <Pill className="bg-white/80 font-medium text-black">Rank</Pill>
+              <Pill className="bg-background text-foreground font-medium">
+                Rank
+              </Pill>
             </li>
 
-            <li className="w-full rounded-full bg-white/80 px-2 py-1">
+            <li className="bg-background w-full rounded-full px-2 py-1">
               <Progress value={getPercentageActionsDone} />
             </li>
           </ul>
         </div>
       </CardHeader>
 
-      <div className="absolute bottom-2 left-0 z-10 flex flex-col gap-2 bg-amber-500 px-2">
+      <div className="absolute bottom-2 left-0 z-10 flex flex-col gap-2 px-2">
         <ul className="flex w-full flex-wrap gap-2">
           {tags.map((tag) => (
             <li key={tag?.id}>
