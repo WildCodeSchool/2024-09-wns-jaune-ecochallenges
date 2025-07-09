@@ -1,5 +1,6 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Pill } from '@/components';
+import { Eye } from 'lucide-react';
 import {
   CustomInfoDialog,
   ActionCompletedBy,
@@ -36,6 +37,7 @@ export const ActionItem = ({
             title={action.name || ''}
             description={action.description || ''}
           />
+          {action.requires_view && <Eye className="size-4 text-black" />}
         </div>
 
         <div className="mt-1 flex items-center gap-2">
