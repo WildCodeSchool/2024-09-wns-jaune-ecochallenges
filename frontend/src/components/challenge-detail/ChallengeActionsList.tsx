@@ -20,7 +20,7 @@ export const ChallengeActionsList = ({
 }: Props) => {
   return (
     <ul className="space-y-4">
-      {actions.map((action) => {
+      {actions.map((action, index) => {
         const userAction = userActionChallenges.find(
           (userAction) =>
             userAction?.action?.id === action.id &&
