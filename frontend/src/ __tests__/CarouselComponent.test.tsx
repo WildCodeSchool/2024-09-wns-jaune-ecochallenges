@@ -84,11 +84,11 @@ describe('Carousel Component', () => {
   });
 
   it('should render the carousel component with the correct data', () => {
-    const { getByText } = render(
+    const { getByTestId } = render(
       <MemoryRouter>
         <CarouselComponent data={mockData} CardComponent={ChallengeCard} />
       </MemoryRouter>
     );
-    expect(getByText('card-1')).toBeInTheDocument();
+    expect(getByTestId('card-1')).toBeInTheDocument();
   });
 });
