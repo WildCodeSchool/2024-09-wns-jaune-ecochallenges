@@ -20,9 +20,11 @@ export const ChallengeActionsList = ({
 }: Props) => {
   return (
     <ul className="space-y-4">
-      {actions.map((action) => {
-        const userAction = userActionChallengeScore.find(
-          (userAction) => userAction?.action?.id === action.id
+      {actions.map((action, index) => {
+        const userAction = userActionChallenges.find(
+          (userAction) =>
+            userAction?.action?.id === action.id &&
+            userAction.user?.id === userId
         );
 
         const status =
