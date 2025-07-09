@@ -15,7 +15,7 @@ type Props = {
   userId?: string;
   isAuthorized: boolean | undefined;
   action: Partial<Action>;
-  status: StatusEnum;
+  status: StatusEnum | undefined;
   completedBy: Partial<UserActionChallenge>[];
 };
 export const ActionItem = ({
@@ -58,6 +58,8 @@ export const ActionItem = ({
               className="mx-2 mr-4 h-8 w-8 rounded-full border-3"
               checked={isChecked}
             />
+          ) : status === StatusEnum.PENDING ? (
+            <div>En attente de Validation</div>
           ) : (
             <ValidateActionDialog
               isChecked={isChecked}

@@ -28,18 +28,15 @@ export const ChallengeActionsList = ({
         );
 
         const completedBy = userActionChallenges.filter(
-          (userAction) => userAction?.action?.id === action.id
+          (userAction) =>
+            userAction?.action?.id === action.id &&
+            userAction.status === StatusEnum.COMPLETED
         );
-
-        const status =
-          userAction?.status === StatusEnum.COMPLETED
-            ? StatusEnum.COMPLETED
-            : StatusEnum.PENDING;
 
         return (
           <ActionItem
             key={action.id}
-            status={status}
+            status={userAction?.status as StatusEnum}
             action={action}
             userId={userId}
             isAuthorized={isAuthorized}

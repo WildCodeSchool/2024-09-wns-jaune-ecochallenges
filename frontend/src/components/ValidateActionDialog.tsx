@@ -16,6 +16,7 @@ import {
 import { toast } from 'sonner';
 import { useParams } from 'react-router-dom';
 import { GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS } from '@/lib/graphql/operations';
+import { StatusEnum } from '@/lib/enums';
 
 type ValidateActionDialogProps = {
   isChecked: boolean;
@@ -53,7 +54,7 @@ export const ValidateActionDialog = ({
     const currentAction = {
       actionId: action.id || '',
       challengeId: challengeId!,
-      status: 'completed',
+      status: action.requires_view ? StatusEnum.PENDING : StatusEnum.COMPLETED,
     };
     const { data } = await createUserActionChallengeMutation({
       variables: { data: currentAction },
