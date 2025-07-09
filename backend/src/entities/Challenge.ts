@@ -29,7 +29,10 @@ export class Challenge extends BaseEntity {
   description?: string;
 
   @Field({ nullable: true })
-  @Column('varchar', { nullable: true, length: 255 })
+  @Column('varchar', {
+    length: 255,
+    default: './banners/banner-1.jpg',
+  })
   bannerUrl?: string;
 
   @Field()

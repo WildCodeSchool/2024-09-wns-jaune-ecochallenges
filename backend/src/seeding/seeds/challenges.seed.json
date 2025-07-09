@@ -3,7 +3,7 @@
     {
       "label": "Zéro déchet pendant 7 jours",
       "description": "Relevez le défi de ne produire aucun déchet non-recyclable pendant une semaine. Documentez votre expérience et partagez vos astuces !",
-      "bannerUrl": "zero-waste-banner.jpg",
+      "bannerUrl": "./banners/banner-9.jpg",
       "startDate": "2024-03-27T00:00:00Z",
       "endDate": "2024-04-03T23:59:59Z",
       "actions": [2, 6, 7],
@@ -18,7 +18,7 @@
     {
       "label": "Créez une bibliothèque d'objets de quartier",
       "description": "Organisez avec vos voisins un système de partage d'objets peu utilisés (outils, équipements de jardinage, etc.). Objectif : réduire la surconsommation collective !",
-      "bannerUrl": "sharing-library-banner.jpg",
+      "bannerUrl": "./banners/banner-1.jpg",
       "startDate": "2025-03-27T00:00:00Z",
       "endDate": "2025-06-27T23:59:59Z",
       "actions": [6, 7, 10],
@@ -28,7 +28,7 @@
     {
       "label": "Lobbying citoyen pour le climat",
       "description": "Écrivez à vos élus locaux pour demander plus d'actions concrètes pour le climat. Modèle de lettre fourni et objectif de 100 lettres collectives !",
-      "bannerUrl": "citizen-action-banner.jpg",
+      "bannerUrl": "./banners/banner-2.jpg",
       "startDate": "2025-03-27T00:00:00Z",
       "endDate": "2025-05-27T23:59:59Z",
       "actions": [10],
@@ -44,7 +44,7 @@
     {
       "label": "Un mois sans voiture",
       "description": "Adoptez les mobilités douces pendant 30 jours : vélo, marche, transports en commun. Calculez votre impact CO2 évité !",
-      "bannerUrl": "car-free-banner.jpg",
+      "bannerUrl": "./banners/banner-3.jpg",
       "startDate": "2025-03-27T00:00:00Z",
       "endDate": "2025-04-27T23:59:59Z",
       "actions": [5, 10],
@@ -54,7 +54,7 @@
     {
       "label": "Jardin collectif sauvage",
       "description": "Identifiez un espace urbain délaissé et transformez-le en micro-jardin de biodiversité avec vos voisins. Semez des fleurs mellifères !",
-      "bannerUrl": "wild-garden-banner.jpg",
+      "bannerUrl": "./banners/banner-4.jpg",
       "startDate": "2025-03-27T00:00:00Z",
       "endDate": "2025-09-27T23:59:59Z",
       "actions": [1, 7, 10],
@@ -70,7 +70,7 @@
     {
       "label": "Défi anti-fast-fashion",
       "description": "N'achetez que des vêtements d'occasion pendant 3 mois. Organisez une bourse aux vêtements dans votre communauté !",
-      "bannerUrl": "sustainable-fashion-banner.jpg",
+      "bannerUrl": "./banners/banner-5.jpg",
       "startDate": "2025-03-27T00:00:00Z",
       "endDate": "2025-06-27T23:59:59Z",
       "actions": [6, 7, 10],
@@ -80,7 +80,7 @@
     {
       "label": "Opération données vertes",
       "description": "Nettoyez vos emails, stockage cloud et appareils des données inutiles. Objectif : réduire votre empreinte numérique de 50% !",
-      "bannerUrl": "digital-cleanup-banner.jpg",
+      "bannerUrl": "./banners/banner-6.jpg",
       "startDate": "2025-03-27T00:00:00Z",
       "endDate": "2025-04-03T23:59:59Z",
       "actions": [4, 10],
@@ -90,7 +90,7 @@
     {
       "label": "Cuisine anti-gaspi collective (privé)",
       "description": "Organisez des ateliers cuisine collectifs pour transformer les invendus des commerces locaux en repas solidaires",
-      "bannerUrl": "food-waste-banner.jpg",
+      "bannerUrl": "./banners/banner-7.jpg",
       "startDate": "2025-03-27T00:00:00Z",
       "endDate": "2025-04-27T23:59:59Z",
       "actions": [6, 7, 10],
@@ -106,7 +106,7 @@
     {
       "label": "Boycott des multinationales polluantes (privé)",
       "description": "Identifiez et évitez pendant un mois les produits des 10 entreprises les plus polluantes. Proposez des alternatives locales !",
-      "bannerUrl": "boycott-banner.jpg",
+      "bannerUrl": "./banners/banner-8.jpg",
       "startDate": "2025-03-27T00:00:00Z",
       "endDate": "2025-04-27T23:59:59Z",
       "actions": [6, 10],
@@ -122,7 +122,7 @@
     {
       "label": "Déconnexion hebdomadaire (privé)",
       "description": "Chaque dimanche, passez 24h sans écrans. Organisez des activités nature ou créatives avec votre entourage !",
-      "bannerUrl": "digital-detox-banner.jpg",
+      "bannerUrl": "./banners/banner-9.jpg",
       "startDate": "2025-03-27T00:00:00Z",
       "endDate": "2025-06-27T23:59:59Z",
       "actions": [3, 4, 10],
