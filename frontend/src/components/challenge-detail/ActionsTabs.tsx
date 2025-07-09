@@ -64,7 +64,7 @@ export const ActionsTabs = ({
           <ChallengeActionsList
             isAuthorized={isAuthorized}
             userId={userId}
-            actions={actions}
+            actions={completedActionsByAll}
             userActionChallenges={userActionChallenges}
           />
         </TabsContent>

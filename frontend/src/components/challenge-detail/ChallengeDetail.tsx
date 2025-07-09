@@ -63,6 +63,18 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
     (member) => member.id === userId
   );
 
+  const allMembers = data.getChallenge.members;
+  const allUserActionChallenges = data.getChallenge.userActionChallenges;
+  const totalMembers = allMembers.length;
+
+  const completedActionsByAll = data.getChallenge.actions.filter((action) => {
+    const completedCount = allUserActionChallenges.filter(
+      (uac) => uac.action.id === action.id && uac.status === 'completed'
+    ).length;
+
+    return completedCount === totalMembers;
+  });
+
   return (
     <div className="relative mx-auto max-w-6xl px-4 py-6">
       <ChallengeBanner
@@ -83,6 +95,7 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
             (data.getChallenge
               ?.userActionChallenges as Partial<UserActionChallenge>[]) || []
           }
+          completedActionsByAll={completedActionsByAll}
         />
       </div>
 
