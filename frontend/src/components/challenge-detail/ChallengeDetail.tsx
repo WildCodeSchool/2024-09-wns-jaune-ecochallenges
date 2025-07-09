@@ -100,6 +100,7 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
             (data.getChallenge
               ?.userActionChallenges as Partial<UserActionChallenge>[]) || []
           }
+          completedActionsByAll={completedActionsByAll}
         />
       </div>
 
