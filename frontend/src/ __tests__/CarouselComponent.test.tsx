@@ -1,7 +1,8 @@
 import '@testing-library/jest-dom';
 import { CarouselComponent, ChallengeCard } from '@/components';
 import { describe, expect, it, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 
 vi.mock('@/components/ui/carousel', () => ({
   Carousel: ({ children }: any) => <div data-testid="carousel">{children}</div>,
@@ -74,14 +75,20 @@ const mockData = [
 
 describe('Carousel Component', () => {
   it('renders the carousel wrapper', () => {
-    render(<CarouselComponent data={mockData} CardComponent={ChallengeCard} />);
-    const carousel = screen.getByTestId('carousel');
-    expect(carousel).toBeInTheDocument();
+    const { getByTestId } = render(
+      <MemoryRouter>
+        <CarouselComponent data={mockData} CardComponent={ChallengeCard} />
+      </MemoryRouter>
+    );
+    expect(getByTestId('carousel')).toBeInTheDocument();
   });
 
   it('should render the carousel component with the correct data', () => {
-    render(<CarouselComponent data={mockData} CardComponent={ChallengeCard} />);
-
-    expect(screen.getByTestId('card-1')).toBeInTheDocument();
+    const { getByText } = render(
+      <MemoryRouter>
+        <CarouselComponent data={mockData} CardComponent={ChallengeCard} />
+      </MemoryRouter>
+    );
+    expect(getByText('card-1')).toBeInTheDocument();
   });
 });
