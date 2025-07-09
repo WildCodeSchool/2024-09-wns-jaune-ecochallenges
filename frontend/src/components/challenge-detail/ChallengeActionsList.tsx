@@ -19,9 +19,15 @@ export const ChallengeActionsList = ({
   isAuthorized,
 }: Props) => {
   return (
-    <ul className="space-y-4 bg-amber-200">
+    <ul className="space-y-4">
       {actions.map((action) => {
         const userAction = userActionChallenges.find(
+          (userAction) =>
+            userAction?.action?.id === action.id &&
+            userAction.user?.id === userId
+        );
+
+        const completedBy = userActionChallenges.filter(
           (userAction) => userAction?.action?.id === action.id
         );
 
@@ -37,6 +43,7 @@ export const ChallengeActionsList = ({
             action={action}
             userId={userId}
             isAuthorized={isAuthorized}
+            completedBy={completedBy}
           />
         );
       })}

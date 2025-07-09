@@ -64,7 +64,7 @@ export class Action extends BaseEntity {
   createdBy!: User;
 
   @Field(() => [Tag], { nullable: true })
-  @ManyToMany(() => Tag, (tag) => tag.actions)
+  @ManyToMany(() => Tag, (tag) => tag.actions, { eager: true })
   @JoinTable()
   tags?: Tag[];
 

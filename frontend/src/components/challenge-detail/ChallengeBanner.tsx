@@ -45,12 +45,11 @@ export const ChallengeBanner = ({ challenge, userActionChallenges }: Props) => {
           </Avatar>
           <ul className="relative z-10 mt-2 flex flex-col gap-2">
             <li>
-              <Pill className="bg-background text-foreground font-medium">
-                Rank
-              </Pill>
+              <Pill className="bg-background font-medium">Rank</Pill>
             </li>
 
-            <li className="bg-background w-full rounded-full px-2 py-1">
+            <li className="bg-background text-foreground w-full rounded-lg px-2 py-1">
+              Complété à: {getPercentageActionsDone}%
               <Progress value={getPercentageActionsDone} />
             </li>
           </ul>
