@@ -26,6 +26,7 @@
     "nodemailer": "^7.0.3",
     "pg": "^8.13.3",
     "reflect-metadata": "^0.2.2",
+    "stripe": "^18.3.0",
     "type-graphql": "^2.0.0-rc.2",
     "typeorm": "^0.3.20"
   },
