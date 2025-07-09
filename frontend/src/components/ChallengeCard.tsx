@@ -23,7 +23,7 @@ export const ChallengeCard = ({
     <article className="h-full">
       <Link to={`/challenge/${challenge.id}`}>
         <Card
-          data-testid={challenge.id}
+          data-testid={`card-${challenge.id}`}
           className={cn('relative h-full justify-between')}
         >
           <CardHeader className="overflow-hidden">
