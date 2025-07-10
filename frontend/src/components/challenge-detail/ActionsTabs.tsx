@@ -4,6 +4,7 @@ import {
   Action,
   UserActionChallenge,
 } from '@/lib/graphql/generated/graphql-types';
+import { ChallengeFeed } from './ChallengeFeed';
 import { StatusEnum } from '@/lib/enums';
 import { PendingTabs } from './ActionsTabs/PendingTabs';
 import { Hourglass, Leaf, Newspaper } from 'lucide-react';
@@ -61,12 +62,7 @@ export const ActionsTabs = ({
         </TabsContent>
 
         <TabsContent value="fil">
-          <ChallengeActionsList
-            isAuthorized={isAuthorized}
-            userId={userId}
-            actions={actions}
-            userActionChallenges={userActionChallenges}
-          />
+          <ChallengeFeed userActionChallenges={userActionChallenges} />
         </TabsContent>
         <TabsContent value="tocheck">
           <PendingTabs toCheck={toCheck} challengeId={challengeId} />
