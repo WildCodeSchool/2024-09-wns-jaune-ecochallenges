@@ -230,7 +230,7 @@ export class UserActionChallengeResolver {
     try {
       if (!data.actionId || !data.challengeId || !user?.id) {
         throw new GraphQLError(
-          'Missing required fields: user, action, or challenge'
+          ' Enable to update user action challenge: missing required fields: user, action, or challenge'
         );
       }
 

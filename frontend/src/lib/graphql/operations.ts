@@ -342,15 +342,10 @@ export const GET_USER_ACTION_CHALLENGE_BY_CHALLENGE_ID = gql`
     }
   }
 `;
-
-export const GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS = gql`
-  query actionByChallengeWithStatus($getChallengeId: ID!) {
-    getChallenge(id: $getChallengeId) {
-      startDate
-      owner {
-        id
-      }
-      members {
+export const UPDATE_USER_ACTION_CHALLENGE = gql`
+  mutation UpdateUserActionChallenge($data: UserActionChallengeInput!) {
+    updateUserActionChallenge(data: $data) {
+      user {
         id
         lastname
         firstname
