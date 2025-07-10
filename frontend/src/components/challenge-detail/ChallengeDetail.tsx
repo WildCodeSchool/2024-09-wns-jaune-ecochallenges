@@ -77,6 +77,7 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
 
       <div className="mt-6 flex justify-center">
         <ActionsTabs
+          challengeId={challengeId}
           userId={userId}
           isAuthorized={isAuthorized}
           actions={data.getChallenge.actions || []}

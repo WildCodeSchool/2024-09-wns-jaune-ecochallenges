@@ -10,6 +10,7 @@ type Props = {
   userActionChallenges: Partial<UserActionChallenge>[];
   isAuthorized: boolean | undefined;
   userId: string | undefined;
+  challengeId: string;
 };
 
 export const ActionsTabs = ({
@@ -17,6 +18,7 @@ export const ActionsTabs = ({
   userActionChallenges,
   isAuthorized,
   userId,
+  challengeId,
 }: Props) => {
   const gestes = actions;
   return (

@@ -1,8 +1,8 @@
 import { Button, DialogFooter, DialogHeader } from '@/components/ui';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
-  UserActionChallengeScore,
-  useUpdateUserActionChallengeScoreMutation,
+  UserActionChallenge,
+  useUpdateUserActionChallengeMutation,
 } from '@/lib/graphql/generated/graphql-types';
 import {
   Dialog,
@@ -12,23 +12,21 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { ScanEye, X } from 'lucide-react';
-import { GET_USER_ACTION_CHALLENGE_BY_CHALLENGE_ID } from '@/lib/graphql/operations';
+import { GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS } from '@/lib/graphql/operations';
 import { toast } from 'sonner';
 import { StatusEnum } from '@/lib/enums/action.status.enum';
-import { useUserStore } from '@/lib/zustand/userStore';
 
 type Props = {
-  toCheck: Partial<UserActionChallengeScore>[];
+  toCheck: Partial<UserActionChallenge>[];
   challengeId: string;
 };
 
 export const PendingTabs = ({ toCheck, challengeId }: Props) => {
-  const user = useUserStore((state) => state.user);
-  const [updateUserActionChallengeScoreMutation] =
-    useUpdateUserActionChallengeScoreMutation({
+  const [updateUserActionChallengeMutation] =
+    useUpdateUserActionChallengeMutation({
       refetchQueries: [
         {
-          query: GET_USER_ACTION_CHALLENGE_BY_CHALLENGE_ID,
+          query: GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS,
           variables: { getChallengeId: challengeId },
         },
       ],
@@ -41,30 +39,23 @@ export const PendingTabs = ({ toCheck, challengeId }: Props) => {
     });
 
   const setApprouvalStatus = async (
-    action: Partial<UserActionChallengeScore>,
+    action: Partial<UserActionChallenge>,
     status: StatusEnum
   ) => {
-    if (
-      !action.action?.id ||
-      !challengeId ||
-      !action.validatedFor?.id ||
-      !user?.id
-    ) {
+    if (!action.action?.id || !challengeId) {
       throw new Error('Missing required fields');
     }
     const currentAction = {
       actionId: action.action?.id,
       challengeId,
       status: status,
-      comment: action.comment || '',
-      validatedFor: action.validatedFor.id,
     };
-    const { data } = await updateUserActionChallengeScoreMutation({
+    const { data } = await updateUserActionChallengeMutation({
       variables: {
         data: currentAction,
       },
     });
-    if (!data?.updateUserActionChallengeScore) {
+    if (!data?.updateUserActionChallenge) {
       throw new Error('Failed to validate action');
     }
   };
@@ -73,68 +64,64 @@ export const PendingTabs = ({ toCheck, challengeId }: Props) => {
       <h1 className="mb-4 text-xl">
         Aidez vos collègues à valider leurs actions !
       </h1>
-      {toCheck
-        .filter((action) => action.status === StatusEnum.PENDING)
-        .map((action) => (
-          <div key={action.action?.id} className="flex flex-col gap-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>{action.validatedFor?.firstname}</CardTitle>
-              </CardHeader>
-              <CardContent className="flex items-center justify-between">
-                <p>
-                  Est en attente de validation pour l'eco geste:{' '}
-                  <span className="font-bold">{action.action?.name}</span>
-                </p>
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button>
-                      <ScanEye /> Vérifier son action
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogTitle className="font-normal">
-                      Valider la photo de:{' '}
-                      <span className="font-bold">
-                        {action.validatedFor?.firstname}
-                      </span>
-                    </DialogTitle>
-                    <DialogHeader className="flex flex-col items-center">
-                      <img
-                        src={action.validatedFor?.avatarUrl || ''}
-                        alt={action.validatedFor?.firstname}
-                        className="h-16 w-16 rounded-full"
-                      />
-                    </DialogHeader>
-                    <DialogFooter>
-                      <DialogClose asChild>
-                        <Button
-                          variant="ghost"
-                          className="hover:bg-destructive/20"
-                          onClick={() =>
-                            setApprouvalStatus(action, StatusEnum.REJECTED)
-                          }
-                        >
-                          <X className="text-destructive h-4 w-4" />
-                          Refuser
-                        </Button>
-                      </DialogClose>
-                      <DialogClose asChild>
-                        <Button
-                          onClick={() =>
-                            setApprouvalStatus(action, StatusEnum.COMPLETED)
-                          }
-                        >
-                          Valider
-                        </Button>
-                      </DialogClose>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
-              </CardContent>
-            </Card>
-          </div>
-        ))}
+      {toCheck.map((action) => (
+        <div key={action.action?.id} className="flex flex-col gap-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>{action.user?.firstname}</CardTitle>
+            </CardHeader>
+            <CardContent className="flex items-center justify-between">
+              <p>
+                Est en attente de validation pour l'eco geste:{' '}
+                <span className="font-bold">{action.action?.name}</span>
+              </p>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button>
+                    <ScanEye /> Vérifier son action
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogTitle className="font-normal">
+                    Valider la photo de:{' '}
+                    <span className="font-bold">{action.user?.firstname}</span>
+                  </DialogTitle>
+                  <DialogHeader className="flex flex-col items-center">
+                    <img
+                      src={action.user?.avatarUrl || ''}
+                      alt={action.user?.firstname}
+                      className="h-16 w-16 rounded-full"
+                    />
+                  </DialogHeader>
+                  <DialogFooter>
+                    <DialogClose asChild>
+                      <Button
+                        variant="ghost"
+                        className="hover:bg-destructive/20"
+                        onClick={() =>
+                          setApprouvalStatus(action, StatusEnum.REJECTED)
+                        }
+                      >
+                        <X className="text-destructive h-4 w-4" />
+                        Refuser
+                      </Button>
+                    </DialogClose>
+                    <DialogClose asChild>
+                      <Button
+                        onClick={() =>
+                          setApprouvalStatus(action, StatusEnum.COMPLETED)
+                        }
+                      >
+                        Valider
+                      </Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </CardContent>
+          </Card>
+        </div>
+      ))}
     </div>
   );
 };
