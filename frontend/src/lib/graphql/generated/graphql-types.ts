@@ -661,6 +661,20 @@ export type GetUserActionChallengeByChallengeQuery = {
   }>;
 };
 
+export type UpdateUserActionChallengeMutationVariables = Exact<{
+  data: UserActionChallengeInput;
+}>;
+
+export type UpdateUserActionChallengeMutation = {
+  __typename?: 'Mutation';
+  updateUserActionChallenge: {
+    __typename?: 'UserActionChallenge';
+    updatedAt: any;
+    status: string;
+    user: { __typename?: 'User'; id: string; lastname: string };
+  };
+};
+
 export const GetUsersAsUserDocument = gql`
   query GetUsersAsUser {
     getUsersAsUser {
@@ -2257,3 +2271,59 @@ export type GetUserActionChallengeByChallengeQueryResult = Apollo.QueryResult<
   GetUserActionChallengeByChallengeQuery,
   GetUserActionChallengeByChallengeQueryVariables
 >;
+export const UpdateUserActionChallengeDocument = gql`
+  mutation UpdateUserActionChallenge($data: UserActionChallengeInput!) {
+    updateUserActionChallenge(data: $data) {
+      user {
+        id
+        lastname
+      }
+      updatedAt
+      status
+    }
+  }
+`;
+export type UpdateUserActionChallengeMutationFn = Apollo.MutationFunction<
+  UpdateUserActionChallengeMutation,
+  UpdateUserActionChallengeMutationVariables
+>;
+
+/**
+ * __useUpdateUserActionChallengeMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserActionChallengeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserActionChallengeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserActionChallengeMutation, { data, loading, error }] = useUpdateUserActionChallengeMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateUserActionChallengeMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateUserActionChallengeMutation,
+    UpdateUserActionChallengeMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateUserActionChallengeMutation,
+    UpdateUserActionChallengeMutationVariables
+  >(UpdateUserActionChallengeDocument, options);
+}
+export type UpdateUserActionChallengeMutationHookResult = ReturnType<
+  typeof useUpdateUserActionChallengeMutation
+>;
+export type UpdateUserActionChallengeMutationResult =
+  Apollo.MutationResult<UpdateUserActionChallengeMutation>;
+export type UpdateUserActionChallengeMutationOptions =
+  Apollo.BaseMutationOptions<
+    UpdateUserActionChallengeMutation,
+    UpdateUserActionChallengeMutationVariables
+  >;

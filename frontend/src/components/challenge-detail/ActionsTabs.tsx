@@ -13,6 +13,7 @@ type Props = {
   userActionChallenges: Partial<UserActionChallenge>[];
   isAuthorized: boolean | undefined;
   userId: string | undefined;
+  challengeId: string;
 };
 
 export const ActionsTabs = ({
@@ -20,6 +21,7 @@ export const ActionsTabs = ({
   userActionChallenges,
   isAuthorized,
   userId,
+  challengeId,
 }: Props) => {
   const toCheck = userActionChallenges.filter(
     (userActionChallenge) => userActionChallenge.status === StatusEnum.PENDING
@@ -43,7 +45,8 @@ export const ActionsTabs = ({
           <Newspaper className="h-4 w-4" /> Fil d'actualité
         </TabsTrigger>
         <TabsTrigger className="bg-sidebar" value="tocheck">
-          <Hourglass className="h-4 w-4" /> En attente de validation
+          <Hourglass className="h-4 w-4" /> En attente de validation (
+          {toCheck.length})
         </TabsTrigger>
       </TabsList>
 
@@ -66,7 +69,7 @@ export const ActionsTabs = ({
           />
         </TabsContent>
         <TabsContent value="tocheck">
-          <PendingTabs toCheck={toCheck} />
+          <PendingTabs toCheck={toCheck} challengeId={challengeId} />
         </TabsContent>
       </div>
     </Tabs>
