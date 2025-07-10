@@ -4,12 +4,16 @@ import {
   Action,
   UserActionChallenge,
 } from '@/lib/graphql/generated/graphql-types';
+import { StatusEnum } from '@/lib/enums';
+import { PendingTabs } from './ActionsTabs/PendingTabs';
+import { Hourglass, Leaf, Newspaper } from 'lucide-react';
 
 type Props = {
   actions: Partial<Action>[];
   userActionChallenges: Partial<UserActionChallenge>[];
   isAuthorized: boolean | undefined;
   userId: string | undefined;
+  challengeId: string;
 };
 
 export const ActionsTabs = ({
@@ -17,18 +21,32 @@ export const ActionsTabs = ({
   userActionChallenges,
   isAuthorized,
   userId,
+  challengeId,
 }: Props) => {
+  const toCheck = userActionChallenges.filter(
+    (userActionChallenge) => userActionChallenge.status === StatusEnum.PENDING
+  );
+
   return (
     <Tabs defaultValue="gestes" className="w-full md:max-w-4xl lg:max-w-5xl">
-      <TabsList className="grid w-full grid-cols-3 gap-2 bg-zinc-400">
-        <TabsTrigger className="bg-blue-300" value="gestes">
-          Mes gestes
+      <TabsList className="grid w-full grid-cols-3 gap-2">
+        <TabsTrigger className="bg-sidebar" value="gestes">
+          {userId ? (
+            <>
+              <Leaf className="h-4 w-4" /> Mes gestes
+            </>
+          ) : (
+            <>
+              <Leaf className="h-4 w-4" /> Les eco gestes
+            </>
+          )}
         </TabsTrigger>
-        <TabsTrigger className="bg-blue-300" value="fil">
-          Fil
+        <TabsTrigger className="bg-sidebar" value="fil">
+          <Newspaper className="h-4 w-4" /> Fil d'actualité
         </TabsTrigger>
-        <TabsTrigger className="bg-blue-300" value="tocheck">
-          To check
+        <TabsTrigger className="bg-sidebar" value="tocheck">
+          <Hourglass className="h-4 w-4" /> En attente de validation (
+          {toCheck.length})
         </TabsTrigger>
       </TabsList>
 
@@ -51,12 +69,7 @@ export const ActionsTabs = ({
           />
         </TabsContent>
         <TabsContent value="tocheck">
-          <ChallengeActionsList
-            isAuthorized={isAuthorized}
-            userId={userId}
-            actions={actions}
-            userActionChallenges={userActionChallenges}
-          />
+          <PendingTabs toCheck={toCheck} challengeId={challengeId} />
         </TabsContent>
       </div>
     </Tabs>
