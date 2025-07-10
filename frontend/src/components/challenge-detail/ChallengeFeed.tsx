@@ -9,8 +9,7 @@ type Props = {
 
 export const ChallengeFeed = ({ userActionChallenges }: Props) => {
   const validatedActions = userActionChallenges.filter(
-    (uac) =>
-      uac.status === StatusEnum.COMPLETED && uac.action?.requires_view === false
+    (uac) => uac.status === StatusEnum.COMPLETED
   );
 
   return (
