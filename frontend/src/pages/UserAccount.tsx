@@ -88,10 +88,10 @@ export const UserAccount = () => {
   const participatedChallenges: Challenge[] = user.participatedChallenges || [];
 
   const inProgressChallenges = participatedChallenges.filter(
-    (c: any) => c.status === 'IN_PROGRESS'
+    (c: Challenge) => c.status === 'IN_PROGRESS'
   );
   const completedChallenges = participatedChallenges.filter(
-    (c: any) => c.status === 'COMPLETED'
+    (c: Challenge) => c.status === 'COMPLETED'
   );
 
   return (

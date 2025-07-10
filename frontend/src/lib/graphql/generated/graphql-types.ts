@@ -69,7 +69,9 @@ export type Challenge = {
   label: Scalars['String']['output'];
   members: Array<User>;
   owner: User;
+  score: Score;
   startDate: Scalars['DateTimeISO']['output'];
+  status: Scalars['String']['output'];
 };
 
 export type ChallengeInput = {
@@ -160,6 +162,14 @@ export type QueryGetChallengeArgs = {
   id: Scalars['ID']['input'];
 };
 
+export type Score = {
+  __typename?: 'Score';
+  challenge: Challenge;
+  id: Scalars['ID']['output'];
+  result: Scalars['Float']['output'];
+  user: User;
+};
+
 export type SignUpUserInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   email: Scalars['String']['input'];
@@ -198,6 +208,7 @@ export type User = {
   lastname: Scalars['String']['output'];
   participatedChallenges: Array<Challenge>;
   role: Scalars['String']['output'];
+  score: Score;
 };
 
 export type GetUsersAsUserQueryVariables = Exact<{ [key: string]: never }>;
@@ -229,6 +240,7 @@ export type GetChallengesAsChallengeQuery = {
     bannerUrl?: string | null;
     startDate: any;
     endDate: any;
+    status: string;
     createdAt: any;
     isPublic: boolean;
     owner: { __typename?: 'User'; id: string };
@@ -262,6 +274,7 @@ export type GetChallengeQuery = {
     bannerUrl?: string | null;
     startDate: any;
     endDate: any;
+    status: string;
     owner: { __typename?: 'User'; id: string };
     members: Array<{ __typename?: 'User'; id: string }>;
     actions: Array<{
@@ -455,6 +468,7 @@ export type GetCurrentUserQuery = {
       label: string;
       startDate: any;
       endDate: any;
+      status: string;
     }>;
   };
 };
@@ -566,6 +580,7 @@ export const GetChallengesAsChallengeDocument = gql`
       bannerUrl
       startDate
       endDate
+      status
       createdAt
       isPublic
       owner {
@@ -666,6 +681,7 @@ export const GetChallengeDocument = gql`
       bannerUrl
       startDate
       endDate
+      status
       owner {
         id
       }
@@ -1551,6 +1567,7 @@ export const GetCurrentUserDocument = gql`
         label
         startDate
         endDate
+        status
       }
     }
   }
