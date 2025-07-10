@@ -22,6 +22,7 @@ export const GET_CHALLENGES = gql`
       bannerUrl
       startDate
       endDate
+      status
       createdAt
       isPublic
       owner {
@@ -53,6 +54,7 @@ export const GET_CHALLENGE = gql`
       bannerUrl
       startDate
       endDate
+      status
       owner {
         id
       }
@@ -231,6 +233,7 @@ export const GET_USER_BY_ID = gql`
         label
         startDate
         endDate
+        status
       }
     }
   }

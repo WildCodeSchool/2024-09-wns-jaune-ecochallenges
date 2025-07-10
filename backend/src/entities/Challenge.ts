@@ -41,6 +41,12 @@ export class Challenge extends BaseEntity {
   endDate!: Date;
 
   @Field()
+  get status(): 'IN_PROGRESS' | 'COMPLETED' {
+    const now = new Date();
+    return now < this.endDate ? 'IN_PROGRESS' : 'COMPLETED';
+  }
+
+  @Field()
   @Column({ type: 'boolean', default: true })
   isPublic!: boolean;
 
