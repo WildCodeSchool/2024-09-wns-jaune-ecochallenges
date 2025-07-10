@@ -218,16 +218,61 @@ export const MUTATION_LOG_OUT = gql`
   }
 `;
 
-export const MUTATION_VALIDATE_ACTION = gql`
-  mutation CreateUserActionChallenge($data: UserActionChallengeInput!) {
-    createUserActionChallenge(data: $data) {
-      user {
-        firstname
-      }
-      challenge {
+export const GET_USER_BY_ID = gql`
+  query GetCurrentUser {
+    getCurrentUser {
+      id
+      firstname
+      lastname
+      email
+      role
+      description
+      avatarUrl
+      participatedChallenges {
         id
+        label
+        startDate
+        endDate
+      }
+    }
+  }
+`;
+
+export const UPDATE_USER = gql`
+  mutation UpdateUser($user: UpdateUserInput!) {
+    updateUser(user: $user) {
+      id
+      firstname
+      lastname
+      description
+      avatarUrl
+    }
+  }
+`;
+
+export const MUTATION_VALIDATE_ACTION_SCORE = gql`
+  mutation CreateUserActionChallengeScore(
+    $data: UserActionChallengeScoreInput!
+  ) {
+    createUserActionChallengeScore(data: $data) {
+      isValidated
+      points
+      status
+      comment
+      validatedBy {
+        firstname
+        lastname
+        email
+      }
+      validatedFor {
+        firstname
+        lastname
+        email
       }
       action {
+        id
+      }
+      challenge {
         id
       }
     }
@@ -240,6 +285,8 @@ export const GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS = gql`
       startDate
       owner {
         id
+        lastname
+        firstname
       }
       members {
         id
@@ -269,13 +316,22 @@ export const GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS = gql`
           icon
         }
       }
-      userActionChallenges {
-        user {
+      userActionChallengeScores {
+        validatedBy {
+          id
+          firstname
+          lastname
+        }
+        validatedFor {
           id
           avatarUrl
           firstname
+          lastname
         }
         status
+        comment
+        isValidated
+        points
         challenge {
           id
         }
@@ -317,74 +373,69 @@ export const GET_ACTIONS_BY_CHALLENGE_ID = gql`
         name
         icon
       }
+      userActionChallengeScores {
+        points
+        isValidated
+        status
+        comment
+        action {
+          id
+          level
+          name
+        }
+      }
     }
   }
 `;
 
 export const GET_USER_ACTION_CHALLENGE_BY_CHALLENGE_ID = gql`
-  query GetUserActionChallengeByChallenge(
+  query getUserActionChallengeScoreByChallenge(
     $getUserActionChallengeByChallengeId: String!
   ) {
-    getUserActionChallengeByChallenge(
+    getUserActionChallengeScoreByChallenge(
       id: $getUserActionChallengeByChallengeId
     ) {
-      user {
+      validatedBy {
         id
+        firstname
+        lastname
       }
+      validatedFor {
+        id
+        firstname
+        lastname
+      }
+      status
+      comment
+      isValidated
+      points
       action {
         id
       }
       challenge {
         id
       }
-      status
-      comment
     }
   }
 `;
 export const UPDATE_USER_ACTION_CHALLENGE = gql`
-  mutation UpdateUserActionChallenge($data: UserActionChallengeInput!) {
-    updateUserActionChallenge(data: $data) {
-      user {
+  mutation UpdateUserActionChallengeScore(
+    $data: UserActionChallengeScoreUpdateInput!
+  ) {
+    updateUserActionChallengeScore(data: $data) {
+      validatedBy {
         id
-        lastname
         firstname
-        role
+        lastname
       }
-      label
-      isPublic
-      id
-      endDate
-      description
-      createdAt
-      bannerUrl
-      actions {
+      validatedFor {
         id
-        name
-        description
-        requires_view
-        level
-        icon
-        time
-        createdAt
-        tags {
-          id
-          name
-          icon
-        }
+        firstname
+        lastname
       }
-      userActionChallenges {
-        user {
-          id
-        }
-        status
-        challenge {
-          id
-        }
-        action {
-          id
-        }
-      }
+      updatedAt
+      status
+      comment
     }
   }
 `;

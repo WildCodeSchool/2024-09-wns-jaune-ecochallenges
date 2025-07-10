@@ -5,7 +5,7 @@ import { ActionsTabs } from './ActionsTabs/ActionsTabs';
 import { Button } from '@/components/ui/button';
 import {
   useActionByChallengeWithStatusQuery,
-  UserActionChallenge,
+  UserActionChallengeScore,
 } from '@/lib/graphql/generated/graphql-types';
 import { useUserStore } from '@/lib/zustand/userStore';
 
@@ -13,7 +13,6 @@ type ChallengeDetailProps = {
   challengeId: string;
 };
 
-<<<<<<< HEAD
 export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
   const userId = useUserStore((state) => state.user?.id || undefined);
 
@@ -81,9 +80,9 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
           userId={userId}
           isAuthorized={isAuthorized}
           actions={data.getChallenge.actions || []}
-          userActionChallenges={
+          userActionChallengeScore={
             (data.getChallenge
-              ?.userActionChallenges as Partial<UserActionChallenge>[]) || []
+              ?.userActionChallengeScores as UserActionChallengeScore[]) || []
           }
         />
       </div>

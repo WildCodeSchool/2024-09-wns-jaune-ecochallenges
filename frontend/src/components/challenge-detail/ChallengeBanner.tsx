@@ -29,10 +29,7 @@ export const ChallengeBanner = ({
     userActionChallengesScore
   );
 
-  const dates = formatChallengeDates(
-    challengeData?.getChallenge.startDate,
-    challengeData?.getChallenge.endDate
-  );
+  const dates = formatChallengeDates(challenge.startDate, challenge.endDate);
 
   const tags = getUniqueTagsFromActions(challenge.actions as Action[]);
 
@@ -55,11 +52,10 @@ export const ChallengeBanner = ({
           <ul className="relative z-10 mt-2 flex flex-col gap-2">
             <li>
               <Pill className="bg-background font-medium">Rank</Pill>
-              <Pill className="bg-background font-medium">Rank</Pill>
             </li>
 
-            <li className="bg-background text-foreground w-full rounded-lg px-2 py-1">
-              Complété à: {getPercentageActionsDone}%
+            <li className="bg-background text-foreground w-full rounded-lg px-2 py-1 text-xs">
+              Complété à: <strong>{getPercentageActionsDone}%</strong>
               <Progress value={getPercentageActionsDone} />
             </li>
           </ul>
