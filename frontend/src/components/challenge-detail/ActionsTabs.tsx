@@ -15,7 +15,6 @@ type Props = {
   isAuthorized: boolean | undefined;
   userId: string | undefined;
   challengeId: string;
-  refetchChallengeData: () => void;
 };
 
 export const ActionsTabs = ({
@@ -24,7 +23,6 @@ export const ActionsTabs = ({
   isAuthorized,
   userId,
   challengeId,
-  refetchChallengeData,
 }: Props) => {
   const toCheck = userActionChallenges.filter(
     (userActionChallenge) => userActionChallenge.status === StatusEnum.PENDING
@@ -67,11 +65,7 @@ export const ActionsTabs = ({
           <ChallengeFeed userActionChallenges={userActionChallenges} />
         </TabsContent>
         <TabsContent value="tocheck">
-          <PendingTabs
-            toCheck={toCheck}
-            challengeId={challengeId}
-            refetchChallengeData={refetchChallengeData}
-          />
+          <PendingTabs toCheck={toCheck} challengeId={challengeId} />
         </TabsContent>
       </div>
     </Tabs>
