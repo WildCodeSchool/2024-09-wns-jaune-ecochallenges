@@ -13,7 +13,7 @@ import { Action } from '@/entities';
 @ObjectType()
 export class Tag extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Field((_type) => ID)
+  @Field(() => ID)
   id!: string;
 
   @Field()
