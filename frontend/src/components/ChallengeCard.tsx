@@ -22,7 +22,10 @@ export const ChallengeCard = ({
   return (
     <article className="h-full">
       <Link to={`/challenge/${challenge.id}`}>
-        <Card className={cn('relative h-full justify-between')}>
+        <Card
+          data-testid={`card-${challenge.id}`}
+          className={cn('relative h-full justify-between')}
+        >
           <CardHeader className="overflow-hidden">
             <img
               src="https://picsum.photos/400/100"

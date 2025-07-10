@@ -20,10 +20,15 @@
       "description": "Organisez avec vos voisins un système de partage d'objets peu utilisés (outils, équipements de jardinage, etc.). Objectif : réduire la surconsommation collective !",
       "bannerUrl": "sharing-library-banner.jpg",
       "startDate": "2025-03-27T00:00:00Z",
-      "endDate": "2025-06-27T23:59:59Z",
+      "endDate": "2026-06-27T23:59:59Z",
       "actions": [6, 7, 10],
       "owner": "admin@example.com",
-      "members": ["admin@example.com", "sarah@example.com", "david@example.com"]
+      "members": [
+        "admin@example.com",
+        "sarah@example.com",
+        "david@example.com",
+        "elie@example.com"
+      ]
     },
     {
       "label": "Lobbying citoyen pour le climat",
@@ -38,7 +43,8 @@
         "emily@example.com",
         "james@example.com",
         "lisa@example.com",
-        "robert@example.com"
+        "robert@example.com",
+        "elie@example.com"
       ]
     },
     {
