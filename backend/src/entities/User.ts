@@ -11,7 +11,6 @@ import {
 import { Field, ObjectType } from 'type-graphql';
 import argon2 from 'argon2';
 import { Challenge, Action, UserActionChallengeScore } from '@/entities';
-import { Challenge, Action, UserActionChallengeScore } from '@/entities';
 import { Score } from './Score';
 
 export enum UserRole {
@@ -91,10 +90,7 @@ export class User extends BaseEntity {
   @OneToMany(
     () => UserActionChallengeScore,
     (userActionChallengeScore) => userActionChallengeScore.validatedFor
-    () => UserActionChallengeScore,
-    (userActionChallengeScore) => userActionChallengeScore.validatedFor
   )
-  belongsOwned?: UserActionChallengeScore[];
   belongsOwned?: UserActionChallengeScore[];
 
   @BeforeInsert()
