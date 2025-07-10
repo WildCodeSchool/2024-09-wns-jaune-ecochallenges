@@ -372,96 +372,15 @@ export const GET_USER_ACTION_CHALLENGE_BY_CHALLENGE_ID = gql`
     }
   }
 `;
-
-export const GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS = gql`
-  query actionByChallengeWithStatus($getChallengeId: ID!) {
-    getChallenge(id: $getChallengeId) {
-      startDate
-      owner {
-        id
-      }
-      members {
-        id
-        lastname
-        firstname
-        role
-      }
-      label
-      isPublic
-      id
-      endDate
-      description
-      createdAt
-      bannerUrl
-      actions {
-        id
-        name
-        description
-        requires_view
-        level
-        icon
-        time
-        createdAt
-        tags {
-          id
-          name
-          icon
-        }
-      }
-      userActionChallenges {
-        user {
-          id
-        }
-        status
-        challenge {
-          id
-        }
-        action {
-          id
-        }
-      }
-    }
-  }
-`;
-
-export const GET_ACTIONS_BY_CHALLENGE_ID = gql`
-  query GetActionsByChallengeId($challengeId: String!) {
-    getActionsByChallengeId(challengeId: $challengeId) {
-      id
-      name
-      description
-      requires_view
-      createdAt
-      icon
-      level
-      time
-      tags {
-        id
-        name
-        icon
-      }
-    }
-  }
-`;
-
-export const GET_USER_ACTION_CHALLENGE_BY_CHALLENGE_ID = gql`
-  query GetUserActionChallengeByChallenge(
-    $getUserActionChallengeByChallengeId: String!
-  ) {
-    getUserActionChallengeByChallenge(
-      id: $getUserActionChallengeByChallengeId
-    ) {
+export const UPDATE_USER_ACTION_CHALLENGE = gql`
+  mutation UpdateUserActionChallenge($data: UserActionChallengeInput!) {
+    updateUserActionChallenge(data: $data) {
       user {
         id
+        lastname
       }
-      action {
-        id
-      }
-      challenge {
-        id
-      }
+      updatedAt
       status
-      comment
     }
   }
 `;
