@@ -17,12 +17,7 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
   const userId = useUserStore((state) => state.user?.id || undefined);
 
   const navigate = useNavigate();
-  const {
-    data,
-    loading,
-    error,
-    refetch: refetchChallengeData,
-  } = useActionByChallengeWithStatusQuery({
+  const { data, loading, error } = useActionByChallengeWithStatusQuery({
     variables: { getChallengeId: challengeId },
   });
 
@@ -88,7 +83,6 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
             (data.getChallenge
               ?.userActionChallenges as Partial<UserActionChallenge>[]) || []
           }
-          refetchChallengeData={refetchChallengeData}
         />
       </div>
 

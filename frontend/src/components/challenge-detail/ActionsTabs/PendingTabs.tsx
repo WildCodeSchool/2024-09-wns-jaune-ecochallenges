@@ -19,14 +19,9 @@ import { StatusEnum } from '@/lib/enums/action.status.enum';
 type Props = {
   toCheck: Partial<UserActionChallenge>[];
   challengeId: string;
-  refetchChallengeData: () => void;
 };
 
-export const PendingTabs = ({
-  toCheck,
-  challengeId,
-  refetchChallengeData,
-}: Props) => {
+export const PendingTabs = ({ toCheck, challengeId }: Props) => {
   const [updateUserActionChallengeMutation] =
     useUpdateUserActionChallengeMutation({
       refetchQueries: [
@@ -37,7 +32,6 @@ export const PendingTabs = ({
       ],
       onCompleted: () => {
         toast.success('Review realisée avec succès');
-        refetchChallengeData();
       },
       onError: () => {
         toast.error("Erreur lors de la validation de l'action");
