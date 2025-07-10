@@ -64,40 +64,6 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
     (member) => member.id === userId
   );
 
-  const allMembers = data.getChallenge.members;
-  const allUserActionChallenges = data.getChallenge.userActionChallenges;
-  const totalMembers = allMembers.length;
-
-  const completedActionsByAll = data.getChallenge.actions.filter((action) => {
-    const completedCount = allUserActionChallenges.filter(
-      (uac) => uac.action.id === action.id && uac.status === 'completed'
-    ).length;
-
-    return completedCount === totalMembers;
-  });
-
-  const actionsToCheck = data.getChallenge.userActionChallenges
-    .filter((uac) => {
-      const isCompleted = uac.status === 'completed';
-      const isFromAnotherUser = uac.user.id !== userId;
-      const requiresReview = uac.action.requires_view === true;
-
-      const alreadyValidatedByCurrentUser =
-        data.getChallenge.userActionChallenges.some(
-          (otherUac) =>
-            otherUac.user.id === userId &&
-            otherUac.action.id === uac.action.id &&
-            otherUac.status === 'completed'
-        );
-
-      return (
-        isCompleted &&
-        isFromAnotherUser &&
-        requiresReview &&
-        !alreadyValidatedByCurrentUser
-      );
-    })
-    .map((uac) => uac.action);
   return (
     <div className="relative mx-auto max-w-6xl px-4 py-6">
       <ChallengeBanner
@@ -119,8 +85,6 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
             (data.getChallenge
               ?.userActionChallenges as Partial<UserActionChallenge>[]) || []
           }
-          completedActionsByAll={completedActionsByAll}
-          actionsToCheck={actionsToCheck}
         />
       </div>
 

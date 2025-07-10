@@ -4,6 +4,10 @@ import {
   Action,
   UserActionChallenge,
 } from '@/lib/graphql/generated/graphql-types';
+import { ChallengeFeed } from './ChallengeFeed';
+import { StatusEnum } from '@/lib/enums';
+import { PendingTabs } from './ActionsTabs/PendingTabs';
+import { Hourglass, Leaf, Newspaper } from 'lucide-react';
 
 type Props = {
   actions: Partial<Action>[];
@@ -46,20 +50,10 @@ export const ActionsTabs = ({
         </TabsContent>
 
         <TabsContent value="fil">
-          <ChallengeActionsList
-            isAuthorized={isAuthorized}
-            userId={userId}
-            actions={completedActionsByAll}
-            userActionChallenges={userActionChallenges}
-          />
+          <ChallengeFeed userActionChallenges={userActionChallenges} />
         </TabsContent>
         <TabsContent value="tocheck">
-          <ChallengeActionsList
-            isAuthorized={isAuthorized}
-            userId={userId}
-            actions={actions}
-            userActionChallenges={userActionChallenges}
-          />
+          <PendingTabs toCheck={toCheck} challengeId={challengeId} />
         </TabsContent>
       </div>
     </Tabs>
