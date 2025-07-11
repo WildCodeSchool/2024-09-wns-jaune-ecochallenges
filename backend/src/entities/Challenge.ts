@@ -13,6 +13,11 @@ import { Field, ID, ObjectType } from 'type-graphql';
 import { Action, User } from '@/entities';
 import { Score } from './Score';
 
+export enum Status {
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+}
+
 @Entity()
 @ObjectType()
 export class Challenge extends BaseEntity {
@@ -42,6 +47,12 @@ export class Challenge extends BaseEntity {
   @Field()
   @Column({ type: 'timestamp' })
   endDate!: Date;
+
+  @Field(() => Status)
+  get status(): Status {
+    const now = new Date();
+    return now < this.endDate ? Status.IN_PROGRESS : Status.COMPLETED;
+  }
 
   @Field()
   @Column({ type: 'boolean', default: true })

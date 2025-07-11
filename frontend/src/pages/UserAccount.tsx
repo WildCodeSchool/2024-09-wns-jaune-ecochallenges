@@ -13,6 +13,8 @@ import { useEffect, useState } from 'react';
 import { GET_USER_BY_ID, UPDATE_USER } from '@/lib/graphql/operations';
 import { Logout } from '@/components/forms/auth';
 import { toast } from 'sonner';
+import { Link } from 'react-router-dom';
+import { Challenge } from '@/lib/graphql/generated/graphql-types';
 
 export const UserAccount = () => {
   const { data, loading, error, refetch } = useQuery(GET_USER_BY_ID);
@@ -83,7 +85,14 @@ export const UserAccount = () => {
   const user = data?.getCurrentUser;
   if (!user) return <p>Aucun utilisateur trouvé</p>;
 
-  const challengesCount = data.getCurrentUser.participatedChallenges.length;
+  const participatedChallenges: Challenge[] = user.participatedChallenges || [];
+
+  const inProgressChallenges = participatedChallenges.filter(
+    (c: Challenge) => c.status === 'IN_PROGRESS'
+  );
+  const completedChallenges = participatedChallenges.filter(
+    (c: Challenge) => c.status === 'COMPLETED'
+  );
 
   return (
     <>
@@ -177,25 +186,53 @@ export const UserAccount = () => {
           <BarChart2 size={18} />
           Statistiques
         </h3>
-        <p>Nombre de challenges : {challengesCount}</p>
-        <p>Points accumulés : 320</p>
+        <p>Challenges en cours : {inProgressChallenges.length}</p>
+        <p>Challenges terminés : {completedChallenges.length}</p>
+      </Card>
+
+      <Card className="mt-4 p-3">
+        <h3 className="text-foreground mb-1 flex items-center gap-2 text-lg font-semibold">
+          <ClipboardList size={18} />
+          Challenges en cours
+        </h3>
+        {inProgressChallenges.length > 0 ? (
+          <ul className="text-foreground list-inside list-disc text-sm">
+            {inProgressChallenges.map((challenge: Challenge) => (
+              <li key={challenge.id}>
+                <Link
+                  to={`/challenge/${challenge.id}`}
+                  className="text-primary after:bg-primary relative inline-block after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 after:transition-all after:duration-300 hover:after:w-full"
+                >
+                  {challenge.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>Aucun challenge en cours.</p>
+        )}
       </Card>
 
       <Card className="mt-4 mb-4 p-3">
         <h3 className="text-foreground mb-1 flex items-center gap-2 text-lg font-semibold">
           <ClipboardList size={18} />
-          Challenges en cours
+          Challenges terminés
         </h3>
-        {data.getCurrentUser.participatedChallenges.length > 0 ? (
+        {completedChallenges.length > 0 ? (
           <ul className="text-foreground list-inside list-disc text-sm">
-            {data.getCurrentUser.participatedChallenges.map(
-              (challenge: any) => (
-                <li key={challenge.id}>{challenge.title}</li>
-              )
-            )}
+            {completedChallenges.map((challenge: Challenge) => (
+              <li key={challenge.id}>
+                <Link
+                  to={`/challenge/${challenge.id}`}
+                  className="text-primary after:bg-primary relative inline-block after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 after:transition-all after:duration-300 hover:after:w-full"
+                >
+                  {challenge.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         ) : (
-          <p>Aucun challenge en cours.</p>
+          <p>Aucun challenge terminé.</p>
         )}
       </Card>
 
