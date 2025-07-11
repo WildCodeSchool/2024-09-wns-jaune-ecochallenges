@@ -1,14 +1,8 @@
-import {
-  GetActionsQuery,
-  UserActionChallenge,
-  GetChallengeQuery,
-} from '@/lib/graphql/generated/graphql-types';
+import { Action } from '@/lib/graphql/generated/graphql-types';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
-export const getUniqueTagsFromActions = (
-  actions: GetActionsQuery['getActions']
-) => {
+export const getUniqueTagsFromActions = (actions: Partial<Action>[]) => {
   const tagsSet = new Set(actions.flatMap((action) => action.tags));
   return Array.from(tagsSet);
 };

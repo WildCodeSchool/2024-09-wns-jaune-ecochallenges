@@ -72,7 +72,7 @@ export type Challenge = {
   owner: User;
   score: Score;
   startDate: Scalars['DateTimeISO']['output'];
-  userActionChallengeScores: Array<UserActionChallengeScore>;
+  status: Scalars['String']['output'];
 };
 
 export type ChallengeInput = {
@@ -179,10 +179,6 @@ export type QueryGetChallengeArgs = {
   id: Scalars['ID']['input'];
 };
 
-export type QueryGetUserActionChallengeScoreByChallengeArgs = {
-  id: Scalars['String']['input'];
-};
-
 export type Score = {
   __typename?: 'Score';
   challenge: Challenge;
@@ -231,38 +227,6 @@ export type User = {
   participatedChallenges: Array<Challenge>;
   role: Scalars['String']['output'];
   score: Score;
-  validatedActions: Array<UserActionChallengeScore>;
-};
-
-export type UserActionChallengeScore = {
-  __typename?: 'UserActionChallengeScore';
-  action: Action;
-  challenge: Challenge;
-  comment: Scalars['String']['output'];
-  createdAt: Scalars['DateTimeISO']['output'];
-  isValidated: Scalars['Boolean']['output'];
-  points: Scalars['Float']['output'];
-  status: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
-  validatedBy?: Maybe<User>;
-  validatedFor: User;
-};
-
-export type UserActionChallengeScoreInput = {
-  actionId: Scalars['ID']['input'];
-  challengeId: Scalars['ID']['input'];
-  comment?: InputMaybe<Scalars['String']['input']>;
-  isValidated: Scalars['Boolean']['input'];
-  status: Scalars['String']['input'];
-  validatedFor: Scalars['ID']['input'];
-};
-
-export type UserActionChallengeScoreUpdateInput = {
-  actionId: Scalars['ID']['input'];
-  challengeId: Scalars['ID']['input'];
-  comment?: InputMaybe<Scalars['String']['input']>;
-  status: Scalars['String']['input'];
-  validatedFor: Scalars['ID']['input'];
 };
 
 export type GetUsersAsUserQueryVariables = Exact<{ [key: string]: never }>;
@@ -294,6 +258,7 @@ export type GetChallengesAsChallengeQuery = {
     bannerUrl?: string | null;
     startDate: any;
     endDate: any;
+    status: string;
     createdAt: any;
     isPublic: boolean;
     owner: { __typename?: 'User'; id: string };
@@ -327,12 +292,8 @@ export type GetChallengeQuery = {
     bannerUrl?: string | null;
     startDate: any;
     endDate: any;
-    owner: {
-      __typename?: 'User';
-      id: string;
-      lastname: string;
-      firstname: string;
-    };
+    status: string;
+    owner: { __typename?: 'User'; id: string };
     members: Array<{ __typename?: 'User'; id: string }>;
     actions: Array<{
       __typename?: 'Action';
@@ -525,6 +486,7 @@ export type GetCurrentUserQuery = {
       label: string;
       startDate: any;
       endDate: any;
+      status: string;
     }>;
   };
 };
@@ -847,6 +809,7 @@ export const GetChallengesAsChallengeDocument = gql`
       bannerUrl
       startDate
       endDate
+      status
       createdAt
       isPublic
       owner {
@@ -947,6 +910,7 @@ export const GetChallengeDocument = gql`
       bannerUrl
       startDate
       endDate
+      status
       owner {
         id
         lastname
@@ -1834,6 +1798,7 @@ export const GetCurrentUserDocument = gql`
         label
         startDate
         endDate
+        status
       }
     }
   }
