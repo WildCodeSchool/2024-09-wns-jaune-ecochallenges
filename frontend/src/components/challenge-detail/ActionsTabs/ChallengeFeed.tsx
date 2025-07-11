@@ -20,7 +20,7 @@ export const ChallengeFeed = ({ userActionChallengeScore }: Props) => {
             <strong>
               {uac.validatedFor?.firstname} {uac.validatedFor?.lastname}
             </strong>{' '}
-            a validé l’action <strong>{uac.action?.name}</strong> le{' '}
+            a complété et validé l’action <strong>{uac.action?.name}</strong> le{' '}
             {uac.createdAt &&
               format(new Date(uac.createdAt), 'PPP', { locale: fr })}
           </div>

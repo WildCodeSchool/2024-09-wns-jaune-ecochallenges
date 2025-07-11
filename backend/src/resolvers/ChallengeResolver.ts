@@ -60,6 +60,7 @@ export class ChallengeResolver {
       where: { id },
       relations: [
         'actions',
+        'actions.tags',
         'members',
         'owner',
         'userActionChallengeScores',

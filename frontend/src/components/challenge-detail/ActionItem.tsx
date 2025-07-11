@@ -42,10 +42,6 @@ export const ActionItem = ({
           <Pill>{action.tags?.[0]?.name || 'Sans tag'}</Pill>
 
           <div className="text-muted-foreground flex items-center gap-x-2 text-xs">
-            <span>
-              Complété par : {userActionChallengeScore?.validatedFor?.firstname}{' '}
-              {userActionChallengeScore?.validatedFor?.lastname}
-            </span>
             {userActionChallengeScore?.validatedBy && (
               <div className="origin-left scale-75">
                 <ActionCompletedBy

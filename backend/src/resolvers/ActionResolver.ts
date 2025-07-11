@@ -92,38 +92,6 @@ export class ActionResolver {
     return actions;
   }
 
-  /*   @Query(() => Action)
-  async getActionByIDInChallengeforUser(
-    @Arg('challengeId') challengeId: string,
-    @Arg('userId') userId: string,
-    @Arg('actionId') actionId: string
-  ) {
-    const action = await Action.findOneOrFail({
-      where: {
-        challenges: { id: challengeId, members: { id: userId } },
-        id: actionId,
-      },
-      relations: ['challenges', 'challenges.members'],
-    });
-    return action;
-  } */
-
-  /*   @Query(() => Action)
-  async getActionByIDInChallengeforUser(
-    @Arg('challengeId') challengeId: string,
-    @Arg('userId') userId: string,
-    @Arg('actionId') actionId: string
-  ) {
-    const action = await Action.findOneOrFail({
-      where: {
-        challenges: { id: challengeId, members: { id: userId } },
-        id: actionId,
-      },
-      relations: ['challenges', 'challenges.members'],
-    });
-    return action;
-  } */
-
   @Mutation(() => Action)
   async createAction(
     @Arg('data') data: ActionInput,
@@ -157,22 +125,6 @@ export class ActionResolver {
       throw new Error(`Echec lors de la suppression de cette action: ${error}`);
     }
   }
-
-  /*   @Query(() => Action)
-  async getActionByIDInChallengeforUser(
-    @Arg('challengeId') challengeId: string,
-    @Arg('userId') userId: string,
-    @Arg('actionId') actionId: string
-  ) {
-    const action = await Action.findOneOrFail({
-      where: {
-        challenges: { id: challengeId, members: { id: userId } },
-        id: actionId,
-      },
-      relations: ['challenges', 'challenges.members'],
-    });
-    return action;
-  } */
 
   @Mutation(() => Action)
   async updateAction(

@@ -61,33 +61,6 @@ export class UserActionChallengeScoreUpdateInput {
 @Resolver(UserActionChallengeScore)
 export class UserActionChallengeScoreResolver {
   /**
-   * Retrieves a single UserActionChallenge by user ID.
-   *
-   * This query attempts to find a UserActionChallenge where the `userId` matches the given `id`.
-   * It throws an error if no matching entry is found.
-   *
-   * Note: If you're intending to fetch by a composite key (userId + actionId + challengeId),
-   * you should update this query accordingly.
-   *
-   * @param {string} id - The ID of the user whose action challenge is to be fetched.
-   * @returns {Promise<UserActionChallengeScore>} The matching UserActionChallengeScore entity.
-   * @throws {GraphQLError} If no UserActionChallengeScore is found with the given ID.
-   */
-  @Query(() => UserActionChallengeScore)
-  async getUserActionChallengeScoreByUser(
-    @Arg('id') id: string
-  ): Promise<UserActionChallengeScore> {
-    const userActionChallengeScore =
-      await UserActionChallengeScore.findOneOrFail({
-        where: { validatedBy: { id } },
-      });
-    if (!userActionChallengeScore) {
-      throw new GraphQLError('User action challenge not found');
-    }
-    return userActionChallengeScore;
-  }
-
-  /**
    * Retrieves a single UserActionChallenge by challenge ID.
    *
    * This query attempts to find a UserActionChallenge where the `challengeId` matches the given `id`.
@@ -110,26 +83,6 @@ export class UserActionChallengeScoreResolver {
     });
     if (!userActionChallengeScore || userActionChallengeScore.length === 0) {
       throw new GraphQLError('User action challenge not found');
-    }
-    return userActionChallengeScore;
-  }
-
-  /**
-   * Retrieves all UserActionChallenge entries from the database.
-   *
-   * This query fetches all entries along with their related `user`, `action`, and `challenge` entities.
-   * Throws an error if no entries are found (though this case is rare, as `find()` returns an empty array).
-   *
-   * @returns {Promise<UserActionChallengeScore[]>} An array of all UserActionChallengeScore entities with their relations.
-   * @throws {GraphQLError} If the retrieval fails or no entries are found.
-   */
-  @Query(() => [UserActionChallengeScore])
-  async getUserActionChallengeScore(): Promise<UserActionChallengeScore[]> {
-    const userActionChallengeScore = await UserActionChallengeScore.find({
-      relations: ['action', 'challenge', 'validatedBy', 'validatedFor'],
-    });
-    if (!userActionChallengeScore) {
-      throw new GraphQLError('User action challenges not found');
     }
     return userActionChallengeScore;
   }
@@ -195,7 +148,7 @@ export class UserActionChallengeScoreResolver {
       userActionChallengeScore.status = data.status;
       userActionChallengeScore.comment = data.comment || '';
       userActionChallengeScore.points = action.points;
-      userActionChallengeScore.isValidated = false;
+      userActionChallengeScore.isValidated = true;
 
       if (action.requires_view) {
         userActionChallengeScore.validatedBy = undefined;

@@ -162,9 +162,7 @@ export type Query = {
   getChallenge: Challenge;
   getChallenges: Array<Challenge>;
   getCurrentUser: User;
-  getUserActionChallengeScore: Array<UserActionChallengeScore>;
   getUserActionChallengeScoreByChallenge: Array<UserActionChallengeScore>;
-  getUserActionChallengeScoreByUser: UserActionChallengeScore;
   getUserActions: Array<Action>;
   getUsersAsUser: Array<User>;
 };
@@ -182,10 +180,6 @@ export type QueryGetChallengeArgs = {
 };
 
 export type QueryGetUserActionChallengeScoreByChallengeArgs = {
-  id: Scalars['String']['input'];
-};
-
-export type QueryGetUserActionChallengeScoreByUserArgs = {
   id: Scalars['String']['input'];
 };
 
