@@ -1,5 +1,6 @@
 import {
   BaseEntity,
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -9,14 +10,19 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Field, ID, ObjectType } from 'type-graphql';
-import { Action, User } from '@/entities';
+import { Field, ID, ObjectType, registerEnumType } from 'type-graphql';
+import { Action, User, UserActionChallengeScore } from '@/entities';
 import { Score } from './Score';
 
-export enum Status {
+export enum ChallengeStatusEnum {
   IN_PROGRESS = 'IN_PROGRESS',
   COMPLETED = 'COMPLETED',
 }
+
+registerEnumType(ChallengeStatusEnum, {
+  name: 'ChallengeStatus',
+  description: 'The status of a challenge',
+});
 
 @Entity()
 @ObjectType()
@@ -36,7 +42,7 @@ export class Challenge extends BaseEntity {
   @Field({ nullable: true })
   @Column('varchar', {
     length: 255,
-    default: './banners/banner-1.jpg',
+    default: '/banners/banner-1.jpg',
   })
   bannerUrl?: string;
 
@@ -48,10 +54,19 @@ export class Challenge extends BaseEntity {
   @Column({ type: 'timestamp' })
   endDate!: Date;
 
-  @Field(() => Status)
-  get status(): Status {
-    const now = new Date();
-    return now < this.endDate ? Status.IN_PROGRESS : Status.COMPLETED;
+  @Field(() => ChallengeStatusEnum)
+  @Column({
+    type: 'enum',
+    enum: ChallengeStatusEnum,
+  })
+  status!: ChallengeStatusEnum;
+
+  @BeforeInsert()
+  setStatus() {
+    this.status =
+      new Date() < this.endDate
+        ? ChallengeStatusEnum.IN_PROGRESS
+        : ChallengeStatusEnum.COMPLETED;
   }
 
   @Field()
@@ -79,4 +94,11 @@ export class Challenge extends BaseEntity {
   @Field(() => Score)
   @OneToMany(() => Score, (score) => score.challenge)
   score?: Score;
+
+  @Field(() => [UserActionChallengeScore])
+  @OneToMany(
+    () => UserActionChallengeScore,
+    (userActionChallengeScore) => userActionChallengeScore.challenge
+  )
+  userActionChallengeScores?: UserActionChallengeScore[];
 }

@@ -152,6 +152,33 @@
       "role": "user",
       "description": "Je suis un utilisateur du site",
       "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=monsterid&r=x"
+    },
+    {
+      "firstname": "disko",
+      "lastname": "disko",
+      "email": "disko@disko.com",
+      "hashedPassword": "Timomo22!",
+      "role": "admin",
+      "description": "Thomas ",
+      "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=monsterid&r=x"
+    },
+    {
+      "firstname": "disko2",
+      "lastname": "disko2",
+      "email": "disko2@disko2.com",
+      "hashedPassword": "Timomo22!",
+      "role": "admin",
+      "description": "Thomas 2 ",
+      "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=monsterid&r=x"
+    },
+    {
+      "firstname": "disko3",
+      "lastname": "disko3",
+      "email": "disko3@disko3.com",
+      "hashedPassword": "Timomo22!",
+      "role": "admin",
+      "description": "Thomas3  ",
+      "avatarUrl": "https://gravatar.com/avatar/3cacfdcc81cbbce26ceed1711b0ba724?s=400&d=monsterid&r=x"
     }
   ]
 }

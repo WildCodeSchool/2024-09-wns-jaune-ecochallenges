@@ -57,6 +57,8 @@ export const GET_CHALLENGE = gql`
       status
       owner {
         id
+        lastname
+        firstname
       }
       members {
         id
@@ -247,6 +249,196 @@ export const UPDATE_USER = gql`
       lastname
       description
       avatarUrl
+    }
+  }
+`;
+
+export const MUTATION_VALIDATE_ACTION_SCORE = gql`
+  mutation CreateUserActionChallengeScore(
+    $data: UserActionChallengeScoreInput!
+  ) {
+    createUserActionChallengeScore(data: $data) {
+      isValidated
+      points
+      status
+      comment
+      validatedBy {
+        firstname
+        lastname
+        email
+      }
+      validatedFor {
+        firstname
+        lastname
+        email
+      }
+      action {
+        id
+      }
+      challenge {
+        id
+      }
+    }
+  }
+`;
+
+export const GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS = gql`
+  query actionByChallengeWithStatus($getChallengeId: ID!) {
+    getChallenge(id: $getChallengeId) {
+      startDate
+      owner {
+        id
+        lastname
+        firstname
+      }
+      members {
+        id
+        lastname
+        firstname
+        role
+      }
+      label
+      isPublic
+      id
+      endDate
+      description
+      createdAt
+      bannerUrl
+      actions {
+        id
+        name
+        description
+        requires_view
+        level
+        icon
+        time
+        createdAt
+        tags {
+          id
+          name
+          icon
+        }
+      }
+      userActionChallengeScores {
+        validatedBy {
+          id
+          firstname
+          lastname
+        }
+        validatedFor {
+          id
+          avatarUrl
+          firstname
+          lastname
+        }
+        status
+        comment
+        isValidated
+        points
+        challenge {
+          id
+        }
+        action {
+          id
+          name
+          description
+          requires_view
+          level
+          icon
+          time
+          createdAt
+          tags {
+            id
+            name
+            icon
+          }
+        }
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
+export const GET_ACTIONS_BY_CHALLENGE_ID = gql`
+  query GetActionsByChallengeId($challengeId: String!) {
+    getActionsByChallengeId(challengeId: $challengeId) {
+      id
+      name
+      description
+      requires_view
+      createdAt
+      icon
+      level
+      time
+      tags {
+        id
+        name
+        icon
+      }
+      userActionChallengeScores {
+        points
+        isValidated
+        status
+        comment
+        action {
+          id
+          level
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const GET_USER_ACTION_CHALLENGE_BY_CHALLENGE_ID = gql`
+  query getUserActionChallengeScoreByChallenge(
+    $getUserActionChallengeByChallengeId: String!
+  ) {
+    getUserActionChallengeScoreByChallenge(
+      id: $getUserActionChallengeByChallengeId
+    ) {
+      validatedBy {
+        id
+        firstname
+        lastname
+      }
+      validatedFor {
+        id
+        firstname
+        lastname
+      }
+      status
+      comment
+      isValidated
+      points
+      action {
+        id
+      }
+      challenge {
+        id
+      }
+    }
+  }
+`;
+export const UPDATE_USER_ACTION_CHALLENGE = gql`
+  mutation UpdateUserActionChallengeScore(
+    $data: UserActionChallengeScoreUpdateInput!
+  ) {
+    updateUserActionChallengeScore(data: $data) {
+      validatedBy {
+        id
+        firstname
+        lastname
+      }
+      validatedFor {
+        id
+        firstname
+        lastname
+      }
+      updatedAt
+      status
+      comment
     }
   }
 `;

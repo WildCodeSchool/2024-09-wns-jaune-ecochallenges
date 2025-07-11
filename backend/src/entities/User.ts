@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import argon2 from 'argon2';
-import { Challenge, Action } from '@/entities';
+import { Challenge, Action, UserActionChallengeScore } from '@/entities';
 import { Score } from './Score';
 
 export enum UserRole {
@@ -76,6 +76,22 @@ export class User extends BaseEntity {
   @Field({ nullable: true })
   @Column({ nullable: true, length: 255 })
   avatarUrl?: string;
+
+  // validatedActions is the actions validated by the user himself or admin or owner of challenge
+  @Field(() => [UserActionChallengeScore])
+  @OneToMany(
+    () => UserActionChallengeScore,
+    (userActionChallengeScore) => userActionChallengeScore.validatedBy
+  )
+  validatedActions?: UserActionChallengeScore[];
+
+  // belongsOwned is the actions that belongs to the user that is validated by the user himself or admin or owner of challenge
+  @Field(() => [UserActionChallengeScore])
+  @OneToMany(
+    () => UserActionChallengeScore,
+    (userActionChallengeScore) => userActionChallengeScore.validatedFor
+  )
+  belongsOwned?: UserActionChallengeScore[];
 
   @BeforeInsert()
   async hashPassword() {

@@ -2,14 +2,16 @@ import {
   BaseEntity,
   BeforeInsert,
   Column,
+  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
-import { Tag, Challenge, User } from '@/entities';
+import { Challenge, Tag, User, UserActionChallengeScore } from '@/entities';
 
 const levelType = {
   levelOne: 1,
@@ -23,7 +25,7 @@ const iconType = ['leaf', 'recycling', 'drop'];
 @ObjectType()
 export class Action extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Field((_type) => ID)
+  @Field(() => ID)
   id!: string;
 
   @Field()
@@ -55,29 +57,31 @@ export class Action extends BaseEntity {
   points!: number;
 
   @Field()
-  @Column({ nullable: false })
+  @CreateDateColumn()
   createdAt!: Date;
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.createdActions)
   createdBy!: User;
 
+  @Field(() => [Challenge])
+  @ManyToMany(() => Challenge, (challenge) => challenge.actions)
+  challenges?: Challenge[];
+
   @Field(() => [Tag], { nullable: true })
-  @ManyToMany(() => Tag, (tag) => tag.actions)
+  @ManyToMany(() => Tag, (tag) => tag.actions, { eager: true })
   @JoinTable()
   tags?: Tag[];
-
-  @BeforeInsert()
-  updateDates() {
-    this.createdAt = new Date();
-  }
 
   @BeforeInsert()
   insertPoints() {
     this.points = this.level * 4 + this.time * 2;
   }
 
-  @Field(() => [Challenge])
-  @ManyToMany(() => Challenge, (challenge) => challenge.actions)
-  challenges?: Challenge[];
+  @Field(() => [UserActionChallengeScore])
+  @OneToMany(
+    () => UserActionChallengeScore,
+    (userActionChallengeScore) => userActionChallengeScore.action
+  )
+  userActionChallengeScores?: UserActionChallengeScore[];
 }

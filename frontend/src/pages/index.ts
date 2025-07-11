@@ -4,6 +4,7 @@ export * from './ActionEdition';
 export * from './ChallengeList';
 export * from './ChallengeCreation';
 export * from './ChallengeEdition';
+export * from './ChallengeDetailPage';
 export * from './Home';
 export * from './UserPortal';
 export * from './NotFoundRedirect';

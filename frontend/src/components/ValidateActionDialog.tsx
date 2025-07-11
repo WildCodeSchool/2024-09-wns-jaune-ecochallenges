@@ -1,0 +1,113 @@
+import { Button } from './ui/button';
+import { Dialog, DialogTrigger } from './ui/dialog';
+import { Circle } from 'lucide-react';
+import {
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogClose,
+} from './ui/dialog';
+import {
+  Action,
+  useCreateUserActionChallengeScoreMutation,
+} from '@/lib/graphql/generated/graphql-types';
+import { toast } from 'sonner';
+import { useParams } from 'react-router-dom';
+import { GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS } from '@/lib/graphql/operations';
+import { StatusEnum } from '@/lib/enums';
+
+type ValidateActionDialogProps = {
+  isChecked: boolean;
+  action: Partial<Action>;
+  userIdChallenge: string;
+};
+
+export const ValidateActionDialog = ({
+  action,
+  userIdChallenge,
+}: Partial<ValidateActionDialogProps>) => {
+  const { challengeId } = useParams();
+  const [createUserActionChallengeMutation] =
+    useCreateUserActionChallengeScoreMutation({
+      refetchQueries: [
+        {
+          query: GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS,
+          variables: { getChallengeId: challengeId },
+        },
+      ],
+      onCompleted: () => {
+        toast.success('Eco-geste validé !');
+      },
+      onError: () => {
+        toast.error("Erreur lors de la validation de l'action");
+      },
+    });
+
+  const validateAction = async (action: Partial<Action>) => {
+    if (!userIdChallenge) {
+      toast.error('Utilisateur non authentifié');
+      return;
+    }
+    const currentAction = {
+      actionId: action.id || '',
+      challengeId: challengeId!,
+      status: action.requires_view ? StatusEnum.PENDING : StatusEnum.COMPLETED,
+      isValidated: true,
+      validatedFor: userIdChallenge,
+    };
+
+    const { data } = await createUserActionChallengeMutation({
+      variables: { data: currentAction },
+    });
+
+    if (!data?.createUserActionChallengeScore) {
+      throw new Error('Failed to validate action');
+    }
+  };
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <div className="flex flex-col items-center">
+          🌱 Action réalisée ?
+          <Button
+            variant="ghost"
+            className="flex flex-row items-center gap-2 hover:bg-transparent"
+            aria-label="Valider l'eco-geste"
+          >
+            Je coche !
+            <Circle className="h-8 w-8" />
+          </Button>
+        </div>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Valider un eco-geste</DialogTitle>
+        </DialogHeader>
+        <DialogDescription>
+          En validant cette action, vous confirmez avoir réalisé cet éco-geste.
+          Cette validation est définitive et ne pourra pas être modifiée. Nous
+          vous remercions de votre honnêteté dans la validation de vos actions.
+        </DialogDescription>
+        <DialogFooter className="mt-4">
+          <DialogClose asChild>
+            <Button type="button" variant="outline" aria-label="Annuler">
+              Annuler
+            </Button>
+          </DialogClose>
+          <DialogClose asChild>
+            <Button
+              onClick={() => validateAction(action as Partial<Action>)}
+              type="button"
+              aria-label="Valider l'eco-geste"
+            >
+              Valider l'eco-geste
+            </Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
