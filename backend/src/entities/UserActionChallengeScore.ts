@@ -13,7 +13,7 @@ import { User } from './User';
 import { Action } from './Action';
 import { Challenge } from './Challenge';
 
-export enum StatusEnum {
+export enum UACStatusEnum {
   COMPLETED = 'completed',
   PENDING = 'pending',
   NOT_STARTED = 'not_started',
@@ -47,8 +47,8 @@ export class UserActionChallengeScore extends BaseEntity {
   points!: number;
 
   @Field()
-  @Column({ nullable: false, default: StatusEnum.NOT_STARTED })
-  status!: StatusEnum;
+  @Column({ nullable: false, default: UACStatusEnum.NOT_STARTED })
+  status!: UACStatusEnum;
 
   @Field()
   @Column({ nullable: true })

@@ -10,7 +10,7 @@ import {
 import {
   Action,
   Challenge,
-  StatusEnum,
+  UACStatusEnum,
   User,
   UserActionChallengeScore,
   UserRole,
@@ -22,7 +22,7 @@ import { QueryFailedError } from 'typeorm';
 @InputType()
 export class UserActionChallengeScoreInput {
   @Field()
-  status!: StatusEnum;
+  status!: UACStatusEnum;
 
   @Field(() => String, { nullable: true })
   comment!: string;
@@ -43,7 +43,7 @@ export class UserActionChallengeScoreInput {
 @InputType()
 export class UserActionChallengeScoreUpdateInput {
   @Field()
-  status!: StatusEnum;
+  status!: UACStatusEnum;
 
   @Field(() => String, { nullable: true })
   comment!: string;

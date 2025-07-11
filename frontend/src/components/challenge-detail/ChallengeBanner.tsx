@@ -35,7 +35,12 @@ export const ChallengeBanner = ({
 
   return (
     <Card className="relative w-full overflow-hidden rounded-xl p-0 shadow-lg">
-      <CardHeader className="relative flex h-48 w-full flex-col justify-between bg-[url(https://picsum.photos/1200/300)] bg-cover bg-center p-4 md:h-64 lg:h-72">
+      <CardHeader className="relative flex h-48 w-full flex-col justify-between bg-cover bg-center p-4 md:h-64 lg:h-72">
+        <img
+          src={challenge.bannerUrl || ''}
+          className="absolute inset-0 z-0 h-full w-full object-cover"
+          alt={challenge.label}
+        />
         <div className="bg-foreground/30 absolute inset-0 z-0 rounded-t-xl" />
 
         <CardTitle className="text-background relative z-10 text-xl font-bold">

@@ -72,7 +72,8 @@ export type Challenge = {
   owner: User;
   score: Score;
   startDate: Scalars['DateTimeISO']['output'];
-  status: Scalars['String']['output'];
+  status: ChallengeStatus;
+  userActionChallengeScores: Array<UserActionChallengeScore>;
 };
 
 export type ChallengeInput = {
@@ -85,6 +86,12 @@ export type ChallengeInput = {
   members: Array<Scalars['ID']['input']>;
   startDate: Scalars['DateTimeISO']['input'];
 };
+
+/** The status of a challenge */
+export enum ChallengeStatus {
+  Completed = 'COMPLETED',
+  InProgress = 'IN_PROGRESS',
+}
 
 export type LoginUserInput = {
   email: Scalars['String']['input'];
@@ -179,6 +186,10 @@ export type QueryGetChallengeArgs = {
   id: Scalars['ID']['input'];
 };
 
+export type QueryGetUserActionChallengeScoreByChallengeArgs = {
+  id: Scalars['String']['input'];
+};
+
 export type Score = {
   __typename?: 'Score';
   challenge: Challenge;
@@ -227,6 +238,38 @@ export type User = {
   participatedChallenges: Array<Challenge>;
   role: Scalars['String']['output'];
   score: Score;
+  validatedActions: Array<UserActionChallengeScore>;
+};
+
+export type UserActionChallengeScore = {
+  __typename?: 'UserActionChallengeScore';
+  action: Action;
+  challenge: Challenge;
+  comment: Scalars['String']['output'];
+  createdAt: Scalars['DateTimeISO']['output'];
+  isValidated: Scalars['Boolean']['output'];
+  points: Scalars['Float']['output'];
+  status: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  validatedBy?: Maybe<User>;
+  validatedFor: User;
+};
+
+export type UserActionChallengeScoreInput = {
+  actionId: Scalars['ID']['input'];
+  challengeId: Scalars['ID']['input'];
+  comment?: InputMaybe<Scalars['String']['input']>;
+  isValidated: Scalars['Boolean']['input'];
+  status: Scalars['String']['input'];
+  validatedFor: Scalars['ID']['input'];
+};
+
+export type UserActionChallengeScoreUpdateInput = {
+  actionId: Scalars['ID']['input'];
+  challengeId: Scalars['ID']['input'];
+  comment?: InputMaybe<Scalars['String']['input']>;
+  status: Scalars['String']['input'];
+  validatedFor: Scalars['ID']['input'];
 };
 
 export type GetUsersAsUserQueryVariables = Exact<{ [key: string]: never }>;
@@ -258,7 +301,7 @@ export type GetChallengesAsChallengeQuery = {
     bannerUrl?: string | null;
     startDate: any;
     endDate: any;
-    status: string;
+    status: ChallengeStatus;
     createdAt: any;
     isPublic: boolean;
     owner: { __typename?: 'User'; id: string };
@@ -292,8 +335,13 @@ export type GetChallengeQuery = {
     bannerUrl?: string | null;
     startDate: any;
     endDate: any;
-    status: string;
-    owner: { __typename?: 'User'; id: string };
+    status: ChallengeStatus;
+    owner: {
+      __typename?: 'User';
+      id: string;
+      lastname: string;
+      firstname: string;
+    };
     members: Array<{ __typename?: 'User'; id: string }>;
     actions: Array<{
       __typename?: 'Action';
@@ -486,7 +534,7 @@ export type GetCurrentUserQuery = {
       label: string;
       startDate: any;
       endDate: any;
-      status: string;
+      status: ChallengeStatus;
     }>;
   };
 };
