@@ -10,7 +10,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, ID, ObjectType } from 'type-graphql';
-import { Action, User, UserActionChallenge } from '@/entities';
+import { Action, User, UserActionChallengeScore } from '@/entities';
 import { Score } from './Score';
 
 @Entity()
@@ -66,10 +66,10 @@ export class Challenge extends BaseEntity {
   @OneToMany(() => Score, (score) => score.challenge)
   score?: Score;
 
-  @Field(() => [UserActionChallenge])
+  @Field(() => [UserActionChallengeScore])
   @OneToMany(
-    () => UserActionChallenge,
-    (userActionChallenge) => userActionChallenge.challenge
+    () => UserActionChallengeScore,
+    (userActionChallengeScore) => userActionChallengeScore.challenge
   )
-  userActionChallenges?: UserActionChallenge[];
+  userActionChallengeScores?: UserActionChallengeScore[];
 }

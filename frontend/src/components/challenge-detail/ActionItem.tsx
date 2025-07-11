@@ -8,7 +8,7 @@ import {
 import { ValidateActionDialog } from '../ValidateActionDialog';
 import {
   Action,
-  UserActionChallenge,
+  UserActionChallengeScore,
 } from '@/lib/graphql/generated/graphql-types';
 import { StatusEnum } from '@/lib/enums';
 
@@ -16,17 +16,15 @@ type Props = {
   userId?: string;
   isAuthorized: boolean | undefined;
   action: Partial<Action>;
-  status: StatusEnum | undefined;
-  completedBy: Partial<UserActionChallenge>[];
+  userActionChallengeScore: UserActionChallengeScore;
 };
 export const ActionItem = ({
   action,
   userId,
   isAuthorized,
-  status,
-  completedBy,
+  userActionChallengeScore,
 }: Props) => {
-  const isChecked = status === StatusEnum.COMPLETED;
+  const isChecked = userActionChallengeScore?.status === StatusEnum.COMPLETED;
 
   return (
     <li className="flex items-center justify-between gap-2 rounded-xl p-4 shadow-sm">
@@ -44,28 +42,38 @@ export const ActionItem = ({
           <Pill>{action.tags?.[0]?.name || 'Sans tag'}</Pill>
 
           <div className="text-muted-foreground flex items-center gap-x-2 text-xs">
-            <span>Complété par :</span>
-            <div className="origin-left scale-75">
-              <ActionCompletedBy completedBy={completedBy} maxLength={2} />
-            </div>
-            <span>{completedBy.length} personne(s)</span>
+            {userActionChallengeScore?.validatedBy && (
+              <div className="origin-left scale-75">
+                <ActionCompletedBy
+                  completedBy={userActionChallengeScore.validatedBy}
+                  maxLength={2}
+                />
+              </div>
+            )}
+            <span>
+              {userActionChallengeScore?.status === StatusEnum.PENDING
+                ? 'En attente de validation'
+                : userActionChallengeScore?.status === StatusEnum.COMPLETED
+                  ? `Validé par ${userActionChallengeScore.validatedBy?.firstname} ${userActionChallengeScore.validatedBy?.lastname}`
+                  : 'Validation en cours'}
+            </span>
           </div>
         </div>
       </div>
 
       {userId && isAuthorized && (
         <div className="flex flex-col items-center gap-2">
-          {status === StatusEnum.COMPLETED ? (
+          {userActionChallengeScore?.status === StatusEnum.COMPLETED ? (
             <Checkbox
               className="mx-2 mr-4 h-8 w-8 rounded-full border-3"
               checked={isChecked}
             />
-          ) : status === StatusEnum.PENDING ? (
-            <div>En attente de Validation</div>
+          ) : userActionChallengeScore?.status === StatusEnum.PENDING ? (
+            <div>En attente de validation</div>
           ) : (
             <ValidateActionDialog
               isChecked={isChecked}
-              action={action as Partial<Action>}
+              action={action as Action}
               userIdChallenge={userId}
             />
           )}

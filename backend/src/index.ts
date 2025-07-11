@@ -9,7 +9,7 @@ import {
   ChallengeResolver,
   TagResolver,
   UserResolver,
-  UserActionChallengeResolver,
+  UserActionChallengeScoreResolver,
 } from '@/resolvers';
 import { authChecker } from './auth/authChecker';
 import * as jwt from 'jsonwebtoken';
@@ -27,7 +27,7 @@ async function start() {
       ChallengeResolver,
       ActionResolver,
       TagResolver,
-      UserActionChallengeResolver,
+      UserActionChallengeScoreResolver,
     ],
     authChecker: authChecker,
   });

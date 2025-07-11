@@ -1,17 +1,17 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ChallengeActionsList } from './ChallengeActionsList';
+import { ChallengeActionsList } from '../ChallengeActionsList';
 import {
   Action,
-  UserActionChallenge,
+  UserActionChallengeScore,
 } from '@/lib/graphql/generated/graphql-types';
 import { ChallengeFeed } from './ChallengeFeed';
 import { StatusEnum } from '@/lib/enums';
-import { PendingTabs } from './ActionsTabs/PendingTabs';
+import { PendingTabs } from './PendingTabs';
 import { Hourglass, Leaf, Newspaper } from 'lucide-react';
 
 type Props = {
   actions: Partial<Action>[];
-  userActionChallenges: Partial<UserActionChallenge>[];
+  userActionChallengeScore: UserActionChallengeScore[];
   isAuthorized: boolean | undefined;
   userId: string | undefined;
   challengeId: string;
@@ -19,12 +19,12 @@ type Props = {
 
 export const ActionsTabs = ({
   actions,
-  userActionChallenges,
+  userActionChallengeScore,
   isAuthorized,
   userId,
   challengeId,
 }: Props) => {
-  const toCheck = userActionChallenges.filter(
+  const toCheck = userActionChallengeScore.filter(
     (userActionChallenge) => userActionChallenge.status === StatusEnum.PENDING
   );
 
@@ -57,12 +57,12 @@ export const ActionsTabs = ({
             isAuthorized={isAuthorized}
             userId={userId}
             actions={actions}
-            userActionChallenges={userActionChallenges}
+            userActionChallengeScore={userActionChallengeScore}
           />
         </TabsContent>
 
         <TabsContent value="fil">
-          <ChallengeFeed userActionChallenges={userActionChallenges} />
+          <ChallengeFeed userActionChallengeScore={userActionChallengeScore} />
         </TabsContent>
         <TabsContent value="tocheck">
           <PendingTabs toCheck={toCheck} challengeId={challengeId} />

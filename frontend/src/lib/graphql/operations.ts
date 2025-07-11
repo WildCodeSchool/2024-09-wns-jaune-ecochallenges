@@ -55,6 +55,8 @@ export const GET_CHALLENGE = gql`
       endDate
       owner {
         id
+        lastname
+        firstname
       }
       members {
         id
@@ -248,16 +250,29 @@ export const UPDATE_USER = gql`
   }
 `;
 
-export const MUTATION_VALIDATE_ACTION = gql`
-  mutation CreateUserActionChallenge($data: UserActionChallengeInput!) {
-    createUserActionChallenge(data: $data) {
-      user {
+export const MUTATION_VALIDATE_ACTION_SCORE = gql`
+  mutation CreateUserActionChallengeScore(
+    $data: UserActionChallengeScoreInput!
+  ) {
+    createUserActionChallengeScore(data: $data) {
+      isValidated
+      points
+      status
+      comment
+      validatedBy {
         firstname
+        lastname
+        email
       }
-      challenge {
-        id
+      validatedFor {
+        firstname
+        lastname
+        email
       }
       action {
+        id
+      }
+      challenge {
         id
       }
     }
@@ -270,6 +285,8 @@ export const GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS = gql`
       startDate
       owner {
         id
+        lastname
+        firstname
       }
       members {
         id
@@ -299,13 +316,22 @@ export const GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS = gql`
           icon
         }
       }
-      userActionChallenges {
-        user {
+      userActionChallengeScores {
+        validatedBy {
+          id
+          firstname
+          lastname
+        }
+        validatedFor {
           id
           avatarUrl
           firstname
+          lastname
         }
         status
+        comment
+        isValidated
+        points
         challenge {
           id
         }
@@ -347,40 +373,69 @@ export const GET_ACTIONS_BY_CHALLENGE_ID = gql`
         name
         icon
       }
+      userActionChallengeScores {
+        points
+        isValidated
+        status
+        comment
+        action {
+          id
+          level
+          name
+        }
+      }
     }
   }
 `;
 
 export const GET_USER_ACTION_CHALLENGE_BY_CHALLENGE_ID = gql`
-  query GetUserActionChallengeByChallenge(
+  query getUserActionChallengeScoreByChallenge(
     $getUserActionChallengeByChallengeId: String!
   ) {
-    getUserActionChallengeByChallenge(
+    getUserActionChallengeScoreByChallenge(
       id: $getUserActionChallengeByChallengeId
     ) {
-      user {
+      validatedBy {
         id
+        firstname
+        lastname
       }
+      validatedFor {
+        id
+        firstname
+        lastname
+      }
+      status
+      comment
+      isValidated
+      points
       action {
         id
       }
       challenge {
         id
       }
-      status
-      comment
     }
   }
 `;
 export const UPDATE_USER_ACTION_CHALLENGE = gql`
-  mutation UpdateUserActionChallenge($data: UserActionChallengeInput!) {
-    updateUserActionChallenge(data: $data) {
-      user {
+  mutation UpdateUserActionChallengeScore(
+    $data: UserActionChallengeScoreUpdateInput!
+  ) {
+    updateUserActionChallengeScore(data: $data) {
+      validatedBy {
         id
+        firstname
+        lastname
+      }
+      validatedFor {
+        id
+        firstname
         lastname
       }
       updatedAt
       status
+      comment
     }
   }
 `;

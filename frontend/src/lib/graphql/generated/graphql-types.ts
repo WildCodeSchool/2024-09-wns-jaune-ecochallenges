@@ -45,7 +45,7 @@ export type Action = {
   requires_view: Scalars['Boolean']['output'];
   tags?: Maybe<Array<Tag>>;
   time: Scalars['Float']['output'];
-  userActionChallenges: Array<UserActionChallenge>;
+  userActionChallengeScores: Array<UserActionChallengeScore>;
 };
 
 export type ActionInput = {
@@ -72,7 +72,7 @@ export type Challenge = {
   owner: User;
   score: Score;
   startDate: Scalars['DateTimeISO']['output'];
-  userActionChallenges: Array<UserActionChallenge>;
+  userActionChallengeScores: Array<UserActionChallengeScore>;
 };
 
 export type ChallengeInput = {
@@ -95,7 +95,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createAction: Action;
   createChallenge: Challenge;
-  createUserActionChallenge: UserActionChallenge;
+  createUserActionChallengeScore: UserActionChallengeScore;
   deleteAction: Scalars['Boolean']['output'];
   deleteChallenge: Scalars['Boolean']['output'];
   logIn: Scalars['String']['output'];
@@ -104,7 +104,7 @@ export type Mutation = {
   updateAction: Action;
   updateChallenge: Challenge;
   updateUser: User;
-  updateUserActionChallenge: UserActionChallenge;
+  updateUserActionChallengeScore: UserActionChallengeScore;
 };
 
 export type MutationCreateActionArgs = {
@@ -115,8 +115,8 @@ export type MutationCreateChallengeArgs = {
   data: ChallengeInput;
 };
 
-export type MutationCreateUserActionChallengeArgs = {
-  data: UserActionChallengeInput;
+export type MutationCreateUserActionChallengeScoreArgs = {
+  data: UserActionChallengeScoreInput;
 };
 
 export type MutationDeleteActionArgs = {
@@ -149,8 +149,8 @@ export type MutationUpdateUserArgs = {
   user: UpdateUserInput;
 };
 
-export type MutationUpdateUserActionChallengeArgs = {
-  data: UserActionChallengeInput;
+export type MutationUpdateUserActionChallengeScoreArgs = {
+  data: UserActionChallengeScoreUpdateInput;
 };
 
 export type Query = {
@@ -162,9 +162,7 @@ export type Query = {
   getChallenge: Challenge;
   getChallenges: Array<Challenge>;
   getCurrentUser: User;
-  getUserActionChallengeByChallenge: Array<UserActionChallenge>;
-  getUserActionChallengeByUser: UserActionChallenge;
-  getUserActionChallenges: Array<UserActionChallenge>;
+  getUserActionChallengeScoreByChallenge: Array<UserActionChallengeScore>;
   getUserActions: Array<Action>;
   getUsersAsUser: Array<User>;
 };
@@ -181,11 +179,7 @@ export type QueryGetChallengeArgs = {
   id: Scalars['ID']['input'];
 };
 
-export type QueryGetUserActionChallengeByChallengeArgs = {
-  id: Scalars['String']['input'];
-};
-
-export type QueryGetUserActionChallengeByUserArgs = {
+export type QueryGetUserActionChallengeScoreByChallengeArgs = {
   id: Scalars['String']['input'];
 };
 
@@ -224,6 +218,7 @@ export type UpdateUserInput = {
 export type User = {
   __typename?: 'User';
   avatarUrl?: Maybe<Scalars['String']['output']>;
+  belongsOwned: Array<UserActionChallengeScore>;
   createdActions: Array<Action>;
   createdAt: Scalars['DateTimeISO']['output'];
   createdChallenges: Array<Challenge>;
@@ -236,25 +231,38 @@ export type User = {
   participatedChallenges: Array<Challenge>;
   role: Scalars['String']['output'];
   score: Score;
-  userActionChallenges: Array<UserActionChallenge>;
+  validatedActions: Array<UserActionChallengeScore>;
 };
 
-export type UserActionChallenge = {
-  __typename?: 'UserActionChallenge';
+export type UserActionChallengeScore = {
+  __typename?: 'UserActionChallengeScore';
   action: Action;
   challenge: Challenge;
   comment: Scalars['String']['output'];
   createdAt: Scalars['DateTimeISO']['output'];
+  isValidated: Scalars['Boolean']['output'];
+  points: Scalars['Float']['output'];
   status: Scalars['String']['output'];
-  updatedAt: Scalars['DateTimeISO']['output'];
-  user: User;
+  updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
+  validatedBy?: Maybe<User>;
+  validatedFor: User;
 };
 
-export type UserActionChallengeInput = {
+export type UserActionChallengeScoreInput = {
+  actionId: Scalars['ID']['input'];
+  challengeId: Scalars['ID']['input'];
+  comment?: InputMaybe<Scalars['String']['input']>;
+  isValidated: Scalars['Boolean']['input'];
+  status: Scalars['String']['input'];
+  validatedFor: Scalars['ID']['input'];
+};
+
+export type UserActionChallengeScoreUpdateInput = {
   actionId: Scalars['ID']['input'];
   challengeId: Scalars['ID']['input'];
   comment?: InputMaybe<Scalars['String']['input']>;
   status: Scalars['String']['input'];
+  validatedFor: Scalars['ID']['input'];
 };
 
 export type GetUsersAsUserQueryVariables = Exact<{ [key: string]: never }>;
@@ -319,7 +327,12 @@ export type GetChallengeQuery = {
     bannerUrl?: string | null;
     startDate: any;
     endDate: any;
-    owner: { __typename?: 'User'; id: string };
+    owner: {
+      __typename?: 'User';
+      id: string;
+      lastname: string;
+      firstname: string;
+    };
     members: Array<{ __typename?: 'User'; id: string }>;
     actions: Array<{
       __typename?: 'Action';
@@ -532,17 +545,32 @@ export type UpdateUserMutation = {
   };
 };
 
-export type CreateUserActionChallengeMutationVariables = Exact<{
-  data: UserActionChallengeInput;
+export type CreateUserActionChallengeScoreMutationVariables = Exact<{
+  data: UserActionChallengeScoreInput;
 }>;
 
-export type CreateUserActionChallengeMutation = {
+export type CreateUserActionChallengeScoreMutation = {
   __typename?: 'Mutation';
-  createUserActionChallenge: {
-    __typename?: 'UserActionChallenge';
-    user: { __typename?: 'User'; firstname: string };
-    challenge: { __typename?: 'Challenge'; id: string };
+  createUserActionChallengeScore: {
+    __typename?: 'UserActionChallengeScore';
+    isValidated: boolean;
+    points: number;
+    status: string;
+    comment: string;
+    validatedBy?: {
+      __typename?: 'User';
+      firstname: string;
+      lastname: string;
+      email: string;
+    } | null;
+    validatedFor: {
+      __typename?: 'User';
+      firstname: string;
+      lastname: string;
+      email: string;
+    };
     action: { __typename?: 'Action'; id: string };
+    challenge: { __typename?: 'Challenge'; id: string };
   };
 };
 
@@ -562,7 +590,12 @@ export type ActionByChallengeWithStatusQuery = {
     description?: string | null;
     createdAt: any;
     bannerUrl?: string | null;
-    owner: { __typename?: 'User'; id: string };
+    owner: {
+      __typename?: 'User';
+      id: string;
+      lastname: string;
+      firstname: string;
+    };
     members: Array<{
       __typename?: 'User';
       id: string;
@@ -587,16 +620,26 @@ export type ActionByChallengeWithStatusQuery = {
         icon: string;
       }> | null;
     }>;
-    userActionChallenges: Array<{
-      __typename?: 'UserActionChallenge';
+    userActionChallengeScores: Array<{
+      __typename?: 'UserActionChallengeScore';
       status: string;
+      comment: string;
+      isValidated: boolean;
+      points: number;
       createdAt: any;
-      updatedAt: any;
-      user: {
+      updatedAt?: any | null;
+      validatedBy?: {
+        __typename?: 'User';
+        id: string;
+        firstname: string;
+        lastname: string;
+      } | null;
+      validatedFor: {
         __typename?: 'User';
         id: string;
         avatarUrl?: string | null;
         firstname: string;
+        lastname: string;
       };
       challenge: { __typename?: 'Challenge'; id: string };
       action: {
@@ -642,36 +685,74 @@ export type GetActionsByChallengeIdQuery = {
       name: string;
       icon: string;
     }> | null;
+    userActionChallengeScores: Array<{
+      __typename?: 'UserActionChallengeScore';
+      points: number;
+      isValidated: boolean;
+      status: string;
+      comment: string;
+      action: {
+        __typename?: 'Action';
+        id: string;
+        level: number;
+        name: string;
+      };
+    }>;
   }>;
 };
 
-export type GetUserActionChallengeByChallengeQueryVariables = Exact<{
+export type GetUserActionChallengeScoreByChallengeQueryVariables = Exact<{
   getUserActionChallengeByChallengeId: Scalars['String']['input'];
 }>;
 
-export type GetUserActionChallengeByChallengeQuery = {
+export type GetUserActionChallengeScoreByChallengeQuery = {
   __typename?: 'Query';
-  getUserActionChallengeByChallenge: Array<{
-    __typename?: 'UserActionChallenge';
+  getUserActionChallengeScoreByChallenge: Array<{
+    __typename?: 'UserActionChallengeScore';
     status: string;
     comment: string;
-    user: { __typename?: 'User'; id: string };
+    isValidated: boolean;
+    points: number;
+    validatedBy?: {
+      __typename?: 'User';
+      id: string;
+      firstname: string;
+      lastname: string;
+    } | null;
+    validatedFor: {
+      __typename?: 'User';
+      id: string;
+      firstname: string;
+      lastname: string;
+    };
     action: { __typename?: 'Action'; id: string };
     challenge: { __typename?: 'Challenge'; id: string };
   }>;
 };
 
-export type UpdateUserActionChallengeMutationVariables = Exact<{
-  data: UserActionChallengeInput;
+export type UpdateUserActionChallengeScoreMutationVariables = Exact<{
+  data: UserActionChallengeScoreUpdateInput;
 }>;
 
-export type UpdateUserActionChallengeMutation = {
+export type UpdateUserActionChallengeScoreMutation = {
   __typename?: 'Mutation';
-  updateUserActionChallenge: {
-    __typename?: 'UserActionChallenge';
-    updatedAt: any;
+  updateUserActionChallengeScore: {
+    __typename?: 'UserActionChallengeScore';
+    updatedAt?: any | null;
     status: string;
-    user: { __typename?: 'User'; id: string; lastname: string };
+    comment: string;
+    validatedBy?: {
+      __typename?: 'User';
+      id: string;
+      firstname: string;
+      lastname: string;
+    } | null;
+    validatedFor: {
+      __typename?: 'User';
+      id: string;
+      firstname: string;
+      lastname: string;
+    };
   };
 };
 
@@ -868,6 +949,8 @@ export const GetChallengeDocument = gql`
       endDate
       owner {
         id
+        lastname
+        firstname
       }
       members {
         id
@@ -1879,64 +1962,77 @@ export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
   UpdateUserMutation,
   UpdateUserMutationVariables
 >;
-export const CreateUserActionChallengeDocument = gql`
-  mutation CreateUserActionChallenge($data: UserActionChallengeInput!) {
-    createUserActionChallenge(data: $data) {
-      user {
+export const CreateUserActionChallengeScoreDocument = gql`
+  mutation CreateUserActionChallengeScore(
+    $data: UserActionChallengeScoreInput!
+  ) {
+    createUserActionChallengeScore(data: $data) {
+      isValidated
+      points
+      status
+      comment
+      validatedBy {
         firstname
+        lastname
+        email
       }
-      challenge {
-        id
+      validatedFor {
+        firstname
+        lastname
+        email
       }
       action {
+        id
+      }
+      challenge {
         id
       }
     }
   }
 `;
-export type CreateUserActionChallengeMutationFn = Apollo.MutationFunction<
-  CreateUserActionChallengeMutation,
-  CreateUserActionChallengeMutationVariables
+export type CreateUserActionChallengeScoreMutationFn = Apollo.MutationFunction<
+  CreateUserActionChallengeScoreMutation,
+  CreateUserActionChallengeScoreMutationVariables
 >;
 
 /**
- * __useCreateUserActionChallengeMutation__
+ * __useCreateUserActionChallengeScoreMutation__
  *
- * To run a mutation, you first call `useCreateUserActionChallengeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateUserActionChallengeMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateUserActionChallengeScoreMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserActionChallengeScoreMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createUserActionChallengeMutation, { data, loading, error }] = useCreateUserActionChallengeMutation({
+ * const [createUserActionChallengeScoreMutation, { data, loading, error }] = useCreateUserActionChallengeScoreMutation({
  *   variables: {
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useCreateUserActionChallengeMutation(
+export function useCreateUserActionChallengeScoreMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    CreateUserActionChallengeMutation,
-    CreateUserActionChallengeMutationVariables
+    CreateUserActionChallengeScoreMutation,
+    CreateUserActionChallengeScoreMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    CreateUserActionChallengeMutation,
-    CreateUserActionChallengeMutationVariables
-  >(CreateUserActionChallengeDocument, options);
+    CreateUserActionChallengeScoreMutation,
+    CreateUserActionChallengeScoreMutationVariables
+  >(CreateUserActionChallengeScoreDocument, options);
 }
-export type CreateUserActionChallengeMutationHookResult = ReturnType<
-  typeof useCreateUserActionChallengeMutation
+export type CreateUserActionChallengeScoreMutationHookResult = ReturnType<
+  typeof useCreateUserActionChallengeScoreMutation
 >;
-export type CreateUserActionChallengeMutationResult =
-  Apollo.MutationResult<CreateUserActionChallengeMutation>;
-export type CreateUserActionChallengeMutationOptions =
+export type CreateUserActionChallengeScoreMutationResult =
+  Apollo.MutationResult<CreateUserActionChallengeScoreMutation>;
+export type CreateUserActionChallengeScoreMutationOptions =
   Apollo.BaseMutationOptions<
-    CreateUserActionChallengeMutation,
-    CreateUserActionChallengeMutationVariables
+    CreateUserActionChallengeScoreMutation,
+    CreateUserActionChallengeScoreMutationVariables
   >;
 export const ActionByChallengeWithStatusDocument = gql`
   query actionByChallengeWithStatus($getChallengeId: ID!) {
@@ -1944,6 +2040,8 @@ export const ActionByChallengeWithStatusDocument = gql`
       startDate
       owner {
         id
+        lastname
+        firstname
       }
       members {
         id
@@ -1973,13 +2071,22 @@ export const ActionByChallengeWithStatusDocument = gql`
           icon
         }
       }
-      userActionChallenges {
-        user {
+      userActionChallengeScores {
+        validatedBy {
+          id
+          firstname
+          lastname
+        }
+        validatedFor {
           id
           avatarUrl
           firstname
+          lastname
         }
         status
+        comment
+        isValidated
+        points
         challenge {
           id
         }
@@ -2095,6 +2202,17 @@ export const GetActionsByChallengeIdDocument = gql`
         name
         icon
       }
+      userActionChallengeScores {
+        points
+        isValidated
+        status
+        comment
+        action {
+          id
+          level
+          name
+        }
+      }
     }
   }
 `;
@@ -2173,52 +2291,61 @@ export type GetActionsByChallengeIdQueryResult = Apollo.QueryResult<
   GetActionsByChallengeIdQuery,
   GetActionsByChallengeIdQueryVariables
 >;
-export const GetUserActionChallengeByChallengeDocument = gql`
-  query GetUserActionChallengeByChallenge(
+export const GetUserActionChallengeScoreByChallengeDocument = gql`
+  query getUserActionChallengeScoreByChallenge(
     $getUserActionChallengeByChallengeId: String!
   ) {
-    getUserActionChallengeByChallenge(
+    getUserActionChallengeScoreByChallenge(
       id: $getUserActionChallengeByChallengeId
     ) {
-      user {
+      validatedBy {
         id
+        firstname
+        lastname
       }
+      validatedFor {
+        id
+        firstname
+        lastname
+      }
+      status
+      comment
+      isValidated
+      points
       action {
         id
       }
       challenge {
         id
       }
-      status
-      comment
     }
   }
 `;
 
 /**
- * __useGetUserActionChallengeByChallengeQuery__
+ * __useGetUserActionChallengeScoreByChallengeQuery__
  *
- * To run a query within a React component, call `useGetUserActionChallengeByChallengeQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserActionChallengeByChallengeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetUserActionChallengeScoreByChallengeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserActionChallengeScoreByChallengeQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetUserActionChallengeByChallengeQuery({
+ * const { data, loading, error } = useGetUserActionChallengeScoreByChallengeQuery({
  *   variables: {
  *      getUserActionChallengeByChallengeId: // value for 'getUserActionChallengeByChallengeId'
  *   },
  * });
  */
-export function useGetUserActionChallengeByChallengeQuery(
+export function useGetUserActionChallengeScoreByChallengeQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetUserActionChallengeByChallengeQuery,
-    GetUserActionChallengeByChallengeQueryVariables
+    GetUserActionChallengeScoreByChallengeQuery,
+    GetUserActionChallengeScoreByChallengeQueryVariables
   > &
     (
       | {
-          variables: GetUserActionChallengeByChallengeQueryVariables;
+          variables: GetUserActionChallengeScoreByChallengeQueryVariables;
           skip?: boolean;
         }
       | { skip: boolean }
@@ -2226,28 +2353,28 @@ export function useGetUserActionChallengeByChallengeQuery(
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<
-    GetUserActionChallengeByChallengeQuery,
-    GetUserActionChallengeByChallengeQueryVariables
-  >(GetUserActionChallengeByChallengeDocument, options);
+    GetUserActionChallengeScoreByChallengeQuery,
+    GetUserActionChallengeScoreByChallengeQueryVariables
+  >(GetUserActionChallengeScoreByChallengeDocument, options);
 }
-export function useGetUserActionChallengeByChallengeLazyQuery(
+export function useGetUserActionChallengeScoreByChallengeLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetUserActionChallengeByChallengeQuery,
-    GetUserActionChallengeByChallengeQueryVariables
+    GetUserActionChallengeScoreByChallengeQuery,
+    GetUserActionChallengeScoreByChallengeQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetUserActionChallengeByChallengeQuery,
-    GetUserActionChallengeByChallengeQueryVariables
-  >(GetUserActionChallengeByChallengeDocument, options);
+    GetUserActionChallengeScoreByChallengeQuery,
+    GetUserActionChallengeScoreByChallengeQueryVariables
+  >(GetUserActionChallengeScoreByChallengeDocument, options);
 }
-export function useGetUserActionChallengeByChallengeSuspenseQuery(
+export function useGetUserActionChallengeScoreByChallengeSuspenseQuery(
   baseOptions?:
     | Apollo.SkipToken
     | Apollo.SuspenseQueryHookOptions<
-        GetUserActionChallengeByChallengeQuery,
-        GetUserActionChallengeByChallengeQueryVariables
+        GetUserActionChallengeScoreByChallengeQuery,
+        GetUserActionChallengeScoreByChallengeQueryVariables
       >
 ) {
   const options =
@@ -2255,75 +2382,84 @@ export function useGetUserActionChallengeByChallengeSuspenseQuery(
       ? baseOptions
       : { ...defaultOptions, ...baseOptions };
   return Apollo.useSuspenseQuery<
-    GetUserActionChallengeByChallengeQuery,
-    GetUserActionChallengeByChallengeQueryVariables
-  >(GetUserActionChallengeByChallengeDocument, options);
+    GetUserActionChallengeScoreByChallengeQuery,
+    GetUserActionChallengeScoreByChallengeQueryVariables
+  >(GetUserActionChallengeScoreByChallengeDocument, options);
 }
-export type GetUserActionChallengeByChallengeQueryHookResult = ReturnType<
-  typeof useGetUserActionChallengeByChallengeQuery
+export type GetUserActionChallengeScoreByChallengeQueryHookResult = ReturnType<
+  typeof useGetUserActionChallengeScoreByChallengeQuery
 >;
-export type GetUserActionChallengeByChallengeLazyQueryHookResult = ReturnType<
-  typeof useGetUserActionChallengeByChallengeLazyQuery
->;
-export type GetUserActionChallengeByChallengeSuspenseQueryHookResult =
-  ReturnType<typeof useGetUserActionChallengeByChallengeSuspenseQuery>;
-export type GetUserActionChallengeByChallengeQueryResult = Apollo.QueryResult<
-  GetUserActionChallengeByChallengeQuery,
-  GetUserActionChallengeByChallengeQueryVariables
->;
-export const UpdateUserActionChallengeDocument = gql`
-  mutation UpdateUserActionChallenge($data: UserActionChallengeInput!) {
-    updateUserActionChallenge(data: $data) {
-      user {
+export type GetUserActionChallengeScoreByChallengeLazyQueryHookResult =
+  ReturnType<typeof useGetUserActionChallengeScoreByChallengeLazyQuery>;
+export type GetUserActionChallengeScoreByChallengeSuspenseQueryHookResult =
+  ReturnType<typeof useGetUserActionChallengeScoreByChallengeSuspenseQuery>;
+export type GetUserActionChallengeScoreByChallengeQueryResult =
+  Apollo.QueryResult<
+    GetUserActionChallengeScoreByChallengeQuery,
+    GetUserActionChallengeScoreByChallengeQueryVariables
+  >;
+export const UpdateUserActionChallengeScoreDocument = gql`
+  mutation UpdateUserActionChallengeScore(
+    $data: UserActionChallengeScoreUpdateInput!
+  ) {
+    updateUserActionChallengeScore(data: $data) {
+      validatedBy {
         id
+        firstname
+        lastname
+      }
+      validatedFor {
+        id
+        firstname
         lastname
       }
       updatedAt
       status
+      comment
     }
   }
 `;
-export type UpdateUserActionChallengeMutationFn = Apollo.MutationFunction<
-  UpdateUserActionChallengeMutation,
-  UpdateUserActionChallengeMutationVariables
+export type UpdateUserActionChallengeScoreMutationFn = Apollo.MutationFunction<
+  UpdateUserActionChallengeScoreMutation,
+  UpdateUserActionChallengeScoreMutationVariables
 >;
 
 /**
- * __useUpdateUserActionChallengeMutation__
+ * __useUpdateUserActionChallengeScoreMutation__
  *
- * To run a mutation, you first call `useUpdateUserActionChallengeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateUserActionChallengeMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateUserActionChallengeScoreMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserActionChallengeScoreMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateUserActionChallengeMutation, { data, loading, error }] = useUpdateUserActionChallengeMutation({
+ * const [updateUserActionChallengeScoreMutation, { data, loading, error }] = useUpdateUserActionChallengeScoreMutation({
  *   variables: {
  *      data: // value for 'data'
  *   },
  * });
  */
-export function useUpdateUserActionChallengeMutation(
+export function useUpdateUserActionChallengeScoreMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    UpdateUserActionChallengeMutation,
-    UpdateUserActionChallengeMutationVariables
+    UpdateUserActionChallengeScoreMutation,
+    UpdateUserActionChallengeScoreMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<
-    UpdateUserActionChallengeMutation,
-    UpdateUserActionChallengeMutationVariables
-  >(UpdateUserActionChallengeDocument, options);
+    UpdateUserActionChallengeScoreMutation,
+    UpdateUserActionChallengeScoreMutationVariables
+  >(UpdateUserActionChallengeScoreDocument, options);
 }
-export type UpdateUserActionChallengeMutationHookResult = ReturnType<
-  typeof useUpdateUserActionChallengeMutation
+export type UpdateUserActionChallengeScoreMutationHookResult = ReturnType<
+  typeof useUpdateUserActionChallengeScoreMutation
 >;
-export type UpdateUserActionChallengeMutationResult =
-  Apollo.MutationResult<UpdateUserActionChallengeMutation>;
-export type UpdateUserActionChallengeMutationOptions =
+export type UpdateUserActionChallengeScoreMutationResult =
+  Apollo.MutationResult<UpdateUserActionChallengeScoreMutation>;
+export type UpdateUserActionChallengeScoreMutationOptions =
   Apollo.BaseMutationOptions<
-    UpdateUserActionChallengeMutation,
-    UpdateUserActionChallengeMutationVariables
+    UpdateUserActionChallengeScoreMutation,
+    UpdateUserActionChallengeScoreMutationVariables
   >;

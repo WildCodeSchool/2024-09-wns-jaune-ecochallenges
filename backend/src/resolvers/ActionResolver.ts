@@ -74,40 +74,23 @@ export class ActionResolver {
       where: { id: challengeId },
       relations: ['actions', 'actions.tags'],
     });
-    return challenge.actions || [];
+
+    const actionIds = challenge.actions?.map((action) => action.id) || [];
+
+    const actions = await Action.find({
+      where: { id: In(actionIds) },
+      relations: [
+        'tags',
+        'userActionChallengeScores',
+        'userActionChallengeScores.validatedBy',
+        'userActionChallengeScores.validatedFor',
+        'userActionChallengeScores.action',
+        'userActionChallengeScores.challenge',
+      ],
+    });
+
+    return actions;
   }
-
-  /*   @Query(() => Action)
-  async getActionByIDInChallengeforUser(
-    @Arg('challengeId') challengeId: string,
-    @Arg('userId') userId: string,
-    @Arg('actionId') actionId: string
-  ) {
-    const action = await Action.findOneOrFail({
-      where: {
-        challenges: { id: challengeId, members: { id: userId } },
-        id: actionId,
-      },
-      relations: ['challenges', 'challenges.members'],
-    });
-    return action;
-  } */
-
-  /*   @Query(() => Action)
-  async getActionByIDInChallengeforUser(
-    @Arg('challengeId') challengeId: string,
-    @Arg('userId') userId: string,
-    @Arg('actionId') actionId: string
-  ) {
-    const action = await Action.findOneOrFail({
-      where: {
-        challenges: { id: challengeId, members: { id: userId } },
-        id: actionId,
-      },
-      relations: ['challenges', 'challenges.members'],
-    });
-    return action;
-  } */
 
   @Mutation(() => Action)
   async createAction(
