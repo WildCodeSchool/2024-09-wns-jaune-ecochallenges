@@ -51,7 +51,7 @@ export const router = createBrowserRouter([
         element: <ChallengeEdition />,
       },
       {
-        path: '/challengeDetail/:challengeId',
+        path: '/challenge-detail/:challengeId',
         element: <ChallengeDetailPage />,
       },
       {

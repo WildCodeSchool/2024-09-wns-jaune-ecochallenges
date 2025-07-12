@@ -12,7 +12,9 @@ import { Hourglass, Leaf, Newspaper } from 'lucide-react';
 type Props = {
   actions: Partial<Action>[];
   userActionChallengeScore: UserActionChallengeScore[];
-  isAuthorized: boolean | undefined;
+  isChallengeMember: boolean | undefined;
+  isChallengeOwner: boolean | undefined;
+  isAdmin: boolean | undefined;
   userId: string | undefined;
   challengeId: string;
 };
@@ -20,7 +22,9 @@ type Props = {
 export const ActionsTabs = ({
   actions,
   userActionChallengeScore,
-  isAuthorized,
+  isChallengeMember,
+  isChallengeOwner,
+  isAdmin,
   userId,
   challengeId,
 }: Props) => {
@@ -32,13 +36,13 @@ export const ActionsTabs = ({
     <Tabs defaultValue="gestes" className="w-full md:max-w-4xl lg:max-w-5xl">
       <TabsList className="grid w-full grid-cols-3 gap-2">
         <TabsTrigger className="bg-sidebar" value="gestes">
-          {userId ? (
+          {isChallengeOwner || isAdmin || !userId ? (
             <>
-              <Leaf className="h-4 w-4" /> Mes gestes
+              <Leaf className="h-4 w-4" /> Les eco gestes
             </>
           ) : (
             <>
-              <Leaf className="h-4 w-4" /> Les eco gestes
+              <Leaf className="h-4 w-4" /> Mes gestes
             </>
           )}
         </TabsTrigger>
@@ -54,7 +58,7 @@ export const ActionsTabs = ({
       <div className="mt-2">
         <TabsContent value="gestes">
           <ChallengeActionsList
-            isAuthorized={isAuthorized}
+            isChallengeMember={isChallengeMember}
             userId={userId}
             actions={actions}
             userActionChallengeScore={userActionChallengeScore}
@@ -65,7 +69,12 @@ export const ActionsTabs = ({
           <ChallengeFeed userActionChallengeScore={userActionChallengeScore} />
         </TabsContent>
         <TabsContent value="tocheck">
-          <PendingTabs toCheck={toCheck} challengeId={challengeId} />
+          <PendingTabs
+            toCheck={toCheck}
+            challengeId={challengeId}
+            isChallengeOwner={isChallengeOwner}
+            isAdmin={isAdmin}
+          />
         </TabsContent>
       </div>
     </Tabs>

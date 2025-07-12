@@ -12,7 +12,9 @@ export const ChallengeFeed = ({ userActionChallengeScore }: Props) => {
     (uac) => uac.status === StatusEnum.COMPLETED
   );
 
-  return (
+  return userActionChallengeScore.length === 0 ? (
+    <p>Aucune action validée</p>
+  ) : (
     <ul className="space-y-4">
       {validatedActions.map((uac, index) => (
         <li key={index} className="rounded-md border p-4 shadow-sm">
@@ -20,7 +22,7 @@ export const ChallengeFeed = ({ userActionChallengeScore }: Props) => {
             <strong>
               {uac.validatedFor?.firstname} {uac.validatedFor?.lastname}
             </strong>{' '}
-            a complété et validé l’action <strong>{uac.action?.name}</strong> le{' '}
+            a complété et validé l'action <strong>{uac.action?.name}</strong> le{' '}
             {uac.createdAt &&
               format(new Date(uac.createdAt), 'PPP', { locale: fr })}
           </div>

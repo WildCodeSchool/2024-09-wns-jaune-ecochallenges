@@ -1,6 +1,6 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Pill } from '@/components';
-import { Eye } from 'lucide-react';
+import { Eye, Hourglass } from 'lucide-react';
 import {
   CustomInfoDialog,
   ActionCompletedBy,
@@ -14,14 +14,14 @@ import { StatusEnum } from '@/lib/enums';
 
 type Props = {
   userId?: string;
-  isAuthorized: boolean | undefined;
+  isChallengeMember: boolean | undefined;
   action: Partial<Action>;
   userActionChallengeScore: UserActionChallengeScore;
 };
 export const ActionItem = ({
   action,
   userId,
-  isAuthorized,
+  isChallengeMember,
   userActionChallengeScore,
 }: Props) => {
   const isChecked = userActionChallengeScore?.status === StatusEnum.COMPLETED;
@@ -61,7 +61,7 @@ export const ActionItem = ({
         </div>
       </div>
 
-      {userId && isAuthorized && (
+      {userId && isChallengeMember && (
         <div className="flex flex-col items-center gap-2">
           {userActionChallengeScore?.status === StatusEnum.COMPLETED ? (
             <Checkbox
@@ -69,7 +69,7 @@ export const ActionItem = ({
               checked={isChecked}
             />
           ) : userActionChallengeScore?.status === StatusEnum.PENDING ? (
-            <div>En attente de validation</div>
+            <Hourglass className="text-muted-foreground mx-2 mr-4 size-5 h-8 w-8" />
           ) : (
             <ValidateActionDialog
               isChecked={isChecked}

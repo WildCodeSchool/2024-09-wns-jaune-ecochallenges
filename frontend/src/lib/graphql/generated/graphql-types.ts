@@ -170,6 +170,7 @@ export type Query = {
   getChallenges: Array<Challenge>;
   getCurrentUser: User;
   getUserActionChallengeScoreByChallenge: Array<UserActionChallengeScore>;
+  getUserActionChallengeScoreByChallengeIdAndByUserId: Array<UserActionChallengeScore>;
   getUserActions: Array<Action>;
   getUsersAsUser: Array<User>;
 };
@@ -188,6 +189,10 @@ export type QueryGetChallengeArgs = {
 
 export type QueryGetUserActionChallengeScoreByChallengeArgs = {
   id: Scalars['String']['input'];
+};
+
+export type QueryGetUserActionChallengeScoreByChallengeIdAndByUserIdArgs = {
+  data: UserActionChallengeScoreByUserInput;
 };
 
 export type Score = {
@@ -253,6 +258,11 @@ export type UserActionChallengeScore = {
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   validatedBy?: Maybe<User>;
   validatedFor: User;
+};
+
+export type UserActionChallengeScoreByUserInput = {
+  challengeId: Scalars['ID']['input'];
+  validatedFor: Scalars['ID']['input'];
 };
 
 export type UserActionChallengeScoreInput = {
@@ -593,6 +603,7 @@ export type ActionByChallengeWithStatusQuery = {
   getChallenge: {
     __typename?: 'Challenge';
     startDate: any;
+    status: ChallengeStatus;
     label: string;
     isPublic: boolean;
     id: string;
@@ -737,6 +748,37 @@ export type GetUserActionChallengeScoreByChallengeQuery = {
     };
     action: { __typename?: 'Action'; id: string };
     challenge: { __typename?: 'Challenge'; id: string };
+  }>;
+};
+
+export type GetUserActionChallengeScoreByChallengeIdAndByUserIdQueryVariables =
+  Exact<{
+    data: UserActionChallengeScoreByUserInput;
+  }>;
+
+export type GetUserActionChallengeScoreByChallengeIdAndByUserIdQuery = {
+  __typename?: 'Query';
+  getUserActionChallengeScoreByChallengeIdAndByUserId: Array<{
+    __typename?: 'UserActionChallengeScore';
+    isValidated: boolean;
+    points: number;
+    status: string;
+    comment: string;
+    createdAt: any;
+    updatedAt?: any | null;
+    validatedBy?: {
+      __typename?: 'User';
+      id: string;
+      lastname: string;
+      firstname: string;
+    } | null;
+    validatedFor: {
+      __typename?: 'User';
+      id: string;
+      firstname: string;
+      lastname: string;
+    };
+    action: { __typename?: 'Action'; id: string; name: string };
   }>;
 };
 
@@ -2051,6 +2093,7 @@ export const ActionByChallengeWithStatusDocument = gql`
   query actionByChallengeWithStatus($getChallengeId: ID!) {
     getChallenge(id: $getChallengeId) {
       startDate
+      status
       owner {
         id
         lastname
@@ -2410,6 +2453,116 @@ export type GetUserActionChallengeScoreByChallengeQueryResult =
   Apollo.QueryResult<
     GetUserActionChallengeScoreByChallengeQuery,
     GetUserActionChallengeScoreByChallengeQueryVariables
+  >;
+export const GetUserActionChallengeScoreByChallengeIdAndByUserIdDocument = gql`
+  query GetUserActionChallengeScoreByChallengeIdAndByUserId(
+    $data: UserActionChallengeScoreByUserInput!
+  ) {
+    getUserActionChallengeScoreByChallengeIdAndByUserId(data: $data) {
+      isValidated
+      points
+      status
+      comment
+      createdAt
+      updatedAt
+      validatedBy {
+        id
+        lastname
+        firstname
+      }
+      validatedFor {
+        id
+        firstname
+        lastname
+      }
+      action {
+        id
+        name
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetUserActionChallengeScoreByChallengeIdAndByUserIdQuery__
+ *
+ * To run a query within a React component, call `useGetUserActionChallengeScoreByChallengeIdAndByUserIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserActionChallengeScoreByChallengeIdAndByUserIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserActionChallengeScoreByChallengeIdAndByUserIdQuery({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useGetUserActionChallengeScoreByChallengeIdAndByUserIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetUserActionChallengeScoreByChallengeIdAndByUserIdQuery,
+    GetUserActionChallengeScoreByChallengeIdAndByUserIdQueryVariables
+  > &
+    (
+      | {
+          variables: GetUserActionChallengeScoreByChallengeIdAndByUserIdQueryVariables;
+          skip?: boolean;
+        }
+      | { skip: boolean }
+    )
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetUserActionChallengeScoreByChallengeIdAndByUserIdQuery,
+    GetUserActionChallengeScoreByChallengeIdAndByUserIdQueryVariables
+  >(GetUserActionChallengeScoreByChallengeIdAndByUserIdDocument, options);
+}
+export function useGetUserActionChallengeScoreByChallengeIdAndByUserIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetUserActionChallengeScoreByChallengeIdAndByUserIdQuery,
+    GetUserActionChallengeScoreByChallengeIdAndByUserIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetUserActionChallengeScoreByChallengeIdAndByUserIdQuery,
+    GetUserActionChallengeScoreByChallengeIdAndByUserIdQueryVariables
+  >(GetUserActionChallengeScoreByChallengeIdAndByUserIdDocument, options);
+}
+export function useGetUserActionChallengeScoreByChallengeIdAndByUserIdSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetUserActionChallengeScoreByChallengeIdAndByUserIdQuery,
+        GetUserActionChallengeScoreByChallengeIdAndByUserIdQueryVariables
+      >
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetUserActionChallengeScoreByChallengeIdAndByUserIdQuery,
+    GetUserActionChallengeScoreByChallengeIdAndByUserIdQueryVariables
+  >(GetUserActionChallengeScoreByChallengeIdAndByUserIdDocument, options);
+}
+export type GetUserActionChallengeScoreByChallengeIdAndByUserIdQueryHookResult =
+  ReturnType<
+    typeof useGetUserActionChallengeScoreByChallengeIdAndByUserIdQuery
+  >;
+export type GetUserActionChallengeScoreByChallengeIdAndByUserIdLazyQueryHookResult =
+  ReturnType<
+    typeof useGetUserActionChallengeScoreByChallengeIdAndByUserIdLazyQuery
+  >;
+export type GetUserActionChallengeScoreByChallengeIdAndByUserIdSuspenseQueryHookResult =
+  ReturnType<
+    typeof useGetUserActionChallengeScoreByChallengeIdAndByUserIdSuspenseQuery
+  >;
+export type GetUserActionChallengeScoreByChallengeIdAndByUserIdQueryResult =
+  Apollo.QueryResult<
+    GetUserActionChallengeScoreByChallengeIdAndByUserIdQuery,
+    GetUserActionChallengeScoreByChallengeIdAndByUserIdQueryVariables
   >;
 export const UpdateUserActionChallengeScoreDocument = gql`
   mutation UpdateUserActionChallengeScore(
