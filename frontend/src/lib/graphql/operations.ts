@@ -286,6 +286,7 @@ export const GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS = gql`
   query actionByChallengeWithStatus($getChallengeId: ID!) {
     getChallenge(id: $getChallengeId) {
       startDate
+      status
       owner {
         id
         lastname
@@ -421,6 +422,7 @@ export const GET_USER_ACTION_CHALLENGE_BY_CHALLENGE_ID = gql`
     }
   }
 `;
+
 export const UPDATE_USER_ACTION_CHALLENGE = gql`
   mutation UpdateUserActionChallengeScore(
     $data: UserActionChallengeScoreUpdateInput!

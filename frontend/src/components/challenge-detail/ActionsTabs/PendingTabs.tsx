@@ -1,5 +1,18 @@
-import { Button, DialogFooter, DialogHeader } from '@/components/ui';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Button,
+  DialogFooter,
+  DialogHeader,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import {
   UserActionChallengeScore,
   useUpdateUserActionChallengeScoreMutation,
@@ -11,27 +24,37 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { ScanEye, X } from 'lucide-react';
-import { GET_USER_ACTION_CHALLENGE_BY_CHALLENGE_ID } from '@/lib/graphql/operations';
+import { Check, ScanEye, X } from 'lucide-react';
+import { GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS } from '@/lib/graphql/operations';
 import { toast } from 'sonner';
 import { StatusEnum } from '@/lib/enums/action.status.enum';
 import { useUserStore } from '@/lib/zustand/userStore';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 type Props = {
   toCheck: Partial<UserActionChallengeScore>[];
   challengeId: string;
+  isChallengeOwner: boolean | undefined;
+  isAdmin: boolean | undefined;
 };
 
-export const PendingTabs = ({ toCheck, challengeId }: Props) => {
+export const PendingTabs = ({
+  toCheck,
+  challengeId,
+  isChallengeOwner,
+  isAdmin,
+}: Props) => {
   const user = useUserStore((state) => state.user);
   const [updateUserActionChallengeScoreMutation] =
     useUpdateUserActionChallengeScoreMutation({
       refetchQueries: [
         {
-          query: GET_USER_ACTION_CHALLENGE_BY_CHALLENGE_ID,
+          query: GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS,
           variables: { getChallengeId: challengeId },
         },
       ],
+
       onCompleted: () => {
         toast.success('Review realisée avec succès');
       },
@@ -64,22 +87,27 @@ export const PendingTabs = ({ toCheck, challengeId }: Props) => {
         data: currentAction,
       },
     });
+
     if (!data?.updateUserActionChallengeScore) {
       throw new Error('Failed to validate action');
     }
   };
   return (
     <div>
-      <h1 className="mb-4 text-xl">
-        Aidez vos collègues à valider leurs actions !
-      </h1>
+      <h1 className="mb-4 text-xl">Actions à valider :</h1>
       {toCheck
         .filter((action) => action.status === StatusEnum.PENDING)
         .map((action) => (
           <div key={action.action?.id} className="flex flex-col gap-4">
-            <Card>
+            <Card className="mb-4">
               <CardHeader>
-                <CardTitle>{action.validatedFor?.firstname}</CardTitle>
+                <CardTitle>
+                  🌿 Action de {action.validatedFor?.firstname} :
+                </CardTitle>
+                <CardDescription>
+                  Completée en date du{' '}
+                  {format(new Date(action.createdAt), 'PPP', { locale: fr })}
+                </CardDescription>
               </CardHeader>
               <CardContent className="flex items-center justify-between">
                 <p>
@@ -88,9 +116,25 @@ export const PendingTabs = ({ toCheck, challengeId }: Props) => {
                 </p>
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button>
-                      <ScanEye /> Vérifier son action
-                    </Button>
+                    {!isAdmin && !isChallengeOwner ? (
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Button disabled={!isAdmin && !isChallengeOwner}>
+                            <ScanEye /> Vérifier son action
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>
+                            Vous n'avez pas les autorisations pour valider cette
+                            action
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    ) : (
+                      <Button>
+                        <ScanEye /> Vérifier son action
+                      </Button>
+                    )}
                   </DialogTrigger>
                   <DialogContent>
                     <DialogTitle className="font-normal">
@@ -110,7 +154,7 @@ export const PendingTabs = ({ toCheck, challengeId }: Props) => {
                       <DialogClose asChild>
                         <Button
                           variant="ghost"
-                          className="hover:bg-destructive/20"
+                          className="hover:bg-destructive/50 bg-destructive/60"
                           onClick={() =>
                             setApprouvalStatus(action, StatusEnum.REJECTED)
                           }
@@ -121,10 +165,12 @@ export const PendingTabs = ({ toCheck, challengeId }: Props) => {
                       </DialogClose>
                       <DialogClose asChild>
                         <Button
+                          className="hover:bg-green-600/50"
                           onClick={() =>
                             setApprouvalStatus(action, StatusEnum.COMPLETED)
                           }
                         >
+                          <Check className="h-4 w-4" />
                           Valider
                         </Button>
                       </DialogClose>

@@ -21,6 +21,12 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
     variables: { getChallengeId: challengeId },
   });
 
+  const isChallengeOwner = data?.getChallenge?.owner?.id === userId;
+  const isAdmin = useUserStore((state) => state.user?.role === 'admin');
+  const isChallengeMember = data?.getChallenge.members.some(
+    (member) => member.id === userId
+  );
+
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -41,7 +47,7 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
           <div className="text-destructive mb-4 text-xl font-semibold">
             Erreur lors du chargement
           </div>
-          <div className="text-muted-foreground">{error.message}</div>
+          <div className="text-muted-foreground">{error?.message}</div>
         </div>
       </div>
     );
@@ -59,10 +65,6 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
     );
   }
 
-  const isAuthorized = data.getChallenge.members.some(
-    (member) => member.id === userId
-  );
-
   return (
     <div className="relative mx-auto max-w-6xl px-4 py-6">
       <ChallengeBanner
@@ -78,7 +80,9 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
         <ActionsTabs
           challengeId={challengeId}
           userId={userId}
-          isAuthorized={isAuthorized}
+          isChallengeMember={isChallengeMember}
+          isChallengeOwner={isChallengeOwner}
+          isAdmin={isAdmin}
           actions={data.getChallenge.actions || []}
           userActionChallengeScore={
             (data.getChallenge
@@ -87,7 +91,6 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
         />
       </div>
 
-      {/* Retour à la page précedente */}
       <Button
         onClick={() => navigate(-1)}
         className="absolute bottom-4 left-4 z-50 size-10 rounded-full shadow-md shadow-black/50"
@@ -97,7 +100,6 @@ export const ChallengeDetail = ({ challengeId }: ChallengeDetailProps) => {
         <ArrowLeft className="size-5" />
       </Button>
 
-      {/* TODO >>> Modifier le challenge si user est l'owner du */}
       <Link
         to={`/challenge/${challengeId}/edit`}
         className="absolute right-4 bottom-4 z-50 flex size-10 items-center justify-center rounded-full bg-green-600 text-white shadow-md shadow-black/50 hover:bg-green-700"

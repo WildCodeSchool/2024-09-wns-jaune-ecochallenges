@@ -8,20 +8,22 @@ type Props = {
   actions: Partial<Action>[];
   userActionChallengeScore: UserActionChallengeScore[];
   userId: string | undefined;
-  isAuthorized: boolean | undefined;
+  isChallengeMember: boolean | undefined;
 };
 
 export const ChallengeActionsList = ({
   actions,
   userActionChallengeScore,
   userId,
-  isAuthorized,
+  isChallengeMember,
 }: Props) => {
   return (
     <ul className="space-y-4">
       {actions.map((action) => {
         const userAction = userActionChallengeScore.find(
-          (userAction) => userAction?.action?.id === action.id
+          (userAction) =>
+            userAction?.validatedFor?.id === userId &&
+            userAction?.action?.id === action.id
         );
 
         return (
@@ -29,7 +31,7 @@ export const ChallengeActionsList = ({
             key={action.id}
             action={action}
             userId={userId}
-            isAuthorized={isAuthorized}
+            isChallengeMember={isChallengeMember}
             userActionChallengeScore={userAction as UserActionChallengeScore}
           />
         );

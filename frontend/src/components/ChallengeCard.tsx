@@ -24,7 +24,7 @@ export const ChallengeCard = ({
 
   return (
     <article className="h-full">
-      <Link to={`/challengeDetail/${challenge.id}`}>
+      <Link to={`/challenge-detail/${challenge.id}`}>
         <Card
           data-testid={`card-${challenge.id}`}
           className={cn('relative h-full justify-between')}

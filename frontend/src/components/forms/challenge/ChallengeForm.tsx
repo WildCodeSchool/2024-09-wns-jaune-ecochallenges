@@ -56,7 +56,7 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
     ],
     onCompleted: (data) => {
       toast.success('Challenge créé avec succès');
-      navigate(`/challengeDetail/${data.createChallenge.id}`);
+      navigate(`/challenge-detail/${data.createChallenge.id}`);
     },
     onError: () => {
       toast.error('Erreur lors de la création du challenge');
@@ -71,7 +71,7 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
     ],
     onCompleted: (data) => {
       toast.success('Challenge modifié avec succès');
-      navigate(`/challenge/${data.updateChallenge.id}`);
+      navigate(`/challenge-detail/${data.updateChallenge.id}`);
     },
     onError: () => {
       toast.error('Erreur lors de la modification du challenge');
