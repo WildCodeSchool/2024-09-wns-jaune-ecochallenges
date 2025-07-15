@@ -86,7 +86,7 @@ export const ChallengeBanner = ({
           <Pill className="col-span-2">
             {dates.timeLeft > 0
               ? `⌛ ${dates.timeLeft} jours restants`
-              : '❌ Ended'}
+              : '❌ Terminé'}
           </Pill>
         </div>
       </div>
