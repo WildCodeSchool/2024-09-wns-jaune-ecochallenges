@@ -24,6 +24,9 @@ export const challengeSchema = z
     }),
     actions: z.array(z.string()),
     members: z.array(z.string()),
+    invites: z
+      .array(z.string().email({ message: 'Adresse email invalide' }))
+      .optional(),
   })
   .refine((data) => data.dateRange.to > data.dateRange.from, {
     message: 'La date de fin doit être postérieure à la date de début',

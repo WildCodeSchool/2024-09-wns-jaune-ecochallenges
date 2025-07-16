@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { LoginFormValues } from '@/schemas/auth';
+import { LoginFormValues } from '@/schemas';
 import { PasswordInput } from '@/components';
 import {
   Button,

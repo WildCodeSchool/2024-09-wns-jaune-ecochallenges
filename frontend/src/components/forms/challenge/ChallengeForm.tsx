@@ -104,6 +104,7 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
       },
       actions: data.getChallenge.actions.map((action) => action.id),
       members: data.getChallenge.members.map((member) => member.id),
+      invites: data.getChallenge.invites,
     },
     defaultValues: {
       label: '',
@@ -115,6 +116,7 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
       },
       actions: [],
       members: [],
+      invites: [],
     },
   });
 
@@ -127,6 +129,7 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
       endDate: formData.dateRange.to.toISOString(),
       actions: formData.actions,
       members: formData.members,
+      invites: formData.invites,
     };
 
     challengeId
