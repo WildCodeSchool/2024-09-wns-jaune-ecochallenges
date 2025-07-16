@@ -13,6 +13,10 @@ import {
   ChallengeEdition,
   UserPortal,
   NotFoundRedirect,
+  UserAccount,
+  ActionCreation,
+  ActionEdition,
+  ChallengeDetailPage,
 } from '@/pages';
 
 import './index.css';
@@ -35,7 +39,7 @@ export const router = createBrowserRouter([
         element: <ChallengeList />,
       },
       {
-        path: '/challenge/:challengeId',
+        path: '/challenges/:challengeId',
         element: <ChallengePage />,
       },
       {
@@ -47,12 +51,28 @@ export const router = createBrowserRouter([
         element: <ChallengeEdition />,
       },
       {
+        path: '/challenge-detail/:challengeId',
+        element: <ChallengeDetailPage />,
+      },
+      {
         path: '/actions',
         element: <ActionList />,
       },
       {
+        path: '/action/new',
+        element: <ActionCreation />,
+      },
+      {
+        path: '/action/:actionId/edit',
+        element: <ActionEdition />,
+      },
+      {
         path: '/user',
         element: <UserPortal />,
+      },
+      {
+        path: '/user-account',
+        element: <UserAccount />,
       },
     ],
   },

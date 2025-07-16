@@ -1,4 +1,5 @@
-import { Leaf, Search, Sprout, TreePalm, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Check, Leaf, Search, Sprout, TreePalm, X } from 'lucide-react';
 import {
   Button,
   Input,
@@ -11,8 +12,10 @@ import {
   CommandEmpty,
   CommandItem,
 } from '@/components/ui';
-import { Check } from 'lucide-react';
-import { useGetAllTagsQuery } from '@/lib/graphql/generated/graphql-types';
+import {
+  useGetAllTagsQuery,
+  GetUserActionsQuery,
+} from '@/lib/graphql/generated/graphql-types';
 
 export type Filters = {
   search: string;
@@ -25,11 +28,6 @@ type FiltersWithTypes = {
   tags: string;
   difficulties: number;
   durations: number;
-};
-
-type FilterBarProps = {
-  filters: Filters;
-  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
 };
 
 const difficulties = [
@@ -53,62 +51,95 @@ const difficulties = [
   },
 ] as const;
 
-const durations = [
-  {
-    value: 2,
-    label: '≤ 2 heures',
-  },
-  {
-    value: 4,
-    label: '≤ 4 heures',
-  },
-  {
-    value: 6,
-    label: '≤ 6 heures',
-  },
-  {
-    value: 8,
-    label: '≤ 8 heures',
-  },
-] as const;
+const durations = [2, 4, 6, 8] as const;
+const getDurationLabel = (duration: number) => `≤ ${duration} heures`;
 
-export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
+const initialFilters = {
+  search: '',
+  tags: new Set<string>(),
+  durations: new Set<number>(),
+  difficulties: new Set<number>(),
+};
+
+export const Filterbar = ({
+  data,
+  setData,
+}: {
+  data: GetUserActionsQuery['getUserActions'];
+  setData: (data: GetUserActionsQuery['getUserActions']) => void;
+}) => {
   const { data: tagsData } = useGetAllTagsQuery();
+
+  const [filters, setFilters] = useState<Filters>(initialFilters);
+
+  const handleResetFilters = () => {
+    filterData(initialFilters);
+  };
+
+  const handleSearch = (search: string) => {
+    filterData({ ...filters, search });
+  };
 
   const handleFilter = <K extends keyof FiltersWithTypes>(
     key: K,
     value: FiltersWithTypes[K],
     action: 'toggle' | 'remove'
   ) => {
-    setFilters((prev) => {
-      const newSet = new Set<FiltersWithTypes[K]>(
-        prev[key] as Set<FiltersWithTypes[K]>
+    const newSet = new Set<FiltersWithTypes[K]>(
+      filters[key] as Set<FiltersWithTypes[K]>
+    );
+
+    switch (action) {
+      case 'toggle':
+        if (newSet.has(value)) newSet.delete(value);
+        else newSet.add(value);
+        break;
+      case 'remove':
+        newSet.delete(value);
+        break;
+      default:
+        throw new Error('Invalid action');
+    }
+
+    filterData({ ...filters, [key]: newSet });
+  };
+
+  const filterData = (newFilters: Filters) => {
+    setFilters(newFilters);
+
+    const result = data.filter((action) => {
+      const hasMatchingTag =
+        newFilters.tags.size === 0 ||
+        action.tags?.some((tag) => newFilters.tags.has(tag.name));
+
+      const hasMatchingLevel =
+        newFilters.difficulties.size === 0 ||
+        newFilters.difficulties.has(action.level);
+
+      const maxDuration = Math.max(...Array.from(newFilters.durations));
+      const hasMatchingDuration =
+        newFilters.durations.size === 0 || action.time <= maxDuration;
+
+      const hasMatchingSearch =
+        newFilters.search.length === 0 ||
+        action.name.toLowerCase().includes(newFilters.search.toLowerCase());
+
+      return (
+        hasMatchingTag &&
+        hasMatchingLevel &&
+        hasMatchingDuration &&
+        hasMatchingSearch
       );
-
-      switch (action) {
-        case 'toggle':
-          if (newSet.has(value)) newSet.delete(value);
-          else newSet.add(value);
-          break;
-        case 'remove':
-          newSet.delete(value);
-          break;
-        default:
-          throw new Error('Invalid action');
-      }
-
-      return { ...prev, [key]: newSet };
     });
+
+    setData(result);
   };
 
-  const resetFilters = () => {
-    setFilters({
-      search: '',
-      tags: new Set(),
-      durations: new Set(),
-      difficulties: new Set(),
-    });
-  };
+  useEffect(() => {
+    if (data.length > 0) {
+      filterData(filters);
+    }
+  }, [data]);
 
   return (
     <div
@@ -124,7 +155,7 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
           type="text"
           placeholder="Rechercher..."
           className="w-full py-2 pr-4 pl-10"
-          onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+          onChange={(e) => handleSearch(e.target.value)}
         />
       </div>
 
@@ -216,14 +247,14 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
 
                 {durations.map((duration) => (
                   <CommandItem
-                    key={duration.value}
+                    key={duration}
                     onSelect={() =>
-                      handleFilter('durations', duration.value, 'toggle')
+                      handleFilter('durations', duration, 'toggle')
                     }
                     className="justify-left flex cursor-pointer"
                   >
-                    {duration.label}
-                    {filters.durations.has(duration.value) && (
+                    {getDurationLabel(duration)}
+                    {filters.durations.has(duration) && (
                       <Check className="text-primary h-4 w-4" />
                     )}
                   </CommandItem>
@@ -238,7 +269,7 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
         filters.durations.size ? (
           <Button
             data-testid="reset-filter-button"
-            onClick={resetFilters}
+            onClick={handleResetFilters}
             size="sm"
             variant="link"
           >
@@ -246,6 +277,7 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
           </Button>
         ) : null}
       </div>
+
       <div
         data-testid="filter-item-buttons"
         className="flex flex-row flex-wrap gap-2"
@@ -278,7 +310,7 @@ export const Filterbar = ({ filters, setFilters }: FilterBarProps) => {
             variant="ghost"
             key={duration}
           >
-            {durations.find((d) => d.value === duration)?.label}
+            {getDurationLabel(duration)}
             <X className="h-4 w-4" />
           </Button>
         ))}

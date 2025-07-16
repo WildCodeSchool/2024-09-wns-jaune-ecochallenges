@@ -1,4 +1,7 @@
-import { Action } from '@/lib/graphql/generated/graphql-types';
+import {
+  GetUserActionsQuery,
+  User,
+} from '@/lib/graphql/generated/graphql-types';
 import {
   Button,
   Card,
@@ -7,6 +10,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
 } from '@/components/ui';
 import { Pill } from '@/components';
 import {
@@ -19,11 +26,14 @@ import {
   Sprout,
   TreePalm,
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 type ActionCardProps = {
-  action: Omit<Action, 'challenges'>;
+  action: GetUserActionsQuery['getUserActions'][number];
   isSelected?: boolean;
   onClick?: () => void;
+  onDelete?: () => void;
+  user?: Pick<User, 'id' | 'role'>;
 };
 
 type dfficultyProps = {
@@ -70,7 +80,12 @@ export const ActionCard = ({
   action,
   isSelected = false,
   onClick,
+  onDelete,
+  user,
 }: ActionCardProps) => {
+  const canEditOrDelete =
+    user?.role === 'admin' ||
+    (user?.role === 'user' && action.createdBy?.id === user.id);
   return (
     <article className="h-full">
       <Card
@@ -80,17 +95,19 @@ export const ActionCard = ({
         <CardHeader className="flex w-full flex-col">
           <CardTitle className="text-lg font-bold">{action.name}</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex-1">
           <CardDescription>
             <p className="line-clamp-2 max-w-full">{action.description} </p>
             <div className="mt-4 flex w-full flex-row items-center justify-start gap-2">
               {action.tags?.map((tag) => <Pill key={tag.id}>{tag.icon}</Pill>)}
               <Pill>
-                <span className="text-sm">{action.time}h</span>
+                <span className="text-md">{action.time} ⌛️</span>
+              </Pill>
+              <Pill>
+                <span className="text-md">{action.points} 🦀</span>
               </Pill>
               {getDifficulty(difficulties, action.level).map((difficulty) => (
                 <Pill className="flex" key={difficulty.value}>
-                  <span className="mr-1 text-xs">niveau:</span>
                   <difficulty.icon className={difficulty.className} />
                 </Pill>
               ))}
@@ -107,14 +124,33 @@ export const ActionCard = ({
             >
               <ImagePlus className="size-6" />
             </Button>
+            {canEditOrDelete && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    className="m-0 p-0 hover:bg-transparent hover:opacity-100"
+                  >
+                    <Ellipsis className="size-6" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <Link to={`/action/${action.id}/edit`}>
+                    <DropdownMenuItem>Editer</DropdownMenuItem>
+                  </Link>
+                  <DropdownMenuItem
+                    className="text-destructive"
+                    onClick={() => {
+                      onDelete?.();
+                    }}
+                  >
+                    Supprimer
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
 
-            <Button
-              type="button"
-              variant="ghost"
-              className="m-0 p-0 hover:bg-transparent hover:opacity-100"
-            >
-              <Ellipsis className="size-6" />
-            </Button>
             <Button
               size="icon"
               type="button"

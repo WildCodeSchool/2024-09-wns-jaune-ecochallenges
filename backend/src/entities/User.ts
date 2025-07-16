@@ -1,7 +1,6 @@
 import {
   BaseEntity,
   BeforeInsert,
-  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -11,7 +10,8 @@ import {
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
 import argon2 from 'argon2';
-import { Challenge } from '@/entities';
+import { Challenge, Action, UserActionChallengeScore } from '@/entities';
+import { Score } from './Score';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -45,6 +45,10 @@ export class User extends BaseEntity {
   @Column({ nullable: false })
   hashedPassword!: string;
 
+  @Field(() => [Action])
+  @OneToMany(() => Action, (action) => action.createdBy)
+  createdActions?: Action[];
+
   @Field()
   @Column({
     type: 'enum',
@@ -61,8 +65,35 @@ export class User extends BaseEntity {
   @OneToMany(() => Challenge, (challenge) => challenge.owner)
   createdChallenges?: Challenge[];
 
+  @Field(() => Score)
+  @OneToMany(() => Score, (score) => score.user)
+  score?: Score;
+
+  @Field()
+  @Column({ nullable: true })
+  description!: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true, length: 255 })
+  avatarUrl?: string;
+
+  // validatedActions is the actions validated by the user himself or admin or owner of challenge
+  @Field(() => [UserActionChallengeScore])
+  @OneToMany(
+    () => UserActionChallengeScore,
+    (userActionChallengeScore) => userActionChallengeScore.validatedBy
+  )
+  validatedActions?: UserActionChallengeScore[];
+
+  // belongsOwned is the actions that belongs to the user that is validated by the user himself or admin or owner of challenge
+  @Field(() => [UserActionChallengeScore])
+  @OneToMany(
+    () => UserActionChallengeScore,
+    (userActionChallengeScore) => userActionChallengeScore.validatedFor
+  )
+  belongsOwned?: UserActionChallengeScore[];
+
   @BeforeInsert()
-  @BeforeUpdate()
   async hashPassword() {
     this.hashedPassword = await argon2.hash(this.hashedPassword);
   }

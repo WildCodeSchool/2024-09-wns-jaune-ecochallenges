@@ -1,15 +1,28 @@
 import {
   BaseEntity,
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Field, ID, ObjectType } from 'type-graphql';
-import { Action, User } from '@/entities';
+import { Field, ID, ObjectType, registerEnumType } from 'type-graphql';
+import { Action, User, UserActionChallengeScore } from '@/entities';
+import { Score } from './Score';
+
+export enum ChallengeStatusEnum {
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+}
+
+registerEnumType(ChallengeStatusEnum, {
+  name: 'ChallengeStatus',
+  description: 'The status of a challenge',
+});
 
 @Entity()
 @ObjectType()
@@ -27,7 +40,10 @@ export class Challenge extends BaseEntity {
   description?: string;
 
   @Field({ nullable: true })
-  @Column('varchar', { nullable: true, length: 255 })
+  @Column('varchar', {
+    length: 255,
+    default: '/banners/banner-1.jpg',
+  })
   bannerUrl?: string;
 
   @Field()
@@ -37,6 +53,21 @@ export class Challenge extends BaseEntity {
   @Field()
   @Column({ type: 'timestamp' })
   endDate!: Date;
+
+  @Field(() => ChallengeStatusEnum)
+  @Column({
+    type: 'enum',
+    enum: ChallengeStatusEnum,
+  })
+  status!: ChallengeStatusEnum;
+
+  @BeforeInsert()
+  setStatus() {
+    this.status =
+      new Date() < this.endDate
+        ? ChallengeStatusEnum.IN_PROGRESS
+        : ChallengeStatusEnum.COMPLETED;
+  }
 
   @Field()
   @Column({ type: 'boolean', default: true })
@@ -59,4 +90,19 @@ export class Challenge extends BaseEntity {
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.createdChallenges)
   owner?: User;
+
+  @Field(() => Score)
+  @OneToMany(() => Score, (score) => score.challenge)
+  score?: Score;
+
+  @Field(() => [UserActionChallengeScore])
+  @OneToMany(
+    () => UserActionChallengeScore,
+    (userActionChallengeScore) => userActionChallengeScore.challenge
+  )
+  userActionChallengeScores?: UserActionChallengeScore[];
+
+  @Field(() => [String])
+  @Column({ type: 'jsonb', default: [] })
+  invites!: string[];
 }

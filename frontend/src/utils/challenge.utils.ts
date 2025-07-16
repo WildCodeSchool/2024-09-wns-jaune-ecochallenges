@@ -2,7 +2,7 @@ import { Action } from '@/lib/graphql/generated/graphql-types';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
-export const getUniqueTagsFromActions = (actions: Action[]) => {
+export const getUniqueTagsFromActions = (actions: Partial<Action>[]) => {
   const tagsSet = new Set(actions.flatMap((action) => action.tags));
   return Array.from(tagsSet);
 };
@@ -19,4 +19,16 @@ export const formatChallengeDates = (startDate: string, endDate: string) => {
       (new Date(endDate).getTime() - new Date().getTime()) / 1000 / 60 / 60 / 24
     ),
   };
+};
+
+export const getProgressPercentageInChallenge = (
+  challenge: GetChallengeQuery['getChallenge'],
+  userActionChallenge: Partial<UserActionChallenge>[]
+): number => {
+  const totalAction = challenge.actions.length * challenge.members.length;
+  if (totalAction === 0) return 0;
+  const toalActionDone = userActionChallenge.filter(
+    (el) => el.status === 'completed'
+  ).length;
+  return Math.round((toalActionDone / totalAction) * 100);
 };

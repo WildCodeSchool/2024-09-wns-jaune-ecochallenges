@@ -23,7 +23,7 @@ export const DesktopNavbarComponent = () => {
         <img
           data-testid="card-image"
           className="aspect-square w-14 rounded-full"
-          src="./images/sample.jpg"
+          src="/images/sample.jpg"
           alt="Logo Eco-challenges"
           role="img"
         />
@@ -39,7 +39,7 @@ export const DesktopNavbarComponent = () => {
           const isActive = location.pathname === to;
 
           return (
-            <>
+            <div key={to}>
               <span
                 key={`${to}-span`}
                 className="bg-sidebar-primary h-1.5 min-w-1.5 rounded-full first:hidden"
@@ -58,7 +58,7 @@ export const DesktopNavbarComponent = () => {
                   <span className="">{label}</span>
                 </Link>
               </div>
-            </>
+            </div>
           );
         })}
       </div>

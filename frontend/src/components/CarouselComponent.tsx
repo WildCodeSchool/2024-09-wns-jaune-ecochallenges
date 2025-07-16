@@ -11,7 +11,7 @@ import { useEffect, useRef, useState } from 'react';
 
 type CarouselProps<T> = {
   data: T[];
-  CardComponent: React.ComponentType<T>;
+  CardComponent: React.ComponentType<{ challenge: T }>;
 };
 
 export const CarouselComponent = <T,>({
@@ -53,7 +53,7 @@ export const CarouselComponent = <T,>({
         <CarouselContent>
           {data.map((item, index) => (
             <CarouselItem key={index}>
-              <CardComponent key={index} {...item} />
+              <CardComponent key={index} challenge={item} />
             </CarouselItem>
           ))}
         </CarouselContent>

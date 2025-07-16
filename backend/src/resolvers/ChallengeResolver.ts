@@ -37,6 +37,9 @@ class ChallengeInput {
 
   @Field(() => [ID])
   members?: User[];
+
+  @Field(() => [String])
+  invites?: string[];
 }
 
 @Resolver(Challenge)
@@ -58,7 +61,17 @@ export class ChallengeResolver {
   async getChallenge(@Arg('id', () => ID) id: string): Promise<Challenge> {
     const challenge = await Challenge.findOneOrFail({
       where: { id },
-      relations: ['actions', 'members', 'owner'],
+      relations: [
+        'actions',
+        'actions.tags',
+        'members',
+        'owner',
+        'userActionChallengeScores',
+        'userActionChallengeScores.validatedBy',
+        'userActionChallengeScores.validatedFor',
+        'userActionChallengeScores.action',
+        'userActionChallengeScores.challenge',
+      ],
     });
     return challenge;
   }
@@ -73,26 +86,40 @@ export class ChallengeResolver {
       challenge = Object.assign(challenge, data);
       challenge.owner = user;
 
-      if (data.actions && data.actions.length) {
+      if (data.actions?.length) {
         const actions = await Action.findBy({ id: In(data.actions) });
         challenge.actions = actions;
       } else {
         challenge.actions = [];
       }
 
-      if (data.members && data.members.length) {
+      if (data.members?.length) {
         const members = await User.findBy({ id: In(data.members) });
         challenge.members = members;
       } else {
         challenge.members = [];
       }
 
+      if (data.invites?.length) {
+        await Promise.all(
+          data.invites.map(async (invite) => {
+            await email.invitationEmail.send(invite, {
+              ecochallengeName: challenge.label,
+              startDate: challenge.startDate,
+              endDate: challenge.endDate,
+              loginUrl: 'http://localhost:7001/user',
+            });
+          })
+        );
+      }
+
       await challenge.save();
-      email.challengeCreatedEmail.send('nigont@gmail.com', {
+      email.challengeCreatedEmail.send(user.email, {
         ecochallengeName: challenge.label,
-        startDate: challenge.startDate.toISOString(),
-        endDate: challenge.endDate.toISOString(),
+        startDate: challenge.startDate,
+        endDate: challenge.endDate,
       });
+
       return challenge;
     } catch (err) {
       throw new Error(`Echec lors de la création de ce challenge: ${err}`);
@@ -116,9 +143,28 @@ export class ChallengeResolver {
         );
       }
 
+      if (data.invites?.length) {
+        const newInvites = data.invites.filter(
+          (invite) => !challenge.invites?.includes(invite)
+        );
+
+        if (newInvites.length) {
+          await Promise.all(
+            newInvites.map(async (invite) => {
+              await email.invitationEmail.send(invite, {
+                ecochallengeName: challenge.label,
+                startDate: challenge.startDate,
+                endDate: challenge.endDate,
+                loginUrl: 'http://localhost:7001/user',
+              });
+            })
+          );
+        }
+      }
+
       Object.assign(challenge, data);
 
-      if (data.actions && data.actions.length) {
+      if (data.actions?.length) {
         const actions = await Action.findBy({ id: In(data.actions) });
         challenge.actions = actions;
       } else {
