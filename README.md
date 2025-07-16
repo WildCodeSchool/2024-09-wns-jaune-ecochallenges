@@ -87,3 +87,12 @@
     - `dates`: an array of date properties as strings
 
 - 🎉 you can now run the seed command (`make seed`) to add your new seeding data!
+
+### 📋 Run e2e test (End to End test)
+
+yu can edit playwright.config.ts to change with test to run (chrome/firefox/mobile etc) default is only chrome.
+
+- Run command `make playwright` to execute the list of all e2e tests or `npx playwright test`.
+- Run command `make playwright-test TEST=e2e/testName` to run a single test or `npx playwright test e2e/testName`.
+  example: `make playwright-test TEST=e2e/login.spec.ts` // `npx playwright test e2e/login.spec.ts`
+- Run command `npx playwright test e2e/login.spec.ts --headed` to run a test and debug it
