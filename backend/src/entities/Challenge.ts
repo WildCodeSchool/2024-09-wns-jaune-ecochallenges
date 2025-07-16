@@ -101,4 +101,8 @@ export class Challenge extends BaseEntity {
     (userActionChallengeScore) => userActionChallengeScore.challenge
   )
   userActionChallengeScores?: UserActionChallengeScore[];
+
+  @Field(() => [String])
+  @Column({ type: 'jsonb', default: [] })
+  invites!: string[];
 }

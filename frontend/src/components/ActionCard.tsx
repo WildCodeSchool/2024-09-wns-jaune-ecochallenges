@@ -108,7 +108,6 @@ export const ActionCard = ({
               </Pill>
               {getDifficulty(difficulties, action.level).map((difficulty) => (
                 <Pill className="flex" key={difficulty.value}>
-                  <span className="text-md mr-1">niveau:</span>
                   <difficulty.icon className={difficulty.className} />
                 </Pill>
               ))}

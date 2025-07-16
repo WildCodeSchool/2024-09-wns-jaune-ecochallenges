@@ -55,6 +55,7 @@ export const GET_CHALLENGE = gql`
       startDate
       endDate
       status
+      invites
       owner {
         id
         lastname
@@ -65,6 +66,7 @@ export const GET_CHALLENGE = gql`
       }
       actions {
         id
+        points
         tags {
           id
           name
@@ -137,6 +139,7 @@ export const GET_USER_ACTIONS = gql`
       icon
       level
       time
+      points
       tags {
         id
         name

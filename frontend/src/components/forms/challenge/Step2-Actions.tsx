@@ -106,7 +106,7 @@ export const Step2Actions = () => {
                   </div>
                 </AccordionTrigger>
 
-                {selectedActions?.length && (
+                {selectedActions?.length !== 0 && (
                   <Button
                     variant="destructive"
                     className="absolute top-3 right-8"
@@ -119,33 +119,10 @@ export const Step2Actions = () => {
                   </Button>
                 )}
               </div>
-            </AccordionItem>
 
-            <AccordionItem value="available">
-              <AccordionTrigger>
-                <div className="flex items-center gap-2 uppercase">
-                  <CirclePlus aria-hidden="true" />
-                  <span>Ajouter des actions</span>
-                </div>
-              </AccordionTrigger>
-
-              {selectedActions?.length && (
-                <Button
-                  variant="destructive"
-                  className="absolute top-3 right-8"
-                  size="sm"
-                  type="button"
-                  onClick={clearSelectedActions}
-                  aria-label="Supprimer toutes les actions sélectionnées"
-                >
-                  <Trash aria-hidden="true" />
-                </Button>
-              )}
-              {/* </div> */}
-
-              {selectedActions?.length && (
+              {selectedActions?.length !== 0 && (
                 <AccordionContent className="flex flex-col gap-1 sm:grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-3 xl:grid-cols-4 xl:gap-4">
-                  {selectedActions.map((action) => (
+                  {selectedActions?.map((action) => (
                     <FormItem key={action.id}>
                       <FormControl>
                         <div className="max-w-full overflow-hidden">
