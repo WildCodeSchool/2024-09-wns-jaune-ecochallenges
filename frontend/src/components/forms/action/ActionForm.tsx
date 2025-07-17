@@ -1,4 +1,3 @@
-import { z } from 'zod';
 import {
   Button,
   Form,
@@ -20,44 +19,7 @@ import {
 import { GET_ACTIONS } from '@/lib/graphql/operations';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-
-const formSchema = z.object({
-  name: z
-    .string()
-    .min(1, {
-      message:
-        'Vous devez obligatoirement nommer votre eco-geste pour le créer',
-    })
-    .max(100, {
-      message: 'Le nom de votre eco-geste ne doit pas dépasser 100 caractères',
-    }),
-  description: z
-    .string()
-    .min(1, {
-      message:
-        'Vous devez obligatoirement décrire votre eco-geste pour le créer',
-    })
-    .max(300, {
-      message:
-        'La description de votre eco-geste ne doit pas dépasser 300 caractères',
-    }),
-  requires_view: z.boolean({
-    required_error:
-      'Vous devez obligatoirement choisir si votre eco-geste nécessitera une validation externe ou non',
-  }),
-  level: z.number({
-    required_error:
-      'Vous devez obligatoirement choisir le niveau de difficulté de réalisation de votre eco-geste',
-  }),
-  icon: z.string({}),
-  time: z.number({
-    required_error:
-      'Vous devez obligatoirement indiquer le temps de réalisation de votre eco-geste',
-  }),
-  tags: z.array(z.string()).optional(),
-});
-
-type FormType = z.infer<typeof formSchema>;
+import { ActionFormValues, actionschema } from '@/schemas/action.schema';
 
 export const ActionForm = ({ actionId }: { actionId?: string }) => {
   const { data, loading, error } = useGetActionQuery({
@@ -65,8 +27,8 @@ export const ActionForm = ({ actionId }: { actionId?: string }) => {
     variables: { id: actionId! },
   });
 
-  const form = useForm<FormType>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<ActionFormValues>({
+    resolver: zodResolver(actionschema),
     values: data?.getAction && {
       name: data.getAction.name,
       description: data.getAction.description,
@@ -111,7 +73,7 @@ export const ActionForm = ({ actionId }: { actionId?: string }) => {
     toast.error('Veuillez corriger les erreurs avant de continuer');
   };
 
-  const onSubmit = async (formData: FormType) => {
+  const onSubmit = async (formData: ActionFormValues) => {
     try {
       let icon = 'sprout';
       if (formData.level === 1) icon = 'sprout';
@@ -124,7 +86,7 @@ export const ActionForm = ({ actionId }: { actionId?: string }) => {
         level: formData.level,
         icon: icon,
         time: formData.time,
-        tags: formData.tags,
+        tags: formData.tags || [],
       };
 
       const response = actionId
@@ -155,8 +117,8 @@ export const ActionForm = ({ actionId }: { actionId?: string }) => {
       toast.success('Eco-geste créé avec succès');
       navigate(`/actions`);
     },
-    onError: () => {
-      toast.error("Erreur lors de la création de l'éco-geste");
+    onError: (error) => {
+      toast.error(`Erreur lors de la création de l'éco-geste ${error.message}`);
     },
   });
 
@@ -170,8 +132,10 @@ export const ActionForm = ({ actionId }: { actionId?: string }) => {
       toast.success('Eco-geste modifié avec succès');
       navigate(`/actions`);
     },
-    onError: () => {
-      toast.error("Erreur lors de la modification de l'éco-geste");
+    onError: (error) => {
+      toast.error(
+        `Erreur lors de la modification de l'éco-geste ${error.message}`
+      );
     },
   });
 

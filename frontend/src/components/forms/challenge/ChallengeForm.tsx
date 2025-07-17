@@ -48,6 +48,7 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
   const [activeTab, setActiveTab] = useState<TCHALLENGE_FORM_STEPS>(
     CHALLENGE_FORM_STEPS.init
   );
+
   const [createChallenge] = useCreateChallengeMutation({
     refetchQueries: [
       {
@@ -58,8 +59,8 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
       toast.success('Challenge créé avec succès');
       navigate(`/challenge-detail/${data.createChallenge.id}`);
     },
-    onError: () => {
-      toast.error('Erreur lors de la création du challenge');
+    onError: (error) => {
+      toast.error(`Erreur lors de la création du challenge ${error.message}`);
     },
   });
   const [updateChallenge] = useUpdateChallengeMutation({
@@ -73,8 +74,10 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
       toast.success('Challenge modifié avec succès');
       navigate(`/challenge-detail/${data.updateChallenge.id}`);
     },
-    onError: () => {
-      toast.error('Erreur lors de la modification du challenge');
+    onError: (error) => {
+      toast.error(
+        `Erreur lors de la modification du challenge ${error.message}`
+      );
     },
   });
   const [deleteChallenge] = useDeleteChallengeMutation({
@@ -129,7 +132,7 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
       endDate: formData.dateRange.to.toISOString(),
       actions: formData.actions,
       members: formData.members,
-      invites: formData.invites,
+      invites: formData.invites || [],
     };
 
     challengeId
