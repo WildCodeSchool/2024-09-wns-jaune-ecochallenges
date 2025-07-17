@@ -88,3 +88,13 @@ vitest: ## Run tests
 	@echo "$(GREEN)Running tests...$(NC)"
 	@cd frontend && npm run test
 	@echo "$(GREEN)Tests completed$(NC)"
+
+playwright: ## Run tests
+	@echo "$(GREEN)Running tests...$(NC)"
+	@cd e2e && npx playwright test
+	@echo "$(GREEN)Tests completed$(NC)"
+
+playwright-test: ## Run a specific Playwright test file (usage: make playwright-test TEST=e2e/login.spec.ts)
+	@echo "$(GREEN)Running test $(TEST)...$(NC)"
+	@cd e2e && npx playwright test $(TEST)
+	@echo "$(GREEN)Test completed$(NC)"
