@@ -11,7 +11,6 @@ import {
 import { Field, ObjectType } from 'type-graphql';
 import argon2 from 'argon2';
 import { Challenge, Action, UserActionChallengeScore } from '@/entities';
-import { Score } from './Score';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -64,10 +63,6 @@ export class User extends BaseEntity {
   @Field(() => [Challenge])
   @OneToMany(() => Challenge, (challenge) => challenge.owner)
   createdChallenges?: Challenge[];
-
-  @Field(() => Score)
-  @OneToMany(() => Score, (score) => score.user)
-  score?: Score;
 
   @Field()
   @Column({ nullable: true })
