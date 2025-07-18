@@ -7,7 +7,6 @@ import {
   Tag,
   UserActionChallengeScore,
 } from '@/entities';
-import { Score } from '@/entities/Score';
 
 config();
 const { DB_HOST, DB_PASSWORD, DB_USER, DB_SCHEMA, DB_PORT } = process.env;
@@ -19,7 +18,7 @@ export const dataSource = new DataSource({
   password: DB_PASSWORD,
   database: DB_SCHEMA,
   port: Number(DB_PORT),
-  entities: [User, Challenge, Action, Tag, Score, UserActionChallengeScore],
+  entities: [User, Challenge, Action, Tag, UserActionChallengeScore],
   synchronize: true,
   // migrations: ["./bdd/migrations/*.ts"],
   // migrationsTableName: "migrations",

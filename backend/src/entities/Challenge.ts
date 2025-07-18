@@ -12,7 +12,6 @@ import {
 } from 'typeorm';
 import { Field, ID, ObjectType, registerEnumType } from 'type-graphql';
 import { Action, User, UserActionChallengeScore } from '@/entities';
-import { Score } from './Score';
 
 export enum ChallengeStatusEnum {
   IN_PROGRESS = 'IN_PROGRESS',
@@ -90,10 +89,6 @@ export class Challenge extends BaseEntity {
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.createdChallenges)
   owner?: User;
-
-  @Field(() => Score)
-  @OneToMany(() => Score, (score) => score.challenge)
-  score?: Score;
 
   @Field(() => [UserActionChallengeScore])
   @OneToMany(

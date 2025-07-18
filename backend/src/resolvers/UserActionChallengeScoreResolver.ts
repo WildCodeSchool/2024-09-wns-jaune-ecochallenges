@@ -58,15 +58,6 @@ export class UserActionChallengeScoreUpdateInput {
   validatedFor!: string;
 }
 
-@InputType()
-export class UserActionChallengeScoreByUserInput {
-  @Field(() => ID)
-  challengeId!: string;
-
-  @Field(() => ID)
-  validatedFor!: string;
-}
-
 @Resolver(UserActionChallengeScore)
 export class UserActionChallengeScoreResolver {
   /**
@@ -88,36 +79,6 @@ export class UserActionChallengeScoreResolver {
   ): Promise<UserActionChallengeScore[]> {
     const userActionChallengeScore = await UserActionChallengeScore.find({
       where: { challenge: { id } },
-      relations: ['action', 'challenge', 'validatedBy', 'validatedFor'],
-    });
-    if (!userActionChallengeScore || userActionChallengeScore.length === 0) {
-      throw new GraphQLError('User action challenge not found');
-    }
-    return userActionChallengeScore;
-  }
-
-  /**
-   * Retrieves a single UserActionChallenge by challenge ID.
-   *
-   * This query attempts to find a UserActionChallenge where the `challengeId` matches the given `id`.
-   * It throws an error if no matching entry is found.
-   *
-   * Note: If you're intending to fetch by a composite key (userId + actionId + challengeId),
-   * you should update this query accordingly.
-   *
-   * @param {string, string } data - The input object containing challengeId and userId.
-   * @returns {Promise<UserActionChallengeScore[]>} The matching UserActionChallengeScore entity.
-   * @throws {GraphQLError} If no UserActionChallengeScore is found with the given ID.
-   */
-  @Query(() => [UserActionChallengeScore])
-  async getUserActionChallengeScoreByChallengeIdAndByUserId(
-    @Arg('data') data: UserActionChallengeScoreByUserInput
-  ): Promise<UserActionChallengeScore[]> {
-    const userActionChallengeScore = await UserActionChallengeScore.find({
-      where: {
-        challenge: { id: data.challengeId },
-        validatedFor: { id: data.validatedFor },
-      },
       relations: ['action', 'challenge', 'validatedBy', 'validatedFor'],
     });
     if (!userActionChallengeScore || userActionChallengeScore.length === 0) {
