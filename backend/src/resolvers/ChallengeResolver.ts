@@ -82,6 +82,9 @@ export class ChallengeResolver {
     @Ctx() { user }: { user: User }
   ) {
     try {
+      if (!user) {
+        throw new Error('Utilisateur non trouvé');
+      }
       let challenge = new Challenge();
       challenge = Object.assign(challenge, data);
       challenge.owner = user;
@@ -133,6 +136,9 @@ export class ChallengeResolver {
     @Ctx() { user }: { user: User }
   ): Promise<Challenge> {
     try {
+      if (!user) {
+        throw new Error('Utilisateur non trouvé');
+      }
       const challenge = await Challenge.findOneOrFail({
         where: { id },
         relations: ['owner'],
