@@ -44,29 +44,20 @@
 
 # ====== Build stage ======
 FROM node:lts-alpine AS builder
-
 WORKDIR /app
-
 COPY package*.json ./
 RUN npm install --legacy-peer-deps
-
 COPY . .
-
 RUN npm run build
 
 # ====== Production stage ======
 FROM node:lts-alpine
-
 RUN apk --no-cache add curl
-
 WORKDIR /app
-
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package*.json ./
-
 RUN npm install --production --legacy-peer-deps
-
- CMD ["npm", "run", "start"]
+CMD ["npm", "run", "start"]
 
 
 
