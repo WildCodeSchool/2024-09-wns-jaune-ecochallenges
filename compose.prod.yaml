@@ -4,8 +4,8 @@ services:
       - database-eco
     container_name: backend-eco
     image: ${DOCKER_HUB_USERNAME}/${DOCKER_HUB_SERVER_IMAGE_NAME}:latest
-    volumes:
-      - ./backend/src/:/app/src/
+    # volumes:
+    #   - ./backend/src/:/app/src/
     environment:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_SCHEMA: ${DB_SCHEMA}
@@ -17,9 +17,9 @@ services:
   files:
     container_name: files-eco
     image: ${DOCKER_HUB_USERNAME}/${DOCKER_HUB_FILES_IMAGE_NAME}:latest
-    volumes:
-      - ./files/src:/app/src/
-      - ./persist/files-dev:/app/public
+    # volumes:
+    #   - ./files/src:/app/src/
+    #   - ./persist/files-dev:/app/public
 
   frontend:
     depends_on:
@@ -27,8 +27,8 @@ services:
       - files
     container_name: frontend-eco
     image: ${DOCKER_HUB_USERNAME}/${DOCKER_HUB_CLIENT_IMAGE_NAME}:latest
-    volumes:
-      - ./frontend/src/:/app/src/
+    # volumes:
+    #   - ./frontend/src/:/app/src/
     environment:
       VITE_GATEWAY_PORT: ${GATEWAY_PORT}
 
