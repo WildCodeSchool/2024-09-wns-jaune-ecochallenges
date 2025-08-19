@@ -1,14 +1,39 @@
 //tsconfig.json Global entry point for all tsconfig files
+// {
+//   "files": [],
+//   "references": [
+//     { "path": "./tsconfig.app.json" },
+//     { "path": "./tsconfig.node.json" }
+//   ],
+//   "compilerOptions": {
+//     "baseUrl": ".",
+//     "paths": {
+//       "@/*": ["./src/*"]
+//     }
+//   }
+// }
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ],
   "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": false, // emit JS files
+    "esModuleInterop": true,
+    "module": "ESNext",
+    "moduleResolution": "node", // needed for tsc output
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "outDir": "./dist", // JS output directory
+    "rootDir": "src",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"]
     }
-  }
+  },
+  "include": ["src", "__tests__"],
+  "exclude": ["node_modules"]
 }

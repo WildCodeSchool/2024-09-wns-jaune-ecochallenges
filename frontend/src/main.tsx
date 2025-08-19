@@ -2,8 +2,8 @@ import { ApolloProvider } from '@apollo/client';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { client } from './lib/api.ts';
-import { App } from './App.tsx';
+import { client } from './lib/api';
+import { App } from './App';
 import {
   Home,
   ActionList,

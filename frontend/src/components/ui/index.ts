@@ -19,4 +19,4 @@ export * from './tabs';
 export * from './switch';
 export * from './slider';
 export * from './dropdown-menu';
-export * from './tooltip.tsx';
+export * from './tooltip';
