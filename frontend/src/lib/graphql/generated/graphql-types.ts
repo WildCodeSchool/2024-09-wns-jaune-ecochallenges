@@ -33,7 +33,7 @@ export type Scalars = {
 
 export type Action = {
   __typename?: 'Action';
-  challenges?: Maybe<Array<Challenge>>;
+  challenges: Array<Challenge>;
   createdAt: Scalars['DateTimeISO']['output'];
   createdBy: User;
   description: Scalars['String']['output'];
@@ -60,7 +60,7 @@ export type ActionInput = {
 
 export type Challenge = {
   __typename?: 'Challenge';
-  actions?: Maybe<Array<Action>>;
+  actions: Array<Action>;
   bannerUrl?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTimeISO']['output'];
   description?: Maybe<Scalars['String']['output']>;
@@ -71,7 +71,6 @@ export type Challenge = {
   label: Scalars['String']['output'];
   members: Array<User>;
   owner: User;
-  score: Score;
   startDate: Scalars['DateTimeISO']['output'];
   status: ChallengeStatus;
   userActionChallengeScores: Array<UserActionChallengeScore>;
@@ -172,7 +171,6 @@ export type Query = {
   getChallenges: Array<Challenge>;
   getCurrentUser: User;
   getUserActionChallengeScoreByChallenge: Array<UserActionChallengeScore>;
-  getUserActionChallengeScoreByChallengeIdAndByUserId: Array<UserActionChallengeScore>;
   getUserActions: Array<Action>;
   getUsersAsUser: Array<User>;
 };
@@ -191,18 +189,6 @@ export type QueryGetChallengeArgs = {
 
 export type QueryGetUserActionChallengeScoreByChallengeArgs = {
   id: Scalars['String']['input'];
-};
-
-export type QueryGetUserActionChallengeScoreByChallengeIdAndByUserIdArgs = {
-  data: UserActionChallengeScoreByUserInput;
-};
-
-export type Score = {
-  __typename?: 'Score';
-  challenge: Challenge;
-  id: Scalars['ID']['output'];
-  result: Scalars['Float']['output'];
-  user: User;
 };
 
 export type SignUpUserInput = {
@@ -244,7 +230,6 @@ export type User = {
   lastname: Scalars['String']['output'];
   participatedChallenges: Array<Challenge>;
   role: Scalars['String']['output'];
-  score: Score;
   validatedActions: Array<UserActionChallengeScore>;
 };
 
@@ -260,11 +245,6 @@ export type UserActionChallengeScore = {
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   validatedBy?: Maybe<User>;
   validatedFor: User;
-};
-
-export type UserActionChallengeScoreByUserInput = {
-  challengeId: Scalars['ID']['input'];
-  validatedFor: Scalars['ID']['input'];
 };
 
 export type UserActionChallengeScoreInput = {
@@ -316,13 +296,25 @@ export type GetChallengesAsChallengeQuery = {
     status: ChallengeStatus;
     createdAt: any;
     isPublic: boolean;
-    owner: { __typename?: 'User'; id: string };
+    invites: Array<string>;
+    owner: {
+      __typename?: 'User';
+      id: string;
+      lastname: string;
+      firstname: string;
+    };
     members: Array<{ __typename?: 'User'; id: string }>;
     actions: Array<{
       __typename?: 'Action';
       id: string;
       name: string;
+      points: number;
       icon: string;
+      createdAt: any;
+      description: string;
+      level: number;
+      requires_view: boolean;
+      time: number;
       tags?: Array<{
         __typename?: 'Tag';
         id: string;
@@ -359,7 +351,9 @@ export type GetChallengeQuery = {
     actions: Array<{
       __typename?: 'Action';
       id: string;
+      name: string;
       points: number;
+      icon: string;
       tags?: Array<{
         __typename?: 'Tag';
         id: string;
@@ -609,6 +603,7 @@ export type ActionByChallengeWithStatusQuery = {
     __typename?: 'Challenge';
     startDate: any;
     status: ChallengeStatus;
+    invites: Array<string>;
     label: string;
     isPublic: boolean;
     id: string;
@@ -639,6 +634,7 @@ export type ActionByChallengeWithStatusQuery = {
       icon: string;
       time: number;
       createdAt: any;
+      points: number;
       tags?: Array<{
         __typename?: 'Tag';
         id: string;
@@ -876,8 +872,11 @@ export const GetChallengesAsChallengeDocument = gql`
       status
       createdAt
       isPublic
+      invites
       owner {
         id
+        lastname
+        firstname
       }
       members {
         id
@@ -885,7 +884,13 @@ export const GetChallengesAsChallengeDocument = gql`
       actions {
         id
         name
+        points
         icon
+        createdAt
+        description
+        level
+        requires_view
+        time
         tags {
           id
           name
@@ -986,7 +991,9 @@ export const GetChallengeDocument = gql`
       }
       actions {
         id
+        name
         points
+        icon
         tags {
           id
           name
@@ -2071,6 +2078,7 @@ export const ActionByChallengeWithStatusDocument = gql`
     getChallenge(id: $getChallengeId) {
       startDate
       status
+      invites
       owner {
         id
         lastname
@@ -2098,6 +2106,7 @@ export const ActionByChallengeWithStatusDocument = gql`
         icon
         time
         createdAt
+        points
         tags {
           id
           name

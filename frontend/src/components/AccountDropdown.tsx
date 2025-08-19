@@ -167,18 +167,14 @@ export const AccountDropdown = () => {
             Thème actuel: {themeIcon[theme]}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {['light', 'dark', 'system'].map((mode) => (
+          {(['light', 'dark', 'system'] as const).map((mode) => (
             <DropdownMenuItem
               key={mode}
               onClick={(e) => {
-                setTheme(mode as 'light' | 'dark' | 'system');
+                setTheme(mode);
                 e.preventDefault();
               }}
-              onKeyDown={(e) =>
-                handleKeyDown(e, () =>
-                  setTheme(mode as 'light' | 'dark' | 'system')
-                )
-              }
+              onKeyDown={(e) => handleKeyDown(e, () => setTheme(mode))}
               role="menuitem"
               aria-label={`Changer pour le thème ${mode}`}
             >

@@ -20,7 +20,7 @@
       "description": "Organisez avec vos voisins un système de partage d'objets peu utilisés (outils, équipements de jardinage, etc.). Objectif : réduire la surconsommation collective !",
       "bannerUrl": "/banners/banner-1.jpg",
       "startDate": "2025-03-27T00:00:00Z",
-      "endDate": "2026-06-27T23:59:59Z",
+      "endDate": "{{now+7d}}",
       "actions": [6, 7, 10],
       "owner": "admin@example.com",
       "members": [
@@ -62,7 +62,7 @@
       "description": "Identifiez un espace urbain délaissé et transformez-le en micro-jardin de biodiversité avec vos voisins. Semez des fleurs mellifères !",
       "bannerUrl": "/banners/banner-4.jpg",
       "startDate": "2025-03-27T00:00:00Z",
-      "endDate": "2025-09-27T23:59:59Z",
+      "endDate": "{{now+78d}}",
       "actions": [1, 7, 10],
       "owner": "admin@example.com",
       "members": [
@@ -88,7 +88,7 @@
       "description": "Nettoyez vos emails, stockage cloud et appareils des données inutiles. Objectif : réduire votre empreinte numérique de 50% !",
       "bannerUrl": "/banners/banner-6.jpg",
       "startDate": "2025-03-27T00:00:00Z",
-      "endDate": "2025-04-03T23:59:59Z",
+      "endDate": "{{now+263d}}",
       "actions": [4, 10],
       "owner": "admin@example.com",
       "members": ["admin@example.com", "james@example.com"]
@@ -114,7 +114,7 @@
       "description": "Identifiez et évitez pendant un mois les produits des 10 entreprises les plus polluantes. Proposez des alternatives locales !",
       "bannerUrl": "/banners/banner-8.jpg",
       "startDate": "2025-03-27T00:00:00Z",
-      "endDate": "2025-04-27T23:59:59Z",
+      "endDate": "{{now+99d}}",
       "actions": [6, 10],
       "owner": "admin@example.com",
       "isPublic": false,

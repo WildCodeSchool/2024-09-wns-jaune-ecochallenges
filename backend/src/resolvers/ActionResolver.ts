@@ -98,6 +98,9 @@ export class ActionResolver {
     @Ctx() { user }: { user: User }
   ) {
     try {
+      if (!user) {
+        throw new Error('Utilisateur non trouvé');
+      }
       let action = new Action();
       action = Object.assign(action, data);
       action.createdBy = user;
@@ -133,6 +136,9 @@ export class ActionResolver {
     @Ctx() { user }: { user: User }
   ): Promise<Action> {
     try {
+      if (!user) {
+        throw new Error('Utilisateur non trouvé');
+      }
       const action = await Action.findOneOrFail({
         where: { id },
         relations: ['createdBy', 'tags'],

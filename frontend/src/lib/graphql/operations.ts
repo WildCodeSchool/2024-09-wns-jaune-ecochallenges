@@ -25,8 +25,11 @@ export const GET_CHALLENGES = gql`
       status
       createdAt
       isPublic
+      invites
       owner {
         id
+        lastname
+        firstname
       }
       members {
         id
@@ -34,6 +37,7 @@ export const GET_CHALLENGES = gql`
       actions {
         id
         name
+        points
         icon
         createdAt
         description
@@ -71,7 +75,9 @@ export const GET_CHALLENGE = gql`
       }
       actions {
         id
+        name
         points
+        icon
         tags {
           id
           name
@@ -295,6 +301,7 @@ export const GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS = gql`
     getChallenge(id: $getChallengeId) {
       startDate
       status
+      invites
       owner {
         id
         lastname
@@ -322,6 +329,7 @@ export const GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS = gql`
         icon
         time
         createdAt
+        points
         tags {
           id
           name

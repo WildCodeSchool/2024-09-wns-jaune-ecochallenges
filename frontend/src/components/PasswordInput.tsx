@@ -6,8 +6,6 @@ import type { ComponentProps } from 'react';
 
 type InputProps = ComponentProps<'input'>;
 
-type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
-
 const PasswordInput = forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...props }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
