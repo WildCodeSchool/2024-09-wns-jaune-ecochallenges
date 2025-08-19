@@ -6,12 +6,12 @@
   "scripts": {
     "dev": "vite",
     "buildori": "tsc -b && vite build",
-    "build": "tsc -p tsconfig.app.json && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "codegen": "graphql-codegen --config codegen.ts",
     "test": "vitest run --config vitest.config.ts",
     "test:ui": "vitest --config vitest.config.ts",
-    "start": "node server.js"
+    "start": "serve -s dist -l 5173"
   },
   "dependencies": {
     "@apollo/client": "^3.13.4",
@@ -61,7 +61,8 @@
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.24.3",
-    "zustand": "^5.0.3"
+    "zustand": "^5.0.3",
+    "serve": "^14.2.1"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.0",
