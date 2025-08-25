@@ -77,7 +77,10 @@ describe('Carousel Component', () => {
   it('renders the carousel wrapper', () => {
     const { getByTestId } = render(
       <MemoryRouter>
-        <CarouselComponent data={mockData} CardComponent={ChallengeCard} />
+        <CarouselComponent
+          data={mockData as any}
+          CardComponent={ChallengeCard}
+        />
       </MemoryRouter>
     );
     expect(getByTestId('carousel')).toBeInTheDocument();
@@ -86,7 +89,10 @@ describe('Carousel Component', () => {
   it('should render the carousel component with the correct data', () => {
     const { getByTestId } = render(
       <MemoryRouter>
-        <CarouselComponent data={mockData} CardComponent={ChallengeCard} />
+        <CarouselComponent
+          data={mockData as any}
+          CardComponent={ChallengeCard}
+        />
       </MemoryRouter>
     );
     expect(getByTestId('card-1')).toBeInTheDocument();

@@ -124,7 +124,7 @@ export const ActionForm = ({ actionId }: { actionId?: string }) => {
         level: formData.level,
         icon: icon,
         time: formData.time,
-        tags: formData.tags,
+        tags: formData.tags || [],
       };
 
       const response = actionId

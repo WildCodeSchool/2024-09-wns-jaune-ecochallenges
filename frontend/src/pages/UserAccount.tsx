@@ -21,7 +21,7 @@ export const UserAccount = () => {
   const [updateUser] = useMutation(UPDATE_USER);
 
   const [isEditing, setIsEditing] = useState(false);
-  const [saving, setSaving] = useState(false);
+  const [, setSaving] = useState(false);
   const [form, setForm] = useState({
     firstname: '',
     lastname: '',

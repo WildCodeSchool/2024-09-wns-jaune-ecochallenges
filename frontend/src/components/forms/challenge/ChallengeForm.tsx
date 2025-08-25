@@ -129,7 +129,7 @@ export const ChallengeForm = ({ challengeId }: { challengeId?: string }) => {
       endDate: formData.dateRange.to.toISOString(),
       actions: formData.actions,
       members: formData.members,
-      invites: formData.invites,
+      invites: formData.invites || [],
     };
 
     challengeId
