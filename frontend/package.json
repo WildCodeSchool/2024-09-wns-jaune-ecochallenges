@@ -2,16 +2,16 @@
   "name": "frontend",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "buildori": "tsc -b && vite build",
     "build": "tsc -p tsconfig.app.json && vite build",
+    "build:node": "tsc",
     "preview": "vite preview",
     "codegen": "graphql-codegen --config codegen.ts",
     "test": "vitest run --config vitest.config.ts",
     "test:ui": "vitest --config vitest.config.ts",
-    "start": "node main.js"
+    "start": "node dist/index.js"
   },
   "dependencies": {
     "@apollo/client": "^3.13.4",

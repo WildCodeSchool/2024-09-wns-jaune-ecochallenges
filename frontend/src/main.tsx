@@ -17,7 +17,7 @@ import {
   ActionCreation,
   ActionEdition,
   ChallengeDetailPage,
-} from '@/pages';
+} from './pages';
 
 import './index.css';
 
