@@ -27,11 +27,11 @@ const dataSource = new DataSource({
   // migrationsTableName: "migrations",
 });
 
-type CleanEntity<T> = {
+/* type CleanEntity<T> = {
   [K in keyof Omit<T, keyof BaseEntity> as T[K] extends Function
     ? never
     : K]: T[K];
-};
+}; */
 
 // Type to extract entity relation keys
 type EntityRelationKeys<T> = keyof {
