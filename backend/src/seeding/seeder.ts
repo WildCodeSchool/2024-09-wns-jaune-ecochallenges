@@ -1,5 +1,7 @@
 import { dataSource } from '@/config/db';
 import { BaseEntity } from 'typeorm';
+import { createDatabase } from 'typeorm-extension';
+
 import chalk from 'chalk';
 
 chalk.level = 2;
@@ -101,6 +103,11 @@ export const seedDb = async (
   seedCallback: (seedEntityFn: typeof seedEntity) => Promise<void>
 ): Promise<void> => {
   try {
+    console.log('🔄 Ensuring database exists...');
+    await createDatabase({
+      ifNotExist: true,
+      options: dataSource.options,
+    });
     console.log('🔄 Initializing database...');
     await dataSource.initialize();
     console.log('🧼 Cleaning database...');
