@@ -191,18 +191,6 @@ export type QueryGetUserActionChallengeScoreByChallengeArgs = {
   id: Scalars['String']['input'];
 };
 
-export type QueryGetUserActionChallengeScoreByChallengeIdAndByUserIdArgs = {
-  data: UserActionChallengeScoreByUserInput;
-};
-
-export type Score = {
-  __typename?: 'Score';
-  challenge: Challenge;
-  id: Scalars['ID']['output'];
-  result: Scalars['Float']['output'];
-  user: User;
-};
-
 export type SignUpUserInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   email: Scalars['String']['input'];
@@ -309,13 +297,24 @@ export type GetChallengesAsChallengeQuery = {
     createdAt: any;
     isPublic: boolean;
     invites: Array<string>;
-    owner: { __typename?: 'User'; id: string };
+    owner: {
+      __typename?: 'User';
+      id: string;
+      lastname: string;
+      firstname: string;
+    };
     members: Array<{ __typename?: 'User'; id: string }>;
     actions: Array<{
       __typename?: 'Action';
       id: string;
       name: string;
+      points: number;
       icon: string;
+      createdAt: any;
+      description: string;
+      level: number;
+      requires_view: boolean;
+      time: number;
       tags?: Array<{
         __typename?: 'Tag';
         id: string;
@@ -352,7 +351,9 @@ export type GetChallengeQuery = {
     actions: Array<{
       __typename?: 'Action';
       id: string;
+      name: string;
       points: number;
+      icon: string;
       tags?: Array<{
         __typename?: 'Tag';
         id: string;
@@ -878,6 +879,8 @@ export const GetChallengesAsChallengeDocument = gql`
       invites
       owner {
         id
+        lastname
+        firstname
       }
       members {
         id
@@ -885,7 +888,13 @@ export const GetChallengesAsChallengeDocument = gql`
       actions {
         id
         name
+        points
         icon
+        createdAt
+        description
+        level
+        requires_view
+        time
         tags {
           id
           name
@@ -986,7 +995,9 @@ export const GetChallengeDocument = gql`
       }
       actions {
         id
+        name
         points
+        icon
         tags {
           id
           name
