@@ -1,10 +1,31 @@
-import { dataSource } from '@/config/db';
-import { BaseEntity } from 'typeorm';
-import { createDatabase } from 'typeorm-extension';
+import { BaseEntity, DataSource } from 'typeorm';
+import { Client } from 'pg';
 
 import chalk from 'chalk';
+import {
+  Action,
+  Challenge,
+  Tag,
+  User,
+  UserActionChallengeScore,
+} from '@/entities';
 
 chalk.level = 2;
+
+const { DB_HOST, DB_PASSWORD, DB_USER, DB_SCHEMA, DB_PORT } = process.env;
+
+const dataSource = new DataSource({
+  type: 'postgres',
+  host: DB_HOST,
+  username: DB_USER,
+  password: DB_PASSWORD,
+  database: DB_SCHEMA,
+  port: Number(DB_PORT),
+  entities: [User, Challenge, Action, Tag, UserActionChallengeScore],
+  synchronize: true,
+  // migrations: ["./bdd/migrations/*.ts"],
+  // migrationsTableName: "migrations",
+});
 
 type CleanEntity<T> = {
   [K in keyof Omit<T, keyof BaseEntity> as T[K] extends Function
@@ -99,23 +120,49 @@ const seedEntity = async <T extends BaseEntity>(
   }
 };
 
+async function ensureDatabaseExists(): Promise<void> {
+  const client = new Client({
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    host: process.env.DB_HOST,
+    port: Number(process.env.DB_PORT),
+    database: 'postgres', // connect to default DB to create target DB
+  });
+
+  await client.connect();
+
+  const result = await client.query(
+    `SELECT 1 FROM pg_database WHERE datname=$1`,
+    [process.env.DB_SCHEMA]
+  );
+
+  if (result.rowCount === 0) {
+    await client.query(
+      `CREATE DATABASE "${process.env.DB_SCHEMA}" OWNER "${process.env.DB_USER}"`
+    );
+    console.log(chalk.blue(`📦 Created database "${process.env.DB_SCHEMA}"`));
+  }
+
+  await client.end();
+}
+
 export const seedDb = async (
   seedCallback: (seedEntityFn: typeof seedEntity) => Promise<void>
 ): Promise<void> => {
   try {
     console.log('🔄 Ensuring database exists...');
-    await createDatabase({
-      ifNotExist: true,
-      options: dataSource.options,
-    });
+    await ensureDatabaseExists();
+
     console.log('🔄 Initializing database...');
     await dataSource.initialize();
+
     console.log('🧼 Cleaning database...');
     await dataSource.dropDatabase();
+
     console.log('🏗️  Creating database...');
     await dataSource.synchronize();
-    console.log('🌱 Seeding database...');
 
+    console.log('🌱 Seeding database...');
     await seedCallback(seedEntity);
 
     await dataSource.destroy();
