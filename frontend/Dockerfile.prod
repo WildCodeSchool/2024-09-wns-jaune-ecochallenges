@@ -79,7 +79,7 @@ COPY *.json ./
 RUN npm install --legacy-peer-deps
 RUN npm install -g typescript --legacy-peer-deps
 COPY . .
-RUN npx tsc --project tsconfig.json
+RUN tsc
 
 # ---------- Production stage ----------
 FROM node:lts-alpine
