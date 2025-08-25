@@ -178,7 +178,7 @@ export const AccountDropdown = () => {
               role="menuitem"
               aria-label={`Changer pour le thème ${mode}`}
             >
-              {themeIcon[mode]} Thème {mode}
+              {themeIcon[mode as 'light' | 'dark' | 'system']} Thème {mode}
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>

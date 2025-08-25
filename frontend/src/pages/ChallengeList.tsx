@@ -68,7 +68,7 @@ export const ChallengeList = () => {
                       <li key={challenge.id}>
                         <ChallengeCard
                           key={challenge.id}
-                          challenge={challenge}
+                          challenge={challenge as any}
                         />
                       </li>
                     ))}
@@ -87,7 +87,7 @@ export const ChallengeList = () => {
                       <li key={challenge.id}>
                         <ChallengeCard
                           key={challenge.id}
-                          challenge={challenge}
+                          challenge={challenge as any}
                         />
                       </li>
                     ))}
@@ -106,7 +106,10 @@ export const ChallengeList = () => {
               <ul className="flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-3 lg:grid-cols-3 xl:grid-cols-4 xl:gap-4">
                 {openChallenges.map((challenge) => (
                   <li key={challenge.id}>
-                    <ChallengeCard key={challenge.id} challenge={challenge} />
+                    <ChallengeCard
+                      key={challenge.id}
+                      challenge={challenge as any}
+                    />
                   </li>
                 ))}
               </ul>

@@ -354,6 +354,7 @@ export const GET_ACTIONS_BY_CHALLENGE_ID_WITH_STATUS = gql`
         points
         challenge {
           id
+          invites
         }
         action {
           id

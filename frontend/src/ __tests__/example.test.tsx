@@ -26,11 +26,12 @@ describe('Example tests', () => {
           requires_view: true,
           time: 1,
           createdAt: '2021-01-01',
+          points: 1,
           createdBy: {
             id: '1',
             role: 'admin',
           },
-          points: 10,
+          tags: [],
         }}
       />
     );
