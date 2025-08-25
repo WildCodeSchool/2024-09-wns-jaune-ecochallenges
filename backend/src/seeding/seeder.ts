@@ -120,7 +120,7 @@ const seedEntity = async <T extends BaseEntity>(
   }
 };
 
-async function ensureDatabaseExists(): Promise<void> {
+/* async function ensureDatabaseExists(): Promise<void> {
   const client = new Client({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
@@ -144,14 +144,14 @@ async function ensureDatabaseExists(): Promise<void> {
   }
 
   await client.end();
-}
+} */
 
 export const seedDb = async (
   seedCallback: (seedEntityFn: typeof seedEntity) => Promise<void>
 ): Promise<void> => {
   try {
-    console.log('🔄 Ensuring database exists...');
-    await ensureDatabaseExists();
+    /*     console.log('🔄 Ensuring database exists...');
+    await ensureDatabaseExists(); */
 
     console.log('🔄 Initializing database...');
     await dataSource.initialize();

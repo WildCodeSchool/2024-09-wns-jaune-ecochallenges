@@ -42,7 +42,7 @@ services:
 
   database-eco:
     container_name: database-eco
-    image: postgres
+    image: postgres:latest
     volumes:
       - ./persist/data-dev/:/var/lib/postgresql/data/
     environment:
