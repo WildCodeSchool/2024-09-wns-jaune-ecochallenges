@@ -1,5 +1,4 @@
 import { BaseEntity, DataSource } from 'typeorm';
-import { Client } from 'pg';
 
 import chalk from 'chalk';
 import {
@@ -50,7 +49,8 @@ type DatePropertyKeys<T> = keyof {
 
 const seedEntity = async <T extends BaseEntity>(
   entity: new () => T,
-  data: Record<any, any>[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: Record<string, any>[],
   options?: {
     relations?: {
       name: EntityRelationKeys<T>;
@@ -103,56 +103,22 @@ const seedEntity = async <T extends BaseEntity>(
           });
         }
 
-        return Object.assign(new (entity as any)(), processedItem);
+        return Object.assign(new entity(), processedItem);
       })
     );
 
     await repository.save(entities);
-    console.log(
-      chalk.green(`✔︎ ${entities.length} ${(entity as any).name}s added!`)
-    );
+    console.log(chalk.green(`✔︎ ${entities.length} ${entity.name}s added!`));
   } catch (error) {
-    console.error(
-      chalk.red(`❌ Error seeding ${(entity as any).name}:`),
-      error
-    );
+    console.error(chalk.red(`❌ Error seeding ${entity.name}:`), error);
     throw error;
   }
 };
-
-/* async function ensureDatabaseExists(): Promise<void> {
-  const client = new Client({
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    host: process.env.DB_HOST,
-    port: Number(process.env.DB_PORT),
-    database: 'postgres', // connect to default DB to create target DB
-  });
-
-  await client.connect();
-
-  const result = await client.query(
-    `SELECT 1 FROM pg_database WHERE datname=$1`,
-    [process.env.DB_SCHEMA]
-  );
-
-  if (result.rowCount === 0) {
-    await client.query(
-      `CREATE DATABASE "${process.env.DB_SCHEMA}" OWNER "${process.env.DB_USER}"`
-    );
-    console.log(chalk.blue(`📦 Created database "${process.env.DB_SCHEMA}"`));
-  }
-
-  await client.end();
-} */
 
 export const seedDb = async (
   seedCallback: (seedEntityFn: typeof seedEntity) => Promise<void>
 ): Promise<void> => {
   try {
-    /*     console.log('🔄 Ensuring database exists...');
-    await ensureDatabaseExists(); */
-
     console.log('🔄 Initializing database...');
     await dataSource.initialize();
 
