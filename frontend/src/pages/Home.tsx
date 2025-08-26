@@ -43,7 +43,7 @@ export const Home = () => {
   return (
     <>
       <h1 className="mb-8 rounded-full text-center text-3xl font-thin">
-        🌱 Bienvenue sur Eco-challenges 🌱
+        🌱 Bienvenue sur Eco-challenges TOTO 🌱
       </h1>
 
       {isAuth && (
