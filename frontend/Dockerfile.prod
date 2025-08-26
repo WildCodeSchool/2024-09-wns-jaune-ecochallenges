@@ -8,16 +8,21 @@ COPY . .
 RUN npm run build
 
 # 📦 Stage 2: Serve the built app using a lightweight HTTP server
-FROM node:lts-alpine
-WORKDIR /app
-ENV CHOKIDAR_USEPOLLING=true
-COPY package*.json ./
-RUN npm install --legacy-peer-deps
-COPY vite.config.ts ./
-COPY tsconfig* ./
-COPY codegen.ts ./
-COPY components.json ./
-COPY index.html ./
-COPY src ./src
-COPY public ./public
-CMD npm run dev
+# FROM node:lts-alpine
+# WORKDIR /app
+# ENV CHOKIDAR_USEPOLLING=true
+# COPY package*.json ./
+# RUN npm install --legacy-peer-deps
+# COPY vite.config.ts ./
+# COPY tsconfig* ./
+# COPY codegen.ts ./
+# COPY components.json ./
+# COPY index.html ./
+# COPY src ./src
+# COPY public ./public
+# CMD npm run dev
+
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
