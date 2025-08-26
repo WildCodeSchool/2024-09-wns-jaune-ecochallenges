@@ -24,6 +24,12 @@ const PasswordInput = forwardRef<HTMLInputElement, InputProps>(
           type="button"
           variant="ghost"
           size="sm"
+          aria-label={
+            showPassword
+              ? 'Masquer le mot de passe'
+              : 'Afficher le mot de passe'
+          }
+          aria-pressed={showPassword}
           className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
           onClick={() => setShowPassword((prev) => !prev)}
           disabled={disabled}
