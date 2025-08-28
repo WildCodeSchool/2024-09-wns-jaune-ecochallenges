@@ -39,5 +39,5 @@ jobs:
         if: ${{ steps.filter.outputs[matrix.service] == 'true' }}
         run: |
           cd ${{ matrix.service }}
-          npm i --ignore-scripts
+          npm i
           npm run test
