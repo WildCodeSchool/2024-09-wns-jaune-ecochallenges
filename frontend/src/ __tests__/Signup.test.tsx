@@ -29,20 +29,20 @@ function deferred<T>() {
 }
 
 describe('Signup-unit', () => {
-  it('should render all form fields and the signup button', () => {});
+  it('should render all form fields and the signup button', () => {
+    render(<Signup onToggleForm={onToggleForm} />);
+    expect(screen.getByLabelText('Prénom')).toBeInTheDocument();
+    expect(screen.getByLabelText('Nom')).toBeInTheDocument();
+    expect(screen.getByLabelText('Email')).toBeInTheDocument();
+    expect(screen.getByLabelText('Mot de passe')).toBeInTheDocument();
+    expect(
+      screen.getByLabelText('Confirmez le mot de passe')
+    ).toBeInTheDocument();
 
-  render(<Signup onToggleForm={onToggleForm} />);
-  expect(screen.getByLabelText('Prénom')).toBeInTheDocument();
-  expect(screen.getByLabelText('Nom')).toBeInTheDocument();
-  expect(screen.getByLabelText('Email')).toBeInTheDocument();
-  expect(screen.getByLabelText('Mot de passe')).toBeInTheDocument();
-  expect(
-    screen.getByLabelText('Confirmez le mot de passe')
-  ).toBeInTheDocument();
-
-  expect(
-    screen.getByRole('button', { name: "S'inscrire" })
-  ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: "S'inscrire" })
+    ).toBeInTheDocument();
+  });
 
   it('should mark all fields as required', () => {
     render(<Signup onToggleForm={onToggleForm} />);
@@ -53,6 +53,7 @@ describe('Signup-unit', () => {
     expect(screen.getByLabelText('Mot de passe')).toBeRequired();
     expect(screen.getByLabelText('Confirmez le mot de passe')).toBeRequired();
   });
+
   it('should set focus on the first invalid field when submitting an empty form', async () => {
     render(<Signup onToggleForm={onToggleForm} />);
     await userEvent.click(screen.getByRole('button', { name: "S'inscrire" }));
