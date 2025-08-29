@@ -1,13 +1,13 @@
-// Fichier component pour le template du mail: "test"
+// Fichier component pour le template du mail: "envoiEmailTest"
 import { Html, Head, Font, Body, Preview } from '@react-email/components';
 import * as React from 'react';
 
-export interface TestEmailProps {
+export interface EnvoiEmailTestEmailProps {
   preview: string;
   // rest of your props
 }
 
-export const TestEmail = (props: TestEmailProps) => {
+export const EnvoiEmailTestEmail = (props: EnvoiEmailTestEmailProps) => {
   return (
     <Html>
       <Head>

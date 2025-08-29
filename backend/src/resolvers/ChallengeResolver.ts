@@ -122,6 +122,7 @@ export class ChallengeResolver {
         startDate: challenge.startDate,
         endDate: challenge.endDate,
       });
+      // email.testEmail.send(user.email, { preview: 'lalalal ' });
 
       return challenge;
     } catch (err) {

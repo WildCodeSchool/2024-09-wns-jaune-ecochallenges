@@ -11,6 +11,7 @@ import {
   UserActionChallengeScore,
 } from '@/lib/graphql/generated/graphql-types';
 import { StatusEnum } from '@/lib/enums';
+import { useDevice } from '@/hooks/useDevice';
 
 type Props = {
   userId?: string;
@@ -25,6 +26,7 @@ export const ActionItem = ({
   userActionChallengeScore,
 }: Props) => {
   const isChecked = userActionChallengeScore?.status === StatusEnum.COMPLETED;
+  const { isMobile } = useDevice();
 
   return (
     <li className="flex items-center justify-between gap-2 rounded-xl p-4 shadow-sm">
@@ -39,7 +41,11 @@ export const ActionItem = ({
         </div>
 
         <div className="mt-1 flex items-center gap-2">
-          <Pill>{action.tags?.[0]?.name || 'Sans tag'}</Pill>
+          <Pill>
+            {isMobile
+              ? action.tags?.[0]?.name.slice(0, 1)
+              : action.tags?.[0]?.name || 'Sans tag'}
+          </Pill>
 
           <div className="text-muted-foreground flex items-center gap-x-2 text-xs">
             {userActionChallengeScore?.validatedBy && (
@@ -54,8 +60,8 @@ export const ActionItem = ({
               {userActionChallengeScore?.status === StatusEnum.PENDING
                 ? 'En attente de validation'
                 : userActionChallengeScore?.status === StatusEnum.COMPLETED
-                  ? `Validé par ${userActionChallengeScore.validatedBy?.firstname} ${userActionChallengeScore.validatedBy?.lastname}`
-                  : 'Validation en cours'}
+                  ? `Action faites par ${userActionChallengeScore.validatedFor?.firstname} ${userActionChallengeScore.validatedFor?.lastname} validée par ${userActionChallengeScore.validatedBy?.firstname} ${userActionChallengeScore.validatedBy?.lastname}`
+                  : 'Non commencée'}
             </span>
           </div>
         </div>

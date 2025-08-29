@@ -74,7 +74,7 @@ shell-frontend: ## Open a shell in the frontend container
 	@$(DOCKER_COMPOSE) exec frontend sh
 
 seed: ## Seed the database
-	@docker exec -it backend-eco sh -c "npm run seed"
+	@docker exec -it backend-dev sh -c "npm run seed"
 
 email: ## Create a new template for sending email
 	@cd backend && npm run email
@@ -84,7 +84,7 @@ codegen: ## Generate GraphQL types and hooks
 	@cd frontend && npm run codegen
 	@echo "$(GREEN)GraphQL types generated successfully$(NC)"
 
-vitest: ## Run tests
+vitest-frontend: ## Run tests
 	@echo "$(GREEN)Running tests...$(NC)"
 	@cd frontend && npm run test
 	@echo "$(GREEN)Tests completed$(NC)"

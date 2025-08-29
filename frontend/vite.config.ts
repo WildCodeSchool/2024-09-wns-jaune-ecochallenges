@@ -12,7 +12,10 @@ export default defineConfig({
   },
   server: {
     host: true,
-    allowedHosts: ['frontend', 'frontend-eco-dev'],
-    hmr: { path: 'hmr' },
+    allowedHosts: true,
+    hmr: {
+      port: 7001,
+      path: '/hmr',
+    },
   },
 });

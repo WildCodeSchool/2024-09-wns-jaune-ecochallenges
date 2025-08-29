@@ -5,9 +5,7 @@ test("le carousel affiche les challenges publics non terminés et permet la navi
 }) => {
   await page.goto('http://localhost:7001');
 
-  await expect(
-    page.getByText("Créez une bibliothèque d'objets de quartier")
-  ).toBeVisible();
+  await expect(page.getByText('Jardin collectif sauvage')).toBeVisible();
 
   await page.getByRole('button', { name: /next/i }).click();
 
@@ -15,7 +13,5 @@ test("le carousel affiche les challenges publics non terminés et permet la navi
 
   await page.getByRole('button', { name: /previous/i }).click();
 
-  await expect(
-    page.getByText("Créez une bibliothèque d'objets de quartier")
-  ).toBeVisible();
+  await expect(page.getByText('Opération données vertes')).toBeVisible();
 });

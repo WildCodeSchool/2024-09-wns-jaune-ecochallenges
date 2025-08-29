@@ -34,7 +34,7 @@ export const ActionsTabs = ({
 
   return (
     <Tabs defaultValue="gestes" className="w-full md:max-w-4xl lg:max-w-5xl">
-      <TabsList className="grid w-full grid-cols-3 gap-2">
+      <TabsList className="grid h-full w-full grid-cols-1 gap-2 md:grid-cols-3">
         <TabsTrigger className="bg-sidebar" value="gestes">
           {isChallengeOwner || isAdmin || !userId ? (
             <>

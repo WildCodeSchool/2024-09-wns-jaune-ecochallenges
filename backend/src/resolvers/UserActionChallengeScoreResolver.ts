@@ -283,7 +283,7 @@ export class UserActionChallengeScoreResolver {
       );
     }
 
-    // Only members, owners or admins can validate
+    // Only owners or admins can validate
     if (!isUserOwner && !isUserAdmin) {
       throw new GraphQLError("Vous n'êtes pas autorisé à valider cette action");
     }

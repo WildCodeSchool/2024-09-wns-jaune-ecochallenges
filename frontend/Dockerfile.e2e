@@ -10,6 +10,7 @@ COPY tsconfig* ./
 COPY codegen.ts ./
 
 RUN npm install --legacy-peer-deps
+RUN npm audit fix
 
 COPY public ./public
 COPY src ./src

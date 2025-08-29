@@ -14,6 +14,7 @@ import {
   formatChallengeDates,
   getProgressPercentageInChallenge,
 } from '@/utils';
+import { useDevice } from '@/hooks/useDevice';
 
 type Props = {
   challenge: GetChallengeQuery['getChallenge'];
@@ -29,9 +30,10 @@ export const ChallengeBanner = ({
     userActionChallengesScore
   );
 
+  const { isMobile } = useDevice();
   const dates = formatChallengeDates(challenge.startDate, challenge.endDate);
-
   const tags = getUniqueTagsFromActions(challenge.actions as Action[]);
+  const formatedTagsForMobile = isMobile ? tags.slice(1, 2) : tags;
 
   return (
     <Card className="relative w-full overflow-hidden rounded-xl p-0 shadow-lg">
@@ -69,7 +71,7 @@ export const ChallengeBanner = ({
 
       <div className="absolute bottom-2 left-0 z-10 flex flex-col gap-2 px-2">
         <ul className="flex w-full flex-wrap gap-2">
-          {tags.map((tag) => (
+          {formatedTagsForMobile.map((tag) => (
             <li key={tag?.id}>
               <Pill>
                 <span className="mr-1 text-lg">{tag?.icon}</span>
