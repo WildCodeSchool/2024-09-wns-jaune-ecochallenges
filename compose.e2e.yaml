@@ -1,5 +1,5 @@
 x-baseService: &baseService
-  restart: always
+  restart: no
   healthcheck:
     interval: 10s
     timeout: 5s
@@ -8,66 +8,54 @@ x-baseService: &baseService
     start_interval: 10s
 
 services:
-  gateway-dev:
+  gateway-e2e:
     <<: *baseService
-    container_name: gateway-dev
+    container_name: gateway-e2e
     image: nginx
     volumes:
-      - ./nginx.dev.conf:/etc/nginx/nginx.conf
+      - ./nginx.e2e.conf:/etc/nginx/nginx.conf
     ports:
       - ${GATEWAY_PORT}:80
     depends_on:
-      backend-dev:
+      backend-e2e:
         condition: service_healthy
-      files-dev:
+      files-e2e:
         condition: service_healthy
-      frontend-dev:
+      frontend-e2e:
         condition: service_healthy
-      adminer-dev:
-        condition: service_started
-    environment:
-      BACKEND_PORT: ${BACKEND_PORT}
 
-  database-dev:
+  database-e2e:
     <<: *baseService
-    container_name: database-dev
+    container_name: database-e2e
     image: postgres
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -d ${DB_SCHEMA} -U ${DB_USER}']
     volumes:
-      - ./persist/database-dev/:/var/lib/postgresql/data/
+      - ./persist/database-e2e:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_SCHEMA}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_HOST: ${DB_HOST}
 
-  adminer-dev:
+  backend-e2e:
     <<: *baseService
-    container_name: adminer-dev
-    image: adminer
-    depends_on:
-      database-dev:
-        condition: service_healthy
-
-  backend-dev:
-    <<: *baseService
-    container_name: backend-dev
+    container_name: backend-e2e
     build:
       context: ./backend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.e2e
     healthcheck:
       test:
         [
           'CMD-SHELL',
-          'curl -m 5 --fail --request POST --header ''Content-Type: application/json'' --url ''http://backend-dev:4005'' --data ''{"query":"query { __typename }"}'' || exit 1',
+          'curl --fail --request POST --header ''Content-Type: application/json'' --url ''http://backend-e2e:4005'' --data ''{"query":"query { __typename }"}'' || exit 1',
         ]
+    depends_on:
+      database-e2e:
+        condition: service_healthy
     volumes:
       - ./backend/src:/app/src/
-      - ./persist/backend-dev:/app/static
-    depends_on:
-      database-dev:
-        condition: service_healthy
+      - ./persist/backend-e2e:/app/static
     environment:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE: ${DB_SCHEMA}
@@ -80,37 +68,58 @@ services:
       GOOGLE_APP_PASSWORD: ${GOOGLE_APP_PASSWORD}
       GOOGLE_APP_EMAIL: ${GOOGLE_APP_EMAIL}
 
-  files-dev:
+  files-e2e:
     <<: *baseService
-    container_name: files-dev
+    container_name: files-e2e
     build:
       context: ./files
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.e2e
     healthcheck:
       test:
         [
           'CMD-SHELL',
-          "curl -m 5 --fail --request GET --url 'http://files-dev:4000/health'|| exit 1",
+          "curl --fail --request GET --url 'http://files-e2e:4000/health'|| exit 1",
         ]
     volumes:
       - ./files/src:/app/src/
-      - ./persist/files-dev:/app/public
+      - ./persist/files-e2e:/app/public
 
-  frontend-dev:
+  frontend-e2e:
     <<: *baseService
-    container_name: frontend-dev
+    container_name: frontend-e2e
     build:
       context: ./frontend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.e2e
     healthcheck:
       test:
         [
           'CMD-SHELL',
-          "curl -m 5 --fail --request GET --url 'http://frontend-dev:5173'|| exit 1",
+          "curl --fail --request GET --url 'http://frontend-e2e:5173/health'|| exit 1",
         ]
+    depends_on:
+      backend-e2e:
+        condition: service_healthy
+      files-e2e:
+        condition: service_healthy
     volumes:
       - ./frontend/src/:/app/src/
     environment:
       VITE_GATEWAY_PORT: ${GATEWAY_PORT}
-      VITE_WS_URL: ${VITE_WS_URL}
       VITE_API_URL: ${VITE_API_URL}
+      VITE_WS_URL: ${VITE_WS_URL}
+
+  playwright-e2e:
+    <<: *baseService
+    container_name: playwright-e2e
+    restart: on-failure
+    build:
+      context: ./e2e
+      dockerfile: Dockerfile.e2e
+    volumes:
+      - ./persist/playwright-e2e/report:/app/playwright-report
+      - ./persist/playwright-e2e/results:/app/tests-results
+    depends_on:
+      gateway-e2e:
+        condition: service_started
+    environment:
+      WEBSITE_URL: http://gateway-e2e

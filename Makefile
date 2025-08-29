@@ -74,7 +74,7 @@ shell-frontend: ## Open a shell in the frontend container
 	@$(DOCKER_COMPOSE) exec frontend sh
 
 seed: ## Seed the database
-	@docker exec -it backend-eco sh -c "npm run seed"
+	@docker exec -it backend-dev sh -c "npm run seed"
 
 email: ## Create a new template for sending email
 	@cd backend && npm run email

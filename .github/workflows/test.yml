@@ -1,5 +1,4 @@
-name: test
-
+name: Tests
 on:
   pull_request:
     branches:
@@ -7,7 +6,7 @@ on:
     types: [opened, reopened, synchronize]
 
 jobs:
-  build:
+  test-services:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -22,22 +21,35 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20.17.0
-          cache: 'npm'
+          node-version: '20'
 
-      - name: Filter changed files
-        id: filter
-        uses: dorny/paths-filter@v2
-        with:
-          filters: |
-            frontend:
-              - 'frontend/**'
-            backend:
-              - 'backend/**'
-
-      - name: Run tests
-        if: ${{ steps.filter.outputs[matrix.service] == 'true' }}
+      - name: Run tests for ${{ matrix.service }}
         run: |
           cd ${{ matrix.service }}
-          npm i
+          npm install
           npm run test
+
+  test-e2e:
+    runs-on: ubuntu-latest
+    needs: test-services
+    environment: e2e
+    env:
+      GATEWAY_PORT: ${{ secrets.GATEWAY_PORT }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_HOST: ${{ secrets.DB_HOST }}
+      COOKIE_TTL: ${{ secrets.COOKIE_TTL }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      VITE_API_URL: ${{ secrets.VITE_API_URL}}
+      VITE_WS_URL: ${{ secrets.VITE_WS_URL}}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and Run E2E Tests
+        run: |
+          docker compose -f compose.e2e.yaml run playwright-e2e
