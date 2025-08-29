@@ -94,5 +94,5 @@ export class ${NAME_CAPITALIZED}EmailSender extends BaseEmailT<${NAME_CAPITALIZE
 EOL
 
 echo "✅ Dossier '$NAME' créé avec :"
-echo "- $NAME.ts"
-echo "- template.mjml"
+echo "- ${NAME}Email.ts"
+echo "- ${NAME}EmailSender.ts"

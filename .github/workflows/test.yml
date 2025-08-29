@@ -1,5 +1,4 @@
-name: test
-
+name: Tests
 on:
   pull_request:
     branches:
@@ -7,7 +6,7 @@ on:
     types: [opened, reopened, synchronize]
 
 jobs:
-  build:
+  test-services:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -22,22 +21,74 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20.17.0
-          cache: 'npm'
+          node-version: '20'
 
-      - name: Filter changed files
-        id: filter
-        uses: dorny/paths-filter@v2
-        with:
-          filters: |
-            frontend:
-              - 'frontend/**'
-            backend:
-              - 'backend/**'
-
-      - name: Run tests
-        if: ${{ steps.filter.outputs[matrix.service] == 'true' }}
+      - name: Run tests for ${{ matrix.service }}
         run: |
           cd ${{ matrix.service }}
-          npm i
+          npm install --ignore-scripts
           npm run test
+
+  test-e2e:
+    runs-on: ubuntu-latest
+    needs: test-services
+    environment: e2e
+    env:
+      GATEWAY_PORT: ${{ secrets.GATEWAY_PORT }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_HOST: ${{ secrets.DB_HOST_E2E }}
+      COOKIE_TTL: ${{ secrets.COOKIE_TTL }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      VITE_API_URL: ${{ secrets.VITE_API_URL}}
+      VITE_WS_URL: ${{ secrets.VITE_WS_URL}}
+      BACKEND_PORT: ${{ secrets.BACKEND_PORT }}
+      DB_SCHEMA: ${{ secrets.DB_SCHEMA }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      GOOGLE_APP_PASSWORD: ${{ secrets.GOOGLE_APP_PASSWORD }}
+      GOOGLE_APP_EMAIL: ${{ secrets.GOOGLE_APP_EMAIL }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create .env file for Docker Compose
+        run: |
+          echo "GATEWAY_PORT=${{ secrets.GATEWAY_PORT }}" > .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+          echo "DB_HOST_E2E=${{ secrets.DB_HOST_E2E }}" >> .env
+          echo "COOKIE_TTL=${{ secrets.COOKIE_TTL }}" >> .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" >> .env
+          echo "VITE_WS_URL=${{ secrets.VITE_WS_URL }}" >> .env
+          echo "BACKEND_PORT=${{ secrets.BACKEND_PORT }}" >> .env
+          echo "DB_SCHEMA=${{ secrets.DB_SCHEMA }}" >> .env
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+          echo "GOOGLE_APP_PASSWORD=${{ secrets.GOOGLE_APP_PASSWORD }}" >> .env
+          echo "GOOGLE_APP_EMAIL=${{ secrets.GOOGLE_APP_EMAIL }}" >> .env
+
+      - name: Setup Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and Start services
+        run: docker compose -f compose.e2e.yaml up -d --build
+
+      - name: Check container status
+        run: docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+
+      - name: Logs backend if unhealthy
+        run: |
+          STATUS=$(docker inspect --format='{{.State.Health.Status}}' backend-e2e || echo "unknown")
+          if [ "$STATUS" != "healthy" ]; then
+            echo "Backend not healthy, dumping logs..."
+            docker compose -f compose.e2e.yaml logs backend-e2e
+            exit 1
+          fi
+
+      - name: Run Playwright tests
+        run: docker compose -f compose.e2e.yaml run --rm playwright-e2e
+
+      - name: Cleanup
+        if: always()
+        run: docker compose -f compose.e2e.yaml down

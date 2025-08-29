@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "nodemon --exec ts-node -- ./src/index.ts"
+    "dev": "nodemon --exec ts-node -- ./src/index.ts",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,8 @@
     "@types/node": "^20.14.9",
     "nodemon": "^3.1.4",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.3",
+    "unplugin-swc": "^1.5.5",
+    "vitest": "^3.2.4"
   }
 }

@@ -23,6 +23,7 @@ vi.mock('embla-carousel-autoplay', () => ({
 
 const mockData = [
   {
+    __typename: 'Challenge',
     id: '1',
     label: 'Jardin collectif sauvage',
     description:
@@ -30,6 +31,8 @@ const mockData = [
     bannerUrl: 'wild-garden-banner.jpg',
     startDate: '2025-03-27T00:00:00Z',
     endDate: '2025-09-27T23:59:59Z',
+    status: 'IN_PROGRESS',
+    invites: [],
     actions: [
       {
         id: '1',
@@ -41,6 +44,7 @@ const mockData = [
             id: '3',
             name: 'Consommation',
             icon: '🛍️',
+            points: 1,
           },
         ],
       },
@@ -48,6 +52,7 @@ const mockData = [
         id: '3',
         name: 'Audit éclairage',
         icon: 'drop',
+        points: 1,
         tags: [
           {
             id: '13',
