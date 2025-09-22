@@ -71,7 +71,6 @@ export type Challenge = {
   label: Scalars['String']['output'];
   members: Array<User>;
   owner: User;
-  score: Score;
   startDate: Scalars['DateTimeISO']['output'];
   status: ChallengeStatus;
   userActionChallengeScores: Array<UserActionChallengeScore>;
@@ -107,6 +106,7 @@ export type Mutation = {
   createUserActionChallengeScore: UserActionChallengeScore;
   deleteAction: Scalars['Boolean']['output'];
   deleteChallenge: Scalars['Boolean']['output'];
+  joinChallenge: Scalars['Boolean']['output'];
   logIn: Scalars['String']['output'];
   logOut: Scalars['Boolean']['output'];
   signUp: Scalars['String']['output'];
@@ -134,6 +134,10 @@ export type MutationDeleteActionArgs = {
 
 export type MutationDeleteChallengeArgs = {
   id: Scalars['ID']['input'];
+};
+
+export type MutationJoinChallengeArgs = {
+  challengeId: Scalars['ID']['input'];
 };
 
 export type MutationLogInArgs = {
@@ -172,7 +176,6 @@ export type Query = {
   getChallenges: Array<Challenge>;
   getCurrentUser: User;
   getUserActionChallengeScoreByChallenge: Array<UserActionChallengeScore>;
-  getUserActionChallengeScoreByChallengeIdAndByUserId: Array<UserActionChallengeScore>;
   getUserActions: Array<Action>;
   getUsersAsUser: Array<User>;
 };
@@ -191,18 +194,6 @@ export type QueryGetChallengeArgs = {
 
 export type QueryGetUserActionChallengeScoreByChallengeArgs = {
   id: Scalars['String']['input'];
-};
-
-export type QueryGetUserActionChallengeScoreByChallengeIdAndByUserIdArgs = {
-  data: UserActionChallengeScoreByUserInput;
-};
-
-export type Score = {
-  __typename?: 'Score';
-  challenge: Challenge;
-  id: Scalars['ID']['output'];
-  result: Scalars['Float']['output'];
-  user: User;
 };
 
 export type SignUpUserInput = {
@@ -244,7 +235,6 @@ export type User = {
   lastname: Scalars['String']['output'];
   participatedChallenges: Array<Challenge>;
   role: Scalars['String']['output'];
-  score: Score;
   validatedActions: Array<UserActionChallengeScore>;
 };
 
@@ -260,11 +250,6 @@ export type UserActionChallengeScore = {
   updatedAt?: Maybe<Scalars['DateTimeISO']['output']>;
   validatedBy?: Maybe<User>;
   validatedFor: User;
-};
-
-export type UserActionChallengeScoreByUserInput = {
-  challengeId: Scalars['ID']['input'];
-  validatedFor: Scalars['ID']['input'];
 };
 
 export type UserActionChallengeScoreInput = {
@@ -789,6 +774,15 @@ export type UpdateUserActionChallengeScoreMutation = {
       lastname: string;
     };
   };
+};
+
+export type JoinChallengeMutationVariables = Exact<{
+  challengeId: Scalars['ID']['input'];
+}>;
+
+export type JoinChallengeMutation = {
+  __typename?: 'Mutation';
+  joinChallenge: boolean;
 };
 
 export const GetUsersAsUserDocument = gql`
@@ -2511,3 +2505,51 @@ export type UpdateUserActionChallengeScoreMutationOptions =
     UpdateUserActionChallengeScoreMutation,
     UpdateUserActionChallengeScoreMutationVariables
   >;
+export const JoinChallengeDocument = gql`
+  mutation JoinChallenge($challengeId: ID!) {
+    joinChallenge(challengeId: $challengeId)
+  }
+`;
+export type JoinChallengeMutationFn = Apollo.MutationFunction<
+  JoinChallengeMutation,
+  JoinChallengeMutationVariables
+>;
+
+/**
+ * __useJoinChallengeMutation__
+ *
+ * To run a mutation, you first call `useJoinChallengeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useJoinChallengeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [joinChallengeMutation, { data, loading, error }] = useJoinChallengeMutation({
+ *   variables: {
+ *      challengeId: // value for 'challengeId'
+ *   },
+ * });
+ */
+export function useJoinChallengeMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    JoinChallengeMutation,
+    JoinChallengeMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    JoinChallengeMutation,
+    JoinChallengeMutationVariables
+  >(JoinChallengeDocument, options);
+}
+export type JoinChallengeMutationHookResult = ReturnType<
+  typeof useJoinChallengeMutation
+>;
+export type JoinChallengeMutationResult =
+  Apollo.MutationResult<JoinChallengeMutation>;
+export type JoinChallengeMutationOptions = Apollo.BaseMutationOptions<
+  JoinChallengeMutation,
+  JoinChallengeMutationVariables
+>;

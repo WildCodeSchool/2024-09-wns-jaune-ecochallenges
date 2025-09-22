@@ -201,4 +201,30 @@ export class ChallengeResolver {
       throw new Error(`Echec lors de la suppression de ce challenge: ${err}`);
     }
   }
+
+  @Mutation(() => Boolean)
+  async joinChallenge(
+    @Arg('challengeId', () => ID) challengeId: string,
+    @Ctx() { user }: { user: User }
+  ): Promise<boolean> {
+    const userData = await User.findOneOrFail({ where: { id: user.id } });
+    try {
+      const challenge = await Challenge.findOneOrFail({
+        where: { id: challengeId },
+      });
+      const challengeMembers = challenge.members || [];
+      if (challengeMembers.some((member) => member.id === userData.id)) {
+        throw new Error('Vous êtes déjà membre de ce challenge');
+      }
+      if (challenge.isPublic) {
+        challengeMembers.push(userData);
+        challenge.members = challengeMembers;
+        await challenge.save();
+        return true;
+      }
+      throw new Error("Ce challenge n'est pas public");
+    } catch (err) {
+      throw new Error(`Echec lors de la jointure à ce challenge: ${err}`);
+    }
+  }
 }

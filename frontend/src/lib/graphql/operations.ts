@@ -453,3 +453,9 @@ export const UPDATE_USER_ACTION_CHALLENGE = gql`
     }
   }
 `;
+
+export const JOIN_CHALLENGE = gql`
+  mutation JoinChallenge($challengeId: ID!) {
+    joinChallenge(challengeId: $challengeId)
+  }
+`;
