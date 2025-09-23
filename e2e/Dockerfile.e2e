@@ -1,0 +1,7 @@
+FROM mcr.microsoft.com/playwright:v1.55.0-jammy
+WORKDIR /app
+COPY package.json .
+COPY playwright.config.ts .
+RUN npm install
+COPY tests/ ./tests/
+CMD npx playwright test
