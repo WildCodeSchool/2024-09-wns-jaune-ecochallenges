@@ -55,7 +55,7 @@ export const ActionItem = ({
                 ? 'En attente de validation'
                 : userActionChallengeScore?.status === StatusEnum.COMPLETED
                   ? `Validé par ${userActionChallengeScore.validatedBy?.firstname} ${userActionChallengeScore.validatedBy?.lastname}`
-                  : 'Validation en cours'}
+                  : `${action?.description?.slice(0, 100)}...`}
             </span>
           </div>
         </div>

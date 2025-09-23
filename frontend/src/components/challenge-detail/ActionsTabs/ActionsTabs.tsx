@@ -68,6 +68,7 @@ export const ActionsTabs = ({
         <TabsContent value="fil">
           <ChallengeFeed userActionChallengeScore={userActionChallengeScore} />
         </TabsContent>
+
         <TabsContent value="tocheck">
           <PendingTabs
             toCheck={toCheck}
